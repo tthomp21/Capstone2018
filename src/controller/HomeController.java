@@ -8,6 +8,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,8 +23,12 @@ public class HomeController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        String url = "/views/index.jsp";
         
-        
+        // redirect
+        ServletContext sc = getServletContext();
+        sc.getRequestDispatcher(url)
+                .forward(request, response);  
     }
 
     @Override
