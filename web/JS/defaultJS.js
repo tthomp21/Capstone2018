@@ -1,5 +1,5 @@
-$(document).ready(function() {
-   $("#titleH1").hide();
-   $("#titleH1").fadeIn(4000);
+$(document).ready(function() {   
+   $("#title").hide();   
+   $("#title").fadeIn(2000);
 });
 

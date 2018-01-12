@@ -1,8 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// Sayel Rammaha    
+// 1/12/18
 
 package controller;
 
@@ -14,17 +11,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author sayel
- */
+
 public class HomeController extends HttpServlet {
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String url = "/views/index.jsp";
+        String url = "/views/testing.jsp";
+        //String url = "/views/index.jsp";
         
+        // create test user
+        CaseWorker cw = new CaseWorker(1, "firstNamefirstNamefirstName30c", "l", "p", "e", "o");
+        request.setAttribute("user", cw);
         
         // redirect
         ServletContext sc = getServletContext();

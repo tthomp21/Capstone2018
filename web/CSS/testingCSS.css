@@ -1,0 +1,149 @@
+/* Sayel Rammaha    
+   1/12/18
+*/
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #afafaf;    
+}
+
+#all {
+    width: auto;   
+    margin-top: 0px;        
+}
+
+
+/* ---- heading bar ---- */
+header {
+    height: 50px;
+    padding-top: 5px;
+    background-color: #f0e68c;
+    color: #fff;
+    text-align: center;    
+}
+
+header h1 {
+    width: 300px;
+    margin: auto;
+    margin-top: 3px; 
+    color: #3a3a3a;
+}
+
+#logo {
+    float: right;
+}
+
+
+/* ---- aside column ---- */
+aside {
+    position: absolute;    
+    width: 270px;
+    top: 75px;
+    bottom: 15px;
+    left: 15px;    
+    padding: 0px;
+    font-family: tahoma;
+}
+
+/* ---- account box ---- */
+#accountDiv {    
+    text-align: center;
+    color: black;  
+    background-color: white;    
+    padding: 0px;
+    margin: 0px;
+    height: 153px;
+    
+    font-size: 1.05em;
+}
+
+#welcome {
+    margin: 0px;
+    padding: 10px;
+    background-color: #f0e68c;
+    border-bottom: 1px solid black;
+    height: 50px;
+}
+a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+a:hover li:hover{
+    background-color: lightgrey;
+}
+
+a:visited {
+    color: black;
+}
+
+.actItem {
+    padding: 0px;
+    margin: 0px;
+    display: block;
+}
+
+#accountDiv ul {
+    padding: 0px;
+    margin: 0px;
+}
+
+#accountDiv li {
+    padding: 10px;
+    list-style: none;
+}
+
+/* ---- nav bar part of aside ---- */
+nav {
+    position: absolute;
+    top: 160px;
+    bottom: 0px;
+    width: 270px;
+    background-color: white;
+    margin-top: 10px;
+    padding: 0px;    
+    overflow: hidden;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.05em;
+}
+
+nav ul {
+    padding: 0px;
+    margin: 0px;
+}
+
+nav li {
+    padding: 10px;
+    list-style: none;
+}
+
+/* ---- footer ---- */
+footer {
+    position: absolute;
+    padding: 10px; 
+    bottom: 15px;
+    left: 300px;
+    right: 15px;    
+    
+    text-align: center;
+    color: black;  
+    background-color: white;
+}
+
+
+/* ---- main program area ---- */
+#main {
+    position: absolute;  
+    padding: 10px;
+    top: 75px;
+    bottom: 65px;
+    left: 300px;    
+    right: 15px;
+    
+    color: #3a3a3a;
+    background-color: white;
+    overflow: hidden;
+}
