@@ -12,10 +12,10 @@ public class CaseWorker extends User{
         super("", "", "", "");        
     }
     
-    public CaseWorker(int id, String first, String last, String email, 
-            String phone, String office)
+    public CaseWorker(int id, String first, String last, String phone, 
+            String email, String office)
     {
-        super(first, last, email, phone);
+        super(first, last, phone, email);
         caseWorkerID = id;
         this.office = office;
     }

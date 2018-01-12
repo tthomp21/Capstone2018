@@ -40,7 +40,7 @@
             <div class="w3-row-padding" style="margin:0 -16px">
               <div class="w3-third">
                 <h5>Main section #1</h5>
-                <p>This could hold some information.</p>
+                <p>This could hold some information.</p>                
               </div>
               <div class="w3-twothird">
                 <h5>Main section #2</h5>

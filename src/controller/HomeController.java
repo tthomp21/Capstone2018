@@ -6,8 +6,8 @@
 
 package controller;
 
+import business.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,6 +24,7 @@ public class HomeController extends HttpServlet {
             throws ServletException, IOException {
         
         String url = "/views/index.jsp";
+        
         
         // redirect
         ServletContext sc = getServletContext();
