@@ -3,4 +3,3 @@ $(document).ready(function() {
    $("#titleH1").fadeIn(4000);
 });
 
-
