@@ -5,11 +5,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">  
         <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>        
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
         
-        <link href="../CSS/mainTemplate.css" rel="stylesheet" type="text/css"/>
-             
+        <link href="../CSS/default.css" rel="stylesheet" type="text/css"/>
+        <link href="../../CSS/caseWorker.css" rel="stylesheet" type="text/css"/>
+        
         <title>Team Cash Flow</title>
     </head>
     

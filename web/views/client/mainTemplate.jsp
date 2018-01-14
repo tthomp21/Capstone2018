@@ -8,8 +8,9 @@
         <script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
         
-        <link href="../CSS/mainTemplate.css" rel="stylesheet" type="text/css"/>
-             
+        <link href="../CSS/default.css" rel="stylesheet" type="text/css"/>
+        <link href="../../CSS/client.css" rel="stylesheet" type="text/css"/>
+        
         <title>Team Cash Flow</title>
     </head>
     
