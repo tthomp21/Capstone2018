@@ -7,11 +7,13 @@ body {
     margin: 0;
     background-color: #a39d79;   /*brownish background*/ 
     white-space: nowrap;
+    min-height: 225px;
 }
 
 #all {
     width: auto;   
-    margin-top: 0px;        
+    margin-top: 0px;  
+    min-width: 800px;
 }
 
 
@@ -22,7 +24,7 @@ header {
     background-color: #f0e68c; /*yellow header bar background*/ 
     color: #fff;
     text-align: center;
-    
+    min-width: 820px;
 }
 
 header h1 {
@@ -47,6 +49,7 @@ aside {
     padding: 0px;
     font-family: tahoma; 
     min-width: 270px;
+    
 }
 
 /* ---- account box ---- */
@@ -65,7 +68,7 @@ aside {
     margin: 0px;
     padding: 10px;
     background-color: #f0e68c;    
-    height: 50px;
+    height: 53px;
     font-style: italic;
 }
 
@@ -115,6 +118,7 @@ nav {
     text-align: center;
     font-weight: bold;
     font-size: 1.05em;
+    min-height: 40px;
 }
 
 nav ul {
@@ -130,29 +134,36 @@ nav li {
 /* ---- footer ---- */
 footer {
     position: absolute;
-    padding: 10px; 
+    padding: 0px; 
     bottom: 15px;
     left: 300px;
     right: 15px;    
-    
+    min-width: 700px;
+    height: 20px;
     text-align: center;
     color: black;  
     background-color: white;
     overflow: hidden;
+    padding: 10px;
 }
-
+@media screen and (max-height: 300px) {
+    footer {
+        top: 245px;
+    }
+}
 
 /* ---- main program area ---- */
 #main {
     position: absolute;  
     padding: 10px;
     top: 75px;
-    bottom: 65px;
+    bottom: 70px;
     left: 300px;    
     right: 15px;
-    
+    min-width: 700px;
+    min-height: 133px;
     color: #3a3a3a;
     background-color: white;
-    overflow: hidden;
+    white-space: normal;
 }
 

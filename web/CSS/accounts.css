@@ -6,12 +6,14 @@
     position: absolute;  
     padding: 10px;
     top: 75px;
-    bottom: 65px;
+    bottom: 70px;
     left: 300px;    
     right: 15px;
-    
+    min-width: 700px;
+    min-height: 133px;
     color: #3a3a3a;
     background-color: white;
+    white-space: normal;
     overflow: hidden;
 }
 
