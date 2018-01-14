@@ -1,5 +1,4 @@
-// Sayel Rammaha    
-// 1/12/18
+
 
 package controller;
 
@@ -10,24 +9,33 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
-public class HomeController extends HttpServlet {
+public class CaseWorkerController extends HttpServlet {
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String url = "/views/testing.jsp";
-        //String url = "/views/index.jsp";
+        String url = "/views/caseWorker/mainTemplate.jsp";
+                
+        String action = request.getParameter("action");
+        if (action == null) {
+            action = "arrival";
+        }
         
-        // create test user
-        CaseWorker cw = new CaseWorker(1, "firstNamefirstNamefirstName30c", "l", "p", "e", "o");
-        request.setAttribute("user", cw);
+        HttpSession session = request.getSession();
+        
+        switch(action) {
+            case "arrival":
+                break;            
+        }
+        
         
         // redirect
         ServletContext sc = getServletContext();
-        sc.getRequestDispatcher(url)
-                .forward(request, response);  
+        sc.getRequestDispatcher(url).forward(request, response);  
+                
     }
 
     @Override

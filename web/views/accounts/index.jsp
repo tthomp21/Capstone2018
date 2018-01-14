@@ -8,24 +8,23 @@
         <script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
         
-        <link rel="stylesheet" href="../CSS/testingCSS.css" type="text/css"/>
-        <script src="JS/defaultJS.js" type="text/javascript"></script>
+        <link href="../../CSS/accounts.css" rel="stylesheet" type="text/css"/>              
+        <script src="../../JS/accounts.js" type="text/javascript"></script>
         <title>Team Cash Flow</title>
     </head>
     
     <body>
         <div id="all">
-            <c:import url="TestIncludes/header.html"/>
-            
+            <c:import url="../pageImports/header.html"/>
             <aside>
                 <div id="accountDiv">
                     <c:choose>
                         <c:when test="${empty user}">
                             <p id="welcome">Welcome</p>
-                            <a href="HomeController?action=create">
+                            <a onclick="unfoldCreate()"  id="btnCreateAccount">
                                 <li class="actItem">Create Account</li>
                             </a>
-                            <a href="HomeController?action=login">
+                            <a onclick="unfoldLogin()" id="btnLogin">
                                 <li class="actItem">Log In</li>
                             </a>
                         </c:when>
@@ -33,10 +32,10 @@
                         <c:when test="${not empty user}">
                             <p id="welcome">Welcome, <c:out value="${user.firstName}"/></p>
                             <ul>
-                                <a href="HomeController?action=manage">
+                                <a href="AccountsController?action=manage" id="btnManageAccount">
                                     <li class="actItem">Manage Account</li>
                                 </a>
-                                <a href="HomeController?action=logout">
+                                <a href="AccountsController?action=logout" id="btnLogout">
                                     <li class="actItem">Log Out</li>
                                 </a>
                             </ul>                            
@@ -44,14 +43,21 @@
                     </c:choose>
                 </div>
                 
-                <c:import url="TestIncludes/nav.html"/>
+                <c:import url="../pageImports/accountsNav.html"/>
             </aside>
             
             <div id="main">
-                Main program body                
+                Create Account Page                
+            </div>
+            <div id="main2">
+                Login Page <br><br><br><br>
+                <a href="/AccountsController?action=testingCL">Login as client, redirect to client controller</a><br><br>
+                <a href="/AccountsController?action=testingCW">Login as case worker, redirect to case worker controller</a><br>
+                you can use these to test your programs while I write the accounts login part, the controller will
+                create a client or case worker and store the object in the session as a variable called "user".
             </div>
             
-            <c:import url="TestIncludes/footer.html"/>            
+            <c:import url="../pageImports/footer.html"/>            
         </div>
     </body>
 </html>

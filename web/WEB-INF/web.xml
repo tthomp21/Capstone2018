@@ -1,16 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
-        <servlet-name>HomeController</servlet-name>
-        <servlet-class>controller.HomeController</servlet-class>
+        <servlet-name>AccountsController</servlet-name>
+        <servlet-class>controller.AccountsController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>HomeController</servlet-name>
-        <url-pattern>/HomeController</url-pattern>
+        <servlet-name>AccountsController</servlet-name>
+        <url-pattern>/AccountsController</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ClientController</servlet-name>
+        <servlet-class>controller.ClientController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ClientController</servlet-name>
+        <url-pattern>/ClientController</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>CaseWorkerController</servlet-name>
+        <servlet-class>controller.CaseWorkerController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CaseWorkerController</servlet-name>
+        <url-pattern>/CaseWorkerController</url-pattern>
     </servlet-mapping>
     
     <welcome-file-list>
-        <welcome-file>HomeController</welcome-file>
+        <welcome-file>AccountsController</welcome-file>
     </welcome-file-list>
     
     <session-config>
