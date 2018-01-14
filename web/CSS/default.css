@@ -6,6 +6,7 @@ body {
     padding: 0;
     margin: 0;
     background-color: #a39d79;   /*brownish background*/ 
+    white-space: nowrap;
 }
 
 #all {
@@ -20,7 +21,8 @@ header {
     padding-top: 5px;
     background-color: #f0e68c; /*yellow header bar background*/ 
     color: #fff;
-    text-align: center;    
+    text-align: center;
+    
 }
 
 header h1 {
@@ -43,7 +45,8 @@ aside {
     bottom: 15px;
     left: 15px;    
     padding: 0px;
-    font-family: tahoma;
+    font-family: tahoma; 
+    min-width: 270px;
 }
 
 /* ---- account box ---- */
@@ -135,6 +138,7 @@ footer {
     text-align: center;
     color: black;  
     background-color: white;
+    overflow: hidden;
 }
 
 

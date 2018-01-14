@@ -44,18 +44,30 @@
                     </c:choose>
                 </div>
                 
-                <c:import url="../pageImports/accountsNav.html"/>
+                <nav>
+                    
+                </nav>
+                
             </aside>
             
-            <div id="main">
+            <div id="mainCreate">
                 Create Account Page                
             </div>
-            <div id="main2">
+            
+            <div id="mainLogin">
                 Login Page <br><br><br><br>
                 <a href="/AccountsController?action=testingCL">Login as client, redirect to client controller</a><br><br>
                 <a href="/AccountsController?action=testingCW">Login as case worker, redirect to case worker controller</a><br>
                 you can use these to test your programs while I write the accounts login part, the controller will
                 create a client or case worker and store the object in the session as a variable called "user".
+            </div>
+            
+            <div id="mainClient">
+                Manage Client Account Page                
+            </div>
+            
+            <div id="mainCaseWorker">
+                Manage Case Worker Account Page                
             </div>
             
             <c:import url="../pageImports/footer.html"/>            

@@ -2,7 +2,7 @@
    1/12/18
 */
 
-#main2 {
+#mainCreate, #mainLogin, #mainClient, #mainCaseWorker {
     position: absolute;  
     padding: 10px;
     top: 75px;
@@ -13,4 +13,10 @@
     color: #3a3a3a;
     background-color: white;
     overflow: hidden;
+}
+
+aside {           
+    width: auto;
+    right: 15%;
+    left: 15%;
 }

@@ -36,11 +36,16 @@ public class AccountsController extends HttpServlet {
         switch(action) {
             case "arrival":                
                 break;
-            case "manage":
+            case "manageClient":
+                url = "/views/accounts/index.jsp";
+                
+                break;
+            case "manageCaseWorker":
                 url = "/views/accounts/index.jsp";
                 break;
             case "logout":
                 url = "/views/accounts/index.jsp";               
+                
                 // delete user from session
                 session.setAttribute("user", null);
                 break;

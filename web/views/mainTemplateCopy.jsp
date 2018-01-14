@@ -31,7 +31,10 @@
                 </div>
                 
                 <!--choose required nav-->
-                <c:import url="../pageImports/nav.html"/>
+                <nav>
+                    <c:import url="../pageImports/nav.html"/>
+                </nav>
+                
             </aside>
             
             <div id="main">

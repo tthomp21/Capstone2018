@@ -22,7 +22,7 @@
                 <div id="accountDiv">
                     <p id="welcome">Welcome, <c:out value="${user.firstName}"/></p>
                     <ul>
-                        <a href="AccountsController?action=manage" id="btnManageAccount">
+                        <a href="AccountsController?action=manageCaseWorker" id="btnManageAccount">
                             <li class="actItem">Manage Account</li>
                         </a>
                         <a href="AccountsController?action=logout" id="btnLogout">
@@ -30,8 +30,11 @@
                         </a>
                     </ul>       
                 </div>
+                    
+                <nav>
+                    <c:import url="../pageImports/caseWorkerNav.html"/>
+                </nav>    
                 
-                <c:import url="../pageImports/caseWorkerNav.html"/>
             </aside>
             
             <div id="main">
