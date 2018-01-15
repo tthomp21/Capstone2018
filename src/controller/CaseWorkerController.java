@@ -1,3 +1,5 @@
+// Tyler Thompson   
+// 1/14/18
 
 
 package controller;
@@ -20,15 +22,27 @@ public class CaseWorkerController extends HttpServlet {
         String url = "/views/caseWorker/mainTemplate.jsp";
                 
         String action = request.getParameter("action");
+        HttpSession session = request.getSession();
+        
         if (action == null) {
             action = "arrival";
         }
         
-        HttpSession session = request.getSession();
+        CaseWorker caseWorker = (CaseWorker)session.getAttribute("user");
+        
+        if(caseWorker == null)
+        {
+            action = "sendHome";
+        }
+        
+        
         
         switch(action) {
             case "arrival":
-                break;            
+                break;
+            case "sendHome":
+                //url = the index of the site
+                break;
         }
         
         
