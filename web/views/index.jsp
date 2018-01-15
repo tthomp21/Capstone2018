@@ -9,16 +9,16 @@
 <html>
     <head>
         <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        <c:import url="Includes/Header.html"/>
+        <c:import url="Includes/header.html"/>
     </head>
     
     <body class="w3-light-grey">
 
         <!-- Top container -->
-        <c:import url="Includes/TitleBar.html"/>
+        <c:import url="Includes/titleBar.html"/>
 
         <!-- Sidebar/menu -->
-        <c:import url="Includes/Sidebar.html"/>
+        <c:import url="Includes/sidebar.html"/>
 
         <!-- Overlay effect when opening sidebar on small screens -->
         <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
@@ -57,7 +57,7 @@
           </main>
 
           <!-- Footer -->
-          <c:import url="Includes/Footer.html"/>
+          <c:import url="/Includes/Footer.html"/>
 
           <!-- End page content -->
         </div>
