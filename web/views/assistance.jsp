@@ -1,7 +1,7 @@
 <%-- 
     Document   : assistance
     Created on : Jan 10, 2018, 2:55:01 PM
-    Author     : ms610358
+    Author     : Murad Smoqy
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
