@@ -21,7 +21,7 @@ $(document).ready(function() {
         // arrived from logged in client page, clicked on manage account
         
         // load client nav
-        $("nav").load("views/pageImports/clientNav.html");
+        $("nav").load("Includes/clientNav.html");
         
         // set footer partial width
         $("footer").css("left", "300px");
@@ -39,7 +39,7 @@ $(document).ready(function() {
         // arrived from logged in case worker page, clicked on manage account
         
         // load case worker nav
-        $("nav").load("views/pageImports/caseWorkerNav.html");
+        $("nav").load("Includes/caseWorkerNav.html");
         // set footer partial width
         $("footer").css("left", "300px");
         
@@ -56,7 +56,7 @@ $(document).ready(function() {
         // first arrival, or from logging out 
                 
         // load accounts nav
-        $("nav").load("views/pageImports/accountsNav.html");
+        $("nav").load("Includes/accountsNav.html");
         
         // hide main div
         $("#mainCreate").css("display", "none");

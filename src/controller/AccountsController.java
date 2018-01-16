@@ -20,11 +20,8 @@ public class AccountsController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String url = "/views/index.jsp";
-        
-        //String url = "/views/index.jsp";
-        
-        
+        String url = "/views/accountIndex.jsp";
+               
         String action = request.getParameter("action");
         if (action == null) {
             action = "arrival";
@@ -37,14 +34,14 @@ public class AccountsController extends HttpServlet {
             case "arrival":                
                 break;
             case "manageClient":
-                url = "/views/index.jsp";
+                url = "/views/accountIndex.jsp";
                 
                 break;
             case "manageCaseWorker":
-                url = "/views/index.jsp";
+                url = "/views/accountIndex.jsp";
                 break;
             case "logout":
-                url = "/views/index.jsp";               
+                url = "/views/accountIndex.jsp";               
                 
                 // delete user from session
                 session.setAttribute("user", null);

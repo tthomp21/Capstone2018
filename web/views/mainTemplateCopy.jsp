@@ -15,7 +15,7 @@
     
     <body>
         <div id="all">
-            <c:import url="../pageImports/header.html"/>
+            <c:import url="../Includes/header.html"/>
             
             <aside>
                 <div id="accountDiv">
@@ -32,7 +32,7 @@
                 
                 <!--choose required nav-->
                 <nav>
-                    <c:import url="../pageImports/nav.html"/>
+                    <c:import url="../Includes/nav.html"/>
                 </nav>
                 
             </aside>

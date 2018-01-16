@@ -9,20 +9,20 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
         
         <link href="../CSS/default.css" rel="stylesheet" type="text/css"/>
-        <link href="../../CSS/caseWorker.css" rel="stylesheet" type="text/css"/>
+        <link href="../CSS/caseWorker.css" rel="stylesheet" type="text/css"/>
         
         <title>Team Cash Flow</title>
     </head>
     
     <body>
         <div id="all">
-            <c:import url="../pageImports/header.html"/>
+            <c:import url="../Includes/header.html"/>
             
             <aside>
                 <div id="accountDiv">
                     <p id="welcome">Welcome, <c:out value="${user.firstName}"/></p>
                     <ul>
-                        <a href="AccountsController?action=manageCaseWorker" id="btnManageAccount">
+                        <a href="AccountsController?action=manageClient" id="btnManageAccount">
                             <li class="actItem">Manage Account</li>
                         </a>
                         <a href="AccountsController?action=logout" id="btnLogout">
@@ -32,16 +32,16 @@
                 </div>
                     
                 <nav>
-                    <c:import url="../pageImports/caseWorkerNav.html"/>
+                    <c:import url="../Includes/clientNav.html"/>
                 </nav>    
                 
             </aside>
             
             <div id="main">
-                cw Main program body                
+                cl Main program body                
             </div>
             
-            <c:import url="../pageImports/footer.html"/>            
+            <c:import url="../Includes/footer.html"/>            
         </div>
     </body>
 </html>

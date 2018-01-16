@@ -9,15 +9,15 @@
         <script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
         
-        <link href="../../CSS/default.css" rel="stylesheet" type="text/css"/>
-        <link href="../../CSS/accounts.css" rel="stylesheet" type="text/css"/>              
-        <script src="../../JS/accounts.js" type="text/javascript"></script>
+        <link href="../CSS/default.css" rel="stylesheet" type="text/css"/>
+        <link href="../CSS/accounts.css" rel="stylesheet" type="text/css"/>              
+        <script src="../JS/accounts.js" type="text/javascript"></script>
         <title>Team Cash Flow</title>
     </head>
     
     <body>
         <div id="all">
-            <c:import url="/views/header.html"/>
+            <c:import url="../Includes/header.html"/>
             <aside>
                 <div id="accountDiv">
                     <c:choose>
@@ -46,7 +46,7 @@
                 </div>
                 
                 <nav>
-                    
+                    <c:import url="../Includes/accountsNav.html"/>
                 </nav>
                 
             </aside>
@@ -71,7 +71,7 @@
                 Manage Case Worker Account Page                
             </div>
             
-            <c:import url="../pageImports/footer.html"/>            
+            <c:import url="../Includes/footer.html"/>            
         </div>
     </body>
 </html>

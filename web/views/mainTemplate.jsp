@@ -9,14 +9,14 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
         
         <link href="../CSS/default.css" rel="stylesheet" type="text/css"/>
-        <link href="../../CSS/caseWorker.css" rel="stylesheet" type="text/css"/>
+        <link href="../CSS/caseWorker.css" rel="stylesheet" type="text/css"/>
         
         <title>Team Cash Flow</title>
     </head>
     
     <body>
         <div id="all">
-            <c:import url="../pageImports/header.html"/>
+            <c:import url="../Includes/header.html"/>
             
             <aside>
                 <div id="accountDiv">
@@ -41,7 +41,7 @@
                 cw Main program body                
             </div>
             
-            <c:import url="/views/footer.html"/>            
+            <c:import url="../Includes/footer.html"/>            
         </div>
     </body>
 </html>
