@@ -4,11 +4,14 @@
         <servlet-name>AccountsController</servlet-name>
         <servlet-class>controller.AccountsController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AssistanceController</servlet-name>
+        <servlet-class>controller.AssistanceController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AccountsController</servlet-name>
         <url-pattern>/AccountsController</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>ClientController</servlet-name>
         <servlet-class>controller.ClientController</servlet-class>
@@ -17,7 +20,6 @@
         <servlet-name>ClientController</servlet-name>
         <url-pattern>/ClientController</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>CaseWorkerController</servlet-name>
         <servlet-class>controller.CaseWorkerController</servlet-class>
@@ -26,16 +28,17 @@
         <servlet-name>CaseWorkerController</servlet-name>
         <url-pattern>/CaseWorkerController</url-pattern>
     </servlet-mapping>
-    
     <welcome-file-list>
         <welcome-file>/views/index.jsp</welcome-file>
         <welcome-file>AccountsController</welcome-file>
     </welcome-file-list>
-    
+    <servlet-mapping>
+        <servlet-name>AssistanceController</servlet-name>
+        <url-pattern>/AssistanceController</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-    
 </web-app>
