@@ -21,7 +21,8 @@ public class AccountsController extends HttpServlet {
             throws ServletException, IOException {
         
         String url = "/views/accountIndex.jsp";
-               
+        boolean redirect = true;
+          
         String action = request.getParameter("action");
         if (action == null) {
             action = "arrival";
@@ -29,29 +30,25 @@ public class AccountsController extends HttpServlet {
         
         HttpSession session = request.getSession();
         User user = null;
+        session.setAttribute("redirect", null);     
         
         switch(action) {
             case "arrival":                
                 break;
-            case "manageClient":
-                url = "/views/accountIndex.jsp";
-                
+            case "manageClient":                
                 break;
             case "manageCaseWorker":
-                url = "/views/accountIndex.jsp";
                 break;
-            case "logout":
-                url = "/views/accountIndex.jsp";               
-                
+            case "logout":                     
                 // delete user from session
-                session.setAttribute("user", null);
+                session.setAttribute("user", null);                
                 break;
-                
+            
             // testing
             case "testingCL":
                 // redirect to client controller
-                url = "/ClientController";  
-                
+                session.setAttribute("redirect", "/ClientController");
+                session.setAttribute("to", "cl");
                 // create test client user
                 user = new Client(1, "firstName", "MI", "lastName", "###phone##", 
                         "email", "###ssn###", "city", "state", "#zip#", 
@@ -62,8 +59,8 @@ public class AccountsController extends HttpServlet {
                 break;
             case "testingCW":
                 // redirect to case worker controller
-                url = "/CaseWorkerController";    
-                
+                session.setAttribute("redirect", "/CaseWorkerController"); 
+                session.setAttribute("to", "cw");
                 // create test caseworker user
                 user = new CaseWorker(1, "firstName", "lastName", 
                         "###phone##", "email", "officeD2");
@@ -73,8 +70,11 @@ public class AccountsController extends HttpServlet {
         }        
         
         // redirect to 'url'
-        ServletContext sc = getServletContext();
-        sc.getRequestDispatcher(url).forward(request, response);  
+        if (redirect) {
+            ServletContext sc = getServletContext();
+            sc.getRequestDispatcher(url).forward(request, response);  
+        }
+        
     }
 
     @Override

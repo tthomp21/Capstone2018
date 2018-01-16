@@ -26,7 +26,7 @@
                             <a onclick="unfoldCreate()"  id="btnCreateAccount">
                                 <li class="actItem">Create Account</li>
                             </a>
-                            <a onclick="unfoldLogin()" id="btnLogin">
+                            <a onclick="unfoldLoginSelect()" id="btnLogin">
                                 <li class="actItem">Log In</li>
                             </a>
                         </c:when>
@@ -34,7 +34,7 @@
                         <c:when test="${not empty user}">
                             <p id="welcome">Welcome, <c:out value="${user.firstName}"/></p>
                             <ul>
-                                <a href="AccountsController?action=manage" id="btnManageAccount">
+                                <a href="AccountsController?action=" id="btnManageAccount">
                                     <li class="actItem">Manage Account</li>
                                 </a>
                                 <a href="AccountsController?action=logout" id="btnLogout">
@@ -56,11 +56,38 @@
             </div>
             
             <div id="mainLogin">
-                Login Page <br><br><br><br>
-                <a href="/AccountsController?action=testingCL">Login as client, redirect to client controller</a><br><br>
-                <a href="/AccountsController?action=testingCW">Login as case worker, redirect to case worker controller</a><br>
-                you can use these to test your programs while I write the accounts login part, the controller will
-                create a client or case worker and store the object in the session as a variable called "user".
+                 <c:if test="${not empty redirect}">
+                     <script id="rScript">
+                        var timer = setTimeout(function() {
+                            window.location="<c:out value="${redirect}"/>";
+                        }, 1400);
+                    </script>
+                </c:if>
+            </div>
+                
+            <div id="loginSelect">
+                <ul>
+                    <a onclick="unfoldClLogin()"><li id="btnClient" class="test">Client</li></a>
+                    <a onclick="unfoldCwLogin()"><li id="btnCaseWorker">Case Worker</li></a>
+                </ul>                
+            </div>
+                
+            <div id="clientLogin">
+                <div class="loginDiv">
+                    <form action="AccountsController" method="post" id="testingCL">
+                        <input type="hidden" name="action" value="testingCL"/>
+                        <input type="submit" name="submit" value="login as dummy client"/>
+                    </form>
+                </div>      
+            </div>
+                
+            <div id="caseWorkerLogin">
+                <div class="loginDiv">
+                    <form action="AccountsController" method="post" id="testingCW">
+                        <input type="hidden" name="action" value="testingCW"/>
+                        <input type="submit" name="submit" value="login as dummy case worker"/>
+                    </form>                                      
+                </div>      
             </div>
             
             <div id="mainClient">

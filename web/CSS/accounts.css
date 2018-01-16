@@ -2,7 +2,7 @@
    1/12/18
 */
 
-#mainCreate, #mainLogin, #mainClient, #mainCaseWorker {
+#mainCreate, #mainClient, #mainCaseWorker, #clientLogin, #caseWorkerLogin  {
     position: absolute;  
     padding: 10px;
     top: 75px;
@@ -10,15 +10,78 @@
     left: 300px;    
     right: 15px;
     min-width: 700px;
-    min-height: 133px;
+    min-height: 135px;    
     color: #3a3a3a;
     background-color: white;
     white-space: normal;
     overflow: hidden;
 }
 
-aside {           
+#mainCreate, #mainClient, #mainCaseWorker {
+    min-height: 360px;
+}
+
+#clientLogin, #caseWorkerLogin {
+    top: 300px;
+    left: 150px;
+    right: 150px;
     width: auto;
-    right: 15%;
-    left: 15%;
+    min-width: 750px;
+    padding: 10px 0px;
+}
+
+#loginSelect {
+    position: absolute;  
+    top: 245px;
+    left: 150px;
+    right: 150px;    
+    margin: 0 auto;
+    height: 40px;
+    width: 750px;
+    text-align: center;    
+}
+
+.loginDiv {
+    margin: auto;
+    width: 200px;   
+    padding: 0;
+    text-align: center;
+}
+
+#loginSelect ul {
+    padding: 0px;
+    margin: 0px;
+}
+#loginSelect li {
+    padding: 10px;
+    list-style: none;
+    display: inline-block;
+    width: 150px;
+    background-color: white;   
+    margin: 0px;
+}
+
+#loginSelect a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    font-size: 1.05em;
+    font-family: tahoma;
+    padding: 0px;
+}
+
+#loginSelect a:hover, #loginSelect li:hover {
+    background-color: lightgrey;
+    cursor: pointer;
+}
+
+
+#loginSelect a:visited {
+    color: black;
+}
+
+aside, #welcome {    
+    width: auto;
+    right: 150px;
+    left: 150px;
 }
