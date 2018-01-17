@@ -5,7 +5,7 @@
  */
 package controller;
 
-import Data.Assistance;
+import business.Requests;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -41,11 +41,12 @@ public class AssistanceController extends HttpServlet {
      
      
      
-     ArrayList<Assistance> allAssitancesList    = new ArrayList<Assistance>();
-     ArrayList<Assistance> foodList             = new ArrayList<Assistance>();
-     ArrayList<Assistance> cashList             = new ArrayList<Assistance>();
-     ArrayList<Assistance> medicAidList         = new ArrayList<Assistance>();
-     ArrayList<Assistance> otherBenefitsList    = new ArrayList<Assistance>();
+     ArrayList<Requests> allAssitancesList    = new ArrayList<Requests>();
+     
+     ArrayList<Requests> foodList             = new ArrayList<Requests>();
+     ArrayList<Requests> cashList             = new ArrayList<Requests>();
+     ArrayList<Requests> medicAidList         = new ArrayList<Requests>();
+     ArrayList<Requests> otherBenefitsList    = new ArrayList<Requests>();
      
      
      //get all assitances
@@ -53,17 +54,17 @@ public class AssistanceController extends HttpServlet {
      try
      {
      //loop through assistances
-     for(Assistance assist : allAssitancesList)
+     for(Requests assist : allAssitancesList)
      {
-         if(assist.getAssistanceType().equalsIgnoreCase("SNAP"))
+         if(assist.getassistanceStatus().equalsIgnoreCase("SNAP"))
          {
              foodList.add(assist);
          }
-         else if(assist.getAssistanceType().equalsIgnoreCase("ADC"))
+         else if(assist.getassistanceStatus().equalsIgnoreCase("ADC"))
          {
              cashList.add(assist);
          }
-         else if(assist.getAssistanceType().equalsIgnoreCase("MedicAid"))
+         else if(assist.getassistanceStatus().equalsIgnoreCase("MedicAid"))
          {
              medicAidList.add(assist);
          }
@@ -72,6 +73,7 @@ public class AssistanceController extends HttpServlet {
              otherBenefitsList.add(assist);
          }
      }
+     
      }
      catch(Exception ex)
      {
