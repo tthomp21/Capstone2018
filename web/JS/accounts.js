@@ -120,6 +120,7 @@ function unfoldCreate() {
         $("#loginSelect").css("display", "none");
         $("#clientLogin").css("display", "none");
         $("#caseWorkerLogin").css("display", "none");
+        //$("#frontImages").css("display", "none");
         
         // remove resizing minimum before folding left
         $("#accountDiv").css("min-width", "0px");
@@ -158,18 +159,20 @@ function unfoldLoginSelect() {
         $("footer").css("min-width", "985px");
 
         // reset button colors on loginSelect
-        $("btnClient").css("background-color", "white");
-        $("btnCaseWorker").css("background-color", "white");
+        $("#btnClient").css("background-color", "white");
+        $("#btnCaseWorker").css("background-color", "white");
         
         adjustNav();
         adjustFooter();
 
-        // unfold login options
+        // unfold login options        
         $("aside").stop(false, true); 
         $("aside").animate({left: "+150px", right: "150", width: "70%"}, 400, "linear", function() { 
             $("aside").css("width", "auto");
-            $("#loginSelect").stop(false, true); 
-            $("#loginSelect").fadeIn(500);    
+            $("#loginSelect").stop(false, true).fadeIn(500);                        
+            //$("#frontImages").stop(false, true).show();
+            $("#imgClient").show();
+            $("#imgCaseWorker").show();
         });       
     }
     else {  // already unfolded, just show select div
@@ -180,10 +183,11 @@ function unfoldLoginSelect() {
 // shows client login div, highlights selected button
 function unfoldClLogin() {
     $("#caseWorkerLogin").stop(false, true);
-    $("#caseWorkerLogin").hide();            
-    $("#clientLogin").fadeIn(1000);   
+    $("#caseWorkerLogin").hide();    
+    $("#clientLogin").fadeIn(1000);
     $("#btnClient").css("background-color", "#f0e68c");
-    $("#btnCaseWorker").css("background-color", "white");
+    $("#btnCaseWorker").css("background-color", "white");    
+    
 }
 
 // shows case worker login div, highlights selected button
@@ -254,6 +258,7 @@ function hideDivs() {
     $("#loginSelect").css("display", "none");    
     $("#clientLogin").css("display", "none");
     $("#caseWorkerLogin").css("display", "none");   
+    $("#frontImages").css("display", "none");   
     $("nav").css("display", "none");
 }
 
@@ -272,6 +277,7 @@ function setCssForArrival() {
     $("#accountDiv").fadeIn(500, function() {
         $("#welcome").html("Welcome!");
     });
+    //$("#frontImages").show();
 
     // resizing minimum
     $("footer").css("min-width", "985px");

@@ -72,7 +72,7 @@
                 
             <div id="loginSelect">
                 <ul>
-                    <a onclick="unfoldClLogin()"><li id="btnClient" class="test">Client</li></a>
+                    <a onclick="unfoldClLogin()"><li id="btnClient">Client</li></a>
                     <a onclick="unfoldCwLogin()"><li id="btnCaseWorker">Case Worker</li></a>
                 </ul>                
             </div>
@@ -142,6 +142,11 @@
             
             <div id="mainCaseWorker">
                 Manage Case Worker Account Page                
+            </div>
+                
+            <div id="frontImages">
+                <span><img id="imgClient" src="../Images/client.jpg" width="372" height="372"/></span>
+                <span><img id="imgCaseWorker" src="../Images/caseworker.jpg" width="372" height="372"/></span>
             </div>
             
             <c:import url="../Includes/footer.html"/>            
