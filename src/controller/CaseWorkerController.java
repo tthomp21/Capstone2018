@@ -5,7 +5,9 @@
 package controller;
 
 import business.*;
+import java.util.List;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -33,6 +35,11 @@ public class CaseWorkerController extends HttpServlet {
         if(caseWorker == null)
         {
             //action = "sendHome";
+            
+            //dummy in some data for testing until the db gets up
+            
+            List<Client> workers = new ArrayList<Client>();
+            //workers.add(new Client())
         }
         
         
