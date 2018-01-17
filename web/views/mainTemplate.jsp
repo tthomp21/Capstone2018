@@ -20,7 +20,7 @@
             
             <aside>
                 <div id="accountDiv">
-                    <p id="welcome">Welcome, <c:out value="${user.firstName}"/></p>
+                    <p id="welcome">Welcome, <br><c:out value="${user.firstName}"/></p>
                     <ul>
                         <a href="AccountsController?action=manageCaseWorker" id="btnManageAccount">
                             <li class="actItem">Manage Account</li>

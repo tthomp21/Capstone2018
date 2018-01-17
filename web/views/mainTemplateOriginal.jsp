@@ -19,7 +19,7 @@
             
             <aside>
                 <div id="accountDiv">
-                    <p id="welcome">Welcome, <c:out value="${user.firstName}"/></p>
+                    <p id="welcome">Welcome, <br><c:out value="${user.firstName}"/></p>
                     <ul>
                         
                         <!-- set action=manageClient or action=manageCaseWorker -->

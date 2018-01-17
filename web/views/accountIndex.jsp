@@ -6,7 +6,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">  
         <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>                
+        <script src="../jq/jquery.validate.min.js" type="text/javascript"></script>
+        <script src="../jq/additional-methods.min.js" type="text/javascript"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
         
         <link href="../CSS/default.css" rel="stylesheet" type="text/css"/>
@@ -32,7 +34,7 @@
                         </c:when>
 
                         <c:when test="${not empty user}">
-                            <p id="welcome">Welcome, <c:out value="${user.firstName}"/></p>
+                            <p id="welcome">Welcome, <br><c:out value="${user.firstName}"/></p>
                             <ul>
                                 <a href="AccountsController?action=" id="btnManageAccount">
                                     <li class="actItem">Manage Account</li>
@@ -55,7 +57,7 @@
                 Create Account Page                
             </div>
             
-            <div id="mainLogin">
+            <div id="hiddenDiv">
                  <c:if test="${not empty redirect}">
                      <script id="rScript">
                         var timer = setTimeout(function() {
@@ -63,6 +65,9 @@
                         }, 1400);
                     </script>
                 </c:if>
+                <c:if test="${not empty loginType}">                    
+                    <span id="loginType"><c:out value="${loginType}"/></span>  
+                </c:if>                
             </div>
                 
             <div id="loginSelect">
@@ -73,20 +78,61 @@
             </div>
                 
             <div id="clientLogin">
-                <div class="loginDiv">
-                    <form action="AccountsController" method="post" id="testingCL">
-                        <input type="hidden" name="action" value="testingCL"/>
-                        <input type="submit" name="submit" value="login as dummy client"/>
+                <div class="loginDiv">                    
+                    <form action="AccountsController" method="post" id="loginFormCL">
+                        <fieldset>
+                            <legend>Enter your credentials</legend>
+
+                            <label for="loginUserNameCL">User Name:</label>
+                            <input type="text" id="loginUserNameCL" name="loginUserNameCL" autofocus><br>
+
+                            <label for="loginPasswordCL">Password:</label>
+                            <input type="password" id="loginPasswordCL" name="loginPasswordCL"><br>
+                        
+                            <input type="hidden" name="action" value="loginAsCL"/>
+                            <input type="submit" name="submit" value="Log In" class="button"/>
+                            <br>
+                            
+                            <c:if test="${loginType == 'cl'}">
+                                <p id="loginMsgCL" class="loginMsg"><c:out value="${loginMsg}"/></p>
+                            </c:if>
+                            
+                        </fieldset>                        
+                    </form>  
+                    
+                    <form action="AccountsController" method="post" id="testLoginFormCL">
+                        <input type="hidden" name="action" value="testLoginAsCL"/>
+                        <input type="submit" name="submit" value="Dummy login for testing" class="button"/>                                                       
                     </form>
                 </div>      
             </div>
                 
             <div id="caseWorkerLogin">
                 <div class="loginDiv">
-                    <form action="AccountsController" method="post" id="testingCW">
-                        <input type="hidden" name="action" value="testingCW"/>
-                        <input type="submit" name="submit" value="login as dummy case worker"/>
-                    </form>                                      
+                    <form action="AccountsController" method="post" id="loginFormCW">
+                        <fieldset>
+                            <legend>Enter your credentials</legend>
+
+                            <label for="loginUserNameCW">User Name:</label>
+                            <input type="text" id="loginUserNameCW" name="loginUserNameCW" autofocus><br>
+
+                            <label for="loginPasswordCW">Password:</label>
+                            <input type="password" id="loginPasswordCW" name="loginPasswordCW"><br>
+                        
+                            <input type="hidden" name="action" value="loginAsCW"/>
+                            <input type="submit" name="submit" value="Log In" class="button"/>   
+                            <br>
+                            
+                            <c:if test="${loginType == 'cw'}">
+                                <p id="loginMsgCW" class="loginMsg"><c:out value="${loginMsg}"/></p>
+                            </c:if>
+                        </fieldset>                        
+                    </form>  
+                    
+                    <form action="AccountsController" method="post" id="testLoginFormCW">
+                        <input type="hidden" name="action" value="testLoginAsCW"/>
+                        <input type="submit" name="submit" value="Dummy login for testing" class="button"/>                                                       
+                    </form>                    
                 </div>      
             </div>
             

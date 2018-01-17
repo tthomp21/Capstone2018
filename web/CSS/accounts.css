@@ -41,13 +41,6 @@
     text-align: center;    
 }
 
-.loginDiv {
-    margin: auto;
-    width: 200px;   
-    padding: 0;
-    text-align: center;
-}
-
 #loginSelect ul {
     padding: 0px;
     margin: 0px;
@@ -75,7 +68,6 @@
     cursor: pointer;
 }
 
-
 #loginSelect a:visited {
     color: black;
 }
@@ -85,3 +77,71 @@ aside, #welcome {
     right: 150px;
     left: 150px;
 }
+
+#hiddenDiv {
+    display: none;
+}
+
+.button {
+    position: relative;
+    padding: 10px;
+    background-color: #4CAF50;
+    border: none;
+    font-size: 1em;
+    color: #FFFFFF;
+    text-align: center;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+    width: 200px;
+}
+
+/* login forms */
+.loginDiv {
+    margin: auto;
+    width: 700px;   
+    padding: 0;
+    text-align: center;
+}
+#loginFormCW, #testLoginFormCW, #loginFormCL, #testLoginFormCL {
+    width: 700px;    
+}
+#loginFormCW legend, #loginFormCL legend {
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-bottom: .5em;
+}
+#loginFormCW input[type=text], #loginFormCW input[type=password],
+#loginFormCL input[type=text], #loginFormCL input[type=password] {
+    width: 14em;
+    margin-left: -200px;
+    margin-right: 1em;
+    margin-bottom: 1em;  
+}
+#loginFormCW fieldset, #loginFormCL fieldset {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding-top: .5em;
+    border-color: #f0e68c;    
+}
+#loginFormCW label, #loginFormCL label {
+    float: left;
+    text-align: right;
+    width: 7em; 
+    margin-left: 100px;
+}
+#loginFormCW label.error, #loginFormCL label.error {
+    float: right;
+    color: red;
+    position: absolute;    
+    text-align: left;
+    width: auto;
+    margin-left: 0;
+}
+.loginMsg {
+    text-align: center;
+    color: red;
+    font-size: 1.5em;
+    width: auto;
+}
+

@@ -20,17 +20,19 @@ public class AccountsController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        HttpSession session = request.getSession();
         String url = "/views/accountIndex.jsp";
-        boolean redirect = true;
-          
+        
+        session.setAttribute("loginMsg", null);
+        session.setAttribute("loginType", null);         
+        session.setAttribute("redirect", null); 
+        
+        User user = null;
+        
         String action = request.getParameter("action");
         if (action == null) {
             action = "arrival";
-        }
-        
-        HttpSession session = request.getSession();
-        User user = null;
-        session.setAttribute("redirect", null);     
+        }      
         
         switch(action) {
             case "arrival":                
@@ -41,39 +43,54 @@ public class AccountsController extends HttpServlet {
                 break;
             case "logout":                     
                 // delete user from session
-                session.setAttribute("user", null);                
+                session.setAttribute("user", null);
                 break;
-            
+            case "loginAsCL":
+                // authenticate user
+                
+                // if login fails, set these vars and don't set redirect
+                session.setAttribute("loginMsg", "error authenticating client");
+                session.setAttribute("loginType", "cl"); 
+                break;
+            case "loginAsCW":
+                // authenticate user
+                
+                // if login fails, set these vars and don't set redirect
+                session.setAttribute("loginMsg", "error authenticating case worker");
+                session.setAttribute("loginType", "cw"); 
+                break;
+                
             // testing
-            case "testingCL":
+            case "testLoginAsCL":
                 // redirect to client controller
                 session.setAttribute("redirect", "/ClientController");
-                session.setAttribute("to", "cl");
+                
                 // create test client user
-                user = new Client(1, "firstName", "MI", "lastName", "###phone##", 
+                user = new Client(1, "clientFirstName", "MI", "lastName", "###phone##", 
                         "email", "###ssn###", "city", "state", "#zip#", 
                         LocalDate.of(2009, Month.APRIL, 11), true, LocalDate.of(2016, Month.AUGUST, 16),
                         2, 2, 1);
+                
                 // store in session
                 session.setAttribute("user", user);
                 break;
-            case "testingCW":
+            case "testLoginAsCW":
                 // redirect to case worker controller
                 session.setAttribute("redirect", "/CaseWorkerController"); 
-                session.setAttribute("to", "cw");
+                
                 // create test caseworker user
-                user = new CaseWorker(1, "firstName", "lastName", 
+                user = new CaseWorker(1, "caseWorkerFirstName", "lastName", 
                         "###phone##", "email", "officeD2");
+                
                 // store in session
-                session.setAttribute("user", user);
+                session.setAttribute("user", user);                
                 break;
         }        
         
-        // redirect to 'url'
-        if (redirect) {
-            ServletContext sc = getServletContext();
-            sc.getRequestDispatcher(url).forward(request, response);  
-        }
+        // redirect to 'url'        
+        ServletContext sc = getServletContext();
+        sc.getRequestDispatcher(url).forward(request, response);  
+        
         
     }
 
