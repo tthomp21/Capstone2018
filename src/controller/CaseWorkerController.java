@@ -19,7 +19,7 @@ public class CaseWorkerController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String url = "/views/mainTemplate.jsp";
+        String url = "/views/caseworkerHome.jsp";
                 
         String action = request.getParameter("action");
         HttpSession session = request.getSession();
@@ -32,7 +32,7 @@ public class CaseWorkerController extends HttpServlet {
         
         if(caseWorker == null)
         {
-            action = "sendHome";
+            //action = "sendHome";
         }
         
         
@@ -41,8 +41,10 @@ public class CaseWorkerController extends HttpServlet {
             case "arrival":
                 break;
             case "sendHome":
-                //url = the index of the site
+                url = "/index.jsp";
                 break;
+            case "viewAllClients":
+                url = "/allClients";
         }
         
         
@@ -52,6 +54,9 @@ public class CaseWorkerController extends HttpServlet {
                 
     }
 
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -70,4 +75,6 @@ public class CaseWorkerController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }
+    
+    // </editor-fold>
 }
