@@ -22,7 +22,7 @@
                 <div id="accountDiv">
                     <p id="welcome">Welcome, <br><c:out value="${user.firstName}"/></p>
                     <ul>
-                        <a href="AccountsController?action=manageCaseWorker" id="btnManageAccount">
+                        <a href="AccountsController?action=manageClient" id="btnManageAccount">
                             <li class="actItem">Manage Account</li>
                         </a>
                         <a href="AccountsController?action=logout" id="btnLogout">
@@ -32,13 +32,13 @@
                 </div>
                     
                 <nav>
-                    <c:import url="/Includes/caseWorkerNav.html"/>
+                    <c:import url="../Includes/clientNav.html"/>
                 </nav>    
                 
             </aside>
             
             <div id="main">
-                cw Main program body                
+                Murad jsp here
             </div>
             
             <c:import url="../Includes/footer.html"/>            

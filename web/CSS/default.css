@@ -118,7 +118,7 @@ nav {
     text-align: center;
     font-weight: bold;
     font-size: 1.05em;
-    min-height: 265px;
+    min-height: 495px;
 }
 
 nav ul {
@@ -146,11 +146,11 @@ footer {
     overflow: hidden;
     padding: 10px;
 }
-@media screen and (max-height: 525px) {
+/*@media screen and (max-height: 525px) {
     footer {
         top: 470px;
     }
-}
+}*/
 
 /* ---- main program area ---- */
 #main {
@@ -161,9 +161,19 @@ footer {
     left: 300px;    
     right: 15px;
     min-width: 700px;
-    min-height: 360px;
+    min-height: 590px;
     color: #3a3a3a;
     background-color: white;
     white-space: normal;
 }
 
+@media screen and (max-height: 753px) {
+    footer {
+        top: 700px;
+    }
+}
+@media screen and (max-height: 773px) and (max-width: 1034px) {
+    footer {
+        top: 700px;
+    }
+}

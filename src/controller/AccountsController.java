@@ -21,7 +21,7 @@ public class AccountsController extends HttpServlet {
             throws ServletException, IOException {
         
         HttpSession session = request.getSession();
-        String url = "/views/accountIndex.jsp";
+        String url = "/views/index.jsp";
         
         session.setAttribute("loginMsg", null);
         session.setAttribute("loginType", null);         

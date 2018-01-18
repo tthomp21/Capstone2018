@@ -6,6 +6,7 @@ var thisUrl = window.location.href.split("/");
 var page = thisUrl[thisUrl.length - 1];
 var action = page.split("=")[1];
 
+var actDivMinW = "750px";
 
 // ------------------------------------
 // |*** DOM SETUP ON DOCUMENT LOAD ***|
@@ -155,7 +156,7 @@ function unfoldLoginSelect() {
         $("#caseWorkerLogin").css("display", "none");
         
         // resizing minimums
-        $("#accountDiv").css("min-width", "750px");
+        $("#accountDiv").css("min-width", actDivMinW);
         $("footer").css("min-width", "985px");
 
         // reset button colors on loginSelect
@@ -221,7 +222,7 @@ function adjustNav() {
     $("nav").stop(false, true); 
     $("nav").css("min-height", "0px");        
     $("nav").slideToggle(1000, function() {
-        $("nav").css("min-height", "265px");
+        $("nav").css("min-height", "495px");
     });
 }
 
@@ -270,7 +271,7 @@ function setCssForArrival() {
     // change welcome banner for no logged in user
     $("#welcome").css("font-size", "2.2em");
     $("#welcome").css("font-style", "normal");
-    $("#accountDiv").css("min-width", "750px");
+    $("#accountDiv").css("min-width", actDivMinW);
     $("#accountDiv").hide();
 
     $("#welcome").empty(); 
@@ -304,7 +305,7 @@ function setCssForManageAccount() {
 
 // set css to keep view the same and display error msg
 function setCssForLoginMsg() {    
-    $("#accountDiv").css("min-width", "750px");
+    $("#accountDiv").css("min-width", actDivMinW);
     $("#loginSelect").show();
 
     if ($("#loginType").html() === "cl")

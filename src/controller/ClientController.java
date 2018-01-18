@@ -17,7 +17,7 @@ public class ClientController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String url = "/views/mainTemplate_1.jsp";
+        String url = "/views/temporaryClientIndex.jsp";
         
        
         String action = request.getParameter("action");
