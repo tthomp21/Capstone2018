@@ -56,6 +56,7 @@ public class AssistanceController extends HttpServlet {
      //loop through assistances
      for(Requests assist : allAssitancesList)
      {
+         /*
          if(assist.getassistanceStatus().equalsIgnoreCase("SNAP"))
          {
              foodList.add(assist);
@@ -72,6 +73,7 @@ public class AssistanceController extends HttpServlet {
          {
              otherBenefitsList.add(assist);
          }
+         */
      }
      
      }

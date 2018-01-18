@@ -10,5 +10,9 @@ package Data;
  * @author 
  */
 public class AccountDB {
+
+    public String test() {
+       return "Team Cash Flow test method";
+    }
     //TODO: add code to access the accounts from the database
 }

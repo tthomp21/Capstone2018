@@ -7,6 +7,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<link rel="shortcut icon" href="images/favicon.ico">
+<link rel="stylesheet" href="index.css">
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script src="faqs.js"></script>
 <%-- <%@ page import="java.util.List, business.*"%> --%>
 <%--<%@ page import = "jared.simpledatabase.*" %> --%>
 <%-- <jsp:useBean id="Person" class="business.Person" scope="request"></jsp:useBean> --%>
@@ -120,5 +126,34 @@
         <c:import url="/Includes/Footer.html"/>
         
         --%>
+        
+        <h2>Assistance type 1</h2>
+        <div>
+            <table>
+
+            </table>
+        </div>
+
+        <h2>Assistance type 2</h2>
+        <div>
+            <table>
+
+            </table>
+        </div>
+
+        <h2> Assistance type 3</h2>
+        <div>
+            <table>
+
+            </table>
+        </div>
+
+        <h2>Assistance type 4</h2>
+        <div>
+            <table>
+
+            </table>
+        </div>
+
     </body>
 </html>
