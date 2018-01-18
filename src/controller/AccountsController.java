@@ -3,9 +3,11 @@
 
 package controller;
 
+import data.*;
 import business.*;
 import java.time.LocalDate;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.time.Month;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -57,7 +59,8 @@ public class AccountsController extends HttpServlet {
                 
                 // if login fails, set these vars and don't set redirect
                 session.setAttribute("loginMsg", "error authenticating case worker");
-                session.setAttribute("loginType", "cw"); 
+                session.setAttribute("loginType", "cw");
+                AccountDB a = new AccountDB();  
                 break;
                 
             // testing

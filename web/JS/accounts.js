@@ -121,7 +121,7 @@ function unfoldCreate() {
         $("#loginSelect").css("display", "none");
         $("#clientLogin").css("display", "none");
         $("#caseWorkerLogin").css("display", "none");
-        //$("#frontImages").css("display", "none");
+        
         
         // remove resizing minimum before folding left
         $("#accountDiv").css("min-width", "0px");
@@ -171,7 +171,7 @@ function unfoldLoginSelect() {
         $("aside").animate({left: "+150px", right: "150", width: "70%"}, 400, "linear", function() { 
             $("aside").css("width", "auto");
             $("#loginSelect").stop(false, true).fadeIn(500);                        
-            //$("#frontImages").stop(false, true).show();
+            
             $("#imgClient").show();
             $("#imgCaseWorker").show();
         });       
@@ -259,7 +259,6 @@ function hideDivs() {
     $("#loginSelect").css("display", "none");    
     $("#clientLogin").css("display", "none");
     $("#caseWorkerLogin").css("display", "none");   
-    $("#frontImages").css("display", "none");   
     $("nav").css("display", "none");
 }
 
@@ -278,7 +277,7 @@ function setCssForArrival() {
     $("#accountDiv").fadeIn(500, function() {
         $("#welcome").html("Welcome!");
     });
-    //$("#frontImages").show();
+    
 
     // resizing minimum
     $("footer").css("min-width", "985px");

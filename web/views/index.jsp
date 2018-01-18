@@ -144,10 +144,7 @@
                 Manage Case Worker Account Page                
             </div>
                 
-            <div id="frontImages">
-                <span><img id="imgClient" src="../Images/client.jpg" width="372" height="372"/></span>
-                <span><img id="imgCaseWorker" src="../Images/caseworker.jpg" width="372" height="372"/></span>
-            </div>
+            
             
             <c:import url="../Includes/footer.html"/>            
         </div>
