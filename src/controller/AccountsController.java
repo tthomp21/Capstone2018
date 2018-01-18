@@ -34,6 +34,12 @@ public class AccountsController extends HttpServlet {
         String action = request.getParameter("action");
         if (action == null) {
             action = "arrival";
+            
+            // --------- testing for db access --------
+            AccountDB a = new AccountDB();  
+            String result = a.test();  // returns 'SNAP'
+            int x = 1;  // just a statement to place a breakpoint here 
+                        // to check value of 'result' if you like
         }      
         
         switch(action) {
@@ -60,7 +66,7 @@ public class AccountsController extends HttpServlet {
                 // if login fails, set these vars and don't set redirect
                 session.setAttribute("loginMsg", "error authenticating case worker");
                 session.setAttribute("loginType", "cw");
-                AccountDB a = new AccountDB();  
+                
                 break;
                 
             // testing

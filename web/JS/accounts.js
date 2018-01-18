@@ -122,6 +122,8 @@ function unfoldCreate() {
         $("#clientLogin").css("display", "none");
         $("#caseWorkerLogin").css("display", "none");
         
+        // erase any login error messages
+        $(".loginMsg").hide();
         
         // remove resizing minimum before folding left
         $("#accountDiv").css("min-width", "0px");
@@ -189,6 +191,8 @@ function unfoldClLogin() {
     $("#btnClient").css("background-color", "#f0e68c");
     $("#btnCaseWorker").css("background-color", "white");    
     
+    // erase any login error messages
+    $(".loginMsg").hide();
 }
 
 // shows case worker login div, highlights selected button
@@ -198,6 +202,9 @@ function unfoldCwLogin() {
     $("#caseWorkerLogin").fadeIn(1000);  
     $("#btnClient").css("background-color", "white");
     $("#btnCaseWorker").css("background-color", "#f0e68c");
+    
+    // erase any login error messages
+    $(".loginMsg").hide();
 }
 
 // animates footer adjustment between full or partial width
@@ -306,7 +313,10 @@ function setCssForManageAccount() {
 function setCssForLoginMsg() {    
     $("#accountDiv").css("min-width", actDivMinW);
     $("#loginSelect").show();
-
+    $("#welcome").css("font-size", "2.2em");
+    $("#welcome").css("font-style", "normal");
+    $("#welcome").html("Welcome!");
+    
     if ($("#loginType").html() === "cl")
     {
         $("#clientLogin").fadeIn(1);   
