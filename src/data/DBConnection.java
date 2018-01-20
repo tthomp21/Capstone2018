@@ -15,11 +15,9 @@ import javax.servlet.annotation.WebServlet;
  * @author
  */
 public class DBConnection {
-    public DBConnection(){
-        
-    }
+    private DBConnection(){ }
     
-    public Connection getConnection() {
+    public static Connection getConnection() {
         Connection dbConn = null;
         String jdbcDriver = "com.ibm.db2.jcc.DB2Driver";
                 // Make sure to import db2java.zip, db2jcc.jar, and db2jcc_license_cisuz.jar into WebContent/WEB-INF/lib

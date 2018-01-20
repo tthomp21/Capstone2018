@@ -104,34 +104,33 @@ aside, #welcome {
     text-align: center;
     background-color: white;
 }
-#loginFormCW, #testLoginFormCW, #loginFormCL, #testLoginFormCL {
+.actForm {
     width: 700px;
     padding: 10px 22.5px 0px 22.5px;    
 }
-#loginFormCW legend, #loginFormCL legend {
-    font-size: 1.3em;
+.actForm legend {
+    font-size: 1.4em;
     font-weight: bold;
     margin-bottom: .5em;
 }
-#loginFormCW input[type=text], #loginFormCW input[type=password],
-#loginFormCL input[type=text], #loginFormCL input[type=password] {
+.actForm input[type=text], .actForm input[type=password] {
     width: 14em;
     margin-left: -200px;
     margin-right: 1em;
     margin-bottom: 1em;  
 }
-#loginFormCW fieldset, #loginFormCL fieldset {    
+.actForm fieldset {    
     margin-bottom: 1em;
     padding-top: .5em;
     border-color: #f0e68c;    
 }
-#loginFormCW label, #loginFormCL label {
+.actForm label {
     float: left;
     text-align: right;
     width: 7em; 
     margin-left: 100px;
 }
-#loginFormCW label.error, #loginFormCL label.error {
+.actForm label.error{
     float: right;
     color: red;
     position: absolute;    
@@ -139,13 +138,64 @@ aside, #welcome {
     width: auto;
     margin-left: 0;
 }
-.loginMsg {
+.errorMsg {
     text-align: center;
     color: red;
     font-size: 1.5em;
     width: auto;
 }
+.successMsg {
+    text-align: center;
+    color: green;
+    font-size: 1.5em;
+    width: auto;
+}
 
+/* create account */
+#createForm {
+    display: table;  
+}
 
+#createForm p {
+    display: table-row;    
+}
 
+#createForm label {
+    display: table-cell;
+    padding: 10px;
+}
 
+#createForm input {
+    display: table-cell;    
+}
+
+#createForm label.error {
+    display: table-cell;
+    color: red;
+    text-align: left;
+}
+#createDiv {  
+    width: 650px;
+    padding: 20px;
+}
+#createDiv h1 {
+    text-align: center;
+    margin-top: 0px;
+}
+#btnCreate {
+    margin-top: 10px;
+    width: 173px;
+}
+#createMsgDiv {
+    width: 610px;
+    height: 50px;
+    border-radius: 10px;
+    padding: 25px;
+    margin-top: 50px;    
+}
+#createMsgDiv p {
+    margin: 0;
+    padding: 0;
+    line-height: 50px;
+    color: white;
+}

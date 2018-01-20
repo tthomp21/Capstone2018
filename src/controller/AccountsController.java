@@ -3,6 +3,7 @@
 
 package controller;
 
+import business.Accounts;
 import data.*;
 import business.*;
 import java.time.LocalDate;
@@ -36,8 +37,8 @@ public class AccountsController extends HttpServlet {
             action = "arrival";
             
             // --------- testing for db access --------
-            AccountDB a = new AccountDB();  
-            String result = a.test();  // returns 'SNAP'
+            
+            String result = AccountDB.test();  // returns 'SNAP'
             int x = 1;  // just a statement to place a breakpoint here 
                         // to check value of 'result' if you like
         }      
@@ -94,6 +95,15 @@ public class AccountsController extends HttpServlet {
                 // store in session
                 session.setAttribute("user", user);                
                 break;
+                
+            case "create":
+                if (createAccountSuccessful(request))
+                {
+                    String createMsgSuccess = 
+                        "Your Account has been successfully created!  Please log in.";
+                    request.setAttribute("createMsgSuccess", createMsgSuccess);
+                }                
+                break;
         }        
         
         // redirect to 'url'        
@@ -103,6 +113,109 @@ public class AccountsController extends HttpServlet {
         
     }
 
+    // validates and creates user account, or creates error messages
+    private boolean createAccountSuccessful(HttpServletRequest request)
+    {
+        boolean success = true;
+        String createMsg = "";
+        
+        // retrieve form entries
+        String userName =  (String) request.getParameter("createUserName");
+        String password1 = (String) request.getParameter("createPassword1");
+        String password2 = (String) request.getParameter("createPassword2");        
+        String clientID =  (String) request.getParameter("createClientID");
+        String ssn =       (String) request.getParameter("createSSN");
+        
+        // retain entries in form
+        request.setAttribute("prevCreateUserName", userName);
+        request.setAttribute("prevCreatePassword1", password1);
+        request.setAttribute("prevCreatePassword2", password2);
+        request.setAttribute("prevCreateClientID", clientID);
+        request.setAttribute("prevCreateSSN", ssn);        
+                
+        // validate username/pw correct format (done on front end as well)
+        if (!Accounts.isValidLength(userName, 6))
+        {            
+            createMsg = "User name must be at least 6 characters";
+            request.setAttribute("createMsg", createMsg);
+            return false;
+        }
+        else if (!password1.equals(password2))
+        {
+            createMsg = "Passwords do not match";
+            request.setAttribute("createMsg", createMsg);
+            return false;
+        }
+        else if (!Accounts.isValidLength(password1, 6))
+        {
+            createMsg = "Password must be at least 6 characters";
+            request.setAttribute("createMsg", createMsg);
+            return false;
+        }
+        else if (!Accounts.isInteger(clientID))
+        {
+            createMsg = "Client ID must be numeric";
+            request.setAttribute("createMsg", createMsg);
+            return false;
+        }
+        
+        String sqlErrorMsg = "There was an error with the database connection";
+        QueryResult results;        
+        int id = Integer.parseInt(clientID);
+        
+        // ensure client id is found in the database
+        results = Accounts.isValidClientID(id);
+        if (!results.successful()) 
+        {            
+            if (results.sqlErrors())
+                createMsg = sqlErrorMsg;
+            else                 
+                createMsg = "There was an error finding a client with that ID#";   
+            
+            request.setAttribute("createMsg", createMsg);
+            return false;
+        }
+
+        // ensure ssn matches client with that id
+        results = Accounts.isValidSSN(ssn, id);
+        if (!results.successful()) 
+        {            
+            if (results.sqlErrors())
+                createMsg = sqlErrorMsg;
+            else                 
+                createMsg = "The SSN# you entered does not match our records for that client ID#";     
+            
+            request.setAttribute("createMsg", createMsg);
+            return false;             
+        }         
+        
+        // ensure desired user name isn't taken 
+        results = Accounts.isValidUserName(userName);
+        if (!results.successful()) 
+        {
+            if (results.sqlErrors())
+                createMsg = sqlErrorMsg;
+            else
+                createMsg = "This user name is already taken";
+            
+            request.setAttribute("createMsg", createMsg);
+            return false;   
+        }            
+
+        // attempt to create account
+        boolean creationSuccess = Accounts.setUserNameAndPassword(userName, password1, id);                
+
+        if (creationSuccess)
+            return true;            
+        else 
+        {
+            createMsg = "There was an error adding account to the database";
+            request.setAttribute("createMsg", createMsg);
+            return false;        
+        }  
+    }
+    
+        
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

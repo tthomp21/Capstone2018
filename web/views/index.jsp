@@ -54,7 +54,53 @@
             </aside>
             
             <div id="mainCreate">
-                Create Account Page                
+                <div id="createDiv">
+                    <h1>
+                        Create a Client Account
+                    </h1>
+                    <form action="AccountsController" method="post" id="createForm">                        
+                        <p>
+                            <label for="createClientID">Enter your Client ID#:</label>
+                            <input type="text" id="createClientID" name="createClientID" value="${prevCreateClientID}"><br>
+                        </p>
+
+                        <p>
+                            <label for="createSSN">Verify your SSN:</label>
+                            <input type="text" id="createSSN" name="createSSN" value="${prevCreateSSN}"><br>
+                        </p>
+
+                        <p>
+                            <label for="createUserName">Choose a User Name:</label>
+                            <input type="text" id="createUserName" name="createUserName" value="${prevCreateUserName}"><br>
+                        </p>
+
+                        <p>
+                            <label for="createPassword1">Choose a Password:</label>
+                            <input type="password" id="createPassword1" name="createPassword1" value="${prevCreatePassword1}"><br>
+                        </p>
+
+                        <p>
+                            <label for="createPassword2">Confirm Password:</label>
+                            <input type="password" id="createPassword2" name="createPassword2" value="${prevCreatePassword2}"><br>
+                        </p>
+
+                        <p>
+                            <label></label>
+                            <input type="hidden" name="action" value="create"/>
+                            <input type="submit" name="submit" value="Create Account" class="button" id="btnCreate"/>                                 
+                        </p>
+                    </form>
+                    
+                    <div id="createMsgDiv">
+                        <c:if test="${not empty createMsg}">
+                            <p id="createMsg" class="errorMsg"><c:out value="${createMsg}"/></p>
+                        </c:if>
+                        <c:if test="${not empty createMsgSuccess}">
+                            <p id="createMsgSuccess" class="successMsg"><c:out value="${createMsgSuccess}"/></p>
+                        </c:if> 
+                    </div>
+                </div>
+                
             </div>
             
             <div id="hiddenDiv">
@@ -79,7 +125,7 @@
                 
             <div id="clientLogin">
                 <div class="loginDiv">                    
-                    <form action="AccountsController" method="post" id="loginFormCL">
+                    <form action="AccountsController" method="post" id="loginFormCL" class="actForm">
                         <fieldset>
                             <legend>Enter your credentials</legend>
 
@@ -94,13 +140,13 @@
                             <br>
                             
                             <c:if test="${loginType == 'cl'}">
-                                <p id="loginMsgCL" class="loginMsg"><c:out value="${loginMsg}"/></p>
+                                <p id="loginMsgCL" class="errorMsg"><c:out value="${loginMsg}"/></p>
                             </c:if>
                             
                         </fieldset>                        
                     </form>  
                     
-                    <form action="AccountsController" method="post" id="testLoginFormCL">
+                    <form action="AccountsController" method="post" id="testLoginFormCL" class="actForm">
                         <input type="hidden" name="action" value="testLoginAsCL"/>
                         <input type="submit" name="submit" value="Dummy login for testing" class="button"/>                                                       
                     </form>
@@ -109,7 +155,7 @@
                 
             <div id="caseWorkerLogin">
                 <div class="loginDiv">
-                    <form action="AccountsController" method="post" id="loginFormCW">
+                    <form action="AccountsController" method="post" id="loginFormCW" class="actForm">
                         <fieldset>
                             <legend>Enter your credentials</legend>
 
@@ -124,12 +170,12 @@
                             <br>
                             
                             <c:if test="${loginType == 'cw'}">
-                                <p id="loginMsgCW" class="loginMsg"><c:out value="${loginMsg}"/></p>
+                                <p id="loginMsgCW" class="errorMsg"><c:out value="${loginMsg}"/></p>
                             </c:if>
                         </fieldset>                        
                     </form>  
                     
-                    <form action="AccountsController" method="post" id="testLoginFormCW">
+                    <form action="AccountsController" method="post" id="testLoginFormCW" class="actForm">
                         <input type="hidden" name="action" value="testLoginAsCW"/>
                         <input type="submit" name="submit" value="Dummy login for testing" class="button"/>                                                       
                     </form>                    

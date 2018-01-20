@@ -33,6 +33,11 @@ $(document).ready(function() {
     {        
         setCssForLoginMsg();
     }
+    // if account creation attempted
+    else if ($("#createMsg").length > 0 || $("#createMsgSuccess").length > 0)
+    {        
+        setCssForCreateMsg();
+    }
     // action checks
     else 
     {
@@ -105,6 +110,51 @@ $(document).ready(function() {
             //return false;
         }
     });
+    
+    $("#createForm").validate({
+        rules: {
+            createUserName: {
+                required: true,
+                minlength: 6
+            },
+            createPassword1: {
+                required: true,
+                minlength: 6
+            },
+            createPassword2: {
+                required: true,
+                minlength: 6, 
+                equalTo: "#createPassword1"
+            },
+            createClientID: {
+                required: true,
+                digits: true
+            },
+            createSSN: {
+                required: true,
+                digits: true,
+                rangelength: [9, 9]
+            }
+        },
+        messages: {
+            createUserName: {
+                minlength: "User Name must be at least 6 characters."
+            },
+            createPassword1: {
+                minlength: "Password must be at least 6 characters."
+            },
+            createPassword2: {
+                minlength: "Password must be at least 6 characters.",
+                equalTo: "Passwords must match."
+            },
+            createClientID: {
+                digits: "Client ID# must be numeric"
+            },
+            createSSN: {
+                rangelength: "Please enter a 9-digit social security number"
+            }
+        }
+    });
 });
 
 
@@ -167,7 +217,7 @@ function unfoldLoginSelect() {
         
         adjustNav();
         adjustFooter();
-
+        
         // unfold login options        
         $("aside").stop(false, true); 
         $("aside").animate({left: "+150px", right: "150", width: "70%"}, 400, "linear", function() { 
@@ -177,6 +227,10 @@ function unfoldLoginSelect() {
             $("#imgClient").show();
             $("#imgCaseWorker").show();
         });       
+        
+        // clear create messages
+        $("#createMsgDiv").css("background-color", "white");
+        $("#createMsg").empty();
     }
     else {  // already unfolded, just show select div
         $("#loginSelect").fadeIn(500);
@@ -192,7 +246,7 @@ function unfoldClLogin() {
     $("#btnCaseWorker").css("background-color", "white");    
     
     // erase any login error messages
-    $(".loginMsg").hide();
+    $(".loginMsg").hide();    
 }
 
 // shows case worker login div, highlights selected button
@@ -329,5 +383,35 @@ function setCssForLoginMsg() {
         $("#btnClient").css("background-color", "white");
         $("#btnCaseWorker").css("background-color", "#f0e68c");
     }
+}
+
+// set css to keep view the same and display error msg
+function setCssForCreateMsg() {
+    // reset aside
+    $("aside").css("width", "270px");
+    $("aside").css("left", "15px");
+
+    // load client nav            
+    $("nav").fadeIn(1);
+
+    // set footer partial width
+    $("footer").css("left", "300px");
+
+    // show create panel
+    $("#mainCreate").show();
+    
+    if ($("#createMsg").length > 0)
+    {
+        $("#createMsgDiv").css("background-color", "red");
+    }
+    else 
+    {
+        $("#createMsgDiv").css("background-color", "green");
+    }
+    
+    // disable create account link, since already there
+    $("#btnCreateAccount").click(function(e) {
+        e.preventDefault();
+    });
 }
 
