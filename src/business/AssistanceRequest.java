@@ -20,12 +20,12 @@ public class AssistanceRequest implements Serializable{
     private double                  amountPaid       = 0.0;
     private String                  assistanceStatus = "";
     private LocalDate               dateDisbursed    = null;
-    
+
     //the number of times a client has recieved an assitance might be taken from the list size for that assistance. we will see!!
    // private int                     occurancesPaid = 0;
-    
-    
-    
+
+
+
     public AssistanceRequest(){}
     public AssistanceRequest(Assitance theReqestID, LocalDate theDate, double theAmountPaid,  String theassistanceStatus)//, int theOccurences)
     {
@@ -33,9 +33,9 @@ public class AssistanceRequest implements Serializable{
         this.requestDate         =   theDate;
         this.amountPaid             =   theAmountPaid;
         this.assistanceStatus         =   theassistanceStatus;
-     
+
     }
 
-     
-    
+
+
 }
