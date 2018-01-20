@@ -23,7 +23,7 @@ body {
 	margin: 0 auto;
 	border: 3px solid blue;
 }
-section {
+main {
 	padding: 15px 25px;
 }
 h1 { 
@@ -33,10 +33,10 @@ h2 {
 	font-size: 120%;
 	padding: .25em 0 .25em 25px;
 	cursor: pointer;
-	background: url(images/plus.png) no-repeat left center;
+	background: url(/images/closeArrow.png) no-repeat left center;
 }
 h2.minus {
-	background: url(images/minus.png) no-repeat left center;
+	background: url(/images/openArrow.png) no-repeat left center;
 }
 div {
 	display: none;

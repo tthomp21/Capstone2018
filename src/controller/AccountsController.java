@@ -3,6 +3,7 @@
 
 package controller;
 
+import Data.AccountDB;
 import business.Accounts;
 import data.*;
 import business.*;
@@ -191,7 +192,7 @@ public class AccountsController extends HttpServlet {
         results = Accounts.isValidUserName(userName);
         if (!results.successful()) 
         {
-            if (results.sqlErrors())
+            if (results.sqlErrors())successful()
                 createMsg = sqlErrorMsg;
             else
                 createMsg = "This user name is already taken";

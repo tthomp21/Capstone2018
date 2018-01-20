@@ -12,8 +12,8 @@ import java.time.LocalDate;
  *
  * @author Murad
  */
-public class Requests implements Serializable{
-    private Assitance                 request          = null;
+public class AssistanceRequest implements Serializable{
+    private Assitance               anAssistance     = null;
     private int                     assistanceID     = 0;
     private Client                  client           = null;
     private LocalDate               requestDate      = null;
@@ -26,15 +26,16 @@ public class Requests implements Serializable{
     
     
     
-    public Requests(){}
-    public Requests(Assitance theReqestID, LocalDate theDate, double theAmountPaid,  String theassistanceStatus)//, int theOccurences)
+    public AssistanceRequest(){}
+    public AssistanceRequest(Assitance theReqestID, LocalDate theDate, double theAmountPaid,  String theassistanceStatus)//, int theOccurences)
     {
+        this.client = null;
         this.requestDate         =   theDate;
         this.amountPaid             =   theAmountPaid;
         this.assistanceStatus         =   theassistanceStatus;
      
     }
 
- 
+     
     
 }

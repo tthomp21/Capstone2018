@@ -5,7 +5,7 @@
  */
 package controller;
 
-import business.Requests;
+import business.AssistanceRequest;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -41,12 +41,12 @@ public class AssistanceController extends HttpServlet {
      
      
      
-     ArrayList<Requests> allAssitancesList    = new ArrayList<Requests>();
+     ArrayList<AssistanceRequest> allAssitancesList    = new ArrayList<AssistanceRequest>();
      
-     ArrayList<Requests> foodList             = new ArrayList<Requests>();
-     ArrayList<Requests> cashList             = new ArrayList<Requests>();
-     ArrayList<Requests> medicAidList         = new ArrayList<Requests>();
-     ArrayList<Requests> otherBenefitsList    = new ArrayList<Requests>();
+     ArrayList<AssistanceRequest> foodList             = new ArrayList<AssistanceRequest>();
+     ArrayList<AssistanceRequest> cashList             = new ArrayList<AssistanceRequest>();
+     ArrayList<AssistanceRequest> medicaidList         = new ArrayList<AssistanceRequest>();
+     ArrayList<AssistanceRequest> otherBenefitsList    = new ArrayList<AssistanceRequest>();
      
      
      //get all assitances
@@ -54,7 +54,7 @@ public class AssistanceController extends HttpServlet {
      try
      {
      //loop through assistances
-     for(Requests assist : allAssitancesList)
+     for(AssistanceRequest assist : allAssitancesList)
      {
          /*
          if(assist.getassistanceStatus().equalsIgnoreCase("SNAP"))
