@@ -109,8 +109,6 @@ public class AccountsController extends HttpServlet {
         // redirect to 'url'        
         ServletContext sc = getServletContext();
         sc.getRequestDispatcher(url).forward(request, response);  
-        
-        
     }
 
     // validates and creates user account, or creates error messages
