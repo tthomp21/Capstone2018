@@ -294,18 +294,29 @@ function animateTransition() {
     $("#btnManageAccount").click(function(e) {
         e.preventDefault();
     });
-
+    
     $("#loginSelect").css("display", "none");
-    $("#clientLogin").css("display", "none");
     $("#caseWorkerLogin").css("display", "none");
+    
+    $("#clientLogin").empty().show();
+    var markup = "<p>Authentication Successful</p>";
+    $("#clientLogin").html(markup);
+    $("#clientLogin").css("background-color", "green");
+    $("#clientLogin").css("color", "white");
+    $("#clientLogin").css("font-size", "75px");
+    $("#clientLogin").css("font-weight", "bold");
+    $("#clientLogin").css("text-align", "center");
+    $("#clientLogin").toggleClass("glow");
+    $("#clientLogin").fadeOut(1000);
+        
     $("#accountDiv").css("min-width", "0px");
-
+    
     $("aside").stop(false, true);
     $("aside").css("min-width", "270px");
-    $("aside").animate({width: "270px", left: "15px"}, 400, "linear", function() { 
+    $("aside").delay(1000).animate({width: "270px", left: "15px"}, 400, "linear", function() { 
         adjustNav();
         adjustFooter();
-    });
+    });   
 }
 
 
@@ -377,13 +388,19 @@ function setCssForLoginMsg() {
         $("#clientLogin").fadeIn(1);   
         $("#btnClient").css("background-color", "#f0e68c");
         $("#btnCaseWorker").css("background-color", "white");
+        
+        $("#loginMsgDivCL").css("background-color", "red");
     }
     else 
     {
         $("#caseWorkerLogin").fadeIn(1);   
         $("#btnClient").css("background-color", "white");
         $("#btnCaseWorker").css("background-color", "#f0e68c");
+        
+        $("#loginMsgDivCW").css("background-color", "red");
     }
+    
+    
 }
 
 // set css to keep view the same and display error msg

@@ -91,7 +91,7 @@
                         </p>
                     </form>
                     
-                    <div id="createMsgDiv">
+                    <div id="createMsgDiv" class="msgDiv">
                         <c:if test="${not empty createMsg}">
                             <p id="createMsg" class="errorMsg"><c:out value="${createMsg}"/></p>
                         </c:if>
@@ -99,16 +99,16 @@
                             <p id="createMsgSuccess" class="successMsg"><c:out value="${createMsgSuccess}"/></p>
                         </c:if> 
                     </div>
-                </div>
-                
+                    
+                </div>                
             </div>
             
             <div id="hiddenDiv">
-                 <c:if test="${not empty redirect}">
-                     <script id="rScript">
+                <c:if test="${not empty redirect}">
+                    <script id="rScript">
                         var timer = setTimeout(function() {
                             window.location="<c:out value="${redirect}"/>";
-                        }, 1400);
+                        }, 2400);
                     </script>
                 </c:if>
                 <c:if test="${not empty loginType}">                    
@@ -130,27 +130,29 @@
                             <legend>Enter your credentials</legend>
 
                             <label for="loginUserNameCL">User Name:</label>
-                            <input type="text" id="loginUserNameCL" name="loginUserNameCL" autofocus><br>
+                            <input type="text" id="loginUserNameCL" name="loginUserNameCL" autofocus="true" value="${prevLoginUserNameCL}"><br>
 
                             <label for="loginPasswordCL">Password:</label>
-                            <input type="password" id="loginPasswordCL" name="loginPasswordCL"><br>
+                            <input type="password" id="loginPasswordCL" name="loginPasswordCL" value="${prevPasswordNameCL}"><br>
                         
                             <input type="hidden" name="action" value="loginAsCL"/>
                             <input type="submit" name="submit" value="Log In" class="button"/>
                             <br>
-                            
-                            <c:if test="${loginType == 'cl'}">
-                                <p id="loginMsgCL" class="errorMsg"><c:out value="${loginMsg}"/></p>
-                            </c:if>
-                            
                         </fieldset>                        
                     </form>  
-                    
+                
+                    <div id="loginMsgDivCL" class="msgDiv">
+                        <c:if test="${loginType == 'cl'}">
+                            <p id="loginMsgCL" class="errorMsg"><c:out value="${loginMsg}"/></p>
+                        </c:if>
+                    </div>
+                    <!--        
                     <form action="AccountsController" method="post" id="testLoginFormCL" class="actForm">
                         <input type="hidden" name="action" value="testLoginAsCL"/>
                         <input type="submit" name="submit" value="Dummy login for testing" class="button"/>                                                       
                     </form>
-                </div>      
+                    -->
+                </div>       
             </div>
                 
             <div id="caseWorkerLogin">
@@ -160,26 +162,34 @@
                             <legend>Enter your credentials</legend>
 
                             <label for="loginUserNameCW">User Name:</label>
-                            <input type="text" id="loginUserNameCW" name="loginUserNameCW" autofocus><br>
+                            <input type="text" id="loginUserNameCW" name="loginUserNameCW" autofocus="true" value="${prevLoginUserNameCW}"><br>
 
                             <label for="loginPasswordCW">Password:</label>
-                            <input type="password" id="loginPasswordCW" name="loginPasswordCW"><br>
+                            <input type="password" id="loginPasswordCW" name="loginPasswordCW" value="${prevLoginPasswordCW}"><br>
                         
                             <input type="hidden" name="action" value="loginAsCW"/>
                             <input type="submit" name="submit" value="Log In" class="button"/>   
                             <br>
-                            
-                            <c:if test="${loginType == 'cw'}">
-                                <p id="loginMsgCW" class="errorMsg"><c:out value="${loginMsg}"/></p>
-                            </c:if>
                         </fieldset>                        
                     </form>  
-                    
+                            
+                    <div id="loginMsgDivCW" class="msgDiv">
+                        <c:if test="${loginType == 'cw'}">
+                            <p id="loginMsgCW" class="errorMsg"><c:out value="${loginMsg}"/></p>
+                        </c:if>
+                    </div>
+                       
+                    <!--        
                     <form action="AccountsController" method="post" id="testLoginFormCW" class="actForm">
                         <input type="hidden" name="action" value="testLoginAsCW"/>
                         <input type="submit" name="submit" value="Dummy login for testing" class="button"/>                                                       
-                    </form>                    
+                    </form>
+                    -->
                 </div>      
+            </div>
+                            
+            <div id="loginSuccess">
+                
             </div>
             
             <div id="mainClient">
