@@ -38,7 +38,6 @@
     
     
     <welcome-file-list>
-        <welcome-file>/views/acountIndex.jsp</welcome-file>
         <welcome-file>AccountsController</welcome-file>
     </welcome-file-list>
     
