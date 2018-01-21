@@ -8,7 +8,11 @@ package controller;
 import business.AssistanceRequest;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.TreeMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,57 +36,58 @@ public class AssistanceController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
+        String clientID = request.getParameter("clientID"); // get this from successful login.
+        String url = ""; //= "/view/the default page";
         HttpSession session = request.getSession();
-        ArrayList<AssistanceRequest> allAssitancesList = (ArrayList<AssistanceRequest>)session.getAttribute("allAssitancesList");
-        
-        if (allAssitancesList == null)
-        {
-               allAssitancesList = new ArrayList<AssistanceRequest>();
-        }
-        
-        /** documentation
-         * create allAssitancesList to hold all assistances make a call to the
-         * data base to get all the assistances create a list for each
-         * assistance type loop through allAssistanacesList and filter/insert
-         * them to the appropriate list. load all lists into the session
-         */
-        
-        
-       // allAssitancesList = AccountsDB.getAllAssistances();
+        ArrayList<AssistanceRequest> allAssitancesList = (ArrayList<AssistanceRequest>) session.getAttribute("allAssitancesList");
 
-        ArrayList<AssistanceRequest> foodList            = new ArrayList<AssistanceRequest>();
-        ArrayList<AssistanceRequest> cashList            = new ArrayList<AssistanceRequest>();
-        ArrayList<AssistanceRequest> medicaidList        = new ArrayList<AssistanceRequest>();
-        ArrayList<AssistanceRequest> otherBenefitsList   = new ArrayList<AssistanceRequest>();
+        if (allAssitancesList == null) {
+            allAssitancesList = new ArrayList<AssistanceRequest>();
+        }
+
+        /**
+         * documentation create allAssitancesList to hold all assistances make a
+         * call to the data base to get all the assistances create a list for
+         * each assistance type loop through allAssistanacesList and
+         * filter/insert them to the appropriate list. load all lists into the
+         * session
+         */
+        TreeMap<LocalDate, AssistanceRequest> sortedFoodList = new TreeMap<LocalDate, AssistanceRequest>();
+
+        // allAssitancesList = AccountsDB.getAllAssistances();
+        ArrayList<AssistanceRequest> foodList = new ArrayList<AssistanceRequest>();
+        ArrayList<AssistanceRequest> cashList = new ArrayList<AssistanceRequest>();
+        ArrayList<AssistanceRequest> medicaidList = new ArrayList<AssistanceRequest>();
+        ArrayList<AssistanceRequest> otherBenefitsList = new ArrayList<AssistanceRequest>();
 
         //get all assitances
         try {
             //loop through assistances
             for (AssistanceRequest assist : allAssitancesList) {
-                /*
-         if(assist.getassistanceStatus().equalsIgnoreCase("SNAP"))
-         {ِ
-             foodList.add(assist);
-         }
-                        else if(assist.getassistanceStatus().equalsIgnoreCase("ADC"))
-         {
-             cashList.add(assist);
-            }
-                                 else if(assist.getassistanceStatus().equalsIgnoreCase("MedicAid"))
-         {
-             medicAidList.add(assist);
-         }
-         else 
-         {
-             otherBenefitsList.add(assist);
-         }
-                 */
+
+                if (assist.getAnAssistance().getAssistanceDescription().equalsIgnoreCase("SNAP")) {
+                    foodList.add(assist);
+                    
+                    /**
+                     * this to test Tree map
+                     */
+                    sortedFoodList.put(assist.getDateDisbursed(), assist);
+
+                } else if (assist.getAnAssistance().getAssistanceDescription().equalsIgnoreCase("ADC")) {
+                    cashList.add(assist);
+                } else if (assist.getAnAssistance().getAssistanceDescription().equalsIgnoreCase("MedicAid")) {
+                    medicaidList.add(assist);
+                } else {
+                    otherBenefitsList.add(assist);
+                }
+
             }
 
         } catch (Exception ex) {
 
         } finally {
+           // sortOurLists(foodList);
             //this is executed anyway. so load the list here and forward the request.
             session.setAttribute("allAssitancesList", allAssitancesList);
             session.setAttribute("foodList", foodList);
@@ -131,5 +136,26 @@ public class AssistanceController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    /**
+     * this is sorting the list based on the year for now. ***** come up with
+     * something that would sort based on the whole date.
+     *
+     * this method may need session object so it forwards the sorted list from
+     * here.
+     *
+     * @param foodList
+     
+    private void sortOurLists(ArrayList<AssistanceRequest> foodList) {
+
+        Collections.sort(foodList, new Comparator<AssistanceRequest>() {
+            public int compare(AssistanceRequest assis1, AssistanceRequest assis2) {
+                return Integer.valueOf(assis1.getDateDisbursed().getYear()).compareTo(assis2.getDateDisbursed().getYear());
+            }
+
+        }
+        );
+        * */
+    }
 
 }
