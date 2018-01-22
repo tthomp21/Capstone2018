@@ -13,13 +13,15 @@ import java.time.LocalDate;
  * @author Murad
  */
 public class AssistanceRequest implements Serializable{
-    private Assitance               anAssistance     = null;
-    private int                     assistanceID     = 0;
-    private Client                  client           = null;
-    private LocalDate               requestDate      = null;
-    private double                  amountPaid       = 0.0;
-    private String                  assistanceStatus = "";
-    private LocalDate               dateDisbursed    = null;
+    
+    private int                     requestID        ;
+    private Assitance               anAssistance     ;
+    private int                     assistanceID     ;
+    private int                     clientID         ;
+    private LocalDate               requestDate      ;
+    private double                  amountPaid       ;
+    private String                  status ;
+    private LocalDate               dateDisbursed    ;
 
     //the number of times a client has recieved an assitance might be taken from the list size for that assistance. we will see!!
    // private int                     occurancesPaid = 0;
@@ -27,13 +29,17 @@ public class AssistanceRequest implements Serializable{
 
 
     public AssistanceRequest(){}
-    public AssistanceRequest(Assitance theReqestID, LocalDate theDate, double theAmountPaid,  String theassistanceStatus)//, int theOccurences)
+    
+    public AssistanceRequest(int requestID, int assistanceID, int clientID, LocalDate requestDate, double amountPaid, String status, LocalDate dateDisbursed)
     {
-        this.client = null;
-        this.requestDate         =   theDate;
-        this.amountPaid             =   theAmountPaid;
-        this.assistanceStatus         =   theassistanceStatus;
-
+              this.requestID	= requestID	;
+              this.assistanceID	= assistanceID	;
+              this.clientID	= clientID	;
+              this.requestDate	= requestDate	;
+              this.amountPaid	= amountPaid	;
+              this.status	= status	;
+              this.dateDisbursed	= dateDisbursed	;
+              
     }
 
     /**
@@ -65,18 +71,20 @@ public class AssistanceRequest implements Serializable{
     }
 
     /**
-     * @return the client
+     * @return the clientID
      */
-    public Client getClient() {
-        return client;
+    public int getClientID() {
+        return clientID;
     }
 
     /**
-     * @param client the client to set
+     * @param clientID the clientID to set
      */
-    public void setClient(Client client) {
-        this.client = client;
+    public void setClientID(int clientID) {
+        this.clientID = clientID;
     }
+
+    
 
     /**
      * @return the requestDate
@@ -107,17 +115,17 @@ public class AssistanceRequest implements Serializable{
     }
 
     /**
-     * @return the assistanceStatus
+     * @return the status
      */
-    public String getAssistanceStatus() {
-        return assistanceStatus;
+    public String getStatus() {
+        return status;
     }
 
     /**
-     * @param assistanceStatus the assistanceStatus to set
+     * @param status the status to set
      */
-    public void setAssistanceStatus(String assistanceStatus) {
-        this.assistanceStatus = assistanceStatus;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     /**
@@ -132,6 +140,20 @@ public class AssistanceRequest implements Serializable{
      */
     public void setDateDisbursed(LocalDate dateDisbursed) {
         this.dateDisbursed = dateDisbursed;
+    }
+
+    /**
+     * @return the requestID
+     */
+    public int getRequestID() {
+        return requestID;
+    }
+
+    /**
+     * @param requestID the requestID to set
+     */
+    public void setRequestID(int requestID) {
+        this.requestID = requestID;
     }
 
 

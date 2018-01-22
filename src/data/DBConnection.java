@@ -1,6 +1,8 @@
 package data;
 
+import business.AssistanceRequest;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DBConnection {
     private DBConnection(){ }
@@ -37,6 +39,6 @@ public class DBConnection {
         //this will be for a DB2 database
     }
     
-    
+   
     
 }

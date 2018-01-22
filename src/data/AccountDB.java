@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class AccountDB {
         
@@ -275,6 +276,63 @@ public class AccountDB {
         rs.close();
         connection.close();
         return null;
+    }
+    
+    
+    /**
+     * it might be a good idea to get a client object
+     * @return 
+     */
+    public static ArrayList<AssistanceRequest> getAllAssistances(int clientID){
+        ArrayList<AssistanceRequest> allAssist = new ArrayList<AssistanceRequest>();
+        
+        Connection          connection        = DBConnection.getConnection(); 
+        PreparedStatement   ps                = null;
+        ResultSet           rs                = null;  
+        
+        String              query             = "SELECT * FROM SCM.TCF_REQUESTASSIST" + 
+                                                "WHERE clientID = ?";
+        
+        try{
+            ps      =   connection.prepareStatement(query);
+            ps.setInt(1, clientID);
+            rs      =   ps.executeQuery();
+            
+            AssistanceRequest    assistRequest =   null;                                                                          
+            
+            while(rs.next()){
+                assistRequest   =   new AssistanceRequest();
+                
+                assistRequest.setRequestID(rs.getInt("requestID"));
+                assistRequest.setAssistanceID(rs.getInt("assistanceID"));
+                assistRequest.setClientID(rs.getInt("clientID"));
+                assistRequest.setRequestDate(rs.getDate("requestedDate").toLocalDate());
+                assistRequest.setStatus(rs.getString("status"));
+                assistRequest.setDateDisbursed(rs.getDate("dateDisbursed").toLocalDate());
+                assistRequest.setAmountPaid(rs.getDouble("Amount"));
+                
+                allAssist.add(assistRequest);
+                
+                
+            }
+        }
+        catch(SQLException sqlException)            
+        {
+                  System.out.println(sqlException);
+                  
+                  return null;
+        }
+        finally
+        {
+            DBUtility.closeResultSet(rs);
+            DBUtility.closePreparedStatement(ps);
+            
+           return allAssist; 
+        }
+        
+        
+        
+        
     }
 
 }
