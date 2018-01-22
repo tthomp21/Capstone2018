@@ -37,6 +37,12 @@ public class DBConnection {
     public static void freeConnection(Connection c){
         //TODO: free the connection from the DB... again don't know how different
         //this will be for a DB2 database
+        
+        try{
+            c.close();
+        }catch(SQLException e){
+            System.out.println(e);
+        }
     }
     
    

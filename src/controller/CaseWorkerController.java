@@ -5,6 +5,7 @@
 package controller;
 
 import business.*;
+import data.ClientDB;
 import java.util.List;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class CaseWorkerController extends HttpServlet {
             throws ServletException, IOException {
         
         String url = "/views/caseworkerHome.jsp";
-                
+        String message = "";
         String action = request.getParameter("action");
         HttpSession session = request.getSession();
         
@@ -34,21 +35,21 @@ public class CaseWorkerController extends HttpServlet {
         
         if(caseWorker == null)
         {
-            //action = "sendHome";
-            
-            //dummy in some data for testing until the db gets up
-            
-            List<Client> workers = new ArrayList<Client>();
-            //workers.add(new Client())
+            action = "sendHome";
         }
         
         
         
         switch(action) {
             case "arrival":
+                //when the caseworker arrives on this page get all the clients assigned to them
+                ArrayList<Client> clients = getClients(caseWorker, session);
+                if(clients != null)
+                    session.setAttribute("foundClients", clients);
                 break;
             case "sendHome":
-                url = "/index.jsp";
+                //if there was an error gettin the user send them back home
+                url = "/AccountsController";
                 break;
             case "viewAllClients":
                 url = "/allClients";
@@ -59,6 +60,15 @@ public class CaseWorkerController extends HttpServlet {
         ServletContext sc = getServletContext();
         sc.getRequestDispatcher(url).forward(request, response);  
                 
+    }
+    
+    
+    public ArrayList<Client> getClients(CaseWorker caseWorker, HttpSession session)
+    {
+        //returns a list of clients from the DB
+        ArrayList<Client> allClients = new ArrayList<Client>();
+        allClients = ClientDB.getAllClientsForCaseWorker(caseWorker);
+        return allClients;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

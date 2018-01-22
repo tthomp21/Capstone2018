@@ -38,7 +38,15 @@
             </aside>
             
             <div id="main">
-                Caseworker main landing page.              
+                <table>
+                    <c:forEach var="c" items="${foundClients}" varStatus="status">
+                        <tr>
+                            <td>${c.firstName}</td>
+                            <td>${c.lastName}</td>
+                            <td>${c.clientID}</td>
+                        </tr>
+                    </c:forEach>  
+                </table>
             </div>
             
             <c:import url="../Includes/footer.html"/>            

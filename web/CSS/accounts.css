@@ -27,6 +27,8 @@
     height: 360px;
     min-height: 0px;
     background-color: #a39d79;
+    
+    border-radius: 15px;
 }
 
 #loginSelect {

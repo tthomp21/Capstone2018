@@ -6,6 +6,12 @@
 package data;
 
 import business.AssistanceRequest;
+import business.CaseWorker;
+import business.Client;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -36,5 +42,103 @@ public class ClientDB {
 	 
 	 return all;
            }
+           
+           public static ArrayList<Client> getAllClientsForCaseWorker(CaseWorker caseWorker)
+           {
+               ArrayList<Client> allClients = new ArrayList<Client>();
+               
+               Connection connection = DBConnection.getConnection();
+               String query = "SELECT * FROM TCF_Clients WHERE CaseWorkerID = ?";
+               ResultSet rs = null;
+               
+               try{
+                   PreparedStatement ps = connection.prepareStatement(query);
+                   ps.setInt(1,caseWorker.getCaseWorkerID());
+                   
+                   rs = ps.executeQuery();
+                   while(rs.next())
+                   {
+                       Client c = new Client();
+                       c.setBirthDate(rs.getDate("BirthDate").toLocalDate());
+                       c.setEnrollmentDate(rs.getDate("EnrollmentDate").toLocalDate());
+                       c.setCaseWorkerID(rs.getInt("CaseWorkerID"));
+                       c.setCity(rs.getString("City"));
+                       c.setCity(rs.getString("FirstName"));
+                       c.setCity(rs.getString("LastName"));
+                       c.setCity(rs.getString("MiddleInit"));
+                       c.setCity(rs.getString("Email"));
+                       c.setClientID(rs.getInt("ClientID"));
+                       c.setDependents(rs.getInt("Dependents"));
+                       c.setPhone(rs.getString("Phone"));
+                       c.setSSN(rs.getString("SSN"));
+                       c.setState(rs.getString("State"));
+                       c.setZip(rs.getString("Zip"));
+                       c.setPartnerID(rs.getInt("PartnerID"));
+                       int married = rs.getInt("Married");
+                       if(married == 0)
+                           c.setMarried(false);
+                       else if(married == 1)
+                           c.setMarried(true);
+                       else
+                           System.out.println("Married not set to 1 or 0.");
+                       
+                       allClients.add(c);
+                   }
+               }catch(SQLException e){
+                   
+               }finally{
+                   DBConnection.freeConnection(connection);
+               }
+               
+               return allClients;
+           }
+           
+           public static Client getClientWithID(int clientID)
+           {
+               Client c = new Client();
+               
+               Connection connection = DBConnection.getConnection();
+               String query = "SELECT * FROM TCF_Clients WHERE ClientID = ?";
+               ResultSet rs = null;
+               
+               try{
+                   PreparedStatement ps = connection.prepareStatement(query);
+                   ps.setInt(1,clientID);
+                   
+                   rs = ps.executeQuery();
+                   while(rs.next())
+                   {
+                       c.setBirthDate(rs.getDate("BirthDate").toLocalDate());
+                       c.setEnrollmentDate(rs.getDate("EnrollmentDate").toLocalDate());
+                       c.setCaseWorkerID(rs.getInt("CaseWorkerID"));
+                       c.setCity(rs.getString("City"));
+                       c.setCity(rs.getString("FirstName"));
+                       c.setCity(rs.getString("LastName"));
+                       c.setCity(rs.getString("MiddleInit"));
+                       c.setCity(rs.getString("Email"));
+                       c.setClientID(rs.getInt("ClientID"));
+                       c.setDependents(rs.getInt("Dependents"));
+                       c.setPhone(rs.getString("Phone"));
+                       c.setSSN(rs.getString("SSN"));
+                       c.setState(rs.getString("State"));
+                       c.setZip(rs.getString("Zip"));
+                       c.setPartnerID(rs.getInt("PartnerID"));
+                       int married = rs.getInt("Married");
+                       if(married == 0)
+                           c.setMarried(false);
+                       else if(married == 1)
+                           c.setMarried(true);
+                       else
+                           System.out.println("Married not set to 1 or 0.");
+                       
+                   }
+               }catch(SQLException e){
+                   
+               }finally{
+                   DBConnection.freeConnection(connection);
+               }
+               return c;
+           }
+           
     
 }
