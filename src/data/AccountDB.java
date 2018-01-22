@@ -206,9 +206,9 @@ public class AccountDB {
             int partnerID = rs.getInt("partnerID");
             int caseWorkerID = rs.getInt("caseWorkerID");
             
-            ps.close();
-            rs.close();
-            connection.close();
+            //ps.close();
+           // rs.close();
+           // connection.close();
             
             // create client
             Client client = new Client();

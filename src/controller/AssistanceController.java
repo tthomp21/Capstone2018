@@ -43,7 +43,7 @@ public class AssistanceController extends HttpServlet {
 	ServletContext cs = session.getServletContext();
 	
 	String url = ""; //= "/view/the default page";
-	String clientID = request.getParameter("clientID"); // get this from successful login.
+	String clientID = session.getAttribute("clientID").toString(); // get this from successful login.
 	
 	try{
 	          

@@ -20,7 +20,7 @@ public class AssistanceRequest implements Serializable{
     private int                     clientID         ;
     private LocalDate               requestDate      ;
     private double                  amountPaid       ;
-    private String                  status ;
+    private String                  status           ;
     private LocalDate               dateDisbursed    ;
 
     //the number of times a client has recieved an assitance might be taken from the list size for that assistance. we will see!!
