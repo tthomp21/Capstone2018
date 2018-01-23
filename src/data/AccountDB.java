@@ -14,6 +14,15 @@ import java.util.ArrayList;
 
 public class AccountDB {
         
+    // will free any resources that aren't null
+    private static void closeResources(PreparedStatement ps, ResultSet rs, Connection conn)
+    {
+        DBUtility.closePreparedStatement(ps);
+        DBUtility.closeResultSet(rs);
+        DBConnection.freeConnection(conn);
+    }
+    
+    
     // returns true if client already has an account
     public static boolean accountExists(int clientID) throws SQLException
     {
@@ -29,19 +38,13 @@ public class AccountDB {
             String un = rs.getString("username");
             if (un == null || un.isEmpty())
             {
-                ps.close();
-                rs.close();                
-                connection.close();
+                closeResources(ps, rs, connection);
                 return false;
             }
-            ps.close();
-            rs.close();
-            connection.close();
+            closeResources(ps, rs, connection);
             return true;
         }
-        ps.close();
-        rs.close();
-        connection.close();
+        closeResources(ps, rs, connection);
         return false;
     }
     
@@ -56,9 +59,7 @@ public class AccountDB {
         ResultSet rs = ps.executeQuery();
 
         boolean exists = rs.next(); 
-        ps.close();
-        rs.close();
-        connection.close();
+        closeResources(ps, rs, connection);
 
         return exists;
     }
@@ -80,15 +81,11 @@ public class AccountDB {
             
             if (actualSSN.equals(enteredSSN))
             {
-                ps.close();
-                rs.close();
-                connection.close();
+                closeResources(ps, rs, connection);
                 return true;
             }
         }
-        ps.close();
-        rs.close();
-        connection.close();
+        closeResources(ps, rs, connection);
         return false;
     }
     
@@ -113,15 +110,11 @@ public class AccountDB {
             
             if (currentUserName.equals(userName))
             {
-                ps.close();
-                rs.close();
-                connection.close();
+                closeResources(ps, rs, connection);
                 return false;
             }
         }
-        ps.close();
-        rs.close();
-        connection.close();
+        closeResources(ps, rs, connection);
         return true;
     }
   
@@ -139,8 +132,7 @@ public class AccountDB {
         ps.setInt(3, clientID);
         
         int rowsAffected = ps.executeUpdate(); 
-        ps.close();
-        connection.close();       
+        closeResources(ps, null, connection);       
         
         return (rowsAffected == 1);
     }
@@ -163,9 +155,7 @@ public class AccountDB {
         if (rs.next())
         {
             String actualPassword = rs.getString("password");
-            ps.close();
-            rs.close();
-            connection.close();
+            closeResources(ps, rs, connection);
             
             if (actualPassword.equals(enteredPassword))
             {
@@ -206,9 +196,7 @@ public class AccountDB {
             int partnerID = rs.getInt("partnerID");
             int caseWorkerID = rs.getInt("caseWorkerID");
             
-            //ps.close();
-           // rs.close();
-           // connection.close();
+            closeResources(ps, rs, connection);
             
             // create client
             Client client = new Client();
@@ -231,9 +219,8 @@ public class AccountDB {
             
             return client;
         }
-        ps.close();
-        rs.close();
-        connection.close();
+        // if somehow username was not found but no sqlerrors
+        closeResources(ps, rs, connection);
         return null;
     }    
 
@@ -257,9 +244,7 @@ public class AccountDB {
             String email = rs.getString("email");
             String office = rs.getString("office");            
             
-            ps.close();
-            rs.close();
-            connection.close();
+            closeResources(ps, rs, connection);
             
             // create caseworker
             CaseWorker cw = new CaseWorker();
@@ -272,9 +257,7 @@ public class AccountDB {
             
             return cw;
         }
-        ps.close();
-        rs.close();
-        connection.close();
+        closeResources(ps, rs, connection);
         return null;
     }
     
