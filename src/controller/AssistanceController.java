@@ -6,6 +6,8 @@
 package controller;
 
 import business.AssistanceRequest;
+import business.Client;
+import data.AccountDB;
 import data.ClientDB;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -43,17 +45,18 @@ public class AssistanceController extends HttpServlet {
 	ServletContext cs = session.getServletContext();
 	
 	String url = ""; //= "/view/the default page";
-	String clientID = session.getAttribute("clientID").toString(); // get this from successful login.
+	//String clientID = session.getAttribute("clientID").toString(); // get this from successful login.
+	Client clientID = (Client) session.getAttribute("clientID"); // get this from successful login.
 	
-	try{
+	/*try{
 	          
-	   int iClientID = Integer.parseInt(clientID);
+	   int iClientID = clientID.getClientID();
 	}
 	catch(Exception e)
 	{
 	         url = "/views/temporaryClientIndex.jsp";
 	         cs.getRequestDispatcher(url).forward(request, response);
-	}
+	}*/
 	
 	ArrayList<AssistanceRequest> allAssitancesList = (ArrayList<AssistanceRequest>) session.getAttribute("allAssitancesList");
 
@@ -75,7 +78,7 @@ public class AssistanceController extends HttpServlet {
 	 */
 	TreeMap<LocalDate, AssistanceRequest> sortedFoodList = new TreeMap<LocalDate, AssistanceRequest>();
 
-	// allAssitancesList = AccountsDB.getAllAssistances();
+	allAssitancesList = ClientDB.getTestData();
 	ArrayList<AssistanceRequest> foodList = new ArrayList<AssistanceRequest>();
 	ArrayList<AssistanceRequest> cashList = new ArrayList<AssistanceRequest>();
 	ArrayList<AssistanceRequest> medicaidList = new ArrayList<AssistanceRequest>();
@@ -87,9 +90,10 @@ public class AssistanceController extends HttpServlet {
 	          for (AssistanceRequest assist : allAssitancesList) {
 		if(assist.getStatus().equalsIgnoreCase("active"))
 		{
-		          sortedFoodList.put(assist.getDateDisbursed(), assist);
+		         foodList.add(assist);
+		          
 		}
-
+		         
 //		if (assist.getAnAssistance().getAssistanceDescription().equalsIgnoreCase("active")) {
 //		          foodList.add(assist);
 //
