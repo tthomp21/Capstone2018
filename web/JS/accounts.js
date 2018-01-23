@@ -231,7 +231,7 @@ function unfoldLoginSelect() {
         
         // clear create messages
         $("#createMsgDiv").css("background-color", "white");
-        $("#createMsg").empty();
+        $("#createMsgDiv").empty();
     }
     else {  // already unfolded, just show select div
         $("#loginSelect").fadeIn(500);
@@ -248,6 +248,9 @@ function unfoldClLogin() {
     
     // erase any login error messages
     $("#loginMsgCW").hide();   
+    // clear login messages
+    $("#loginMsgDivCW").css("background-color", "white");
+    $("#loginMsgDivCW").empty();
 }
 
 // shows case worker login div, highlights selected button
@@ -260,6 +263,9 @@ function unfoldCwLogin() {
     
     // erase any login error messages
     $("#loginMsgCL").hide();
+    // clear login messages
+    $("#loginMsgDivCL").css("background-color", "white");
+    $("#loginMsgDivCL").empty();
 }
 
 // animates footer adjustment between full or partial width

@@ -106,33 +106,33 @@ aside, #welcome {
     text-align: center;
     background-color: white;
 }
-.actForm {
+.loginForm {
     width: 700px;
     padding: 10px 22.5px 0px 22.5px; 
 }
-.actForm legend {
+.loginForm legend {
     font-size: 1.4em;
     font-weight: bold;
     margin-bottom: .5em;
 }
-.actForm input[type=text], .actForm input[type=password] {
+.loginForm input[type=text], .loginForm input[type=password] {
     width: 14em;
     margin-left: -200px;
     margin-right: 1em;
     margin-bottom: 1em;  
 }
-.actForm fieldset {    
+.loginForm fieldset {    
     margin-bottom: 1em;
     padding-top: .5em;
-    border-color: #f0e68c;    
+    border: none;
 }
-.actForm label {
+.loginForm label {
     float: left;
     text-align: right;
     width: 7em; 
     margin-left: 100px;
 }
-.actForm label.error{
+.loginForm label.error{
     float: right;
     color: red;
     position: absolute;    
@@ -153,34 +153,34 @@ aside, #welcome {
     width: auto;
 }
 
-/* create account */
-#createForm {
+/* create/manage account */
+.actForm {
     display: table;  
 }
 
-#createForm p {
+.actForm p {
     display: table-row;    
 }
 
-#createForm label {
+.actForm label {
     display: table-cell;
     padding: 10px;
 }
 
-#createForm input {
+.actForm input {
     display: table-cell;    
 }
 
-#createForm label.error {
+.actForm label.error {
     display: table-cell;
     color: red;
     text-align: left;
 }
-#createDiv {  
+.actDiv {  
     width: 650px;
     padding: 20px;
 }
-#createDiv h1 {
+.actDiv h1 {
     text-align: center;
     margin-top: 0px;
 }
@@ -201,6 +201,8 @@ aside, #welcome {
     line-height: 50px;
     color: white;
 }
+
+
 
 .glow {
     text-shadow: 0 15px 30px black;

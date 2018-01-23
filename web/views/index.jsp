@@ -54,11 +54,11 @@
             </aside>
             
             <div id="mainCreate">
-                <div id="createDiv">
+                <div id="createDiv" class="actDiv">
                     <h1>
                         Create a Client Account
                     </h1>
-                    <form action="AccountsController" method="post" id="createForm">                        
+                    <form action="AccountsController" method="post" id="createForm" class="actForm">                        
                         <p>
                             <label for="createClientID">Enter your Client ID#:</label>
                             <input type="text" id="createClientID" name="createClientID" value="${prevCreateClientID}"><br>
@@ -125,7 +125,7 @@
                 
             <div id="clientLogin">
                 <div class="loginDiv">                    
-                    <form action="AccountsController" method="post" id="loginFormCL" class="actForm">
+                    <form action="AccountsController" method="post" id="loginFormCL" class="loginForm">
                         <fieldset>
                             <legend>Enter your credentials</legend>
 
@@ -157,7 +157,7 @@
                 
             <div id="caseWorkerLogin">
                 <div class="loginDiv">
-                    <form action="AccountsController" method="post" id="loginFormCW" class="actForm">
+                    <form action="AccountsController" method="post" id="loginFormCW" class="loginForm">
                         <fieldset>
                             <legend>Enter your credentials</legend>
 
@@ -187,17 +187,59 @@
                     -->
                 </div>      
             </div>
-                            
-            <div id="loginSuccess">
-                
-            </div>
-            
+                           
             <div id="mainClient">
                 Manage Client Account Page                
             </div>
             
             <div id="mainCaseWorker">
-                Manage Case Worker Account Page                
+                <div id="manageCWDiv" class="actDiv">
+                    <h1>
+                        Edit Personal Information
+                    </h1>
+                    <form action="AccountsController" method="post" id="manageCWForm" class="actForm">                        
+<!--                        <p>
+                            <label for="manageCWPhone">Enter your Client ID#:</label>
+                            <input type="text" id="createClientID" name="createClientID" value="${prevCreateClientID}"><br>
+                        </p>
+
+                        <p>
+                            <label for="createSSN">Verify your SSN:</label>
+                            <input type="text" id="createSSN" name="createSSN" value="${prevCreateSSN}"><br>
+                        </p>
+
+                        <p>
+                            <label for="createUserName">Choose a User Name:</label>
+                            <input type="text" id="createUserName" name="createUserName" value="${prevCreateUserName}"><br>
+                        </p>
+
+                        <p>
+                            <label for="createPassword1">Choose a Password:</label>
+                            <input type="password" id="createPassword1" name="createPassword1" value="${prevCreatePassword1}"><br>
+                        </p>
+
+                        <p>
+                            <label for="createPassword2">Confirm Password:</label>
+                            <input type="password" id="createPassword2" name="createPassword2" value="${prevCreatePassword2}"><br>
+                        </p>
+
+                        <p>
+                            <label></label>
+                            <input type="hidden" name="action" value="manageCW"/>
+                            <input type="submit" name="submit" value="Update Account" class="button" id="btnUpdateCW"/>                                 
+                        </p>-->
+                    </form>
+                    
+                    <div id="manageMsgDiv" class="msgDiv">
+                        <c:if test="${not empty manageMsg}">
+                            <p id="manageMsg" class="errorMsg"><c:out value="${manageMsg}"/></p>
+                        </c:if>
+                        <c:if test="${not empty manageMsgSuccess}">
+                            <p id="manageMsgSuccess" class="successMsg"><c:out value="${manageMsgSuccess}"/></p>
+                        </c:if> 
+                    </div>
+                    
+                </div>                         
             </div>
                 
             
