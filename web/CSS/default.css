@@ -16,6 +16,7 @@ body {
     min-width: 1035px;
     min-height: 530px;
     border-radius: 15px;
+    
 }
 
 
@@ -167,6 +168,7 @@ footer {
     color: #3a3a3a;
     background-color: white;
     white-space: normal;
+    overflow: scroll;
 }
 
 @media screen and (max-height: 753px) {

@@ -21,10 +21,13 @@ public class AccountsController extends HttpServlet {
         HttpSession session = request.getSession();
         String url = "/views/index.jsp";
         
-        session.setAttribute("loginMsg", null);
-        session.setAttribute("loginType", null);         
-        session.setAttribute("redirect", null); 
-        
+        // Auto fill login forms for easy testing purposes ----- |
+        request.setAttribute("prevLoginUserNameCW", "testing");//|
+        request.setAttribute("prevLoginPasswordCW", "testing");//|
+        request.setAttribute("prevLoginUserNameCL", "testun");// |
+        request.setAttribute("prevLoginPasswordCL", "pppppp");// |
+        // ------------------------------------------------------|
+                
         User user = null;
         
         String action = request.getParameter("action");
@@ -35,69 +38,49 @@ public class AccountsController extends HttpServlet {
         switch(action) {
             case "arrival":                
                 break;
-            case "manageClient":                
-                break;
-            case "manageCaseWorker":
-                break;
             case "logout":                     
                 // delete user from session
                 session.setAttribute("user", null);
                 break;
-            case "loginAsCL":
-                // authenticate user
+            case "manageClient":
+                break;
+            case "manageCaseWorker":
+                break;
+                
+            // account management actions
+            case "updateClient":                
+                if (updateClientInfo(request))
+                {
+                    String manageMsgSuccess = 
+                        "Your Account has been successfully updated";
+                    request.setAttribute("manageMsgSuccess", manageMsgSuccess);
+                }
+                else 
+                    request.setAttribute("manageType", "cl");
+                break;
+            case "updateCaseWorker":                
+                request.setAttribute("manageType", "cw");
+                if (updateCaseWorkerInfo(request))
+                {
+                    String manageMsgSuccess = 
+                        "Your Account has been successfully updated";
+                    request.setAttribute("manageMsgSuccess", manageMsgSuccess);                
+                }
+                break;
+            // login actions
+            case "loginAsCL":              
                 if (clientLogIn(request))
-                {
-                    // redirect to client controller
-                    session.setAttribute("redirect", "/AssistanceController");
-                }
+                    request.setAttribute("redirect", "/AssistanceController");                
                 else
-                {                    
-                    // if login fails
-                    session.setAttribute("loginType", "cl");
-                    // loginMsg (on error) or user (on success) created and stored
-                }                 
+                    request.setAttribute("loginType", "cl");
                 break;
-            case "loginAsCW":
-                // authenticate user
+            case "loginAsCW":            
                 if (caseWorkerLogIn(request))
-                {
-                    // redirect to client controller
-                    session.setAttribute("redirect", "/CaseWorkerController");
-                }
+                    request.setAttribute("redirect", "/CaseWorkerController");
                 else
-                {                    
-                    // if login fails
-                    session.setAttribute("loginType", "cw");
-                    // loginMsg (on error) or user (on success) created and stored
-                }       
+                    request.setAttribute("loginType", "cw");                       
                 break;
-                
-//            // testing
-//            case "testLoginAsCL":
-//                // redirect to client controller
-//                session.setAttribute("redirect", "/AssistanceController");
-//                
-//                // create test client user
-//                user = new Client(1, "clientFirstName", "MI", "lastName", "###phone##", 
-//                        "email", "###ssn###", "city", "state", "#zip#", 
-//                        LocalDate.of(2009, Month.APRIL, 11), true, LocalDate.of(2016, Month.AUGUST, 16),
-//                        2, 2, 1);
-//                
-//                // store in session
-//                session.setAttribute("user", user);
-//                break;
-//            case "testLoginAsCW":
-//                // redirect to case worker controller
-//                session.setAttribute("redirect", "/CaseWorkerController"); 
-//                
-//                // create test caseworker user
-//                user = new CaseWorker(1, "caseWorkerFirstName", "lastName", 
-//                        "###phone##", "email", "officeD2");
-//                
-//                // store in session
-//                session.setAttribute("user", user);                
-//                break;
-                
+            // create account action
             case "create":
                 if (accountCreation(request))
                 {
@@ -228,6 +211,7 @@ public class AccountsController extends HttpServlet {
         }  
     }
     
+    
     // validates and authenticates client login
     private boolean clientLogIn(HttpServletRequest request)
     {        
@@ -333,6 +317,123 @@ public class AccountsController extends HttpServlet {
     }
     
     
+    // handles updating of case worker account info
+    private boolean updateCaseWorkerInfo(HttpServletRequest request) {
+        String manageMsg;
+        String sqlErrorMsg = "There was an error with the database connection";
+        CaseWorker user;
+        
+        HttpSession session = request.getSession();
+        String userName = ((CaseWorker)session.getAttribute("user")).getUserName();        
+                
+        // retrieves name of field being updated
+        String fieldName = request.getParameter("fieldName");
+            
+        if (fieldName == null)
+            return false;
+        
+        // retrieve confirmation password and update field from update form
+        String managePasswordCW = (String) request.getParameter("managePasswordCW");        
+        String fieldValue = (String) request.getParameter("fieldValue");
+        String fieldValue2 = null;
+        
+        // retain form values
+        switch (fieldName) {
+            case "password":
+                // get second password field if chosen
+                fieldValue2 = (String) request.getParameter("fieldValue2");
+                request.setAttribute("prevManagePassword1CW", fieldValue);                
+                request.setAttribute("prevManagePassword2CW", fieldValue2);
+                break;
+            case "phone":
+                request.setAttribute("prevManagePhoneCW", fieldValue);      
+                break;
+            case "email":
+                request.setAttribute("prevManageEmailCW", fieldValue);      
+                break;
+            case "username":
+                request.setAttribute("prevManageUserNameCW", fieldValue);      
+                break;
+        }
+        
+        // validate chosen field
+        String validationMsg = Accounts.isValidUpdateField(fieldName, fieldValue, fieldValue2);
+        if (!validationMsg.isEmpty())
+        {
+            manageMsg = validationMsg;
+            request.setAttribute("manageMsg", manageMsg);
+            return false;
+        }
+        else
+        {
+            QueryResult results;
+            
+            // verify password for update
+            results = Accounts.authenticateUser(userName, managePasswordCW, "caseWorker");
+            if (!results.successful()) 
+            {            
+                if (results.sqlErrors())
+                    manageMsg = sqlErrorMsg;
+                else                 
+                    manageMsg = "Your password is incorrect";   
+
+                request.setAttribute("manageMsg", manageMsg);
+                return false;
+            }
+            
+            // if updating username, check to make sure it is not taken
+            if (fieldName.equals("username"))
+            {
+                results = Accounts.isValidUserName(fieldValue);
+                if (!results.successful()) 
+                {            
+                    if (results.sqlErrors())
+                        manageMsg = sqlErrorMsg;
+                    else                 
+                        manageMsg = "That User Name is already taken";   
+
+                    request.setAttribute("manageMsg", manageMsg);
+                    return false;
+                }                
+            }
+            
+            // update chosen field with new value
+            if (Accounts.updateField("caseworkers", userName, fieldName, fieldValue))
+            {
+                if (fieldName.equals("username"))
+                    userName = fieldValue;
+                
+                user = Accounts.logInCaseWorker(userName);
+                if (user == null)
+                    return false;
+                session.setAttribute("user", user);
+                return true;            
+            }
+            else 
+            {
+                manageMsg = "There was an error updating database"; 
+                request.setAttribute("manageMsg", manageMsg);
+                return false;
+            }
+        }        
+    }  
+    
+    
+    // ----------------------------------------------------
+    
+    // handles updating of client account info
+    private boolean updateClientInfo(HttpServletRequest request) {
+        String manageMsg = "";
+        String sqlErrorMsg = "sdfasdfsdfasdsa";
+        
+        HttpSession session = request.getSession();
+        String userName = ((Client)session.getAttribute("user")).getUserName();
+        
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }    
+    
+    
+    
     // ---------------------------------------------------------------------------
     
     @Override
@@ -353,4 +454,6 @@ public class AccountsController extends HttpServlet {
     public String getServletInfo() {
         return "Account Management for TCF - Sayel Rammaha";
     }
+
+
 }

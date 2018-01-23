@@ -8,14 +8,16 @@ public abstract class User {
     private String lastName;
     private String phone;
     private String email;
+    private String userName;
     
     
-    protected User(String first, String last, String phone, String email)
+    protected User(String first, String last, String phone, String email, String userName)
     {
         firstName = first;
         lastName = last;
         this.phone = phone;
         this.email = email;
+        this.userName = userName;
     }
     
     
@@ -50,6 +52,14 @@ public abstract class User {
     public void setEmail(String email)
     {
         this.email = email;
+    }
+    public String getUserName()
+    {
+        return userName;
+    }
+    public void setUserName(String userName)
+    {
+        this.userName = userName;
     }
     
 }

@@ -9,6 +9,7 @@ public class Client extends User {
     private String SSN;
     private String middleInit;
     private String city;
+    private String street;
     private String state;
     private String zip;
     private LocalDate birthDate;
@@ -21,15 +22,15 @@ public class Client extends User {
     
     public Client() 
     {
-        super("", "", "", "");
+        super("", "", "", "", "");
     }
     
-    public Client(int id, String first, String mInit, String last, String phone, 
+    public Client(int id, String userName, String first, String mInit, String last, String phone, 
             String email, String ssn, String city, String state, String zip,
             LocalDate birthDate, boolean married, LocalDate enrollmentDate, 
             int dependents, int partnerID, int caseWorkerID)
     {
-        super(first, last, phone, email);
+        super(first, last, phone, email, userName);
         clientID = id;
         middleInit = mInit;
         SSN = ssn;
@@ -68,6 +69,14 @@ public class Client extends User {
     public void setMiddleInit(String middleInit)
     {
         this.middleInit = middleInit;
+    }
+    public String getStreet()
+    {
+        return street;
+    }
+    public void setStreet(String street)
+    {
+        this.street = street;
     }
     public String getCity()
     {

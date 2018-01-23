@@ -13,11 +13,12 @@
     min-height: 590px;    
     color: #3a3a3a;
     background-color: white;
-    white-space: normal;
-    overflow: hidden;
+    white-space: normal;    
+    overflow: scroll;
 }
 
-#clientLogin, #caseWorkerLogin, #frontImages {
+/* login forms */
+#clientLogin, #caseWorkerLogin {
     top: 300px;
     left: 150px;
     right: 150px;
@@ -27,10 +28,11 @@
     height: 360px;
     min-height: 0px;
     background-color: #a39d79;
-    
+    overflow: hidden;
     border-radius: 15px;
 }
 
+/* buttons to select client/caseworker login forms */
 #loginSelect {
     position: absolute;  
     top: 245px;
@@ -41,7 +43,6 @@
     width: 750px;
     text-align: center;    
 }
-
 #loginSelect ul {
     padding: 0px;
     margin: 0px;
@@ -54,7 +55,6 @@
     background-color: white;   
     margin: 0px;
 }
-
 #loginSelect a {
     text-decoration: none;
     color: black;
@@ -63,38 +63,19 @@
     font-family: tahoma;
     padding: 0px;
 }
-
 #loginSelect a:hover, #loginSelect li:hover {
     background-color: lightgrey;
     cursor: pointer;
 }
-
 #loginSelect a:visited {
     color: black;
 }
 
+/* left column/welcome options */
 aside, #welcome {    
     width: auto;
     right: 150px;
     left: 150px;
-}
-
-#hiddenDiv {
-    display: none;
-}
-
-.button {
-    position: relative;
-    padding: 10px;
-    background-color: #4CAF50;
-    border: none;
-    font-size: 1em;
-    color: #FFFFFF;
-    text-align: center;
-    text-decoration: none;
-    overflow: hidden;
-    cursor: pointer;
-    width: 200px;
 }
 
 /* login forms */
@@ -140,53 +121,142 @@ aside, #welcome {
     width: auto;
     margin-left: 0;
 }
+
+
+/* create account form */
+#createForm {
+    display: table;  
+}
+#createForm p {
+    display: table-row;    
+}
+#createForm label {
+    display: table-cell;
+    padding: 10px;
+}
+#createForm input {
+    display: table-cell;    
+}
+#createForm label.error {
+    display: table-cell;
+    color: red;
+    text-align: left;
+}
+#createDiv {  
+    width: 650px;
+    padding: 20px;
+}
+#createDiv h1 {    
+    margin-top: 0px;
+    text-align: center;
+}
+#btnCreate {
+    margin-top: 10px;
+    width: 173px;
+}
+
+/* manage account forms */
+.manageFormsTable td { 
+}
+.manageFormsTable tr:nth-child(odd) {
+    background-color: #e0e0e0;
+}
+.manageDiv {
+    overflow: hidden;
+    width: 850px;
+}
+.manageDiv h1 {
+    text-align: center;
+}
+
+.manageForm {
+    display: table;    
+    font-size: 1.25em;
+}
+.manageForm p {
+    display: table-row;    
+}
+.manageCell {
+    display: table-cell;
+    vertical-align: bottom;  
+    min-width: 1000px;
+}
+.manageForm label {
+    display: table-cell;
+    padding: 3px;
+    width: 220px;
+    text-align: right;
+}
+.manageCell p:first-child {
+    font-weight: bold;
+    text-align: center;
+}
+.manageCell p:first-child label {
+    font-weight: bold;
+    text-align: left;
+}
+.manageForm span {
+    font-size: 1.4em;
+    margin-left: 5px;   
+}
+.manageForm input:not([type=submit]) {
+    display: table-cell;    
+    padding: 3px;
+    margin-left: 5px;
+}
+.manageForm input[type=submit] {
+    width: auto;
+    padding: 3px 10px;
+    margin-left: 5px;
+    width: 179px;
+    margin-top: 5px;
+}
+.manageForm label.error {
+    display: table-cell;
+    color: red;
+    text-align: left;
+    width: auto;
+}
+
+#manageMsgDivCW, #manageMsgDivCL {
+    margin: -15px auto 10px auto;    
+}
+
+
+/* hidden nonsense */
+#hiddenDiv {
+    display: none;
+}
+
+.glow {
+    text-shadow: 0 15px 30px black;
+}
+
+/* base green button properties */
+.button {
+    position: relative;
+    padding: 10px;
+    background-color: #4CAF50;
+    border: none;
+    font-size: 1em;
+    color: #FFFFFF;
+    text-align: center;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+    width: 200px;
+}
+
+/* messages from controller relaying db action results */
 .errorMsg {
     text-align: center;
-    color: red;
     font-size: 1.5em;
     width: auto;
 }
 .successMsg {
     text-align: center;
-    color: green;
     font-size: 1.5em;
     width: auto;
-}
-
-/* create/manage account */
-.actForm {
-    display: table;  
-}
-
-.actForm p {
-    display: table-row;    
-}
-
-.actForm label {
-    display: table-cell;
-    padding: 10px;
-}
-
-.actForm input {
-    display: table-cell;    
-}
-
-.actForm label.error {
-    display: table-cell;
-    color: red;
-    text-align: left;
-}
-.actDiv {  
-    width: 650px;
-    padding: 20px;
-}
-.actDiv h1 {
-    text-align: center;
-    margin-top: 0px;
-}
-#btnCreate {
-    margin-top: 10px;
-    width: 173px;
 }
 .msgDiv {
     width: 610px;
@@ -201,10 +271,3 @@ aside, #welcome {
     line-height: 50px;
     color: white;
 }
-
-
-
-.glow {
-    text-shadow: 0 15px 30px black;
-}
-

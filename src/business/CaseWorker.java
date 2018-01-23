@@ -9,13 +9,13 @@ public class CaseWorker extends User{
 
     public CaseWorker()
     {
-        super("", "", "", "");        
+        super("", "", "", "", "");        
     }
     
-    public CaseWorker(int id, String first, String last, String phone, 
+    public CaseWorker(int id, String userName, String first, String last, String phone, 
             String email, String office)
     {
-        super(first, last, phone, email);
+        super(first, last, phone, email, userName);
         caseWorkerID = id;
         this.office = office;
     }

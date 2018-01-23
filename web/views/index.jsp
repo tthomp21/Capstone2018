@@ -45,20 +45,18 @@
                             </ul>                            
                         </c:when> 
                     </c:choose>
-                </div>
-                
+                </div>                
                 <nav>
                     <c:import url="../Includes/accountsNav.html"/>
                 </nav>
-                
             </aside>
             
             <div id="mainCreate">
-                <div id="createDiv" class="actDiv">
+                <div id="createDiv">
                     <h1>
                         Create a Client Account
                     </h1>
-                    <form action="AccountsController" method="post" id="createForm" class="actForm">                        
+                    <form action="AccountsController" method="post" id="createForm">                        
                         <p>
                             <label for="createClientID">Enter your Client ID#:</label>
                             <input type="text" id="createClientID" name="createClientID" value="${prevCreateClientID}"><br>
@@ -105,6 +103,7 @@
             
             <div id="hiddenDiv">
                 <c:if test="${not empty redirect}">
+                    <span id="redirect"><c:out value="${redirect}"/></span>
                     <script id="rScript">
                         var timer = setTimeout(function() {
                             window.location="<c:out value="${redirect}"/>";
@@ -113,7 +112,10 @@
                 </c:if>
                 <c:if test="${not empty loginType}">                    
                     <span id="loginType"><c:out value="${loginType}"/></span>  
-                </c:if>                
+                </c:if> 
+                <c:if test="${not empty manageType}">                    
+                    <span id="manageType"><c:out value="${manageType}"/></span>  
+                </c:if>
             </div>
                 
             <div id="loginSelect">
@@ -133,7 +135,7 @@
                             <input type="text" id="loginUserNameCL" name="loginUserNameCL" autofocus="true" value="${prevLoginUserNameCL}"><br>
 
                             <label for="loginPasswordCL">Password:</label>
-                            <input type="password" id="loginPasswordCL" name="loginPasswordCL" value="${prevPasswordNameCL}"><br>
+                            <input type="password" id="loginPasswordCL" name="loginPasswordCL" value="${prevLoginPasswordCL}"><br>
                         
                             <input type="hidden" name="action" value="loginAsCL"/>
                             <input type="submit" name="submit" value="Log In" class="button"/>
@@ -145,13 +147,7 @@
                         <c:if test="${loginType == 'cl'}">
                             <p id="loginMsgCL" class="errorMsg"><c:out value="${loginMsg}"/></p>
                         </c:if>
-                    </div>
-                    <!--        
-                    <form action="AccountsController" method="post" id="testLoginFormCL" class="actForm">
-                        <input type="hidden" name="action" value="testLoginAsCL"/>
-                        <input type="submit" name="submit" value="Dummy login for testing" class="button"/>                                                       
-                    </form>
-                    -->
+                    </div>                    
                 </div>       
             </div>
                 
@@ -178,13 +174,6 @@
                             <p id="loginMsgCW" class="errorMsg"><c:out value="${loginMsg}"/></p>
                         </c:if>
                     </div>
-                       
-                    <!--        
-                    <form action="AccountsController" method="post" id="testLoginFormCW" class="actForm">
-                        <input type="hidden" name="action" value="testLoginAsCW"/>
-                        <input type="submit" name="submit" value="Dummy login for testing" class="button"/>                                                       
-                    </form>
-                    -->
                 </div>      
             </div>
                            
@@ -193,44 +182,12 @@
             </div>
             
             <div id="mainCaseWorker">
-                <div id="manageCWDiv" class="actDiv">
+                <div class="manageDiv">
                     <h1>
                         Edit Personal Information
-                    </h1>
-                    <form action="AccountsController" method="post" id="manageCWForm" class="actForm">                        
-<!--                        <p>
-                            <label for="manageCWPhone">Enter your Client ID#:</label>
-                            <input type="text" id="createClientID" name="createClientID" value="${prevCreateClientID}"><br>
-                        </p>
-
-                        <p>
-                            <label for="createSSN">Verify your SSN:</label>
-                            <input type="text" id="createSSN" name="createSSN" value="${prevCreateSSN}"><br>
-                        </p>
-
-                        <p>
-                            <label for="createUserName">Choose a User Name:</label>
-                            <input type="text" id="createUserName" name="createUserName" value="${prevCreateUserName}"><br>
-                        </p>
-
-                        <p>
-                            <label for="createPassword1">Choose a Password:</label>
-                            <input type="password" id="createPassword1" name="createPassword1" value="${prevCreatePassword1}"><br>
-                        </p>
-
-                        <p>
-                            <label for="createPassword2">Confirm Password:</label>
-                            <input type="password" id="createPassword2" name="createPassword2" value="${prevCreatePassword2}"><br>
-                        </p>
-
-                        <p>
-                            <label></label>
-                            <input type="hidden" name="action" value="manageCW"/>
-                            <input type="submit" name="submit" value="Update Account" class="button" id="btnUpdateCW"/>                                 
-                        </p>-->
-                    </form>
+                    </h1>                    
                     
-                    <div id="manageMsgDiv" class="msgDiv">
+                    <div id="manageMsgDivCW" class="msgDiv">
                         <c:if test="${not empty manageMsg}">
                             <p id="manageMsg" class="errorMsg"><c:out value="${manageMsg}"/></p>
                         </c:if>
@@ -239,11 +196,114 @@
                         </c:if> 
                     </div>
                     
-                </div>                         
-            </div>
-                
-            
-            
+                    <table class="manageFormsTable">
+                        <tr><td>    
+                            <form action="AccountsController" method="post" class="manageForm" id="phoneFormCW">                        
+                                <div class="manageCell">
+                                    <p>
+                                        <label>Current Phone Number:</label>
+                                        <span><c:out value="${user.phone}"/></span>
+                                    </p>
+                                    <p>    
+                                        <label for="fieldValue">Change Phone Number:</label>
+                                        <input type="text" name="fieldValue" value="${prevManagePhoneCW}">
+                                    </p>
+                                    <p>
+                                        <label for="managePasswordCW">Verify current password:</label>
+                                        <input type="password" name="managePasswordCW" value="">
+                                    </p>
+                                    <p>                                        
+                                        <label></label>
+                                        <input type="hidden" name="action" value="updateCaseWorker"/>
+                                        <input type="hidden" name="fieldName" value="phone"/>
+                                        <input type="submit" name="submit" value="Update Account" class="button"/>                                 
+                                    </p>
+                                </div>   
+                            </form>
+                        </td></tr>   
+                        
+                        <tr><td> 
+                            <form action="AccountsController" method="post" class="manageForm" id="emailFormCW">
+                                <div class="manageCell">
+                                    <p>
+                                        <label>Current Email:</label>
+                                        <span><c:out value="${user.email}"/></span>
+                                    </p>
+                                    <p>    
+                                        <label for="fieldValue">Change email:</label>
+                                        <input type="text" name="fieldValue" value="${prevManageEmailCW}">
+                                    </p>
+                                    <p>    
+                                        <label for="managePasswordCW">Verify current password:</label>
+                                        <input type="password" name="managePasswordCW" value="">
+                                    </p>
+                                    <p>                                        
+                                        <label></label>
+                                        <input type="hidden" name="action" value="updateCaseWorker"/>
+                                        <input type="hidden" name="fieldName" value="email"/>
+                                        <input type="submit" name="submit" value="Update Account" class="button"/>                                 
+                                    </p>
+                                </div>
+                            </form>  
+                        </td></tr> 
+                        
+                        <tr><td> 
+                            <form action="AccountsController" method="post" class="manageForm" id="userNameFormCW">
+                                <div class="manageCell">    
+                                    <p>
+                                        <label>Current User Name:</label>
+                                        <span><c:out value="${user.userName}"/></span>
+                                    </p>
+                                    <p>
+                                        <label for="fieldValue">Change User Name:</label>
+                                        <input type="text" name="fieldValue" value="${prevManageUserNameCW}">
+                                    </p>
+                                    <p>   
+                                        <label for="managePasswordCW">Verify current password:</label>
+                                        <input type="password" name="managePasswordCW" value="">
+                                    </p>
+                                    <p>
+                                        <label></label>
+                                        <input type="hidden" name="action" value="updateCaseWorker"/>
+                                        <input type="hidden" name="fieldName" value="username"/>
+                                        <input type="submit" name="submit" value="Update Account" class="button"/>                                 
+                                    </p>
+                                </div>                                
+                            </form>  
+                        </td></tr> 
+                        
+                        <tr><td> 
+                            <form action="AccountsController" method="post" class="manageForm" id="passwordFormCW">
+                                <div class="manageCell">  
+                                    <p>
+                                        <label>Change Password:</label>
+                                        <span></span>
+                                    </p>
+                                    <p>
+                                        <label for="fieldValue">New password:</label>
+                                        <input type="password" name="fieldValue" value="${prevManagePassword1CW}" id="newPW"><br>
+                                    </p>
+                                    <p> 
+                                        <label for="fieldValue2">Confirm password:</label>
+                                        <input type="password" name="fieldValue2" value="${prevManagePassword2CW}"><br>
+                                    </p>
+                                    <p> 
+                                        <label for="managePasswordCW">Verify current password:</label>
+                                        <input type="password" name="managePasswordCW" value=""><br>
+                                    </p>
+                                    <p>
+                                        <label></label>
+                                        <input type="hidden" name="action" value="updateCaseWorker"/>
+                                        <input type="hidden" name="fieldName" value="password"/>
+                                        <input type="submit" name="submit" value="Update Account" class="button"/>                                 
+                                    </p>
+                                </div>                                
+                            </form>
+                        </td></tr> 
+                    </table>           
+                             
+                </div>
+            </div>    
             <c:import url="../Includes/footer.html"/>            
         </div>
     </body>

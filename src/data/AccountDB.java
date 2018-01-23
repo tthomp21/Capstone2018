@@ -137,6 +137,32 @@ public class AccountDB {
         return (rowsAffected == 1);
     }
     
+    // updates a given field with a new value for a given username
+    public static boolean updateInfo(String userType, String userName, String fieldName, String fieldValue) throws SQLException
+    {
+        Connection connection = DBConnection.getConnection(); 
+        String query = "update scm.tcf_" + userType +
+                " set " + fieldName + " = ? where username = ?";
+
+        PreparedStatement ps = connection.prepareStatement(query);
+        
+        if (fieldName.equals("dependents"))
+        {
+            int value = Integer.parseInt(fieldValue);
+            ps.setInt(1, value);
+        }
+        else 
+        {
+            ps.setString(1, fieldValue);
+        }
+        ps.setString(2, userName);
+        
+        int rowsAffected = ps.executeUpdate(); 
+        closeResources(ps, null, connection);       
+        
+        return (rowsAffected == 1);
+    }
+        
     // returns true if entered password matches password for entered user name
     public static boolean verifyPassword(String userName, String enteredPassword, String user) throws SQLException
     {
@@ -185,6 +211,7 @@ public class AccountDB {
             String phone = rs.getString("phone");
             String email = rs.getString("email");
             String ssn = rs.getString("ssn");
+            String street = rs.getString("street");
             String city = rs.getString("city");
             String state = rs.getString("state");
             String zip = rs.getString("emzip");
@@ -207,6 +234,7 @@ public class AccountDB {
             client.setPhone(phone);
             client.setEmail(email);
             client.setSSN(ssn);
+            client.setStreet(street);
             client.setCity(city);
             client.setState(state);
             client.setZip(zip + "-" + zipExt);
@@ -216,6 +244,7 @@ public class AccountDB {
             client.setDependents(dependents);
             client.setPartnerID(partnerID);
             client.setCaseWorkerID(caseWorkerID);
+            client.setUserName(userName);
             
             return client;
         }
@@ -254,12 +283,15 @@ public class AccountDB {
             cw.setPhone(phone);
             cw.setEmail(email);
             cw.setOffice(office);
+            cw.setUserName(userName);
             
             return cw;
         }
         closeResources(ps, rs, connection);
         return null;
     }
+    
+    
     
     
     /**

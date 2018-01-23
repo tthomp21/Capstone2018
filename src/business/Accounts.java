@@ -15,6 +15,11 @@ public class Accounts {
     // |*** VALIDATION METHODS ***|
     // ----------------------------
        
+    // dynamically validate a given account info update field
+    public static String isValidUpdateField(String fieldName, String fieldValue, String fieldValue2)
+    {
+        return "";
+    }
 
     // checks test against minCharLength
     public static boolean isValidLength(String test, int minCharLength)
@@ -122,6 +127,8 @@ public class Accounts {
         return result;    
     }
     
+    
+    
     // --------------------------
     // |*** DATABASE ACTIONS ***|
     // --------------------------
@@ -138,6 +145,20 @@ public class Accounts {
         }
         return success;
     }
+    
+    // makes call to db layer to update a field in client or caseworker table
+    public static boolean updateField(String userType, String userName, String fieldName, String fieldValue)
+    {        
+        boolean success;
+        try {
+            success = AccountDB.updateInfo(userType, userName, fieldName, fieldValue);
+        }
+        catch (SQLException e) {
+            return false;
+        }
+        return success;
+    }
+    
     
     // makes call to db layer to retrieve client object from username
     public static Client logInClient(String userName)

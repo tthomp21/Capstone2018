@@ -38,6 +38,11 @@ $(document).ready(function() {
     {        
         setCssForCreateMsg();
     }
+    // if account update attempted
+    else if ($("#manageType").length > 0)
+    {
+        setCssForManageMsg();
+    }
     // action checks
     else 
     {
@@ -47,13 +52,15 @@ $(document).ready(function() {
         {
             setCssForManageAccount();
             $("nav").load("Includes/clientNav.html");            
-            $("#mainClient").fadeIn(1000);
+            $("#mainClient").fadeIn(1000);           
+            $("#manageMsgDivCL").css("background-color", "white");
         }
         else if (action === "manageCaseWorker")
         {
             setCssForManageAccount();
             $("nav").load("Includes/caseWorkerNav.html");
             $("#mainCaseWorker").fadeIn(1000);
+            $("#manageMsgDivCW").css("background-color", "white");
         }
         else // first arrival, or from logging out 
         {
@@ -151,7 +158,110 @@ $(document).ready(function() {
                 digits: "Client ID# must be numeric"
             },
             createSSN: {
-                rangelength: "Please enter a 9-digit social security number"
+                rangelength: "Please enter a 9-digit social security number."
+            }
+        }
+    });
+    
+    $("#phoneFormCW").validate({
+        rules: {
+            fieldValue: {
+                required: true, 
+                digits: true,
+                rangelength: [10, 10]
+            },
+            managePasswordCW: {
+                required: true,
+                minlength: 6
+            }
+        },
+        messages: {
+            fieldValue: {
+                required: "Please enter your phone number.", 
+                rangelength: "Please enter a 10-digit phone number"
+            },
+            managePasswordCW: {
+                required: "Please enter your password.",
+                minlength: "Password must be at least 6 characters"
+            }
+        }
+    });
+    
+    $("#emailFormCW").validate({
+        rules: {
+            fieldValue: {
+                required: true, 
+                email: true
+            },
+            managePasswordCW: {
+                required: true,
+                minlength: 6
+            }
+        },
+        messages: {
+            fieldValue: {
+                required: "Please enter your email address.", 
+                email: "Email address invalid."
+            },
+            managePasswordCW: {
+                required: "Please enter your password.",
+                minlength: "Password must be at least 6 characters"
+            }
+        }
+    });
+    
+    $("#userNameFormCW").validate({
+        rules: {
+            fieldValue: {
+                required: true, 
+                minlength: 6
+            },
+            managePasswordCW: {
+                required: true,
+                minlength: 6
+            }
+        },
+        messages: {
+            fieldValue: {
+                required: "Please enter a new user name.", 
+                minlength: "User name must be at least 6 characters"
+            },
+            managePasswordCW: {
+                required: "Please enter your password.",
+                minlength: "Password must be at least 6 characters"
+            }
+        }
+    });
+    
+    $("#passwordFormCW").validate({
+        rules: {
+            fieldValue: {
+                required: true, 
+                minlength: 6
+            },
+            fieldValue2: {
+                required: true, 
+                minlength: 6,
+                equalTo: "#newPW"
+            },
+            managePasswordCW: {
+                required: true,
+                minlength: 6
+            }
+        },
+        messages: {
+            fieldValue: {
+                required: "Please enter a new password.", 
+                minlength: "Password must be at least 6 characters."
+            },
+            fieldValue2: {
+                required: "Please confirm your new password.", 
+                minlength: "Password must be at least 6 characters.",
+                equalTo: "Passwords must match."
+            },
+            managePasswordCW: {
+                required: "Please enter your current password.",
+                minlength: "Password must be at least 6 characters."
             }
         }
     });
@@ -320,6 +430,10 @@ function animateTransition() {
     $("aside").stop(false, true);
     $("aside").css("min-width", "270px");
     $("aside").delay(1000).animate({width: "270px", left: "15px"}, 400, "linear", function() { 
+        if ($("#redirect").html() === "/CaseWorkerController")
+            $("nav").load("Includes/caseWorkerNav.html");
+        else 
+            $("nav").load("Includes/clientNav.html");
         adjustNav();
         adjustFooter();
     });   
@@ -375,6 +489,9 @@ function setCssForManageAccount() {
     // set footer partial width
     $("footer").css("left", "300px");
 
+    // hide msg div
+    $("#manageMsgDivCW").hide();
+    
     // disable manage account link, since already there
     $("#btnManageAccount").click(function(e) {
         e.preventDefault();
@@ -404,9 +521,7 @@ function setCssForLoginMsg() {
         $("#btnCaseWorker").css("background-color", "#f0e68c");
         
         $("#loginMsgDivCW").css("background-color", "red");
-    }
-    
-    
+    }    
 }
 
 // set css to keep view the same and display error msg
@@ -437,5 +552,34 @@ function setCssForCreateMsg() {
     $("#btnCreateAccount").click(function(e) {
         e.preventDefault();
     });
+}
+
+// set css to keep view the same and display error msg
+function setCssForManageMsg() {
+    setCssForManageAccount();
+    // unhide msg div
+    $("#manageMsgDivCW").show();
+    
+    if ($("#manageType").html() === "cl")
+    {
+        $("nav").load("Includes/clientNav.html");
+        $("#mainClient").fadeIn(1);   
+    }
+    else 
+    {
+        $("nav").load("Includes/caseWorkerNav.html");
+        $("#mainCaseWorker").fadeIn(1);   
+    }
+    
+    if ($("#manageMsg").length > 0)
+    {
+        $("#manageMsgDivCW").css("background-color", "red");
+        $("#manageMsgDivCL").css("background-color", "red");
+    }
+    else 
+    {
+        $("#manageMsgDivCW").css("background-color", "green");
+        $("#manageMsgDivCL").css("background-color", "green");
+    }
 }
 
