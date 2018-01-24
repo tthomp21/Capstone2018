@@ -47,7 +47,7 @@ public class AssistanceController extends HttpServlet {
 	
 	String url = ""; //= "/view/the default page";
 	//String clientID = session.getAttribute("clientID").toString(); // get this from successful login.
-	Client clientID = (Client) session.getAttribute("clientID"); // get this from successful login.
+	Client aClient = (Client) session.getAttribute("user"); // get this from successful login.
 	
 	/*try{
 	          
@@ -77,13 +77,17 @@ public class AssistanceController extends HttpServlet {
 	 * through allAssistanacesList and filter/insert them to the
 	 * appropriate list. load all lists into the session
 	 */
-	//TreeMap<LocalDate, AssistanceRequest> sortedFoodList = new TreeMap<LocalDate, AssistanceRequest>();
-
-	allAssitancesList = ClientDB.getTestData();
-	ArrayList<AssistanceRequest> foodList = new ArrayList<AssistanceRequest>();
-	ArrayList<AssistanceRequest> cashList = new ArrayList<AssistanceRequest>();
-	ArrayList<AssistanceRequest> medicaidList = new ArrayList<AssistanceRequest>();
-	ArrayList<AssistanceRequest> otherBenefitsList = new ArrayList<AssistanceRequest>();
+	//this supposed to get from the Data base
+        allAssitancesList = ClientDB.getAllAssistances(aClient.getClientID());
+        
+       
+        //this is only test data (hard coded)
+        //allAssitancesList = ClientDB.getTestData();
+        
+        ArrayList<AssistanceRequest> foodList               = new ArrayList<AssistanceRequest>();
+        ArrayList<AssistanceRequest> cashList               = new ArrayList<AssistanceRequest>();
+        ArrayList<AssistanceRequest> medicaidList           = new ArrayList<AssistanceRequest>();
+        ArrayList<AssistanceRequest> otherBenefitsList      = new ArrayList<AssistanceRequest>();
 
 	//get all assitances
 	try {

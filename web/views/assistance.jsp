@@ -1,35 +1,48 @@
-<%-- 
-    Document   : assistance
-    Created on : Jan 10, 2018, 2:55:01 PM
-    Author     : Murad Smoqy
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
-<link rel="shortcut icon" href="images/favicon.ico">
-<link rel="stylesheet" href="/CSS/assistance.css" type="text/css">
-<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
-<script src="/JS/assistance.js"></script>
-<%-- <%@ page import="java.util.List, business.*"%> --%>
-<%--<%@ page import = "jared.simpledatabase.*" %> --%>
-<%-- <jsp:useBean id="Person" class="business.Person" scope="request"></jsp:useBean> --%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <%-- <link type="text/css" rel="stylesheet" href="style/main.css" /> --%>
-        <title>Benefits for ${client.getFirstName()}</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">  
+        <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>        
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
+        
+        <link href="../CSS/default.css" rel="stylesheet" type="text/css"/>
+<!--        <link href="../CSS/assistance.css" rel="stylesheet" type="text/css"/>-->
+        
+        <title>Team Cash Flow</title>
+        
     </head>
-
-
+    
     <body>
-        <section id="assistanceWrapper">
+        <div id="all">
+           <c:import url="../Includes/header.html"/>
+            
+            <aside>
+                <div id="accountDiv">
+                    <p id="welcome">Welcome, <br><c:out value="${user.firstName}"/></p>
+                    <ul>
+                        <a href="AccountsController?action=manageClient" id="btnManageAccount">
+                            <li class="actItem">Manage Account</li>
+                        </a>
+                        <a href="AccountsController?action=logout" id="btnLogout">
+                            <li class="actItem">Log Out</li>
+                        </a>
+                    </ul>       
+                </div>
+                    
+                <nav>
+                    <c:import url="../Includes/clientNav.html"/>
+                </nav>    
+                
+            </aside>
+            
+            <div id="main">
+               <section id="assistanceWrapper">
            
             <main id="assistanceMain">
-                 <c:import url="../Includes/header.html"/>
+                 
                 <h2>Food Stamps or SNAP</h2>
                 <div>
                     <table border="1">
@@ -125,115 +138,18 @@
                         </c:forEach>
                     </table>        </div>
                 
-                <c:import url="../Includes/footer.html"/>    
+                
             </main>
-
+            <!--
             <aside id="assistanceAside">
                 <p>This is the Aside element</p>
             </aside>
+            -->
         </section>
-        <%--
-            <div class="tableData">
-                <h2 class="allh2">Here all the employees we have (<span class="bigFont"> ${allEmployeesList.size()}</span> employees)</h2>
-                <table border="1">
 
-                    <tr class="blueColor">
-                        <th>Employee ID</th>
-                        <th>Full Name</th>
-                        <th>Hire Date</th>
-                        <th>Employee Type</th>
-                        <th>Yearly Cost</th>                        
-                        <th>Edit Employee</th>
-                    </tr>
-                    <c:forEach items="${allEmployeesList}" var ="employee" varStatus="loop">
-      <c:set var="compType" scope="session" value="${personToEdit.getCompensationType()}"></c:set> 
-        --%>
-        <%--
-              <c:if test="${loop.index % 2 == 0}">
-                  <tr class="yellowColor">
-                      <td><c:out value="${employee.getEmployeeID()}" /></td>
-                      <td><c:out value="${employee.fullName}"/></td>                        
-                      <td><c:out value="${employee.getHireDate()}" /></td> 
-                      <td><c:out value="${employee.getCompensationType()}" /></td>    
-
-                                <c:choose>
-                                    <c:when test="${fn:containsIgnoreCase(employee.getCompensationType(), 'hourly')}">
-        <c:set var="hourlyTot" value="${employee.getRate() * employee.getAvgWeeklyHours() * 50}" />  
-        --%>
-        <%--
-                             <td><c:out value="${employee.getYearlyCompensation()}" /></td> 
-                        </c:when>
-                             
-                         <c:when test="${fn:containsIgnoreCase(employee.getCompensationType(), 'salary')}">
-                            
-                             <td><c:out value="${employee.getYearlyCompensation()}" /></td> 
-                         </c:when>
-                             
-                         <c:otherwise>
-                             <td><c:out value="${employee.getCompensationType()}" /></td> 
-                         </c:otherwise>
-                     </c:choose>
-
-
-                                <td>
-                                    <form action="EditEmployee" method="POST">
-                                        <input type="hidden" name="employeeIdToEdit" value="${employee.getEmployeeID()}">
-                                        <input type="hidden" name="action" value="editEmployee">
-                                        <input type="submit" value="edit" class="redColor">
-                                    </form>
-                                </td> 
-                            </tr>
-                        </c:if>
-
-                        <c:if test="${loop.index % 2 == 1}">
-                            <tr class="redColor">
-                                <td><c:out value="${employee.getEmployeeID()}" /></td>
-                                <td><c:out value="${employee.fullName}"/></td>                         
-                                <td><c:out value="${employee.getHireDate()}" /></td> 
-                                <td><c:out value="${employee.getCompensationType()}" /></td> 
-       <td><c:out value="${employee.compensationType == 'none' ? 'None'  : employee.salary}" /></td> 
-        --%>
-        <%--
-                    <c:choose>
-                        <c:when test="${fn:containsIgnoreCase(employee.getCompensationType(), 'hourly')}">
-                            <c:set var="hourlyTot" value="${employee.getRate() * employee.getAvgWeeklyHours() * 50}" />
-                            <td><c:out value="${employee.formatRoundDollar(hourlyTot)}" /></td> 
-                        </c:when>
-                
-                        <c:when test="${fn:containsIgnoreCase(employee.getCompensationType(), 'salary')}">
-                            <c:set var="salaryTot" value="${employee.getSalary()}" />
-                            <td><c:out value="${employee.formatRoundDollar(salaryTot)}" /></td> 
-                        </c:when>
-                
-                        <c:otherwise>
-                            <td><c:out value="${employee.getCompensationType()}" /></td> 
-                        </c:otherwise>
-                    </c:choose>
-
-                                <td>
-                                    <form action="EditEmployee" method="POST">
-                                        <input type="hidden" name="employeeIdToEdit" value="${employee.getEmployeeID()}">
-                                        <input type="hidden" name="action" value="editEmployee">
-                                        <input type="submit" value="edit" class="yellowColor">
-                                    </form>
-                                </td> 
-                            </tr>
-                        </c:if>
-                    </c:forEach>
-                </table>
             </div>
-              
-        <div class="goHome">
-            <form action="testing" method="POST">
-                <input type="hidden" name="action" value="home">
-                <input type="submit" value="Go Home">
-            </form>
+            
+            <c:import url="../Includes/footer.html"/>            
         </div>
-        <c:import url="/Includes/Footer.html"/>
-        
-        --%>
-
-
-
     </body>
 </html>

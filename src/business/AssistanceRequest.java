@@ -25,6 +25,7 @@ public class AssistanceRequest implements Serializable, Comparator<AssistanceReq
           private double amountPaid;
           private String status;
           private LocalDate dateDisbursed;
+          
 
           //the number of times a client has recieved an assitance might be taken from the list size for that assistance. we will see!!
           // private int                     occurancesPaid = 0;
