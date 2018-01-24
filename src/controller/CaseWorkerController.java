@@ -9,6 +9,7 @@ import data.ClientDB;
 import java.util.List;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.function.Predicate;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -26,6 +27,7 @@ public class CaseWorkerController extends HttpServlet {
         String message = "";
         String action = request.getParameter("action");
         HttpSession session = request.getSession();
+        ArrayList<Client> clients = new ArrayList<Client>();
         
         if (action == null) {
             action = "arrival";
@@ -43,16 +45,20 @@ public class CaseWorkerController extends HttpServlet {
         switch(action) {
             case "arrival":
                 //when the caseworker arrives on this page get all the clients assigned to them
-                ArrayList<Client> clients = getClients(caseWorker, session);
+                clients = getClients(caseWorker, session);
                 if(clients != null)
                     session.setAttribute("foundClients", clients);
                 break;
             case "sendHome":
-                //if there was an error gettin the user send them back home
+                //if there was an error getting the user send them back home
                 url = "/AccountsController";
                 break;
-            case "viewAllClients":
-                url = "/allClients";
+            case "clientDetails":
+                String selectedClient = (String) request.getParameter("clientID");
+                Predicate<Client> pred = c -> c.getClientID() == (Integer.parseInt(selectedClient));
+                Client foundClient = clients.stream().filter(pred).findFirst().get();
+                session.setAttribute("foundClient", foundClient);
+                url = "/caseworkerclientdetails";
         }
         
         

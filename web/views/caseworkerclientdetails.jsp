@@ -1,3 +1,9 @@
+<%-- 
+    Document   : caseworkerclientdetails
+    Created on : Jan 23, 2018, 9:38:00 PM
+    Author     : Ty
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -33,28 +39,31 @@
                     
                 <nav>
                     <c:import url="/Includes/caseWorkerNav.html"/>
-                </nav>    
+                </nav>
+                
+                
+                <p>clientID: ${foundClient.clientID}</p>
+                <p>SSN: ${foundClient.SSN}</p>
+                <p>First: ${foundClient.firstName}</p>
+                <p>Last: ${foundClient.lastName}</p>
+                <p>Mid: ${foundClient.middleInit}</p>
+                <p>City: ${foundClient.city}</p>
+                <p>Street: ${foundClient.street}</p>
+                <p>State: ${foundClient.state}</p>
+                <p>Zip: ${foundClient.zip}</p>
+                <p>Email: ${foundClient.email}</p>
+                <p>Phone: ${foundClient.phone}</p>
+                <p>Birthdate: ${foundClient.birthDate}</p>
+                <p>Enroll Date: ${foundClient.enrollmentDate}</p>
+                <p>Dependents: ${foundClient.dependents}</p>
+                <p>PartnerID: ${foundClient.partnerID}</p>
+                <p>CaseWorkerID: ${foundClient.caseWorkerID}</p>
+                
+                <p>Need to add hours and other info i may be missing here</p>
+                
+                
                 
             </aside>
-            
-            <div id="main">
-                <table>
-                    <c:forEach var="c" items="${foundClients}" varStatus="status">
-                        <tr>
-                            <td>${c.firstName}</td>
-                            <td>${c.lastName}</td>
-                            <td>${c.clientID}</td>
-                            <td><form action="CaseWorkerController" method="post">
-                                <input type="hidden" value="${c.clientID}" name="clientID">
-                                <input type="hidden" name="action" value="clientDetails">
-                                <input type="submit" value="Details">
-                                </form>
-                            </td>
-                        </tr>
-                    </c:forEach>  
-                </table>
-            </div>
-            
             <c:import url="../Includes/footer.html"/>            
         </div>
     </body>
