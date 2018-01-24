@@ -1,15 +1,17 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
+
 /* 
     Created on : Jan 17, 2018, 11:22:35 PM
-    Author     : radad
+    Author     : Murad
 */
 
+
+/*
+    #60401f --> dark brown
+    #c1803e --> lighter brown
+    #806000 --> olive
+*/
 /* type selectors */
-article, aside, figure, figcaption, footer, header, nav, section {
+article, aside, figure, figcaption, footer, header, nav, section, main {
     display: block;
 }
 * {
@@ -18,14 +20,18 @@ article, aside, figure, figcaption, footer, header, nav, section {
 }
 body {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 87.5%;
-	width: 650px;
+            font-size: 1.1em;
+	/* width: 650px;*/
 	margin: 0 auto;
-	border: 3px solid blue;
+	/*border: 3px solid blue;*/
+	background-color: #806000;
 }
-main {
+ /* 
+ main {
 	padding: 15px 25px;
 }
+
+*/
 h1 { 
 	font-size: 150%;
 }
@@ -33,10 +39,11 @@ h2 {
 	font-size: 120%;
 	padding: .25em 0 .25em 25px;
 	cursor: pointer;
-	background: url(/images/closeArrow.png) no-repeat left center;
+	background: url(Images/closeArrow.png) no-repeat left center;
+	
 }
 h2.minus {
-	background: url(/images/openArrow.png) no-repeat left center;
+	background: url(/Images/openArrow.png) no-repeat left center;
 }
 div {
 	display: none;
@@ -50,7 +57,71 @@ ul {
 li {
 	padding-bottom: .25em;
 }
+/*
 p {
 	padding-bottom: .25em;
 	padding-left: 25px;
+}
+*/
+
+#assistanceWrapper{
+    width:  1500px;  /* = 1124px; 65%*/
+    margin-left: auto;
+    margin-right: auto;
+    height: 100%;
+}
+
+#assistanceMain{
+    width: 1200px; /* = 900px; 80%*/    
+   /* height: 100%; float left ....*/
+    background-color: white;
+    margin: 0;
+    float: left;
+    clear: right;
+}
+#assistanceMain div{
+    margin-left: 30px;
+    /*  min-width:  980px; this is the size of the divs in the main*/
+    width: auto;
+    background-color: #ccccff;
+}
+#assistanceAside{
+    width: 100px; /* =  200px; 22%*/
+    background-color: yellow;
+     
+}
+
+table{
+    border-collapse: collapse;
+}
+
+td{
+    text-align: center;
+}
+th{
+    padding: 5px;
+}
+
+header img{
+    /*display: block;
+    width: 100%;
+    background-color: red;*/
+    float: right;
+}
+header{
+    margin-bottom: 40px;
+    
+}
+header h1{
+    text-align: center;
+    padding: 10px;
+    background-color:#999900;
+}
+
+footer{
+     background-color:#999900;
+     margin-top: 40px;
+}
+footer li{
+    display: inline;
 }

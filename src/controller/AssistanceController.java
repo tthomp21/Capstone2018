@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.TreeMap;
@@ -76,7 +77,7 @@ public class AssistanceController extends HttpServlet {
 	 * through allAssistanacesList and filter/insert them to the
 	 * appropriate list. load all lists into the session
 	 */
-	TreeMap<LocalDate, AssistanceRequest> sortedFoodList = new TreeMap<LocalDate, AssistanceRequest>();
+	//TreeMap<LocalDate, AssistanceRequest> sortedFoodList = new TreeMap<LocalDate, AssistanceRequest>();
 
 	allAssitancesList = ClientDB.getTestData();
 	ArrayList<AssistanceRequest> foodList = new ArrayList<AssistanceRequest>();
@@ -93,6 +94,9 @@ public class AssistanceController extends HttpServlet {
 		         foodList.add(assist);
 		          
 		}
+		
+		
+		
 		         
 //		if (assist.getAnAssistance().getAssistanceDescription().equalsIgnoreCase("active")) {
 //		          foodList.add(assist);
@@ -111,6 +115,7 @@ public class AssistanceController extends HttpServlet {
 //		}
 
 	          }
+	          Collections.sort(foodList,AssistanceRequest.sortAssistanceListByDate );
 
 	} catch (Exception ex) {
 
@@ -122,6 +127,9 @@ public class AssistanceController extends HttpServlet {
 	          session.setAttribute("cashList", cashList);
 	          session.setAttribute("medicaidList", medicaidList);
 	          session.setAttribute("otherBenefitsList", otherBenefitsList);
+	          
+	          url	=         "/views/assistance.jsp";
+	          cs.getRequestDispatcher(url).forward(request, response);
 	}
 
           }

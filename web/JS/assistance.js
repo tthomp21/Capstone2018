@@ -1,8 +1,4 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 $(document).ready(function() {
 	$("#assistanceMain h2").first().addClass("minus");
 	$("#assistanceMain div").first().show();
@@ -21,6 +17,9 @@ $(document).ready(function() {
 			
 		}
     ); // end click
+    
+ //alert("table width" + $("#assistanceAside").css("width"));
+    // alert("here is the with of the body: " + $("body").css("width")); .css("width") attaches the units too like 200px, .width() only gives number like 200.
 }); // end ready
 
 

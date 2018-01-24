@@ -2,160 +2,184 @@
  * Author: Murad
  * Date: 01/15/2018
  * Description: base class for all assistances that a client will get
-*/
+ */
 package business;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Comparator;
 
 /**
- *
+ * 1/23/2018
  * @author Murad
+ * 
+ * implement comparator so you get he advantage of sorting the list based on any property/field you want. 
  */
-public class AssistanceRequest implements Serializable{
-    
-    private int                     requestID        ;
-    private Assitance               anAssistance     ;
-    private int                     assistanceID     ;
-    private int                     clientID         ;
-    private LocalDate               requestDate      ;
-    private double                  amountPaid       ;
-    private String                  status           ;
-    private LocalDate               dateDisbursed    ;
+public class AssistanceRequest implements Serializable, Comparator<AssistanceRequest> {
 
-    //the number of times a client has recieved an assitance might be taken from the list size for that assistance. we will see!!
-   // private int                     occurancesPaid = 0;
+          private int requestID;
+          private Assitance anAssistance;
+          private int assistanceID;
+          private int clientID;
+          private LocalDate requestDate;
+          private double amountPaid;
+          private String status;
+          private LocalDate dateDisbursed;
 
+          //the number of times a client has recieved an assitance might be taken from the list size for that assistance. we will see!!
+          // private int                     occurancesPaid = 0;
+          public AssistanceRequest() {
+          }
 
+          public AssistanceRequest(int requestID, int assistanceID, int clientID, LocalDate requestDate, double amountPaid, String status, LocalDate dateDisbursed) {
+	this.requestID = requestID;
+	this.assistanceID = assistanceID;
+	this.clientID = clientID;
+	this.requestDate = requestDate;
+	this.amountPaid = amountPaid;
+	this.status = status;
+	this.dateDisbursed = dateDisbursed;
 
-    public AssistanceRequest(){}
-    
-    public AssistanceRequest(int requestID, int assistanceID, int clientID, LocalDate requestDate, double amountPaid, String status, LocalDate dateDisbursed)
-    {
-              this.requestID	= requestID	;
-              this.assistanceID	= assistanceID	;
-              this.clientID	= clientID	;
-              this.requestDate	= requestDate	;
-              this.amountPaid	= amountPaid	;
-              this.status	= status	;
-              this.dateDisbursed	= dateDisbursed	;
-              
-    }
+          }
 
-    /**
-     * @return the anAssistance
-     */
-    public Assitance getAnAssistance() {
-        return anAssistance;
-    }
+          /**
+           * @return the anAssistance
+           */
+          public Assitance getAnAssistance() {
+	return anAssistance;
+          }
 
-    /**
-     * @param anAssistance the anAssistance to set
-     */
-    public void setAnAssistance(Assitance anAssistance) {
-        this.anAssistance = anAssistance;
-    }
+          /**
+           * @param anAssistance the anAssistance to set
+           */
+          public void setAnAssistance(Assitance anAssistance) {
+	this.anAssistance = anAssistance;
+          }
 
-    /**
-     * @return the assistanceID
-     */
-    public int getAssistanceID() {
-        return assistanceID;
-    }
+          /**
+           * @return the assistanceID
+           */
+          public int getAssistanceID() {
+	return assistanceID;
+          }
 
-    /**
-     * @param assistanceID the assistanceID to set
-     */
-    public void setAssistanceID(int assistanceID) {
-        this.assistanceID = assistanceID;
-    }
+          /**
+           * @param assistanceID the assistanceID to set
+           */
+          public void setAssistanceID(int assistanceID) {
+	this.assistanceID = assistanceID;
+          }
 
-    /**
-     * @return the clientID
-     */
-    public int getClientID() {
-        return clientID;
-    }
+          /**
+           * @return the clientID
+           */
+          public int getClientID() {
+	return clientID;
+          }
 
-    /**
-     * @param clientID the clientID to set
-     */
-    public void setClientID(int clientID) {
-        this.clientID = clientID;
-    }
+          /**
+           * @param clientID the clientID to set
+           */
+          public void setClientID(int clientID) {
+	this.clientID = clientID;
+          }
 
-    
+          /**
+           * @return the requestDate
+           */
+          public LocalDate getRequestDate() {
+	return requestDate;
+          }
 
-    /**
-     * @return the requestDate
-     */
-    public LocalDate getRequestDate() {
-        return requestDate;
-    }
+          /**
+           * @param requestDate the requestDate to set
+           */
+          public void setRequestDate(LocalDate requestDate) {
+	this.requestDate = requestDate;
+          }
 
-    /**
-     * @param requestDate the requestDate to set
-     */
-    public void setRequestDate(LocalDate requestDate) {
-        this.requestDate = requestDate;
-    }
+          /**
+           * @return the amountPaid
+           */
+          public double getAmountPaid() {
+	return amountPaid;
+          }
 
-    /**
-     * @return the amountPaid
-     */
-    public double getAmountPaid() {
-        return amountPaid;
-    }
+          /**
+           * @param amountPaid the amountPaid to set
+           */
+          public void setAmountPaid(double amountPaid) {
+	this.amountPaid = amountPaid;
+          }
 
-    /**
-     * @param amountPaid the amountPaid to set
-     */
-    public void setAmountPaid(double amountPaid) {
-        this.amountPaid = amountPaid;
-    }
+          /**
+           * @return the status
+           */
+          public String getStatus() {
+	return status;
+          }
 
-    /**
-     * @return the status
-     */
-    public String getStatus() {
-        return status;
-    }
+          /**
+           * @param status the status to set
+           */
+          public void setStatus(String status) {
+	this.status = status;
+          }
 
-    /**
-     * @param status the status to set
-     */
-    public void setStatus(String status) {
-        this.status = status;
-    }
+          /**
+           * @return the dateDisbursed
+           */
+          public LocalDate getDateDisbursed() {
+	return dateDisbursed;
+          }
 
-    /**
-     * @return the dateDisbursed
-     */
-    public LocalDate getDateDisbursed() {
-        return dateDisbursed;
-    }
+          /**
+           * @param dateDisbursed the dateDisbursed to set
+           */
+          public void setDateDisbursed(LocalDate dateDisbursed) {
+	this.dateDisbursed = dateDisbursed;
+          }
 
-    /**
-     * @param dateDisbursed the dateDisbursed to set
-     */
-    public void setDateDisbursed(LocalDate dateDisbursed) {
-        this.dateDisbursed = dateDisbursed;
-    }
+          /**
+           * @return the requestID
+           */
+          public int getRequestID() {
+	return requestID;
+          }
 
-    /**
-     * @return the requestID
-     */
-    public int getRequestID() {
-        return requestID;
-    }
+          /**
+           * @param requestID the requestID to set
+           */
+          public void setRequestID(int requestID) {
+	this.requestID = requestID;
+          }
+          
+          
+          /**
+           * Sorting the list. based on the field chosen. for this example by disbursedDate 
+           */
+          public static Comparator<AssistanceRequest> sortAssistanceListByDate = new Comparator<AssistanceRequest>() {
 
-    /**
-     * @param requestID the requestID to set
-     */
-    public void setRequestID(int requestID) {
-        this.requestID = requestID;
-    }
+	public int compare(AssistanceRequest o1, AssistanceRequest o2) {
+	 
+	          LocalDate date1     =	o1.getDateDisbursed();
+	          LocalDate date2     =	o2.getDateDisbursed();
+	          
+	          //descending order, newest date to oldest, the most current one
+	           return date2.compareTo(date1);
+	          
+	           //ascending order, oldest date to newest
+	           // return date1.compareTo(date2);
+	}
 
+          };
 
+          @Override
+          public int compare(AssistanceRequest o1, AssistanceRequest o2) {
+	return 0; // just to make the implimentation happy. 
+          }
+         
+
+          
 
 }

@@ -9,7 +9,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <link rel="shortcut icon" href="images/favicon.ico">
-<link rel="stylesheet" href="assistance.css" type="text/css">
+<link rel="stylesheet" href="/CSS/assistance.css" type="text/css">
 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 <script src="/JS/assistance.js"></script>
@@ -26,103 +26,112 @@
 
 
     <body>
-        <main id="assistanceMain">
-            
-            <h2>Food Stamps or SNAP</h2>
-        <div>
-            <table>
-                <tr>
-                    <th>Assistance Type</th>
-                    <th>Date requested</th>
-                    <th>Amount Paid</th>
-                    <th>Date Disbursed</th>
-                    <th>Assistance Status</th>
-                </tr>
-                <c:forEach items="${foodList}" var="aBenefit" varStatus="loop">
-                    
-                    <tr>
-                        <td><c:out value="${aBenefit.anAssistance.description}" /></td>
-                        <td><c:out value="${aBenefit.requestDate}" /></td>
-                        <td><c:out value="${aBenefit.amountPaid}" /></td>
-                        <td><c:out value="${aBenefit.dateDisbursed}" /></td>
-                        <td><c:out value="${aBenefit.assistanceStatus}" /></td>
-                    </tr>
-                    
-                </c:forEach>
-            </table>
-        </div>
+        <section id="assistanceWrapper">
+           
+            <main id="assistanceMain">
+                 <c:import url="../Includes/header.html"/>
+                <h2>Food Stamps or SNAP</h2>
+                <div>
+                    <table border="1">
+                        <tr>
+                            
+                            <th>Date requested</th>
+                            <th>Amount Paid</th>
+                            <th>Date Disbursed</th>
+                            <th>Assistance Status</th>
+                        </tr>
+                        <c:forEach items="${foodList}" var="aBenefit" varStatus="loop">
 
-        <h2>Cash Benefits or ADC</h2>
-        <div>
-            <table>
-                <tr>
-                    <th>Assistance Type</th>
-                    <th>Date requested</th>
-                    <th>Amount Paid</th>
-                    <th>Date Disbursed</th>
-                    <th>Assistance Status</th>
-                </tr>
-                <c:forEach items="${cashList}" var="aBenefit" varStatus="loop">
-                    
-                    <tr>
-                        <td><c:out value="${aBenefit.anAssistance.description}" /></td>
-                        <td><c:out value="${aBenefit.requestDate}" /></td>
-                        <td><c:out value="${aBenefit.amountPaid}" /></td>
-                        <td><c:out value="${aBenefit.dateDisbursed}" /></td>
-                        <td><c:out value="${aBenefit.assistanceStatus}" /></td>
-                    </tr>
-                    
-                </c:forEach>
-            </table>
-        </div>
+                            <tr>
+                               
+                                <td><c:out value="${aBenefit.requestDate}" /></td>
+                                <td><c:out value="${aBenefit.amountPaid}" /></td>
+                                <td><c:out value="${aBenefit.dateDisbursed}" /></td>
+                                <td><c:out value="${aBenefit.status}" /></td>
+                            </tr>
 
-        <h2>Medicaid Benefits</h2>
-        <div>
-           <table>
-                <tr>
-                    <th>Assistance Type</th>
-                    <th>Date requested</th>
-                    <th>Amount Paid</th>
-                    <th>Date Disbursed</th>
-                    <th>Assistance Status</th>
-                </tr>
-                <c:forEach items="${medicaidList}" var="aBenefit" varStatus="loop">
-                    
-                    <tr>
-                        <td><c:out value="${aBenefit.anAssistance.description}" /></td>
-                        <td><c:out value="${aBenefit.requestDate}" /></td>
-                        <td><c:out value="${aBenefit.amountPaid}" /></td>
-                        <td><c:out value="${aBenefit.dateDisbursed}" /></td>
-                        <td><c:out value="${aBenefit.assistanceStatus}" /></td>
-                    </tr>
-                    
-                </c:forEach>
-            </table>
-        </div>
+                        </c:forEach>
+                    </table>
+                </div>
 
-        <h2>electricity or Gas benefits </h2>
-        <div>
-             <table>
-                <tr>
-                    <th>Assistance Type</th>
-                    <th>Date requested</th>
-                    <th>Amount Paid</th>
-                    <th>Date Disbursed</th>
-                    <th>Assistance Status</th>
-                </tr>
-                <c:forEach items="${otherBenefitsList}" var="aBenefit" varStatus="loop">
-                    
-                    <tr>
-                        <td><c:out value="${aBenefit.anAssistance.description}" /></td>
-                        <td><c:out value="${aBenefit.requestDate}" /></td>
-                        <td><c:out value="${aBenefit.amountPaid}" /></td>
-                        <td><c:out value="${aBenefit.dateDisbursed}" /></td>
-                        <td><c:out value="${aBenefit.assistanceStatus}" /></td>
-                    </tr>
-                    
-                </c:forEach>
-            </table>        </div>
-        </main>
+                <h2>Cash Benefits or ADC</h2>
+                <div>
+                    <table>
+                        <tr>
+                          
+                            <th>Date requested</th>
+                            <th>Amount Paid</th>
+                            <th>Date Disbursed</th>
+                            <th>Assistance Status</th>
+                        </tr>
+                        <c:forEach items="${cashList}" var="aBenefit" varStatus="loop">
+
+                            <tr>
+                                
+                                <td><c:out value="${aBenefit.requestDate}" /></td>
+                                <td><c:out value="${aBenefit.amountPaid}" /></td>
+                                <td><c:out value="${aBenefit.dateDisbursed}" /></td>
+                                <td><c:out value="${aBenefit.assistanceStatus}" /></td>
+                            </tr>
+
+                        </c:forEach>
+                    </table>
+                </div>
+
+                <h2>Medicaid Benefits</h2>
+                <div>
+                    <table>
+                        <tr>
+                            
+                            <th>Date requested</th>
+                            <th>Amount Paid</th>
+                            <th>Date Disbursed</th>
+                            <th>Assistance Status</th>
+                        </tr>
+                        <c:forEach items="${medicaidList}" var="aBenefit" varStatus="loop">
+
+                            <tr>
+                                
+                                <td><c:out value="${aBenefit.requestDate}" /></td>
+                                <td><c:out value="${aBenefit.amountPaid}" /></td>
+                                <td><c:out value="${aBenefit.dateDisbursed}" /></td>
+                                <td><c:out value="${aBenefit.assistanceStatus}" /></td>
+                            </tr>
+
+                        </c:forEach>
+                    </table>
+                </div>
+
+                <h2>electricity or Gas benefits </h2>
+                <div>
+                    <table>
+                        <tr>
+                        
+                            <th>Date requested</th>
+                            <th>Amount Paid</th>
+                            <th>Date Disbursed</th>
+                            <th>Assistance Status</th>
+                        </tr>
+                        <c:forEach items="${otherBenefitsList}" var="aBenefit" varStatus="loop">
+
+                            <tr>
+                                
+                                <td><c:out value="${aBenefit.requestDate}" /></td>
+                                <td><c:out value="${aBenefit.amountPaid}" /></td>
+                                <td><c:out value="${aBenefit.dateDisbursed}" /></td>
+                                <td><c:out value="${aBenefit.assistanceStatus}" /></td>
+                            </tr>
+
+                        </c:forEach>
+                    </table>        </div>
+                
+                <c:import url="../Includes/footer.html"/>    
+            </main>
+
+            <aside id="assistanceAside">
+                <p>This is the Aside element</p>
+            </aside>
+        </section>
         <%--
             <div class="tableData">
                 <h2 class="allh2">Here all the employees we have (<span class="bigFont"> ${allEmployeesList.size()}</span> employees)</h2>
@@ -137,33 +146,33 @@
                         <th>Edit Employee</th>
                     </tr>
                     <c:forEach items="${allEmployeesList}" var ="employee" varStatus="loop">
-                        <%--<c:set var="compType" scope="session" value="${personToEdit.getCompensationType()}"></c:set> --%>
-            --%>
-            <%--
-                        <c:if test="${loop.index % 2 == 0}">
-                            <tr class="yellowColor">
-                                <td><c:out value="${employee.getEmployeeID()}" /></td>
-                                <td><c:out value="${employee.fullName}"/></td>                        
-                                <td><c:out value="${employee.getHireDate()}" /></td> 
-                                <td><c:out value="${employee.getCompensationType()}" /></td>    
+      <c:set var="compType" scope="session" value="${personToEdit.getCompensationType()}"></c:set> 
+        --%>
+        <%--
+              <c:if test="${loop.index % 2 == 0}">
+                  <tr class="yellowColor">
+                      <td><c:out value="${employee.getEmployeeID()}" /></td>
+                      <td><c:out value="${employee.fullName}"/></td>                        
+                      <td><c:out value="${employee.getHireDate()}" /></td> 
+                      <td><c:out value="${employee.getCompensationType()}" /></td>    
 
                                 <c:choose>
                                     <c:when test="${fn:containsIgnoreCase(employee.getCompensationType(), 'hourly')}">
-                                        <%-- <c:set var="hourlyTot" value="${employee.getRate() * employee.getAvgWeeklyHours() * 50}" />  --%>
-             --%>
-             <%--
-                                        <td><c:out value="${employee.getYearlyCompensation()}" /></td> 
-                                   </c:when>
-                                        
-                                    <c:when test="${fn:containsIgnoreCase(employee.getCompensationType(), 'salary')}">
-                                       
-                                        <td><c:out value="${employee.getYearlyCompensation()}" /></td> 
-                                    </c:when>
-                                        
-                                    <c:otherwise>
-                                        <td><c:out value="${employee.getCompensationType()}" /></td> 
-                                    </c:otherwise>
-                                </c:choose>
+        <c:set var="hourlyTot" value="${employee.getRate() * employee.getAvgWeeklyHours() * 50}" />  
+        --%>
+        <%--
+                             <td><c:out value="${employee.getYearlyCompensation()}" /></td> 
+                        </c:when>
+                             
+                         <c:when test="${fn:containsIgnoreCase(employee.getCompensationType(), 'salary')}">
+                            
+                             <td><c:out value="${employee.getYearlyCompensation()}" /></td> 
+                         </c:when>
+                             
+                         <c:otherwise>
+                             <td><c:out value="${employee.getCompensationType()}" /></td> 
+                         </c:otherwise>
+                     </c:choose>
 
 
                                 <td>
@@ -182,24 +191,24 @@
                                 <td><c:out value="${employee.fullName}"/></td>                         
                                 <td><c:out value="${employee.getHireDate()}" /></td> 
                                 <td><c:out value="${employee.getCompensationType()}" /></td> 
-                                <%-- <td><c:out value="${employee.compensationType == 'none' ? 'None'  : employee.salary}" /></td>  --%>
-                    --%>
-                    <%--
-                                <c:choose>
-                                    <c:when test="${fn:containsIgnoreCase(employee.getCompensationType(), 'hourly')}">
-                                        <c:set var="hourlyTot" value="${employee.getRate() * employee.getAvgWeeklyHours() * 50}" />
-                                        <td><c:out value="${employee.formatRoundDollar(hourlyTot)}" /></td> 
-                                    </c:when>
-                                        
-                                    <c:when test="${fn:containsIgnoreCase(employee.getCompensationType(), 'salary')}">
-                                        <c:set var="salaryTot" value="${employee.getSalary()}" />
-                                        <td><c:out value="${employee.formatRoundDollar(salaryTot)}" /></td> 
-                                    </c:when>
-                                        
-                                    <c:otherwise>
-                                        <td><c:out value="${employee.getCompensationType()}" /></td> 
-                                    </c:otherwise>
-                                </c:choose>
+       <td><c:out value="${employee.compensationType == 'none' ? 'None'  : employee.salary}" /></td> 
+        --%>
+        <%--
+                    <c:choose>
+                        <c:when test="${fn:containsIgnoreCase(employee.getCompensationType(), 'hourly')}">
+                            <c:set var="hourlyTot" value="${employee.getRate() * employee.getAvgWeeklyHours() * 50}" />
+                            <td><c:out value="${employee.formatRoundDollar(hourlyTot)}" /></td> 
+                        </c:when>
+                
+                        <c:when test="${fn:containsIgnoreCase(employee.getCompensationType(), 'salary')}">
+                            <c:set var="salaryTot" value="${employee.getSalary()}" />
+                            <td><c:out value="${employee.formatRoundDollar(salaryTot)}" /></td> 
+                        </c:when>
+                
+                        <c:otherwise>
+                            <td><c:out value="${employee.getCompensationType()}" /></td> 
+                        </c:otherwise>
+                    </c:choose>
 
                                 <td>
                                     <form action="EditEmployee" method="POST">
@@ -223,8 +232,8 @@
         <c:import url="/Includes/Footer.html"/>
         
         --%>
-        
-        
+
+
 
     </body>
 </html>
