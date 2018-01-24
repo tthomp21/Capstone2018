@@ -55,8 +55,7 @@ public class CaseWorkerController extends HttpServlet {
                 break;
             case "clientDetails":
                 String selectedClient = (String) request.getParameter("clientID");
-                Predicate<Client> pred = c -> c.getClientID() == (Integer.parseInt(selectedClient));
-                Client foundClient = clients.stream().filter(pred).findFirst().get();
+                Client foundClient = ClientDB.getClientWithID(Integer.parseInt(selectedClient));
                 session.setAttribute("foundClient", foundClient);
                 url = "/caseworkerclientdetails";
         }

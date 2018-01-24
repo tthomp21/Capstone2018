@@ -11,7 +11,8 @@ public class Client extends User {
     private String city;
     private String street;
     private String state;
-    private String zip;
+    private String emZip;
+    private String extZip;
     private LocalDate birthDate;
     private boolean married;
     private LocalDate enrollmentDate;
@@ -26,7 +27,7 @@ public class Client extends User {
     }
     
     public Client(int id, String userName, String first, String mInit, String last, String phone, 
-            String email, String ssn, String city, String state, String zip,
+            String email, String ssn, String city, String state, String emZip, String extZip,
             LocalDate birthDate, boolean married, LocalDate enrollmentDate, 
             int dependents, int partnerID, int caseWorkerID)
     {
@@ -36,7 +37,8 @@ public class Client extends User {
         SSN = ssn;
         this.city = city;
         this.state = state;
-        this.zip = zip;
+        this.emZip = emZip;
+        this.extZip = extZip;
         this.birthDate = birthDate;
         this.married = married;
         this.enrollmentDate = enrollmentDate;
@@ -94,13 +96,21 @@ public class Client extends User {
     {
         this.state = state;
     }
-    public String getZip()
+    public String getemZip()
     {
-        return zip;
+        return emZip;
     }
-    public void setZip(String zip)
+    public void setemZip(String emZip)
     {
-        this.zip = zip;
+        this.emZip = emZip;
+    }
+    public String getExtZip()
+    {
+        return extZip;
+    }
+    public void setExtZip(String extZip)
+    {
+        this.extZip = extZip;
     }
     public LocalDate getBirthDate()
     {

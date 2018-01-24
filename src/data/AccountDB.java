@@ -193,8 +193,13 @@ public class AccountDB {
             String street = rs.getString("street");
             String city = rs.getString("city");
             String state = rs.getString("state");
+
             String zip = rs.getString("emzip");
             String zipExt = rs.getString("extzip");
+
+            String emzip = rs.getString("emzip");
+            String zipExt = rs.getString("extzip");            
+
             LocalDate birthDate = rs.getDate("birthDate").toLocalDate();
             int married = rs.getInt("marriageStatus");
             LocalDate enrollDate = rs.getDate("enrollmentdate").toLocalDate();
@@ -216,7 +221,8 @@ public class AccountDB {
             client.setStreet(street);
             client.setCity(city);
             client.setState(state);
-            client.setZip(zip + "-" + zipExt);
+            client.setemZip(emzip);
+            client.setExtZip(zipExt);
             client.setBirthDate(birthDate);
             client.setMarried(married == 1);
             client.setEnrollmentDate(enrollDate);
