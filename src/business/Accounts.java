@@ -57,7 +57,7 @@ public class Accounts {
     
     // looks up user name in client table 
     public static QueryResult verifyUserName(String userName, String user)
-    {        
+    {   
         QueryResult result = new QueryResult();
         try {
             result.setResult(!AccountDB.isUserNameUnique(userName, user));

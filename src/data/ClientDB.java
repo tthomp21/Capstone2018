@@ -48,7 +48,7 @@ public class ClientDB {
                ArrayList<Client> allClients = new ArrayList<Client>();
                
                Connection connection = DBConnection.getConnection();
-               String query = "SELECT * FROM TCF_Clients WHERE CaseWorkerID = ?";
+               String query = "SELECT * FROM SCM.TCF_Clients WHERE CaseWorkerID = ?";
                ResultSet rs = null;
                
                try{
@@ -63,18 +63,19 @@ public class ClientDB {
                        c.setEnrollmentDate(rs.getDate("EnrollmentDate").toLocalDate());
                        c.setCaseWorkerID(rs.getInt("CaseWorkerID"));
                        c.setCity(rs.getString("City"));
-                       c.setCity(rs.getString("FirstName"));
-                       c.setCity(rs.getString("LastName"));
-                       c.setCity(rs.getString("MiddleInit"));
-                       c.setCity(rs.getString("Email"));
+                       c.setFirstName(rs.getString("FirstName"));
+                       c.setLastName(rs.getString("LastName"));
+                       c.setMiddleInit(rs.getString("MiddleInit"));
+                       c.setEmail(rs.getString("Email"));
                        c.setClientID(rs.getInt("ClientID"));
                        c.setDependents(rs.getInt("Dependents"));
                        c.setPhone(rs.getString("Phone"));
                        c.setSSN(rs.getString("SSN"));
                        c.setState(rs.getString("State"));
-                       c.setZip(rs.getString("Zip"));
+                       c.setemZip(rs.getString("emzip"));
+                       c.setExtZip(rs.getString("extzip"));
                        c.setPartnerID(rs.getInt("PartnerID"));
-                       int married = rs.getInt("Married");
+                       int married = rs.getInt("marriageStatus");
                        if(married == 0)
                            c.setMarried(false);
                        else if(married == 1)
@@ -85,7 +86,7 @@ public class ClientDB {
                        allClients.add(c);
                    }
                }catch(SQLException e){
-                   
+                   System.out.println("query broke");
                }finally{
                    DBConnection.freeConnection(connection);
                }
@@ -98,7 +99,7 @@ public class ClientDB {
                Client c = new Client();
                
                Connection connection = DBConnection.getConnection();
-               String query = "SELECT * FROM TCF_Clients WHERE ClientID = ?";
+               String query = "SELECT * FROM SCM.TCF_Clients WHERE ClientID = ?";
                ResultSet rs = null;
                
                try{
@@ -112,18 +113,19 @@ public class ClientDB {
                        c.setEnrollmentDate(rs.getDate("EnrollmentDate").toLocalDate());
                        c.setCaseWorkerID(rs.getInt("CaseWorkerID"));
                        c.setCity(rs.getString("City"));
-                       c.setCity(rs.getString("FirstName"));
-                       c.setCity(rs.getString("LastName"));
-                       c.setCity(rs.getString("MiddleInit"));
-                       c.setCity(rs.getString("Email"));
+                       c.setFirstName(rs.getString("FirstName"));
+                       c.setLastName(rs.getString("LastName"));
+                       c.setMiddleInit(rs.getString("MiddleInit"));
+                       c.setEmail(rs.getString("Email"));
                        c.setClientID(rs.getInt("ClientID"));
                        c.setDependents(rs.getInt("Dependents"));
                        c.setPhone(rs.getString("Phone"));
                        c.setSSN(rs.getString("SSN"));
                        c.setState(rs.getString("State"));
-                       c.setZip(rs.getString("Zip"));
+                       c.setemZip(rs.getString("emzip"));
+                       c.setExtZip(rs.getString("extzip"));
                        c.setPartnerID(rs.getInt("PartnerID"));
-                       int married = rs.getInt("Married");
+                       int married = rs.getInt("marriageStatus");
                        if(married == 0)
                            c.setMarried(false);
                        else if(married == 1)
