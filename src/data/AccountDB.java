@@ -195,9 +195,6 @@ public class AccountDB {
             String state = rs.getString("state");
 
             String zip = rs.getString("emzip");
-            String zipExt = rs.getString("extzip");
-
-            String emzip = rs.getString("emzip");
             String zipExt = rs.getString("extzip");            
 
             LocalDate birthDate = rs.getDate("birthDate").toLocalDate();
@@ -221,7 +218,7 @@ public class AccountDB {
             client.setStreet(street);
             client.setCity(city);
             client.setState(state);
-            client.setemZip(emzip);
+            client.setemZip(zip);
             client.setExtZip(zipExt);
             client.setBirthDate(birthDate);
             client.setMarried(married == 1);
