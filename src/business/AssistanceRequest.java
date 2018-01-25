@@ -17,15 +17,16 @@ import java.util.Comparator;
  */
 public class AssistanceRequest implements Serializable, Comparator<AssistanceRequest> {
 
-          private int requestID;
-          private Assitance anAssistance;
-          private int assistanceID;
-          private int clientID;
+          private int       requestID;
+          private Assistance anAssistance;
+          private int       assistanceID;
+          private int       clientID;
           private LocalDate requestDate;
-          private double amountPaid;
-          private String status;
+          private double    amountPaid;
+          private String    status;
           private LocalDate dateDisbursed;
-          
+          //private String    assistanceDescription;
+          private AidType   aidType;
 
           //the number of times a client has recieved an assitance might be taken from the list size for that assistance. we will see!!
           // private int                     occurancesPaid = 0;
@@ -46,14 +47,14 @@ public class AssistanceRequest implements Serializable, Comparator<AssistanceReq
           /**
            * @return the anAssistance
            */
-          public Assitance getAnAssistance() {
+          public Assistance getAnAssistance() {
 	return anAssistance;
           }
 
           /**
            * @param anAssistance the anAssistance to set
            */
-          public void setAnAssistance(Assitance anAssistance) {
+          public void setAnAssistance(Assistance anAssistance) {
 	this.anAssistance = anAssistance;
           }
 
@@ -179,6 +180,34 @@ public class AssistanceRequest implements Serializable, Comparator<AssistanceReq
           public int compare(AssistanceRequest o1, AssistanceRequest o2) {
 	return 0; // just to make the implimentation happy. 
           }
+
+//    /**
+//     * @return the assistanceDescription
+//     */
+//    public String getAssistanceDescription() {
+//        return assistanceDescription;
+//    }
+//
+//    /**
+//     * @param assistanceDescription the assistanceDescription to set
+//     */
+//    public void setAssistanceDescription(String assistanceDescription) {
+//        this.assistanceDescription = assistanceDescription;
+//    }
+
+    /**
+     * @return the aidType
+     */
+    public AidType getAidType() {
+        return aidType;
+    }
+
+    /**
+     * @param aidType the aidType to set
+     */
+    public void setAidType(AidType aidType) {
+        this.aidType = aidType;
+    }
          
 
           

@@ -11,14 +11,14 @@ import java.io.Serializable;
  *
  * @author ms610358
  */
-public class Assitance implements Serializable{
+public class Assistance implements Serializable{
     
     
     private     int     assistanceID;
     private     String  assistanceDescription;
     
-    public Assitance(){}
-    public Assitance(int theAssistanceID, String theAssistanceDescription)
+    public Assistance(){}
+    public Assistance(int theAssistanceID, String theAssistanceDescription)
     {
         this.assistanceID           = theAssistanceID;
         this.assistanceDescription  = theAssistanceDescription;

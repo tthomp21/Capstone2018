@@ -5,6 +5,7 @@
  */
 package data;
 
+import business.Assistance;
 import business.AssistanceRequest;
 import business.CaseWorker;
 import business.Client;
@@ -52,9 +53,19 @@ public class ClientDB {
         Connection connection = DBConnection.getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
-
-        String query = "SELECT * FROM SCM.TCF_REQUESTASSIST ra left join scm.tcf_assistance a"
-                +   "on ra.assistanceId = a.assistanceID WHERE clientID = ?";
+        //insert some data into requestassist table and then try this.
+        String query = "SELECT requestID"
+	    + ", ra.assistanceID"
+	    + ", clientID"
+	    + ", dateRequest"
+	    + ", status"
+	    + ", dateDisbursed"
+	    + ", amount"
+	    + ", a.assistanceID"
+	    + ", description"
+	    + "FROM SCM.TCF_REQUESTASSIST ra left join SCM.TCF_ASSIISTANCE a "
+	    + " on ra.assistanceId = a.assistanceID "
+	    + " WHERE clientID = ?";
 
         try {
             ps = connection.prepareStatement(query);
@@ -62,17 +73,26 @@ public class ClientDB {
             rs = ps.executeQuery();
 
             AssistanceRequest assistRequest = null;
-
+            Assistance anAssistance = null;            
+            
             while (rs.next()) {
                 assistRequest = new AssistanceRequest();
-
+                anAssistance  = new Assistance();
+                
                 assistRequest.setRequestID(rs.getInt("requestID"));
                 assistRequest.setAssistanceID(rs.getInt("assistanceID"));
                 assistRequest.setClientID(rs.getInt("clientID"));
-                assistRequest.setRequestDate(rs.getDate("requestedDate").toLocalDate());
+                assistRequest.setRequestDate(rs.getDate("dateRequest").toLocalDate());
                 assistRequest.setStatus(rs.getString("status"));
                 assistRequest.setDateDisbursed(rs.getDate("dateDisbursed").toLocalDate());
                 assistRequest.setAmountPaid(rs.getDouble("Amount"));
+                
+                anAssistance.setAssistanceID(rs.getInt("assistanceID"));
+                anAssistance.setAssistanceDescription(rs.getString("description"));
+                
+                assistRequest.setAnAssistance(anAssistance);
+                
+                
 
                 allAssist.add(assistRequest);
 
@@ -118,15 +138,15 @@ public class ClientDB {
                 c.setPhone(rs.getString("Phone"));
                 c.setSSN(rs.getString("SSN"));
                 c.setState(rs.getString("State"));
-                c.setZip(rs.getString("Zip"));
+                c.setemZip(rs.getString("Zip"));
                 c.setPartnerID(rs.getInt("PartnerID"));
                 int married = rs.getInt("Married");
                 if (married == 0) {
-                    c.setMarried(false);
+	c.setMarried(false);
                 } else if (married == 1) {
-                    c.setMarried(true);
+	c.setMarried(true);
                 } else {
-                    System.out.println("Married not set to 1 or 0.");
+	System.out.println("Married not set to 1 or 0.");
                 }
 
                 allClients.add(c);
@@ -166,15 +186,15 @@ public class ClientDB {
                 c.setPhone(rs.getString("Phone"));
                 c.setSSN(rs.getString("SSN"));
                 c.setState(rs.getString("State"));
-                c.setZip(rs.getString("Zip"));
+                c.setemZip(rs.getString("Zip"));
                 c.setPartnerID(rs.getInt("PartnerID"));
                 int married = rs.getInt("Married");
                 if (married == 0) {
-                    c.setMarried(false);
+	c.setMarried(false);
                 } else if (married == 1) {
-                    c.setMarried(true);
+	c.setMarried(true);
                 } else {
-                    System.out.println("Married not set to 1 or 0.");
+	System.out.println("Married not set to 1 or 0.");
                 }
 
             }

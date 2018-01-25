@@ -46,32 +46,18 @@ public class AssistanceController extends HttpServlet {
 	ServletContext cs = session.getServletContext();
 	
 	String url = ""; //= "/view/the default page";
-	//String clientID = session.getAttribute("clientID").toString(); // get this from successful login.
 	Client aClient = (Client) session.getAttribute("user"); // get this from successful login.
-	
-	/*try{
-	          
-	   int iClientID = clientID.getClientID();
-	}
-	catch(Exception e)
-	{
-	         url = "/views/temporaryClientIndex.jsp";
-	         cs.getRequestDispatcher(url).forward(request, response);
-	}*/
-	
+		
 	ArrayList<AssistanceRequest> allAssitancesList = (ArrayList<AssistanceRequest>) session.getAttribute("allAssitancesList");
 
 	if (allAssitancesList == null) {
 	          allAssitancesList = new ArrayList<AssistanceRequest>();
+	           allAssitancesList = ClientDB.getAllAssistances(aClient.getClientID());
 	}
-	else
-	{
-	          allAssitancesList = ClientDB.getTestData();
-		      
-	}
-
+	
 	/**
-	 * documentation create allAssitancesList to hold all
+	 * documentation :
+	 * create allAssitancesList to hold all
 	 * assistances make a call to the data base to get all the
 	 * assistances create a list for each assistance type loop
 	 * through allAssistanacesList and filter/insert them to the
@@ -84,10 +70,12 @@ public class AssistanceController extends HttpServlet {
         //this is only test data (hard coded)
         //allAssitancesList = ClientDB.getTestData();
         
-        ArrayList<AssistanceRequest> foodList               = new ArrayList<AssistanceRequest>();
-        ArrayList<AssistanceRequest> cashList               = new ArrayList<AssistanceRequest>();
-        ArrayList<AssistanceRequest> medicaidList           = new ArrayList<AssistanceRequest>();
-        ArrayList<AssistanceRequest> otherBenefitsList      = new ArrayList<AssistanceRequest>();
+        ArrayList<AssistanceRequest> carRepairsList               = new ArrayList<AssistanceRequest>();
+        ArrayList<AssistanceRequest> clothingList	      = new ArrayList<AssistanceRequest>();
+        ArrayList<AssistanceRequest> medicaidList	      = new ArrayList<AssistanceRequest>();
+        ArrayList<AssistanceRequest> gasList	      = new ArrayList<AssistanceRequest>();
+        ArrayList<AssistanceRequest> tuitionList	      = new ArrayList<AssistanceRequest>();
+        
 
 	//get all assitances
 	try {
@@ -95,7 +83,7 @@ public class AssistanceController extends HttpServlet {
 	          for (AssistanceRequest assist : allAssitancesList) {
 		if(assist.getStatus().equalsIgnoreCase("active"))
 		{
-		         foodList.add(assist);
+		         carRepairsList.add(assist);
 		          
 		}
 		
@@ -119,7 +107,7 @@ public class AssistanceController extends HttpServlet {
 //		}
 
 	          }
-	          Collections.sort(foodList,AssistanceRequest.sortAssistanceListByDate );
+	          Collections.sort(carRepairsList,AssistanceRequest.sortAssistanceListByDate );
 
 	} catch (Exception ex) {
 
@@ -127,10 +115,10 @@ public class AssistanceController extends HttpServlet {
 	          // sortOurLists(foodList);
 	          //this is executed anyway. so load the list here and forward the request.
 	          session.setAttribute("allAssitancesList", allAssitancesList);
-	          session.setAttribute("foodList", foodList);
-	          session.setAttribute("cashList", cashList);
+	          session.setAttribute("foodList", carRepairsList);
+	          session.setAttribute("cashList", clothingList);
 	          session.setAttribute("medicaidList", medicaidList);
-	          session.setAttribute("otherBenefitsList", otherBenefitsList);
+	          session.setAttribute("otherBenefitsList", gasList);
 	          
 	          url	=         "/views/assistance.jsp";
 	          cs.getRequestDispatcher(url).forward(request, response);
