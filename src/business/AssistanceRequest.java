@@ -17,9 +17,9 @@ import java.util.Comparator;
  */
 public class AssistanceRequest implements Serializable, Comparator<AssistanceRequest> {
 
-          private int       requestID;
-          private Assistance anAssistance;
-          private int       assistanceID;
+          private int        requestID;
+          private ClientAid clientAid;
+          private int        assistanceID;
           private int       clientID;
           private LocalDate requestDate;
           private double    amountPaid;
@@ -45,17 +45,17 @@ public class AssistanceRequest implements Serializable, Comparator<AssistanceReq
           }
 
           /**
-           * @return the anAssistance
+           * @return the clientAid
            */
-          public Assistance getAnAssistance() {
-	return anAssistance;
+          public ClientAid getClientAid() {
+	return clientAid;
           }
 
           /**
-           * @param anAssistance the anAssistance to set
+           * @param clientAid the clientAid to set
            */
-          public void setAnAssistance(Assistance anAssistance) {
-	this.anAssistance = anAssistance;
+          public void setClientAid(ClientAid clientAid) {
+	this.clientAid = clientAid;
           }
 
           /**

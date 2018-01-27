@@ -5,7 +5,8 @@
  */
 package data;
 
-import business.Assistance;
+import business.AidType;
+import business.ClientAid;
 import business.AssistanceRequest;
 import business.CaseWorker;
 import business.Client;
@@ -47,25 +48,18 @@ public class ClientDB {
      *
      * @return
      */
-    public static ArrayList<AssistanceRequest> getAllAssistances(int clientID) {
+    public static ArrayList<AssistanceRequest> getSecondaryAssistances(int clientID) {
         ArrayList<AssistanceRequest> allAssist = new ArrayList<AssistanceRequest>();
 
         Connection connection = DBConnection.getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
         //insert some data into requestassist table and then try this.
-        String query = "SELECT requestID"
-	    + ", ra.assistanceID"
-	    + ", clientID"
-	    + ", dateRequest"
-	    + ", status"
-	    + ", dateDisbursed"
-	    + ", amount"
-	    + ", a.assistanceID"
-	    + ", description"
-	    + "FROM SCM.TCF_REQUESTASSIST ra left join SCM.TCF_ASSIISTANCE a "
-	    + " on ra.assistanceId = a.assistanceID "
-	    + " WHERE clientID = ?";
+        String query = "SELECT requestID, ra.assistanceID, clientID, dateRequest, status, dateDisbursed, "
+	    + "amount, a.assistanceID, description "
+	    + "FROM SCM.TCF_REQUESTASSIST ra join SCM.TCF_ASSISTANCE a "
+	    + "on ra.assistanceId = a.assistanceID "
+	    + "WHERE clientID = ?";
 
         try {
             ps = connection.prepareStatement(query);
@@ -73,11 +67,11 @@ public class ClientDB {
             rs = ps.executeQuery();
 
             AssistanceRequest assistRequest = null;
-            Assistance anAssistance = null;            
+            ClientAid anAssistance = null;            
             
             while (rs.next()) {
                 assistRequest = new AssistanceRequest();
-                anAssistance  = new Assistance();
+                anAssistance  = new ClientAid();
                 
                 assistRequest.setRequestID(rs.getInt("requestID"));
                 assistRequest.setAssistanceID(rs.getInt("assistanceID"));
@@ -87,10 +81,10 @@ public class ClientDB {
                 assistRequest.setDateDisbursed(rs.getDate("dateDisbursed").toLocalDate());
                 assistRequest.setAmountPaid(rs.getDouble("Amount"));
                 
-                anAssistance.setAssistanceID(rs.getInt("assistanceID"));
-                anAssistance.setAssistanceDescription(rs.getString("description"));
+                anAssistance.setClientID(rs.getInt("assistanceID"));
+                anAssistance.setClientAidDesc(rs.getString("description"));
                 
-                assistRequest.setAnAssistance(anAssistance);
+                assistRequest.setClientAid(anAssistance);
                 
                 
 
@@ -108,9 +102,61 @@ public class ClientDB {
             return allAssist;
         }
 
-    }
+    }//end of get secondary assistance
 
-    //end of get all assistanc
+    
+    
+    
+     public static ArrayList<ClientAid> getPrimaryAssistances(int clientID) {
+        ArrayList<ClientAid> clientAidList = new ArrayList<ClientAid>();
+
+        Connection connection = DBConnection.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+     
+        String query = "SELECT clientID, dateDisbursed, c.aidtype, aidName "
+	    + "FROM SCM.TCF_CLIENTAID c join SCM.TCF_AIDTYPES a "
+	    + "ON c.aidtype = a.aidtype "
+	    + " WHERE clientID = ?";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, clientID);
+            rs = ps.executeQuery();
+
+            ClientAid clientAid = null;
+            AidType aidType = null;            
+            
+            while (rs.next()) {
+                clientAid = new ClientAid();
+               
+                
+                clientAid.setClientID(rs.getInt("clientID"));
+                clientAid.setClientAidDateDisbursed(rs.getDate("dateDisbursed").toLocalDate());
+                
+                aidType  = new AidType(rs.getInt("aidType"), rs.getString("aidName"));
+                clientAid.setAidType(aidType);
+                              
+                clientAidList.add(clientAid);
+
+            }
+        } catch (SQLException sqlException) {
+            System.out.println(sqlException);
+
+            return null;
+        } finally {
+            DBUtility.closeResultSet(rs);
+            DBUtility.closePreparedStatement(ps);
+
+            return clientAidList;
+        }
+
+    }//end of get primary assistances
+
+    
+    
+    
+    
     public static ArrayList<Client> getAllClientsForCaseWorker(CaseWorker caseWorker) {
         ArrayList<Client> allClients = new ArrayList<Client>();
 
