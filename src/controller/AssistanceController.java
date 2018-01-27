@@ -7,6 +7,7 @@ package controller;
 
 import business.AssistanceRequest;
 import business.Client;
+import business.ClientAid;
 import data.AccountDB;
 import data.ClientDB;
 import java.io.IOException;
@@ -49,11 +50,14 @@ public class AssistanceController extends HttpServlet {
         Client aClient = (Client) session.getAttribute("user"); // get this from successful login.
 
         ArrayList<AssistanceRequest> allAssitancesList = (ArrayList<AssistanceRequest>) session.getAttribute("allAssitancesList");
+        ArrayList<ClientAid> clientAidList = (ArrayList<ClientAid>) session.getAttribute("clientAidList");
 
         if (allAssitancesList == null) {
             allAssitancesList = new ArrayList<AssistanceRequest>();
           //  allAssitancesList = ClientDB.getSecondaryAssistances(aClient.getClientID());
-        }
+        } else if(clientAidList == null){
+	    clientAidList = new ArrayList<ClientAid>();
+	}
 
         /**
          * documentation : create allAssitancesList to hold all assistances make
@@ -62,24 +66,32 @@ public class AssistanceController extends HttpServlet {
          * filter/insert them to the appropriate list. load all lists into the
          * session
          */
+        //Primary assistance
+         ArrayList<ClientAid> foodList	    = new ArrayList<ClientAid>();
+         ArrayList<ClientAid> cashList	    = new ArrayList<ClientAid>();
+         ArrayList<ClientAid> medicaidList  = new ArrayList<ClientAid>();
+        
+        
         //this list is only seconary list, as the names of the lists indicate
-        allAssitancesList = ClientDB.getSecondaryAssistances(aClient.getClientID());
-
+        
+        //allAssitancesList = ClientDB.getSecondaryAssistances(aClient.getClientID());
+        clientAidList     = ClientDB.getPrimaryAssistances(aClient.getClientID());
         //this is only test data (hard coded)
-        //allAssitancesList = ClientDB.getTestData();
+        allAssitancesList = ClientDB.getTestData();
+        
         ArrayList<AssistanceRequest> carRepairsList      = new ArrayList<AssistanceRequest>();
         ArrayList<AssistanceRequest> clothingList        = new ArrayList<AssistanceRequest>();
         ArrayList<AssistanceRequest> vehicleRegisterList = new ArrayList<AssistanceRequest>();
         ArrayList<AssistanceRequest> gasList             = new ArrayList<AssistanceRequest>();
         ArrayList<AssistanceRequest> tuitionList         = new ArrayList<AssistanceRequest>();
-
+        
+        
         //get all assitances
         try {
             //loop through assistances
             for (AssistanceRequest assist : allAssitancesList) {
                 if (assist.getStatus().equalsIgnoreCase("car repair")) {
 	carRepairsList.add(assist);
-
                 }
 
                 if (assist.getStatus().equalsIgnoreCase("clothing")) {
@@ -94,14 +106,37 @@ public class AssistanceController extends HttpServlet {
                 }
 
             }
+            
+            //filter primary benefits
+            for(ClientAid clientAssist: clientAidList){
+                if(clientAssist.getAidType().getAidDescription().equalsIgnoreCase("SNAP")){
+	foodList.add(clientAssist);	
+                }
+                else if (clientAssist.getAidType().getAidDescription().equalsIgnoreCase("ADC")){
+	cashList.add(clientAssist);
+                }
+                else
+                {
+	medicaidList.add(clientAssist);
+                }
+            }
+            
             Collections.sort(carRepairsList, AssistanceRequest.sortAssistanceListByDate);
             Collections.sort(clothingList, AssistanceRequest.sortAssistanceListByDate);
             Collections.sort(gasList, AssistanceRequest.sortAssistanceListByDate);
             Collections.sort(vehicleRegisterList, AssistanceRequest.sortAssistanceListByDate);
             Collections.sort(tuitionList, AssistanceRequest.sortAssistanceListByDate);
+            
+            
+            //NOTE: I made the clientAid to extend the AssistanceRequest to take advantage of implementing comparator class
+            // so this will be tested once tables are populated later. 
+            Collections.sort(foodList, ClientAid.sortAssistanceListByDate);
+            Collections.sort(cashList, ClientAid.sortAssistanceListByDate);
+            Collections.sort(medicaidList, ClientAid.sortAssistanceListByDate);
            
 
         } catch (Exception ex) {
+            
 
         } finally {
             // sortOurLists(foodList);

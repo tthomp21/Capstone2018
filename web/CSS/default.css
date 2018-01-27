@@ -7,7 +7,7 @@ body {
     margin: 0;
     background-color: #a39d79;   /*brownish background*/ 
     white-space: nowrap;
-    
+
 }
 
 #all {
@@ -16,7 +16,7 @@ body {
     min-width: 1035px;
     min-height: 530px;
     border-radius: 15px;
-    
+
 }
 
 
@@ -52,7 +52,7 @@ aside {
     padding: 0px;
     font-family: tahoma; 
     min-width: 270px;
-    
+
 }
 
 /* ---- account box ---- */
@@ -63,7 +63,7 @@ aside {
     padding: 0px;
     margin: 0px;
     height: 153px;
-    
+
     font-size: 1.05em;
 }
 
@@ -169,8 +169,11 @@ footer {
     background-color: white;
     white-space: normal;
     overflow: scroll;
+    overflow-x: hidden;
 }
-
+#main h2{
+    font-size: 1.5em;
+}
 @media screen and (max-height: 753px) {
     footer {
         top: 700px;
@@ -180,4 +183,36 @@ footer {
     footer {
         top: 700px;
     }
+}
+
+#primarySection{
+    float: left;
+    clear: right;
+    height: 90%;
+    position: relative;
+    margin-right: 20px;
+
+}
+#secondarySection{
+    position: relative;
+
+    /*  background-color: #c0c0c0;*/
+
+}
+table{
+    border-collapse: collapse;
+}
+
+#primarySection, #secondarySection div{
+
+    text-indent: 40px;
+   
+}
+tr, td, th {
+    text-align: left;
+    font-size: 1em;
+}
+th, td:nth-child(1){
+    background-color: lightblue;
+    width: auto;
 }

@@ -12,7 +12,7 @@ import java.time.LocalDate;
  *
  * @author ms610358
  */
-public class ClientAid implements Serializable{
+public class ClientAid extends AssistanceRequest implements Serializable{
     
     
     private     int	         clientID;
