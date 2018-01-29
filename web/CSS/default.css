@@ -169,7 +169,7 @@ footer {
     background-color: white;
     white-space: normal;
     overflow: scroll;
-    overflow-x: hidden;
+    overflow-x: auto;
 }
 #main h2{
     font-size: 1.5em;
@@ -191,11 +191,11 @@ footer {
     height: 90%;
     position: relative;
     margin-right: 20px;
-
+    width: 50%;
 }
 #secondarySection{
-    position: relative;
 
+   
     /*  background-color: #c0c0c0;*/
 
 }
@@ -204,9 +204,10 @@ table{
     background-color: #00ffff
 }
 
-#primarySection, #secondarySection div{
+#primarySection div , #secondarySection div{
 
-    text-indent: 40px;
+    /*text-indent: 40px;*/
+    margin-left: 20px;
    
 }
 tr, td, th {
@@ -216,4 +217,19 @@ tr, td, th {
 th, td:nth-child(1){
     background-color: lightblue;
     width: auto;
+}
+th{
+    padding: 5px;
+}
+.sectionTitle{
+      /* background-color: #f0e68c;*/
+}
+h2.close{
+    background: url(/Images/closeArrow.png) no-repeat left center;
+}
+h2.open{
+     background: url(/Images/openArrow.png) no-repeat left center;
+}
+h2{
+    padding: 20px;
 }

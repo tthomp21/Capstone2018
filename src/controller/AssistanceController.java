@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.TreeMap;
@@ -41,7 +40,7 @@ public class AssistanceController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-	throws ServletException, IOException {
+            throws ServletException, IOException {
 
         HttpSession session = request.getSession();
         ServletContext cs = session.getServletContext();
@@ -54,10 +53,10 @@ public class AssistanceController extends HttpServlet {
 
         if (allAssitancesList == null) {
             allAssitancesList = new ArrayList<AssistanceRequest>();
-          //  allAssitancesList = ClientDB.getSecondaryAssistances(aClient.getClientID());
-        } else if(clientAidList == null){
-	    clientAidList = new ArrayList<ClientAid>();
-	}
+            //  allAssitancesList = ClientDB.getSecondaryAssistances(aClient.getClientID());
+        } else if (clientAidList == null) {
+            clientAidList = new ArrayList<ClientAid>();
+        }
 
         /**
          * documentation : create allAssitancesList to hold all assistances make
@@ -67,76 +66,67 @@ public class AssistanceController extends HttpServlet {
          * session
          */
         //Primary assistance
-         ArrayList<ClientAid> foodList	    = new ArrayList<ClientAid>();
-         ArrayList<ClientAid> cashList	    = new ArrayList<ClientAid>();
-         ArrayList<ClientAid> medicaidList  = new ArrayList<ClientAid>();
-        
-        
+        ArrayList<ClientAid> foodList = new ArrayList<ClientAid>();
+        ArrayList<ClientAid> cashList = new ArrayList<ClientAid>();
+        ArrayList<ClientAid> medicaidList = new ArrayList<ClientAid>();
+
         //this list is only seconary list, as the names of the lists indicate
-        
         //allAssitancesList = ClientDB.getSecondaryAssistances(aClient.getClientID());
-        clientAidList     = ClientDB.getPrimaryAssistances(aClient.getClientID());
+        clientAidList = ClientDB.getPrimaryAssistances(aClient.getClientID());
         //this is only test data (hard coded)
         allAssitancesList = ClientDB.getTestData();
-        
-        ArrayList<AssistanceRequest> carRepairsList      = new ArrayList<AssistanceRequest>();
-        ArrayList<AssistanceRequest> clothingList        = new ArrayList<AssistanceRequest>();
+
+        ArrayList<AssistanceRequest> carRepairsList = new ArrayList<AssistanceRequest>();
+        ArrayList<AssistanceRequest> clothingList = new ArrayList<AssistanceRequest>();
         ArrayList<AssistanceRequest> vehicleRegisterList = new ArrayList<AssistanceRequest>();
-        ArrayList<AssistanceRequest> gasList             = new ArrayList<AssistanceRequest>();
-        ArrayList<AssistanceRequest> tuitionList         = new ArrayList<AssistanceRequest>();
-        
-        
+        ArrayList<AssistanceRequest> gasList = new ArrayList<AssistanceRequest>();
+        ArrayList<AssistanceRequest> tuitionList = new ArrayList<AssistanceRequest>();
+
         //get all assitances
         try {
             //loop through assistances
             for (AssistanceRequest assist : allAssitancesList) {
                 if (assist.getStatus().equalsIgnoreCase("car repair")) {
-	carRepairsList.add(assist);
+                    carRepairsList.add(assist);
                 }
 
                 if (assist.getStatus().equalsIgnoreCase("clothing")) {
-	clothingList.add(assist);
+                    clothingList.add(assist);
 
                 } else if (assist.getStatus().equalsIgnoreCase("gas")) {
-	gasList.add(assist);
+                    gasList.add(assist);
                 } else if (assist.getStatus().equalsIgnoreCase("vehicle registeration")) {
-	vehicleRegisterList.add(assist);
+                    vehicleRegisterList.add(assist);
                 } else {
-	tuitionList.add(assist);
+                    tuitionList.add(assist);
                 }
 
             }
-            
+
             //filter primary benefits
-            for(ClientAid clientAssist: clientAidList){
-                if(clientAssist.getAidType().getAidDescription().equalsIgnoreCase("SNAP")){
-	foodList.add(clientAssist);	
-                }
-                else if (clientAssist.getAidType().getAidDescription().equalsIgnoreCase("ADC")){
-	cashList.add(clientAssist);
-                }
-                else
-                {
-	medicaidList.add(clientAssist);
+            for (ClientAid clientAssist : clientAidList) {
+                if (clientAssist.getAidType().getAidDescription().equalsIgnoreCase("SNAP")) {
+                    foodList.add(clientAssist);
+                } else if (clientAssist.getAidType().getAidDescription().equalsIgnoreCase("ADC")) {
+                    cashList.add(clientAssist);
+                } else {
+                    medicaidList.add(clientAssist);
                 }
             }
-            
+
             Collections.sort(carRepairsList, AssistanceRequest.sortAssistanceListByDate);
             Collections.sort(clothingList, AssistanceRequest.sortAssistanceListByDate);
             Collections.sort(gasList, AssistanceRequest.sortAssistanceListByDate);
             Collections.sort(vehicleRegisterList, AssistanceRequest.sortAssistanceListByDate);
             Collections.sort(tuitionList, AssistanceRequest.sortAssistanceListByDate);
-            
-            
+
             //NOTE: I made the clientAid to extend the AssistanceRequest to take advantage of implementing comparator class
-            // so this will be tested once tables are populated later. 
+            // so this will be tested once tables are populated later and see if it will work. 
             Collections.sort(foodList, ClientAid.sortAssistanceListByDate);
             Collections.sort(cashList, ClientAid.sortAssistanceListByDate);
             Collections.sort(medicaidList, ClientAid.sortAssistanceListByDate);
-           
 
         } catch (Exception ex) {
-            
 
         } finally {
             // sortOurLists(foodList);
@@ -165,7 +155,7 @@ public class AssistanceController extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -179,7 +169,7 @@ public class AssistanceController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-	throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
