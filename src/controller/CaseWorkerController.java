@@ -57,7 +57,7 @@ public class CaseWorkerController extends HttpServlet {
                 String selectedClient = (String) request.getParameter("clientID");
                 Client foundClient = ClientDB.getClientWithID(Integer.parseInt(selectedClient));
                 session.setAttribute("foundClient", foundClient);
-                url = "/caseworkerclientdetails";
+                url = "/views/caseworkerclientdetails.jsp";
         }
         
         

@@ -41,7 +41,7 @@
                     <c:import url="/Includes/caseWorkerNav.html"/>
                 </nav>
                 
-                
+                <div id="main">
                 <p>clientID: ${foundClient.clientID}</p>
                 <p>SSN: ${foundClient.SSN}</p>
                 <p>First: ${foundClient.firstName}</p>
@@ -50,7 +50,7 @@
                 <p>City: ${foundClient.city}</p>
                 <p>Street: ${foundClient.street}</p>
                 <p>State: ${foundClient.state}</p>
-                <p>Zip: ${foundClient.zip}</p>
+                <p>Zip: ${foundClient.emZip}- ${foundClient.extZip}</p>
                 <p>Email: ${foundClient.email}</p>
                 <p>Phone: ${foundClient.phone}</p>
                 <p>Birthdate: ${foundClient.birthDate}</p>
@@ -61,7 +61,7 @@
                 
                 <p>Need to add hours and other info i may be missing here</p>
                 
-                
+                </div>
                 
             </aside>
             <c:import url="../Includes/footer.html"/>            
