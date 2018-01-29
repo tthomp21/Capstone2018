@@ -9,6 +9,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
         
         <link href="../CSS/default.css" rel="stylesheet" type="text/css"/>
+        <!-- <script type="text/javascript" src="/JS/assistance.js"></script>-->
 <!--        <link href="../CSS/assistance.css" rel="stylesheet" type="text/css"/>-->
         
         <title>Team Cash Flow</title>
@@ -41,6 +42,7 @@
             <div id="main">
                 
                 <section id="primarySection">
+                    <h1 class="sectionTitle">Primary Assistances</h1>
                     <h2>Food Stamp or SNAP</h2>
                 <div>
                     <table border="1">
@@ -113,8 +115,9 @@
                     </table>
                 </div>
                 </section>
+                
                 <section id="secondarySection">
-                 
+                    <h1 class="sectionTitle">Secondary Assistances</h1>
                 <h2>Car Repairs</h2>
                 <div>
                     <table border="1">
@@ -139,7 +142,7 @@
                     </table>
                 </div>
 
-                <h2>clothing Benefits</h2>
+                <h2>Clothing Benefits</h2>
                 <div>
                  <table border="1">
                         <tr>
