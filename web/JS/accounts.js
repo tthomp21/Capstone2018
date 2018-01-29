@@ -52,7 +52,8 @@ $(document).ready(function() {
         {
             setCssForManageAccount();
             $("nav").load("Includes/clientNav.html");            
-            $("#mainClient").fadeIn(1000);           
+            $("#mainClient").fadeIn(1000);      
+            $("#mainCaseWorker").empty();
             $("#manageMsgDivCL").css("background-color", "white");
         }
         else if (action === "manageCaseWorker")
@@ -60,6 +61,7 @@ $(document).ready(function() {
             setCssForManageAccount();
             $("nav").load("Includes/caseWorkerNav.html");
             $("#mainCaseWorker").fadeIn(1000);
+            $("#mainClient").empty();
             $("#manageMsgDivCW").css("background-color", "white");
         }
         else // first arrival, or from logging out 
