@@ -8,8 +8,9 @@
         <script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>        
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
         
-        <link href="../CSS/default.css" rel="stylesheet" type="text/css"/>
+        <!-- <link href="../CSS/default.css" rel="stylesheet" type="text/css"/> -->
         <link href="../CSS/caseWorker.css" rel="stylesheet" type="text/css"/>
+        <script src="../JS/caseworker.js" type="text/javascript"></script>
         
         <title>Team Cash Flow</title>
     </head>
@@ -38,16 +39,34 @@
             </aside>
             
             <div id="main">
+                <h3>Your Clients</h3>
                 <table>
+                    <tr>
+                        <th>Client ID |</th>
+                        <th>Last Name |</th>
+                        <th>Mid |</th>
+                        <th>First Name</th>
+                        
+                    </tr>
                     <c:forEach var="c" items="${foundClients}" varStatus="status">
                         <tr>
-                            <td>${c.firstName}</td>
+                            <td align="center">${c.clientID}</td>
                             <td>${c.lastName}</td>
-                            <td>${c.clientID}</td>
-                            <td><form action="CaseWorkerController" method="post">
+                            <td>${c.middleInit}</td>
+                            <td>${c.firstName}</td>
+                            
+                            <td>
+                                <form action="CaseWorkerController" method="post">
                                 <input type="hidden" value="${c.clientID}" name="clientID">
                                 <input type="hidden" name="action" value="clientDetails">
                                 <input type="submit" value="Details">
+                                </form>
+                            </td>
+                            <td>
+                                <form action="CaseWorkerController" method="post">
+                                <input type="hidden" value="${c.clientID}" name="clientID">
+                                <input type="hidden" name="action" value="clientHours">
+                                <input type="submit" value="Enter Hours">
                                 </form>
                             </td>
                         </tr>
@@ -58,4 +77,12 @@
             <c:import url="../Includes/footer.html"/>            
         </div>
     </body>
+    <script type="text/javascript">
+        function handleClick(evt){
+            var node = evt.target || evt.srcElement;
+            if(node.name == "action"){
+                node.value = "clientDetails";
+            }
+        }
+    </script>
 </html>

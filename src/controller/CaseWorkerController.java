@@ -26,6 +26,8 @@ public class CaseWorkerController extends HttpServlet {
         String url = "/views/caseworkerHome.jsp";
         String message = "";
         String action = request.getParameter("action");
+        String selectedClient;
+        Client foundClient;
         HttpSession session = request.getSession();
         ArrayList<Client> clients = new ArrayList<Client>();
         
@@ -54,10 +56,15 @@ public class CaseWorkerController extends HttpServlet {
                 url = "/AccountsController";
                 break;
             case "clientDetails":
-                String selectedClient = (String) request.getParameter("clientID");
-                Client foundClient = ClientDB.getClientWithID(Integer.parseInt(selectedClient));
+                selectedClient = (String) request.getParameter("clientID");
+                foundClient = ClientDB.getClientWithID(Integer.parseInt(selectedClient));
                 session.setAttribute("foundClient", foundClient);
                 url = "/views/caseworkerclientdetails.jsp";
+            case "clientHours":
+                selectedClient = (String) request.getParameter("clientID");
+                foundClient = ClientDB.getClientWithID(Integer.parseInt(selectedClient));
+                session.setAttribute("foundClient", foundClient);
+                url = "/views/caseworkerclienteditor.jsp";
         }
         
         

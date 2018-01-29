@@ -1,2 +1,263 @@
 
 
+/* Sayel Rammaha    
+   1/12/18
+*/
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #a39d79;   /*brownish background*/ 
+    white-space: nowrap;
+
+}
+
+#all {
+    width: auto;   
+    margin-top: 0px;  
+    min-width: 1035px;
+    min-height: 530px;
+    border-radius: 15px;
+
+}
+
+
+/* ---- heading bar ---- */
+header {
+    height: 50px;
+    padding-top: 5px;
+    background-color: #f0e68c; /*yellow header bar background*/ 
+    color: #fff;
+    text-align: center;
+    min-width: 970px;
+}
+
+header h1 {
+    width: 300px;
+    margin: auto;
+    margin-top: 3px; 
+    color: #3a3a3a;
+}
+
+#logo {
+    float: right;
+}
+
+
+/* ---- aside column ---- */
+aside {
+    position: absolute;    
+    width: 270px;
+    top: 75px;
+    bottom: 15px;
+    left: 15px;    
+    padding: 0px;
+    font-family: tahoma; 
+    min-width: 270px;
+
+}
+
+/* ---- account box ---- */
+#accountDiv {    
+    text-align: center;
+    color: black;  
+    background-color: white;    
+    padding: 0px;
+    margin: 0px;
+    height: 153px;
+
+    font-size: 1.05em;
+}
+
+#welcome {
+    margin: 0px;
+    padding: 10px;
+    background-color: #f0e68c;    
+    height: 53px;
+    font-style: italic;
+}
+
+/* aside link styling */
+aside a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+aside a:hover, aside li:hover {
+    background-color: lightgrey;
+    cursor: pointer;
+}
+
+aside a:visited {
+    color: black;
+}
+
+.actItem {
+    padding: 0px;
+    margin: 0px;
+    display: block;
+}
+
+/* nav list of links styling */
+#accountDiv ul {
+    padding: 0px;
+    margin: 0px;
+}
+
+#accountDiv li {
+    padding: 10px;
+    list-style: none;
+}
+
+/* ---- nav bar part of aside ---- */
+nav {
+    position: absolute;
+    top: 160px;
+    bottom: 0px;
+    width: 270px;
+    background-color: white;
+    margin-top: 10px;
+    padding: 0px;    
+    overflow: hidden;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.05em;
+    min-height: 495px;
+}
+
+nav ul {
+    padding: 0px;
+    margin: 0px;
+}
+
+nav li {
+    padding: 10px;
+    list-style: none;
+}
+
+/* ---- footer ---- */
+footer {
+    position: absolute;
+    padding: 0px; 
+    bottom: 15px;
+    left: 300px;
+    right: 15px;    
+    min-width: 700px;
+    height: 20px;
+    text-align: center;
+    color: black;  
+    background-color: white;
+    overflow: hidden;
+    padding: 10px;
+}
+/*@media screen and (max-height: 525px) {
+    footer {
+        top: 470px;
+    }
+}*/
+
+/* ---- main program area ---- */
+#main {
+    position: absolute;  
+    padding: 10px;
+    top: 75px;
+    bottom: 70px;
+    left: 300px;    
+    right: 15px;
+    min-width: 700px;
+    min-height: 590px;
+    color: #3a3a3a;
+    background-color: white;
+    white-space: normal;
+}
+#main h2{
+    font-size: 1.5em;
+}
+
+/*
+@media screen and (max-height: 753px) {
+    footer {
+        top: 700px;
+    }
+}
+@media screen and (max-height: 773px) and (max-width: 1034px) {
+    footer {
+        top: 700px;
+    }
+}
+
+*/
+
+#primarySection{
+    float: left;
+    clear: right;
+    height: 90%;
+    position: relative;
+    margin-right: 20px;
+
+}
+#secondarySection{
+    position: relative;
+
+    /*  background-color: #c0c0c0;*/
+
+}
+
+
+#primarySection, #secondarySection div{
+    text-indent: 40px;
+}
+tr, td, th {
+    text-align: left;
+    font-size: 1em;
+    padding: 2px;
+}
+
+table { 
+    border-collapse: separate; 
+    border-spacing: 0 10px; 
+    margin-top: -5px; /* correct offset on first border spacing if desired */
+}
+td {
+    border: solid 1px #000;
+    border-style: solid none;
+    padding: 5px;
+    vertical-align: middle;
+    text-align: center;
+    background-color: white;
+}
+th {
+    border: solid 1px #000;
+    border-style: solid none;
+    padding: 5px;
+}
+th:first-child {
+    border-left-style: solid;
+    border-top-left-radius: 5px; 
+    border-bottom-left-radius: 5px;
+}
+th:last-child {
+    border-right-style: solid;
+    border-bottom-right-radius: 5px; 
+    border-top-right-radius: 5px; 
+}
+td:first-child {
+    border-left-style: solid;
+    border-top-left-radius: 5px; 
+    border-bottom-left-radius: 5px;
+}
+td:last-child {
+    border-right-style: solid;
+    border-bottom-right-radius: 5px; 
+    border-top-right-radius: 5px; 
+}
+th{
+    background-color: lightblue;
+    width: auto;
+}
+tr:hover td{
+    background: #ddd;
+    
+}
+

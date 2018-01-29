@@ -201,6 +201,7 @@ footer {
 }
 table{
     border-collapse: collapse;
+    background-color: #00ffff
 }
 
 #primarySection, #secondarySection div{
