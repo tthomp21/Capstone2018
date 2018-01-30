@@ -127,9 +127,28 @@ public class AccountDB {
     // updates a given field with a new value for a given username
     public static boolean updateInfo(String userType, String userName, String fieldName, String fieldValue) throws SQLException {
         Connection connection = DBConnection.getConnection();
-        String query = "update scm.tcf_" + userType
+        
+        // prevent sqli
+        ArrayList<String> fields = new ArrayList<String>();
+        fields.add("phone");
+        fields.add("email");
+        fields.add("street");
+        fields.add("city");
+        fields.add("emzip");
+        fields.add("extzip");
+        fields.add("username");
+        fields.add("password");
+        fields.add("dependents");
+        
+        String query;
+        if (fields.contains(fieldName))
+        {
+            query = "update scm.tcf_" + userType
                 + " set " + fieldName + " = ? where username = ?";
-
+        }
+        else 
+            query = "";
+        
         PreparedStatement ps = connection.prepareStatement(query);
 
         if (fieldName.equals("dependents")) {
@@ -138,6 +157,7 @@ public class AccountDB {
         } else {
             ps.setString(1, fieldValue);
         }
+        
         ps.setString(2, userName);
 
         int rowsAffected = ps.executeUpdate();

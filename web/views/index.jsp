@@ -200,7 +200,7 @@
                                 <div class="manageCell">
                                     <p>
                                         <label>Current Phone Number:</label>
-                                        <span><c:out value="${user.phone}"/></span>
+                                        <span><c:out value="${user.phoneFormatted}"/></span>
                                     </p>
                                     <p>    
                                         <label for="fieldValue">Change Phone Number:</label>
@@ -279,7 +279,7 @@
                                     </p>
                                     <p>
                                         <label for="fieldValue">New password:</label>
-                                        <input type="password" name="fieldValue" value="${prevManagePassword1CW}" id="newPW"><br>
+                                        <input type="password" name="fieldValue" value="${prevManagePassword1CW}" id="newPwCW"><br>
                                     </p>
                                     <p> 
                                         <label for="fieldValue2">Confirm password:</label>
@@ -324,7 +324,7 @@
                                 <div class="manageCell">
                                     <p>
                                         <label>Current Phone Number:</label>
-                                        <span><c:out value="${user.phone}"/></span>
+                                        <span><c:out value="${user.phoneFormatted}"/></span>
                                     </p>
                                     <p>    
                                         <label for="fieldValue">Change Phone Number:</label>
@@ -336,7 +336,7 @@
                                     </p>
                                     <p>                                        
                                         <label></label>
-                                        <input type="hidden" name="action" value="updateCaseWorker"/>
+                                        <input type="hidden" name="action" value="updateClient"/>
                                         <input type="hidden" name="fieldName" value="phone"/>
                                         <input type="submit" name="submit" value="Update Account" class="button"/>                                 
                                     </p>
@@ -361,38 +361,13 @@
                                     </p>
                                     <p>                                        
                                         <label></label>
-                                        <input type="hidden" name="action" value="updateCaseWorker"/>
+                                        <input type="hidden" name="action" value="updateClient"/>
                                         <input type="hidden" name="fieldName" value="email"/>
                                         <input type="submit" name="submit" value="Update Account" class="button"/>                                 
                                     </p>
                                 </div>
                             </form>  
-                        </td></tr> 
-                        
-                        <tr><td> 
-                            <form action="AccountsController" method="post" class="manageForm" id="emailFormCL">
-                                <div class="manageCell">
-                                    <p>
-                                        <label>Current Email:</label>
-                                        <span><c:out value="${user.email}"/></span>
-                                    </p>
-                                    <p>    
-                                        <label for="fieldValue">Change email:</label>
-                                        <input type="text" name="fieldValue" value="${prevManageEmailCL}">
-                                    </p>
-                                    <p>    
-                                        <label for="managePasswordCL">Verify current password:</label>
-                                        <input type="password" name="managePasswordCL" value="">
-                                    </p>
-                                    <p>                                        
-                                        <label></label>
-                                        <input type="hidden" name="action" value="updateCaseWorker"/>
-                                        <input type="hidden" name="fieldName" value="email"/>
-                                        <input type="submit" name="submit" value="Update Account" class="button"/>                                 
-                                    </p>
-                                </div>
-                            </form>  
-                        </td></tr> 
+                        </td></tr>                         
                         
                         <tr><td> 
                             <form action="AccountsController" method="post" class="manageForm" id="streetFormCL">
@@ -411,11 +386,90 @@
                                     </p>
                                     <p>
                                         <label></label>
-                                        <input type="hidden" name="action" value="updateCaseWorker"/>
+                                        <input type="hidden" name="action" value="updateClient"/>
                                         <input type="hidden" name="fieldName" value="street"/>
                                         <input type="submit" name="submit" value="Update Account" class="button"/>                                 
                                     </p>
                                 </div>                                
+                            </form>  
+                        </td></tr> 
+                        
+                        <tr><td> 
+                            <form action="AccountsController" method="post" class="manageForm" id="cityFormCL">
+                                <div class="manageCell">    
+                                    <p>
+                                        <label>Current City:</label>
+                                        <span><c:out value="${user.city}"/></span>
+                                    </p>
+                                    <p>
+                                        <label for="fieldValue">Change City:</label>
+                                        <input type="text" name="fieldValue" value="${prevManageCityCL}">
+                                    </p>
+                                    <p>   
+                                        <label for="managePasswordCL">Verify current password:</label>
+                                        <input type="password" name="managePasswordCL" value="">
+                                    </p>
+                                    <p>
+                                        <label></label>
+                                        <input type="hidden" name="action" value="updateClient"/>
+                                        <input type="hidden" name="fieldName" value="city"/>
+                                        <input type="submit" name="submit" value="Update Account" class="button"/>                                 
+                                    </p>
+                                </div>                                
+                            </form>  
+                        </td></tr> 
+                        
+                        <tr><td> 
+                            <form action="AccountsController" method="post" class="manageForm" id="zipFormCL">
+                                <div class="manageCell">    
+                                    <p>
+                                        <label>Current Zip Code:</label>
+                                        <span><c:out value="${user.zipFormatted}"/></span>
+                                    </p>
+                                    <p>
+                                        <label for="fieldValue">Change Zip Code:</label>
+                                        <input type="text" name="fieldValue" value="${prevManageZipCL}">
+                                    </p>
+                                    <p>
+                                        <label for="fieldValue2">Change Zip Ext:</label>
+                                        <input type="text" name="fieldValue2" value="${prevManageZipExtCL}">
+                                    </p>
+                                    <p>   
+                                        <label for="managePasswordCL">Verify current password:</label>
+                                        <input type="password" name="managePasswordCL" value="">
+                                    </p>
+                                    <p>
+                                        <label></label>
+                                        <input type="hidden" name="action" value="updateClient"/>
+                                        <input type="hidden" name="fieldName" value="zip"/>
+                                        <input type="submit" name="submit" value="Update Account" class="button"/>                                 
+                                    </p>
+                                </div>                                
+                            </form>  
+                        </td></tr> 
+                        
+                        <tr><td> 
+                            <form action="AccountsController" method="post" class="manageForm" id="userNameFormCL">
+                                <div class="manageCell">
+                                    <p>
+                                        <label>Current User Name:</label>
+                                        <span><c:out value="${user.userName}"/></span>
+                                    </p>
+                                    <p>    
+                                        <label for="fieldValue">Change User Name:</label>
+                                        <input type="text" name="fieldValue" value="${prevManageUserNameCL}">
+                                    </p>
+                                    <p>    
+                                        <label for="managePasswordCL">Verify current password:</label>
+                                        <input type="password" name="managePasswordCL" value="">
+                                    </p>
+                                    <p>                                        
+                                        <label></label>
+                                        <input type="hidden" name="action" value="updateClient"/>
+                                        <input type="hidden" name="fieldName" value="username"/>
+                                        <input type="submit" name="submit" value="Update Account" class="button"/>                                 
+                                    </p>
+                                </div>
                             </form>  
                         </td></tr> 
                         
@@ -428,7 +482,7 @@
                                     </p>
                                     <p>
                                         <label for="fieldValue">New password:</label>
-                                        <input type="password" name="fieldValue" value="${prevManagePassword1CL}" id="newPW"><br>
+                                        <input type="password" name="fieldValue" value="${prevManagePassword1CL}" id="newPwCL"><br>
                                     </p>
                                     <p> 
                                         <label for="fieldValue2">Confirm password:</label>
@@ -440,7 +494,7 @@
                                     </p>
                                     <p>
                                         <label></label>
-                                        <input type="hidden" name="action" value="updateCaseWorker"/>
+                                        <input type="hidden" name="action" value="updateClient"/>
                                         <input type="hidden" name="fieldName" value="password"/>
                                         <input type="submit" name="submit" value="Update Account" class="button"/>                                 
                                     </p>

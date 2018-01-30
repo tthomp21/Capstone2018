@@ -160,4 +160,9 @@ public class Client extends User {
     {
         this.caseWorkerID = caseWorkerID;
     }
+    
+    public String getZipFormatted()
+    {
+        return emZip + "-" + extZip;
+    }
 }

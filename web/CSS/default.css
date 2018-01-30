@@ -184,7 +184,7 @@ footer {
         top: 700px;
     }
 }
-
+/*
 #primarySection{
     float: left;
     clear: right;
@@ -197,7 +197,7 @@ footer {
 
    
     /*  background-color: #c0c0c0;*/
-
+/*
 }
 table{
     border-collapse: collapse;
@@ -206,9 +206,9 @@ table{
 
 #primarySection div , #secondarySection div{
 
-    /*text-indent: 40px;*/
+    /*text-indent: 40px;*//*
     margin-left: 20px;
-   
+   /*
 }
 tr, td, th {
     text-align: left;
@@ -222,8 +222,8 @@ th{
     padding: 5px;
 }
 .sectionTitle{
-      /* background-color: #f0e68c;*/
-}
+      /* background-color: #f0e68c;*//*
+}/*
 h2.close{
     background: url(/Images/closeArrow.png) no-repeat left center;
 }
@@ -233,3 +233,4 @@ h2.open{
 h2{
     padding: 20px;
 }
+*/

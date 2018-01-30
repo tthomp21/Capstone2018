@@ -52,16 +52,16 @@ $(document).ready(function() {
         {
             setCssForManageAccount();
             $("nav").load("Includes/clientNav.html");            
-            $("#mainClient").fadeIn(1000);      
             $("#mainCaseWorker").empty();
+            $("#mainClient").fadeIn(1000); 
             $("#manageMsgDivCL").css("background-color", "white");
         }
         else if (action === "manageCaseWorker")
         {
             setCssForManageAccount();
             $("nav").load("Includes/caseWorkerNav.html");
-            $("#mainCaseWorker").fadeIn(1000);
             $("#mainClient").empty();
+            $("#mainCaseWorker").fadeIn(1000);            
             $("#manageMsgDivCW").css("background-color", "white");
         }
         else // first arrival, or from logging out 
@@ -74,6 +74,7 @@ $(document).ready(function() {
     // |*** VALIDATION ***|
     // --------------------
     
+    // login forms
     $("#loginFormCW").validate({
         rules: {
             loginUserNameCW: {
@@ -120,6 +121,8 @@ $(document).ready(function() {
         }
     });
     
+    
+    // create account form
     $("#createForm").validate({
         rules: {
             createUserName: {
@@ -165,6 +168,8 @@ $(document).ready(function() {
         }
     });
     
+    
+    // manage case worker forms
     $("#phoneFormCW").validate({
         rules: {
             fieldValue: {
@@ -180,11 +185,11 @@ $(document).ready(function() {
         messages: {
             fieldValue: {
                 required: "Please enter your phone number.", 
-                rangelength: "Please enter a 10-digit phone number"
+                rangelength: "Please enter a 10-digit phone number."
             },
             managePasswordCW: {
                 required: "Please enter your password.",
-                minlength: "Password must be at least 6 characters"
+                minlength: "Password must be at least 6 characters."
             }
         }
     });
@@ -207,7 +212,7 @@ $(document).ready(function() {
             },
             managePasswordCW: {
                 required: "Please enter your password.",
-                minlength: "Password must be at least 6 characters"
+                minlength: "Password must be at least 6 characters."
             }
         }
     });
@@ -226,11 +231,11 @@ $(document).ready(function() {
         messages: {
             fieldValue: {
                 required: "Please enter a new user name.", 
-                minlength: "User name must be at least 6 characters"
+                minlength: "User name must be at least 6 characters."
             },
             managePasswordCW: {
                 required: "Please enter your password.",
-                minlength: "Password must be at least 6 characters"
+                minlength: "Password must be at least 6 characters."
             }
         }
     });
@@ -244,7 +249,7 @@ $(document).ready(function() {
             fieldValue2: {
                 required: true, 
                 minlength: 6,
-                equalTo: "#newPW"
+                equalTo: "#newPwCW"
             },
             managePasswordCW: {
                 required: true,
@@ -262,6 +267,186 @@ $(document).ready(function() {
                 equalTo: "Passwords must match."
             },
             managePasswordCW: {
+                required: "Please enter your current password.",
+                minlength: "Password must be at least 6 characters."
+            }
+        }
+    });
+    
+    
+    // manage client forms
+    $("#phoneFormCL").validate({
+        rules: {
+            fieldValue: {
+                required: true, 
+                digits: true,
+                rangelength: [10, 10]
+            },
+            managePasswordCL: {
+                required: true,
+                minlength: 6
+            }
+        },
+        messages: {
+            fieldValue: {
+                required: "Please enter your phone number.", 
+                rangelength: "Please enter a 10-digit phone number."
+            },
+            managePasswordCL: {
+                required: "Please enter your password.",
+                minlength: "Password must be at least 6 characters."
+            }
+        }
+    });
+    
+    $("#emailFormCL").validate({
+        rules: {
+            fieldValue: {
+                required: true, 
+                email: true
+            },
+            managePasswordCL: {
+                required: true,
+                minlength: 6
+            }
+        },
+        messages: {
+            fieldValue: {
+                required: "Please enter your email address.", 
+                email: "Email address invalid."
+            },
+            managePasswordCL: {
+                required: "Please enter your password.",
+                minlength: "Password must be at least 6 characters."
+            }
+        }
+    });
+    
+    $("#streetFormCL").validate({
+        rules: {
+            fieldValue: {
+                required: true
+            },
+            managePasswordCL: {
+                required: true,
+                minlength: 6
+            }
+        },
+        messages: {
+            fieldValue: {
+                required: "Please enter your street address."
+            },
+            managePasswordCL: {
+                required: "Please enter your password.",
+                minlength: "Password must be at least 6 characters."
+            }
+        }
+    });
+    
+    $("#cityFormCL").validate({
+        rules: {
+            fieldValue: {
+                required: true
+            },
+            managePasswordCL: {
+                required: true,
+                minlength: 6
+            }
+        },
+        messages: {
+            fieldValue: {
+                required: "Please enter your city of residence."
+            },
+            managePasswordCL: {
+                required: "Please enter your password.",
+                minlength: "Password must be at least 6 characters."
+            }
+        }
+    });
+    
+    $("#zipFormCL").validate({
+        rules: {
+            fieldValue: {
+                required: true, 
+                digits: true,
+                rangelength: [5, 5]
+            },
+            fieldValue2: {
+                required: true,
+                digits: true,
+                rangelength: [4, 4]
+            },
+            managePasswordCL: {
+                required: true,
+                minlength: 6
+            }
+        },
+        messages: {
+            fieldValue: {
+                required: "Please enter your phone number.", 
+                rangelength: "Please enter a 5-digit zip code."
+            },
+            fieldValue2: {
+                required: "Please enter your phone number.", 
+                rangelength: "Please enter a 4-digit zip code extension."
+            },
+            managePasswordCL: {
+                required: "Please enter your password.",
+                minlength: "Password must be at least 6 characters."
+            }
+        }
+    });
+    
+    $("#userNameFormCL").validate({
+        rules: {
+            fieldValue: {
+                required: true, 
+                minlength: 6
+            },
+            managePasswordCL: {
+                required: true,
+                minlength: 6
+            }
+        },
+        messages: {
+            fieldValue: {
+                required: "Please enter a new user name.", 
+                minlength: "User name must be at least 6 characters."
+            },
+            managePasswordCL: {
+                required: "Please enter your password.",
+                minlength: "Password must be at least 6 characters."
+            }
+        }
+    });
+    
+    $("#passwordFormCL").validate({
+        rules: {
+            fieldValue: {
+                required: true, 
+                minlength: 6
+            },
+            fieldValue2: {
+                required: true, 
+                minlength: 6,
+                equalTo: "#newPwCL"
+            },
+            managePasswordCL: {
+                required: true,
+                minlength: 6
+            }
+        },
+        messages: {
+            fieldValue: {
+                required: "Please enter a new password.", 
+                minlength: "Password must be at least 6 characters."
+            },
+            fieldValue2: {
+                required: "Please confirm your new password.", 
+                minlength: "Password must be at least 6 characters.",
+                equalTo: "Passwords must match."
+            },
+            managePasswordCL: {
                 required: "Please enter your current password.",
                 minlength: "Password must be at least 6 characters."
             }
@@ -493,6 +678,7 @@ function setCssForManageAccount() {
 
     // hide msg div
     $("#manageMsgDivCW").hide();
+    $("#manageMsgDivCL").hide();
     
     // disable manage account link, since already there
     $("#btnManageAccount").click(function(e) {
@@ -561,6 +747,7 @@ function setCssForManageMsg() {
     setCssForManageAccount();
     // unhide msg div
     $("#manageMsgDivCW").show();
+    $("#manageMsgDivCL").show();
     
     if ($("#manageType").html() === "cl")
     {

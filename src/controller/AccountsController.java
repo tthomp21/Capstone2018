@@ -33,7 +33,7 @@ public class AccountsController extends HttpServlet {
         String userName = "";
         String password = "";
         String rememberMeStatus = null;
-        boolean rememberMe = false;        
+        boolean rememberMe = false;       
         
         String action = request.getParameter("action");
         if (action == null) {
@@ -45,6 +45,7 @@ public class AccountsController extends HttpServlet {
                 // check for cookies
                 if (checkForCookies(request, response))
                 {
+                    // valid login from cookie achieved
                     String redirect = "";
                     Cookie[] cookies = request.getCookies();
                     for (int i = 0; i < cookies.length; i++)
@@ -55,6 +56,7 @@ public class AccountsController extends HttpServlet {
                             break;
                         }
                     }
+                    // redirect to appropriate user controller
                     if (redirect.equals("client"))
                         url = "/AssistanceController";
                     else if (redirect.equals("cw"))
@@ -67,20 +69,23 @@ public class AccountsController extends HttpServlet {
                 clearCookies(request, response);
                 break;
             case "manageClient":
+                if (session.getAttribute("user") == null)
+                    checkForCookies(request, response);
                 break;
             case "manageCaseWorker":
+                if (session.getAttribute("user") == null)
+                    checkForCookies(request, response);
                 break;
                 
             // account management actions
             case "updateClient":                
+                request.setAttribute("manageType", "cl");
                 if (updateClientInfo(request))
                 {
                     String manageMsgSuccess = 
                         "Your Account has been successfully updated";
                     request.setAttribute("manageMsgSuccess", manageMsgSuccess);
-                }
-                else 
-                    request.setAttribute("manageType", "cl");
+                }                    
                 break;
             case "updateCaseWorker":                
                 request.setAttribute("manageType", "cw");
@@ -91,6 +96,7 @@ public class AccountsController extends HttpServlet {
                     request.setAttribute("manageMsgSuccess", manageMsgSuccess);                
                 }
                 break;
+                
             // login actions
             case "loginAsCL":              
                 // retrieve form entries
@@ -176,9 +182,9 @@ public class AccountsController extends HttpServlet {
             else 
             {
                 if (userType.equals("client"))
-                    return clientLogIn(request, response, userName, password, true);
+                    return clientLogIn(request, response, userName, password, false);
                 else if (userType.equals("cw"))
-                    return caseWorkerLogIn(request, response, userName, password, true);
+                    return caseWorkerLogIn(request, response, userName, password, false);
             }
         }
         return false;
@@ -363,19 +369,20 @@ public class AccountsController extends HttpServlet {
             if (rememberMe)
             {
                 Cookie c = new Cookie("rememberMe", "yes");
-                c.setMaxAge(60 * 60);
+                c.setMaxAge(60 * 60);                           
+                Cookie c2 = new Cookie("userName", userName);
+                c2.setMaxAge(60 * 60);
+                Cookie c3 = new Cookie("password", password);
+                c3.setMaxAge(60 * 60);
+                Cookie c4 = new Cookie("user", "client");
+                c4.setMaxAge(60 * 60);
+                
+                response.addCookie(c); 
                 response.addCookie(c);
+                response.addCookie(c2);
+                response.addCookie(c3);
+                response.addCookie(c4);
             }
-            Cookie c = new Cookie("userName", userName);
-            c.setMaxAge(60 * 60);
-            Cookie c2 = new Cookie("password", password);
-            c2.setMaxAge(60 * 60);
-            Cookie c3 = new Cookie("user", "client");
-            c3.setMaxAge(60 * 60);
-            
-            response.addCookie(c);
-            response.addCookie(c2);
-            response.addCookie(c3);
             return true;
         }
     }
@@ -428,19 +435,20 @@ public class AccountsController extends HttpServlet {
             if (rememberMe)
             {
                 Cookie c = new Cookie("rememberMe", "yes");
-                c.setMaxAge(60 * 60);
+                c.setMaxAge(60 * 60);                           
+                Cookie c2 = new Cookie("userName", userName);
+                c2.setMaxAge(60 * 60);
+                Cookie c3 = new Cookie("password", password);
+                c3.setMaxAge(60 * 60);
+                Cookie c4 = new Cookie("user", "cw");
+                c4.setMaxAge(60 * 60);
+                
+                response.addCookie(c); 
                 response.addCookie(c);
+                response.addCookie(c2);
+                response.addCookie(c3);
+                response.addCookie(c4);
             }
-            Cookie c = new Cookie("userName", userName);
-            c.setMaxAge(60 * 60);
-            Cookie c2 = new Cookie("password", password);
-            c2.setMaxAge(60 * 60);
-            Cookie c3 = new Cookie("user", "cw");
-            c3.setMaxAge(60 * 60);
-            
-            response.addCookie(c);
-            response.addCookie(c2);
-            response.addCookie(c3);
             return true;
         }
     }
@@ -552,13 +560,128 @@ public class AccountsController extends HttpServlet {
     
     // handles updating of client account info
     private boolean updateClientInfo(HttpServletRequest request) {
-        String manageMsg = "";
-        String sqlErrorMsg = "sdfasdfsdfasdsa";
+        String manageMsg;
+        String sqlErrorMsg = "There was an error with the database connection";
+        Client user;
         
         HttpSession session = request.getSession();
-        String userName = ((Client)session.getAttribute("user")).getUserName();
+        String userName = ((Client)session.getAttribute("user")).getUserName();        
+                
+        // retrieves name of field being updated
+        String fieldName = request.getParameter("fieldName");
+            
+        if (fieldName == null)
+            return false;
         
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // retrieve confirmation password and update field from update form
+        String managePasswordCL = (String) request.getParameter("managePasswordCL");        
+        String fieldValue = (String) request.getParameter("fieldValue");
+        String fieldValue2 = null;
+        
+        // retain form values
+        switch (fieldName) {
+            case "password":
+                // get second password field if chosen
+                fieldValue2 = (String) request.getParameter("fieldValue2");
+                request.setAttribute("prevManagePassword1CL", fieldValue);                
+                request.setAttribute("prevManagePassword2CL", fieldValue2);
+                break;
+            case "phone":
+                request.setAttribute("prevManagePhoneCL", fieldValue);      
+                break;
+            case "email":
+                request.setAttribute("prevManageEmailCL", fieldValue);      
+                break;
+            case "username":
+                request.setAttribute("prevManageUserNameCL", fieldValue);      
+                break;
+            case "street":
+                request.setAttribute("prevManageStreetCL", fieldValue);    
+                break;
+            case "city":    
+                request.setAttribute("prevManageCityCL", fieldValue);    
+                break;
+            case "zip":
+                fieldValue2 = (String) request.getParameter("fieldValue2");
+                request.setAttribute("prevManageZipCL", fieldValue);                
+                request.setAttribute("prevManageZipExtCL", fieldValue2);
+        }
+        
+        // validate chosen field
+        String validationMsg = Accounts.isValidUpdateField(fieldName, fieldValue, fieldValue2);
+        if (!validationMsg.isEmpty())
+        {
+            manageMsg = validationMsg;
+            request.setAttribute("manageMsg", manageMsg);
+            return false;
+        }
+        else
+        {
+            QueryResult results;
+            
+            // verify password for update
+            results = Accounts.authenticateUser(userName, managePasswordCL, "client");
+            if (!results.successful()) 
+            {            
+                if (results.sqlErrors())
+                    manageMsg = sqlErrorMsg;
+                else                 
+                    manageMsg = "Your password is incorrect";   
+
+                request.setAttribute("manageMsg", manageMsg);
+                return false;
+            }
+            
+            // if updating username, check to make sure it is not taken
+            if (fieldName.equals("username"))
+            {
+                results = Accounts.isValidUserName(fieldValue);
+                if (!results.successful()) 
+                {            
+                    if (results.sqlErrors())
+                        manageMsg = sqlErrorMsg;
+                    else                 
+                        manageMsg = "That User Name is already taken";   
+
+                    request.setAttribute("manageMsg", manageMsg);
+                    return false;
+                }                
+            }
+            
+            // update field in db
+            boolean success;            
+            if (fieldName.equals("zip"))
+            {
+                success = Accounts.updateField("clients", userName, "emzip", fieldValue);
+                if (success)
+                    success = Accounts.updateField("clients", userName, "extzip", fieldValue2);
+            }
+            else 
+            {  
+                success = Accounts.updateField("clients", userName, fieldName, fieldValue);
+            }           
+            
+            // if update successful
+            if (success)
+            {                
+                // if user name changed, use the new user name for login attempt
+                if (fieldName.equals("username"))
+                    userName = fieldValue;
+                
+                // re create user with updated info
+                user = Accounts.logInClient(userName);
+                if (user == null)
+                    return false;
+                session.setAttribute("user", user);
+                return true;            
+            }
+            else 
+            {
+                manageMsg = "There was an error updating database"; 
+                request.setAttribute("manageMsg", manageMsg);
+                return false;
+            }
+        }        
     }    
     
     

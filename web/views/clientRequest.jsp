@@ -21,9 +21,7 @@
                 <div id="accountDiv">
                     <p id="welcome">Welcome, <br><c:out value="${user.firstName}"/></p>
                     <ul>
-                        
-                        <!-- set action=manageClient or action=manageCaseWorker -->
-                        <a href="/AccountsController?action=manage" id="btnManageAccount">
+                        <a href="/AccountsController?action=manageClient" id="btnManageAccount">
                             <li class="actItem">Manage Account</li>
                         </a>
                        
@@ -33,16 +31,15 @@
                         
                     </ul>       
                 </div>
-                
-                <!--choose required nav-->
+                                
                 <nav>
-                    <c:import url="../Includes/nav.html"/>
+                    <c:import url="../Includes/clientNav.html"/>
                 </nav>
                 
             </aside>
             
             <div id="main">
-                Main program body goes here               
+                request assistance page    
             </div>
             
             <c:import url="../Includes/footer.html"/>            
