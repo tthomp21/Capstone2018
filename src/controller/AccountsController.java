@@ -140,6 +140,7 @@ public class AccountsController extends HttpServlet {
         sc.getRequestDispatcher(url).forward(request, response);  
     }
 
+    
     // check for previous login cookies
     private boolean checkForCookies(HttpServletRequest request, HttpServletResponse response)
     {
@@ -205,6 +206,7 @@ public class AccountsController extends HttpServlet {
         }
     }
 
+    
     // validates and creates user account, or creates error messages
     private boolean accountCreation(HttpServletRequest request)
     {
@@ -554,10 +556,7 @@ public class AccountsController extends HttpServlet {
             }
         }        
     }  
-    
-    
-    // ----------------------------------------------------
-    
+        
     // handles updating of client account info
     private boolean updateClientInfo(HttpServletRequest request) {
         String manageMsg;
@@ -684,8 +683,7 @@ public class AccountsController extends HttpServlet {
         }        
     }    
     
-    
-    
+        
     // ---------------------------------------------------------------------------
     
     @Override

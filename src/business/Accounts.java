@@ -7,6 +7,7 @@
 package business;
 import data.*;
 import java.sql.SQLException;
+import java.util.regex.Pattern;
 
 public class Accounts {
     private Accounts() {}
@@ -18,6 +19,46 @@ public class Accounts {
     // dynamically validate a given account info update field
     public static String isValidUpdateField(String fieldName, String fieldValue, String fieldValue2)
     {
+        switch (fieldName)
+        {
+            case "phone":
+                String phonePattern = "\\d{10}";
+                if (!fieldValue.matches(phonePattern))
+                    return "Please enter a 10-digit phone number.";
+                break;
+            case "email":
+                String emailPattern = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";                              
+                if (!fieldValue.matches(emailPattern))
+                    return "Please enter a valid email address.";
+                break;
+            case "street":                
+                if (!isValidLength(fieldValue, 8))
+                    return "Please enter a valid street address.";
+                break;
+            case "city":                
+                if (!isValidLength(fieldValue, 3))
+                    return "Please enter a valid city.";
+                break;
+            case "zip":                
+                String zipPattern = "\\d{5}";
+                String zipExtPattern = "\\d{4}";
+                if (!fieldValue.matches(zipPattern))
+                    return "Please enter a 5-digit zip code.";
+                if (!fieldValue2.matches(zipExtPattern))
+                    return "Please enter a 4-digit zip code extension.";
+                break;
+            case "password":
+                if (!fieldValue.equals(fieldValue2))
+                    return "Passwords must match.";
+                if (!isValidLength(fieldValue, 6))
+                    return "Password must be at least 6 characters.";
+                break;
+            case "userName":
+                if (!isValidLength(fieldValue, 6))
+                    return "User Name must be at least 6 characters.";
+                break;
+        }
+        
         return "";
     }
 
