@@ -121,6 +121,19 @@ aside, #welcome {
     width: auto;
     margin-left: 0;
 }
+/*  checkbox remember me  --------------------*/
+.rMe {
+    width: 25px;
+    height: 20px;
+    vertical-align: middle;
+    margin-left: -20px;
+}
+.rlabel {
+    vertical-align: middle;
+    font-size: 1.2em;
+}
+
+/*  ------------------------------------------*/
 
 
 /* create account form */
@@ -263,7 +276,7 @@ aside, #welcome {
     height: 50px;
     border-radius: 10px;
     padding: 25px;
-    margin: 50px auto auto auto;    
+    margin: 20px auto auto auto;    
 }
 .msgDiv p {
     margin: 0;

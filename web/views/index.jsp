@@ -140,6 +140,7 @@
                             <input type="hidden" name="action" value="loginAsCL"/>
                             <input type="submit" name="submit" value="Log In" class="button"/>
                             <br>
+                            <input type="checkbox" class="rMe" name="rememberMe"/><span class="rlabel">Stay Logged In</span>
                         </fieldset>                        
                     </form>  
                 
@@ -158,7 +159,7 @@
                             <legend>Enter your credentials</legend>
 
                             <label for="loginUserNameCW">User Name:</label>
-                            <input type="text" id="loginUserNameCW" name="loginUserNameCW" autofocus="true" value="${prevLoginUserNameCW}"><br>
+                            <input type="text" id="loginUserNameCW" name="loginUserNameCW" autofocus value="${prevLoginUserNameCW}"><br>
 
                             <label for="loginPasswordCW">Password:</label>
                             <input type="password" id="loginPasswordCW" name="loginPasswordCW" value="${prevLoginPasswordCW}"><br>
@@ -166,6 +167,7 @@
                             <input type="hidden" name="action" value="loginAsCW"/>
                             <input type="submit" name="submit" value="Log In" class="button"/>   
                             <br>
+                            <input type="checkbox" class="rMe" name="rememberMe"/><span class="rlabel">Stay Logged In</span>
                         </fieldset>                        
                     </form>  
                             

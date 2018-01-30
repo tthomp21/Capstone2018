@@ -7,6 +7,7 @@ import business.*;
 import java.io.IOException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +30,10 @@ public class AccountsController extends HttpServlet {
         // ------------------------------------------------------|
                 
         User user = null;
+        String userName = "";
+        String password = "";
+        String rememberMeStatus = null;
+        boolean rememberMe = false;        
         
         String action = request.getParameter("action");
         if (action == null) {
@@ -36,11 +41,30 @@ public class AccountsController extends HttpServlet {
         }      
         
         switch(action) {
-            case "arrival":                
+            case "arrival": 
+                // check for cookies
+                if (checkForCookies(request, response))
+                {
+                    String redirect = "";
+                    Cookie[] cookies = request.getCookies();
+                    for (int i = 0; i < cookies.length; i++)
+                    {
+                        if (cookies[i].getName().equals("user"))
+                        {
+                            redirect = cookies[i].getValue();
+                            break;
+                        }
+                    }
+                    if (redirect.equals("client"))
+                        url = "/AssistanceController";
+                    else if (redirect.equals("cw"))
+                        url = "/CaseWorkerController";
+                }
                 break;
             case "logout":                     
                 // delete user from session
                 session.setAttribute("user", null);
+                clearCookies(request, response);
                 break;
             case "manageClient":
                 break;
@@ -69,13 +93,27 @@ public class AccountsController extends HttpServlet {
                 break;
             // login actions
             case "loginAsCL":              
-                if (clientLogIn(request))
+                // retrieve form entries
+                userName =  (String) request.getParameter("loginUserNameCL");
+                password =  (String) request.getParameter("loginPasswordCL");
+                rememberMeStatus = (String)request.getParameter("rememberMe");
+                
+                rememberMe = rememberMeStatus != null;
+                
+                if (clientLogIn(request, response, userName, password, rememberMe))
                     request.setAttribute("redirect", "/AssistanceController");                
                 else
                     request.setAttribute("loginType", "cl");
                 break;
             case "loginAsCW":            
-                if (caseWorkerLogIn(request))
+                // retrieve form entries
+                userName =  (String) request.getParameter("loginUserNameCW");
+                password =  (String) request.getParameter("loginPasswordCW");
+                rememberMeStatus = (String)request.getParameter("rememberMe");
+                
+                rememberMe = rememberMeStatus != null;
+                
+                if (caseWorkerLogIn(request, response, userName, password, rememberMe))
                     request.setAttribute("redirect", "/CaseWorkerController");
                 else
                     request.setAttribute("loginType", "cw");                       
@@ -94,6 +132,71 @@ public class AccountsController extends HttpServlet {
         // redirect to 'url'        
         ServletContext sc = getServletContext();
         sc.getRequestDispatcher(url).forward(request, response);  
+    }
+
+    // check for previous login cookies
+    private boolean checkForCookies(HttpServletRequest request, HttpServletResponse response)
+    {
+        boolean rememberMeOn = false;
+        String userName = null;
+        String password = null;
+        String userType = null;
+        
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null)
+        {
+            for (int i = 0; i < cookies.length; i++)
+            {
+                Cookie c = cookies[i];
+                if (c.getName().equals("rememberMe")) 
+                {
+                    if (c.getValue().equals("no"))
+                        break;
+                    else if (c.getValue().equals("yes"))
+                        rememberMeOn = true;
+                }
+
+                if (c.getName().equals("userName"))
+                    userName = c.getValue();
+
+                if (c.getName().equals("password"))
+                    password = c.getValue();
+
+                if (c.getName().equals("user"))
+                    userType = c.getValue();
+            }
+        }
+        
+        if (rememberMeOn)
+        {
+            if (userName == null || password == null || userType == null)
+            {
+                return false;
+            }
+            else 
+            {
+                if (userType.equals("client"))
+                    return clientLogIn(request, response, userName, password, true);
+                else if (userType.equals("cw"))
+                    return caseWorkerLogIn(request, response, userName, password, true);
+            }
+        }
+        return false;
+    }
+
+    // deletes all cookies
+    private void clearCookies(HttpServletRequest request, HttpServletResponse response)
+    {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null)
+        {
+            for (int i = 0; i < cookies.length; i++)
+            {
+                Cookie c = cookies[i];
+                c.setMaxAge(0);
+                response.addCookie(c);
+            }
+        }
     }
 
     // validates and creates user account, or creates error messages
@@ -213,14 +316,10 @@ public class AccountsController extends HttpServlet {
     
     
     // validates and authenticates client login
-    private boolean clientLogIn(HttpServletRequest request)
+    private boolean clientLogIn(HttpServletRequest request, HttpServletResponse response, String userName, String password, boolean rememberMe)
     {        
         String sqlErrorMsg = "There was an error with the database connection";
-        String loginMsg = "";
-        
-        // retrieve form entries
-        String userName =  (String) request.getParameter("loginUserNameCL");
-        String password =  (String) request.getParameter("loginPasswordCL");
+        String loginMsg = "";  
         
         // retain entries in form
         request.setAttribute("prevLoginUserNameCL", userName);
@@ -260,19 +359,32 @@ public class AccountsController extends HttpServlet {
         {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
+            // create cookies
+            if (rememberMe)
+            {
+                Cookie c = new Cookie("rememberMe", "yes");
+                c.setMaxAge(60 * 60);
+                response.addCookie(c);
+            }
+            Cookie c = new Cookie("userName", userName);
+            c.setMaxAge(60 * 60);
+            Cookie c2 = new Cookie("password", password);
+            c2.setMaxAge(60 * 60);
+            Cookie c3 = new Cookie("user", "client");
+            c3.setMaxAge(60 * 60);
+            
+            response.addCookie(c);
+            response.addCookie(c2);
+            response.addCookie(c3);
             return true;
         }
     }
     
     // validates and authenticates case worker login    
-    private boolean caseWorkerLogIn(HttpServletRequest request)
+    private boolean caseWorkerLogIn(HttpServletRequest request, HttpServletResponse response, String userName, String password, boolean rememberMe)
     {        
         String sqlErrorMsg = "There was an error with the database connection";
-        String loginMsg = "";
-        
-        // retrieve form entries
-        String userName =  (String) request.getParameter("loginUserNameCW");
-        String password =  (String) request.getParameter("loginPasswordCW");
+        String loginMsg = "";        
         
         // retain entries in form
         request.setAttribute("prevLoginUserNameCW", userName);
@@ -312,6 +424,23 @@ public class AccountsController extends HttpServlet {
         {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
+            // create cookies
+            if (rememberMe)
+            {
+                Cookie c = new Cookie("rememberMe", "yes");
+                c.setMaxAge(60 * 60);
+                response.addCookie(c);
+            }
+            Cookie c = new Cookie("userName", userName);
+            c.setMaxAge(60 * 60);
+            Cookie c2 = new Cookie("password", password);
+            c2.setMaxAge(60 * 60);
+            Cookie c3 = new Cookie("user", "cw");
+            c3.setMaxAge(60 * 60);
+            
+            response.addCookie(c);
+            response.addCookie(c2);
+            response.addCookie(c3);
             return true;
         }
     }
