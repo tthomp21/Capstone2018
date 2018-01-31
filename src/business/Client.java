@@ -58,7 +58,7 @@ public class Client extends User {
     }
     public String getSSN()
     {
-        return SSN;
+        return SSN.replaceFirst("(\\d{3})(\\d{2})(\\d{4})", "$1-$2-$3");
     }
     public void setSSN(String sSN)
     {
@@ -90,7 +90,7 @@ public class Client extends User {
     }
     public String getState()
     {
-        return state;
+        return state.toUpperCase();
     }
     public void setState(String state)
     {
@@ -165,4 +165,6 @@ public class Client extends User {
     {
         return emZip + "-" + extZip;
     }
+    
+    
 }

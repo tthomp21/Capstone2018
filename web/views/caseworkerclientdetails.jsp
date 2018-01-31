@@ -14,7 +14,7 @@
         <script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>        
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
         
-        <link href="../CSS/default.css" rel="stylesheet" type="text/css"/>
+        <!-- <link href="../CSS/default.css" rel="stylesheet" type="text/css"/> -->
         <link href="../CSS/caseWorker.css" rel="stylesheet" type="text/css"/>
         
         <title>Team Cash Flow</title>
@@ -40,27 +40,69 @@
                 <nav>
                     <c:import url="/Includes/caseWorkerNav.html"/>
                 </nav>
-                
                 <div id="main">
-                <p>clientID: ${foundClient.clientID}</p>
-                <p>SSN: ${foundClient.SSN}</p>
-                <p>First: ${foundClient.firstName}</p>
-                <p>Last: ${foundClient.lastName}</p>
-                <p>Mid: ${foundClient.middleInit}</p>
-                <p>City: ${foundClient.city}</p>
-                <p>Street: ${foundClient.street}</p>
-                <p>State: ${foundClient.state}</p>
-                <p>Zip: ${foundClient.emZip}- ${foundClient.extZip}</p>
-                <p>Email: ${foundClient.email}</p>
-                <p>Phone: ${foundClient.phone}</p>
-                <p>Birthdate: ${foundClient.birthDate}</p>
-                <p>Enroll Date: ${foundClient.enrollmentDate}</p>
-                <p>Dependents: ${foundClient.dependents}</p>
-                <p>PartnerID: ${foundClient.partnerID}</p>
-                <p>CaseWorkerID: ${foundClient.caseWorkerID}</p>
-                
-                <p>Need to add hours and other info i may be missing here</p>
-                
+                    <table>
+                        <tr>
+                            <td>Name:</td>
+                            <td>${foundClient.firstName} <c:choose><c:when test="${foundClient.middleInit != null}">${foundClient.middleInit}.</c:when></c:choose> ${foundClient.lastName}</td>
+                        </tr>
+                        <tr>
+                            <td>Client Id:</td>
+                            <td>${foundClient.clientID}</td>
+                        </tr>
+                        <tr>
+                            <td>Client SSN:</td>
+                            <td>${foundClient.SSN}</td>
+                        </tr>
+                        <tr>
+                            <td>Address:</td>
+                            <td>${foundClient.street}</td>
+                        </tr>
+                        <tr>
+                            <td>City:</td>
+                            <td>${foundClient.city}</td>
+                        </tr>
+                        <tr>
+                            <td>State:</td>
+                            <td>${foundClient.state}</td>
+                        </tr>
+                        <tr>
+                            <td>Zip:</td>
+                            <td>${foundClient.emZip}- ${foundClient.extZip}</td>
+                        </tr>
+                        <tr>
+                            <td>Email:</td>
+                            <td>${foundClient.email}</td>
+                        </tr>
+                        <tr>
+                            <td>Phone:</td>
+                            <td>${foundClient.getPhoneFormatted()}</td>
+                        </tr>
+                        <tr>
+                            <td>BirthDate:</td>
+                            <td>${foundClient.birthDate}</td>
+                        </tr>
+                        <tr>
+                            <td>Enroll Date:</td>
+                            <td>${foundClient.enrollmentDate}</td>
+                        </tr>
+                        <tr>
+                            <td>Dependents:</td>
+                            <td>${foundClient.dependents}</td>
+                        </tr>
+                        <tr>
+                            <td>Partner Id:</td>
+                            <td>${foundClient.partnerID}</td>
+                        </tr>
+                        <tr>
+                            <td>Caseworker Id:</td>
+                            <td>${foundClient.caseWorkerID}</td>
+                        </tr>
+                        <tr>
+                            <td>Hours:</td>
+                            <td>${clientHours.hours}</td>
+                        </tr>
+                    </table>
                 </div>
                 
             </aside>

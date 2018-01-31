@@ -245,7 +245,7 @@ public class ClientDB {
 
             }
         } catch (SQLException e) {
-
+                System.out.println("Error getting client with ID\n" + e );
         } finally {
             DBConnection.freeConnection(connection);
         }

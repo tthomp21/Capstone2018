@@ -6,6 +6,7 @@ package controller;
 
 import business.*;
 import data.ClientDB;
+import data.HoursDB;
 import java.util.List;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,16 +56,24 @@ public class CaseWorkerController extends HttpServlet {
                 //if there was an error getting the user send them back home
                 url = "/AccountsController";
                 break;
-            case "clientDetails":
-                selectedClient = (String) request.getParameter("clientID");
-                foundClient = ClientDB.getClientWithID(Integer.parseInt(selectedClient));
-                session.setAttribute("foundClient", foundClient);
-                url = "/views/caseworkerclientdetails.jsp";
             case "clientHours":
                 selectedClient = (String) request.getParameter("clientID");
                 foundClient = ClientDB.getClientWithID(Integer.parseInt(selectedClient));
                 session.setAttribute("foundClient", foundClient);
                 url = "/views/caseworkerclienteditor.jsp";
+                break;
+            case "clientDetails":
+                selectedClient = (String) request.getParameter("clientID");
+                foundClient = ClientDB.getClientWithID(Integer.parseInt(selectedClient));
+                ClientHoursArgs hours = new ClientHoursArgs();
+                hours = HoursDB.getClientHours(Integer.parseInt(selectedClient));
+                session.setAttribute("foundClient", foundClient);
+                session.setAttribute("clientHours", hours);
+                url = "/views/caseworkerclientdetails.jsp";
+                break;
+            case "search":
+                url = "/views/clientSearch.jsp";
+                break;
         }
         
         
