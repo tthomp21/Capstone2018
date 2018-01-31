@@ -47,7 +47,7 @@ th, td:nth-child(1){
 th{
     padding: 5px;
 }
-.sectionTitle{
+.primaryTitle, .secondaryTitle{
    background-color: #f0e68c;
    width: 80%;
    text-align: center;

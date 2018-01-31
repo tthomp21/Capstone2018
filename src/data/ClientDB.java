@@ -118,7 +118,7 @@ public class ClientDB {
         PreparedStatement ps = null;
         ResultSet rs = null;
      
-        String query = "SELECT clientID, dateDisbursed, c.aidtype, aidName "
+        String query = "SELECT clientID, dateDisbursed, c.aidtype, aidName, AidAmount"
 	    + "FROM SCM.TCF_CLIENTAID c join SCM.TCF_AIDTYPES a "
 	    + "ON c.aidtype = a.aidtype "
 	    + " WHERE clientID = ?";
@@ -137,6 +137,7 @@ public class ClientDB {
                 
                 clientAid.setClientID(rs.getInt("clientID"));
                 clientAid.setClientAidDateDisbursed(rs.getDate("dateDisbursed").toLocalDate());
+                clientAid.setAidAmount(rs.getDouble("AidAmount"));
                 
                 aidType  = new AidType(rs.getInt("aidType"), rs.getString("aidName"));
                 clientAid.setAidType(aidType);
