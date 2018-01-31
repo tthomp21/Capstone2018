@@ -100,7 +100,10 @@
                         </tr>
                         <tr>
                             <td>Hours:</td>
-                            <td>${clientHours.hours}</td>
+                            <c:forEach var="c" items="clientHours" varStatus="status">
+                                <td>${c.hours}</td>
+                            </c:forEach>
+                            
                         </tr>
                     </table>
                 </div>
