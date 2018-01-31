@@ -15,8 +15,8 @@ import java.time.LocalDate;
 public class ClientAid implements Serializable{
     
     
-    private     int	         clientID;
-    private     String       clientAidDesc;
+    private     int	     clientID;
+    private     double       AidAmount;
     private     LocalDate    clientAidDateDisbursed;
     private     AidType      aidType; // this is for food stams ... (primary)
     
@@ -43,17 +43,17 @@ public class ClientAid implements Serializable{
     }
 
     /**
-     * @return the clientAidDesc
+     * @return the AidAmount
      */
-    public String getClientAidDesc() {
-        return clientAidDesc;
+    public double getAidAmount() {
+        return AidAmount;
     }
 
     /**
-     * @param clientAidDesc the clientAidDesc to set
+     * @param AidAmount the AidAmount to set
      */
-    public void setClientAidDesc(String clientAidDesc) {
-        this.clientAidDesc = clientAidDesc;
+    public void setAidAmount(double AidAmount) {
+        this.AidAmount = AidAmount;
     }
 
     /**

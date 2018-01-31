@@ -90,14 +90,14 @@ public class AssistanceController extends HttpServlet {
         try {
             //loop through assistances
             for (AssistanceRequest assist : allAssitancesList) {
-                if (assist.getClientAid().getClientAidDesc().equalsIgnoreCase("car repair")) {
+                if (assist.getAssistance().getAssistDescription().equalsIgnoreCase("car repair")) {
                     carRepairsList.add(assist);
-                }else if (assist.getClientAid().getClientAidDesc().equalsIgnoreCase("clothing")) {
+                }else if (assist.getAssistance().getAssistDescription().equalsIgnoreCase("clothing")) {
                     clothingList.add(assist);
 
-                } else if (assist.getClientAid().getClientAidDesc().equalsIgnoreCase("gas")) {
+                } else if (assist.getAssistance().getAssistDescription().equalsIgnoreCase("gas")) {
                     gasList.add(assist);
-                } else if (assist.getClientAid().getClientAidDesc().equalsIgnoreCase("vehicle registeration")) {
+                } else if (assist.getAssistance().getAssistDescription().equalsIgnoreCase("vehicle registeration")) {
                     vehicleRegisterList.add(assist);
                 } else {
                     tuitionList.add(assist);
@@ -141,6 +141,7 @@ public class AssistanceController extends HttpServlet {
             session.setAttribute("tuitionList", tuitionList);
             
             
+            session.setAttribute("clientAidList", clientAidList);
             session.setAttribute("foodList", foodList);
             session.setAttribute("cashList", cashList);
             session.setAttribute("medicaidList", medicaidList);

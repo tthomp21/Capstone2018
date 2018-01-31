@@ -6,6 +6,7 @@
 package data;
 
 import business.AidType;
+import business.Assistance;
 import business.ClientAid;
 import business.AssistanceRequest;
 import business.CaseWorker;
@@ -46,7 +47,7 @@ public class ClientDB {
     /**
      * it might be a good idea to get a client object
      *
-     * @return
+     * @return assistance and requestAssistance
      */
     public static ArrayList<AssistanceRequest> getSecondaryAssistances(int clientID) {
         ArrayList<AssistanceRequest> allAssist = new ArrayList<AssistanceRequest>();
@@ -67,11 +68,11 @@ public class ClientDB {
             rs = ps.executeQuery();
 
             AssistanceRequest assistRequest = null;
-            ClientAid clientAid = null;            
+            Assistance anAssistance = null;            
             
             while (rs.next()) {
                 assistRequest = new AssistanceRequest();
-                clientAid  = new ClientAid();
+               
                 
                 assistRequest.setRequestID(rs.getInt("requestID"));
                 assistRequest.setAssistanceID(rs.getInt("assistanceID"));
@@ -81,10 +82,13 @@ public class ClientDB {
                 assistRequest.setDateDisbursed(rs.getDate("dateDisbursed").toLocalDate());
                 assistRequest.setAmountPaid(rs.getDouble("Amount"));
                 
-                clientAid.setClientID(rs.getInt("assistanceID"));
-                clientAid.setClientAidDesc(rs.getString("description"));
+                 anAssistance  = new Assistance(rs.getInt("assistanceID"), rs.getString("description"));
+                 
+                 
+//                anAssistance.setClientID(rs.getInt("assistanceID"));
+//                anAssistance.setAidAmount(rs.getDouble("aidAmount"));
                 
-                assistRequest.setClientAid(clientAid);
+                assistRequest.setAssistance(anAssistance);
                 
                 
 
@@ -308,7 +312,7 @@ public class ClientDB {
                 aidType = new AidType(rs.getInt("aidtype"), rs.getString("aidName"));
                 clientAid = new ClientAid(rs.getInt("clientID"), rs.getDate("clientAidDateDisbursed").toLocalDate() , aidType);
 	            
-                assistRequest.setClientAid(clientAid);
+                //assistRequest.setAssistance(clientAid);
                 
                 
 
