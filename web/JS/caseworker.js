@@ -5,8 +5,16 @@
  */
 
 
-jQuery(document).ready(function($){
-    $(".clickable-row").click(function(){
-        window.location = $(this).data("href");
-    });
-});
+
+function showDiv()
+{
+    if(document.getElementById('rbclients').checked)
+        document.getElementById('clients').style.display = 'block';
+    else
+        $("#clients").css('display','none');
+    
+    if(document.getElementById('rbinstitution').checked)
+        $("#institution").show();
+    else
+        $("#institution").hide();
+}

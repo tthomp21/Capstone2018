@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -18,8 +19,9 @@ import java.sql.SQLException;
  */
 public class HoursDB {
     
-    public static ClientHoursArgs getClientHours(int clientID){
-        ClientHoursArgs args = new ClientHoursArgs();
+    public static ArrayList<ClientHoursArgs> getClientHours(int clientID){
+        ArrayList<ClientHoursArgs> args = new ArrayList<ClientHoursArgs>();
+        ClientHoursArgs a = new ClientHoursArgs();
         Connection connection = DBConnection.getConnection();
         String query = "SELECT * FROM scm.TCF_hours WHERE ClientID = ?";
         ResultSet rs = null;
@@ -30,8 +32,9 @@ public class HoursDB {
 
             rs = ps.executeQuery();
             while (rs.next()) {
-                args.setDate(rs.getDate("date"));
-                args.setHours(rs.getBigDecimal("hours"));
+                a.setDate(rs.getDate("date"));
+                a.setHours(rs.getBigDecimal("hours"));
+                args.add(a);
             }
         } catch (SQLException e) {
                 System.out.println("Error getting client hours with ID\n" + e );

@@ -65,7 +65,7 @@ public class CaseWorkerController extends HttpServlet {
             case "clientDetails":
                 selectedClient = (String) request.getParameter("clientID");
                 foundClient = ClientDB.getClientWithID(Integer.parseInt(selectedClient));
-                ClientHoursArgs hours = new ClientHoursArgs();
+                ArrayList<ClientHoursArgs> hours = new ArrayList<ClientHoursArgs>();
                 hours = HoursDB.getClientHours(Integer.parseInt(selectedClient));
                 session.setAttribute("foundClient", foundClient);
                 session.setAttribute("clientHours", hours);
