@@ -5,12 +5,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">  
         <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>        
+        <script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>           
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
         
         <link href="../CSS/default.css" rel="stylesheet" type="text/css"/>
-        <!-- <script type="text/javascript" src="/JS/assistance.js"></script>-->
-<!--        <link href="../CSS/assistance.css" rel="stylesheet" type="text/css"/>-->
+        <link href="../CSS/assist.css" rel="stylesheet" type="text/css"/>
+        <script type="text/javascript" src="/JS/assistance.js"></script>
+
         
         <title>Team Cash Flow</title>
         
@@ -40,11 +41,11 @@
             </aside>
             
             <div id="main">
-                
+               
                 <section id="primarySection">
                     <h1 class="sectionTitle">Primary Assistances</h1>
-                    <h2>Food Stamp or SNAP</h2>
-                <div>
+                    <h2 class="fold">Food Stamp or SNAP</h2>
+                <div class="closed">
                     <table border="1">
                         <tr>
                             
@@ -59,16 +60,16 @@
                                
                                 <td><c:out value="${aBenefit.requestDate}" /></td>
                                 <td><c:out value="${aBenefit.amountPaid}" /></td>
-                                <td><c:out value="${aBenefit.dateDisbursed}" /></td>
-                                <td><c:out value="${aBenefit.status}" /></td>
+                                <td><c:out value="${aBenefit.clientAidDateDisbursed}" /></td>
+                                <td><c:out value="${aBenefit.aidType.aidDescription}" /></td>
                             </tr>
 
                         </c:forEach>
                     </table>
                 </div>
                     
-                    <h2>Cash Benefits or ADC</h2>
-                <div>
+                    <h2 class="fold">Cash Benefits or ADC</h2>
+                <div class="closed">
                     <table border="1">
                         <tr>
                             
@@ -91,8 +92,8 @@
                     </table>
                 </div>
                     
-                    <h2>Medicaid Benefits</h2>
-                <div>
+                    <h2 class="fold">Medicaid Benefits</h2>
+                <div class="closed">
                     <table border="1">
                         <tr>
                             
@@ -118,8 +119,8 @@
                 
                 <section id="secondarySection">
                     <h1 class="sectionTitle">Secondary Assistances</h1>
-                <h2>Car Repairs</h2>
-                <div>
+                <h2 class="fold">Car Repairs</h2>
+                <div class="closed">
                     <table border="1">
                         <tr>
                             
@@ -142,8 +143,8 @@
                     </table>
                 </div>
 
-                <h2>Clothing Benefits</h2>
-                <div>
+                <h2 class="fold">Clothing Benefits</h2>
+                <div class="closed">
                  <table border="1">
                         <tr>
                           
@@ -166,8 +167,8 @@
                     </table>
                 </div>
 
-                <h2>Vehicle Register</h2>
-                <div>
+                <h2 class="fold">Vehicle Register</h2>
+                <div class="closed">
                   <table border="1">
                         <tr>
                             
@@ -190,8 +191,8 @@
                     </table>
                 </div>
 
-                <h2>Gas Fuel</h2>
-                <div>
+                <h2 class="fold">Gas Fuel</h2>
+                <div class="closed">
                     <table border="1">
                         <tr>
                         
@@ -213,8 +214,8 @@
                         </c:forEach>
                     </table>        </div>
                 
-                <h2>Tuitions</h2>
-                <div>
+                <h2 class="fold">Tuitions</h2>
+                <div class="closed">
                    <table border="1">
                         <tr>
                         

@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author radad
+ * @author Murad
  */
 public class AidType implements Serializable{
     

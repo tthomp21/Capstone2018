@@ -1,0 +1,79 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jan 30, 2018, 11:46:46 AM
+    Author     : Murad
+*/
+
+
+#primarySection{
+    position: absolute;
+    /*float: left;
+    clear: right;*/
+    height: 100%;
+    margin-right: 20px;
+    width: 550px;
+    
+}
+#secondarySection{
+
+   margin-left: 560px;
+   width: 550px;
+    /*  background-color: #c0c0c0;*/
+
+}
+table{
+    border-collapse: collapse;
+   /* background-color: #00ffff*/
+}
+
+#primarySection div , #secondarySection div{
+
+    /*text-indent: 40px;*/
+    margin-left: 20px;
+   
+}
+tr, td, th {
+    text-align: left;
+    font-size: 1em;
+}
+th, td:nth-child(1){
+    background-color: lightblue;
+    width: auto;
+}
+th{
+    padding: 5px;
+}
+.sectionTitle{
+   background-color: #f0e68c;
+   width: 80%;
+   text-align: center;
+}
+h2.close{
+    background: url(/Images/closeArrow.png) no-repeat left center;
+}
+h2.open{
+     background: url(/Images/openArrow.png) no-repeat left center;
+}
+h2{
+    padding: 20px;
+}
+h2{
+    padding: .25em 0 .25em 25px;
+    cursor: pointer;
+}
+h2.fold{
+    background: url(/Images/closeArrow.png) no-repeat left center;
+}
+h2.unfold{
+     background: url(/Images/openArrow.png) no-repeat left center;
+}
+div.closed{
+    display: none;
+}
+div.open{
+    display: block;
+}

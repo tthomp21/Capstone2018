@@ -185,6 +185,19 @@ footer {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 #primarySection{
     float: left;
     clear: right;
@@ -196,8 +209,8 @@ footer {
 #secondarySection{
 
    
-    /*  background-color: #c0c0c0;*/
-
+  /*this below part was moved to assistance.css*/ 
+/*
 }
 table{
     border-collapse: collapse;
@@ -206,7 +219,7 @@ table{
 
 #primarySection div , #secondarySection div{
 
-    /*text-indent: 40px;*/
+  
     margin-left: 20px;
    
 }
@@ -222,7 +235,7 @@ th{
     padding: 5px;
 }
 .sectionTitle{
-      /* background-color: #f0e68c;*/
+    
 }
 h2.close{
     background: url(/Images/closeArrow.png) no-repeat left center;
@@ -232,4 +245,4 @@ h2.open{
 }
 h2{
     padding: 20px;
-}
+}*/

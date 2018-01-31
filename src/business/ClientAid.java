@@ -12,19 +12,18 @@ import java.time.LocalDate;
  *
  * @author ms610358
  */
-public class ClientAid extends AssistanceRequest implements Serializable{
+public class ClientAid implements Serializable{
     
     
     private     int	         clientID;
     private     String       clientAidDesc;
     private     LocalDate    clientAidDateDisbursed;
-    private     AidType      aidType;
+    private     AidType      aidType; // this is for food stams ... (primary)
     
     public ClientAid(){}
-    public ClientAid(int theclientAidID, String theclientAidDesc, LocalDate theAidDateDisbursed, AidType theAidType)
+    public ClientAid(int theclientAidID, LocalDate theAidDateDisbursed, AidType theAidType)
     {
         this.clientID              = theclientAidID;
-        this.clientAidDesc         = theclientAidDesc;
         this.clientAidDateDisbursed = theAidDateDisbursed;
         this.aidType              = theAidType;
     }

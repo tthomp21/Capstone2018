@@ -71,10 +71,14 @@ public class AssistanceController extends HttpServlet {
         ArrayList<ClientAid> medicaidList = new ArrayList<ClientAid>();
 
         //this list is only seconary list, as the names of the lists indicate
-        //allAssitancesList = ClientDB.getSecondaryAssistances(aClient.getClientID());
+        allAssitancesList = ClientDB.getSecondaryAssistances(aClient.getClientID());
+        //allAssitancesList = ClientDB.getAllAssistances(aClient.getClientID());
+        
+        
         clientAidList = ClientDB.getPrimaryAssistances(aClient.getClientID());
+        
         //this is only test data (hard coded)
-        allAssitancesList = ClientDB.getTestData();
+       // allAssitancesList = ClientDB.getTestData();
 
         ArrayList<AssistanceRequest> carRepairsList = new ArrayList<AssistanceRequest>();
         ArrayList<AssistanceRequest> clothingList = new ArrayList<AssistanceRequest>();
@@ -86,16 +90,14 @@ public class AssistanceController extends HttpServlet {
         try {
             //loop through assistances
             for (AssistanceRequest assist : allAssitancesList) {
-                if (assist.getStatus().equalsIgnoreCase("car repair")) {
+                if (assist.getClientAid().getClientAidDesc().equalsIgnoreCase("car repair")) {
                     carRepairsList.add(assist);
-                }
-
-                if (assist.getStatus().equalsIgnoreCase("clothing")) {
+                }else if (assist.getClientAid().getClientAidDesc().equalsIgnoreCase("clothing")) {
                     clothingList.add(assist);
 
-                } else if (assist.getStatus().equalsIgnoreCase("gas")) {
+                } else if (assist.getClientAid().getClientAidDesc().equalsIgnoreCase("gas")) {
                     gasList.add(assist);
-                } else if (assist.getStatus().equalsIgnoreCase("vehicle registeration")) {
+                } else if (assist.getClientAid().getClientAidDesc().equalsIgnoreCase("vehicle registeration")) {
                     vehicleRegisterList.add(assist);
                 } else {
                     tuitionList.add(assist);
@@ -103,13 +105,14 @@ public class AssistanceController extends HttpServlet {
 
             }
 
-            //filter primary benefits
+            //filter primary benefits 
+            //remove spaces from ADC from the table
             for (ClientAid clientAssist : clientAidList) {
-                if (clientAssist.getAidType().getAidDescription().equalsIgnoreCase("SNAP")) {
+                if (clientAssist.getAidType().getAidDescription().trim().equalsIgnoreCase("SNAP")) {
                     foodList.add(clientAssist);
-                } else if (clientAssist.getAidType().getAidDescription().equalsIgnoreCase("ADC")) {
+                } else if (clientAssist.getAidType().getAidDescription().trim().equalsIgnoreCase("ADC")) {
                     cashList.add(clientAssist);
-                } else {
+                } else if(clientAssist.getAidType().getAidDescription().trim().equalsIgnoreCase("MedA")) {
                     medicaidList.add(clientAssist);
                 }
             }
@@ -122,22 +125,27 @@ public class AssistanceController extends HttpServlet {
 
             //NOTE: I made the clientAid to extend the AssistanceRequest to take advantage of implementing comparator class
             // so this will be tested once tables are populated later and see if it will work. 
-            Collections.sort(foodList, ClientAid.sortAssistanceListByDate);
-            Collections.sort(cashList, ClientAid.sortAssistanceListByDate);
-            Collections.sort(medicaidList, ClientAid.sortAssistanceListByDate);
+          //  Collections.sort(foodList, ClientAid.sortAssistanceListByDate);
+           // Collections.sort(cashList, ClientAid.sortAssistanceListByDate);
+           // Collections.sort(medicaidList, ClientAid.sortAssistanceListByDate);
 
         } catch (Exception ex) {
 
         } finally {
-            // sortOurLists(foodList);
-            //this is executed anyway. so load the list here and forward the request.
+            
             session.setAttribute("allAssitancesList", allAssitancesList);
             session.setAttribute("carRepairsList", carRepairsList);
             session.setAttribute("clothingList", clothingList);
             session.setAttribute("vehicleRegisterList", vehicleRegisterList);
             session.setAttribute("gasList", gasList);
             session.setAttribute("tuitionList", tuitionList);
-
+            
+            
+            session.setAttribute("foodList", foodList);
+            session.setAttribute("cashList", cashList);
+            session.setAttribute("medicaidList", medicaidList);
+            
+            
             url = "/views/assistance.jsp";
             cs.getRequestDispatcher(url).forward(request, response);
         }
