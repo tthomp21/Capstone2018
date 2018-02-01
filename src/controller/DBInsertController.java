@@ -40,6 +40,35 @@ public class DBInsertController extends HttpServlet {
         String action = request.getParameter("action");
         String url = "/views/insertToDB.jsp";
         
+        switch(action){
+                case "":
+                break;
+                case "institutionDB":
+                break;
+                case "caseworkerDB":
+                break;
+                case "clientDB":
+                break;
+                case "hoursDB":
+                break;
+                case"sanctionDB":
+                break;
+                case"clientInstDB":
+                break;
+                case "aidDB":
+                break;
+                case "addDB":
+                break;
+                case "empDB":
+                break;
+                case "CEDB":
+                break;
+                case "CADB":
+                break;
+                case "RADB":
+                break;
+            }
+        
         // redirect
         ServletContext sc = getServletContext();
         sc.getRequestDispatcher(url).forward(request, response);
