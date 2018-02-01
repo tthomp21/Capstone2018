@@ -6,8 +6,19 @@
 
 package business;
 import data.*;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
-import java.util.regex.Pattern;
+import java.util.Arrays;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.ParseException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 
 public class Accounts {
     private Accounts() {}
@@ -225,5 +236,30 @@ public class Accounts {
         catch (SQLException e) {
             return null;
         } 
+    }
+    
+    
+    
+    
+    // sends sms to given phone number with given code to verify password reset
+    public static boolean sendSMS(String phone, String code) throws UnsupportedEncodingException, IOException
+    {
+        final String msg = "Someone has requested to reset your Team Cash Flow " +
+                "password.  Your verification number is:  "; 
+        final String msg2 = "If this was a mistake, you can disregard this message.";
+        
+        final NameValuePair[] data = {
+            new BasicNameValuePair("phone", phone),
+            new BasicNameValuePair("message", msg + code + " - " + msg2),
+            new BasicNameValuePair("key", "9f70ff94db13cf920ae4dd3d9b9ebf9ea62b1daezhhICAVvELkpmwJ8PLuO0LsnS_test")
+        };
+        HttpClient httpClient = HttpClients.createMinimal();
+        HttpPost httpPost = new HttpPost("https://textbelt.com/text");
+        httpPost.setEntity(new UrlEncodedFormEntity(Arrays.asList(data)));
+        HttpResponse httpResponse = httpClient.execute(httpPost);
+
+        String responseString = EntityUtils.toString(httpResponse.getEntity());        
+        
+        return !responseString.substring(11, 16).equals("false");
     }
 }

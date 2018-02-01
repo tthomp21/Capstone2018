@@ -141,6 +141,7 @@
                             <input type="submit" name="submit" value="Log In" class="button"/>
                             <br>
                             <input type="checkbox" class="rMe" name="rememberMe"/><span class="rlabel">Stay Logged In</span>
+                            <br><a id="forgot" onclick="showVCodeForm()">Forgot Password?</a>
                         </fieldset>                        
                     </form>  
                 
@@ -151,7 +152,68 @@
                     </div>                    
                 </div>       
             </div>
-                
+            
+            <div id="vCodeForm">
+                <div class="loginDiv">                    
+                    <form action="AccountsController" method="post" id="resetFormCL" class="loginForm">
+                        <fieldset>
+                            <legend>Enter your user name and verify your Social Security Number</legend>
+
+                            <label for="vCodeUserNameCL">User Name:</label>
+                            <input type="text" id="vCodeUserNameCL" name="vCodeUserNameCL" autofocus="true" value=""><br>
+
+                            <label for="vCodeSSNCL">Social Security Number:</label>
+                            <input type="text" id="vCodeSSNCL" name="vCodeSSNCL" value=""><br>
+                        
+                            <input type="hidden" name="action" value="sendCode"/>
+                            <input type="submit" name="submit" value="Get Verification Code" class="button" id="btnSendCode"/>
+                            
+                        </fieldset>                        
+                    </form>  
+                          
+                    <div id="vCodeMsgDivCL" class="msgDiv">
+                        <c:if test="${not empty vCodeMsg}">
+                            <p id="vCodeMsg" class="errorMsg"><c:out value="${vCodeMsg}"/></p>
+                        </c:if>
+                        <c:if test="${not empty vCodeMsgSuccess}">
+                            <p id="vCodeMsgSuccess" class="successMsg"><c:out value="${vCodeMsgSuccess}"/></p>
+                        </c:if> 
+                    </div>
+                </div>       
+            </div>                
+                 
+            <div id="resetForm">
+                <div class="loginDiv">                    
+                    <form action="AccountsController" method="post" id="verifyResetFormCL" class="loginForm">
+                        <fieldset>
+                            <legend>A verification code was sent via text to your phone.</legend>
+
+                            <label for="resetCodeCL">Verification Code:</label>
+                            <input type="text" id="resetCodeCL" name="resetCodeCL" autofocus="true" value=""><br>
+
+                            <label for="resetPwCL">Enter new password:</label>
+                            <input type="password" id="resetPwCL" name="resetPwCL" value=""><br>
+                        
+                            <label for="resetPw2CL">Confirm new password:</label>
+                            <input type="password" id="resetPw2CL" name="resetPw2CL" value=""><br>
+                            
+                            <input type="hidden" name="action" value="resetPW"/>
+                            <input type="submit" name="submit" value="Change Password" class="button" id="btnResetPW"/>
+                            
+                        </fieldset>                        
+                    </form>  
+                          
+                    <div id="resetMsgDivCL" class="msgDiv">
+                        <c:if test="${not empty resetMsg}">
+                            <p id="resetMsg" class="errorMsg"><c:out value="${resetMsg}"/></p>
+                        </c:if>
+                        <c:if test="${not empty resetMsgSuccess}">
+                            <p id="resetMsgSuccess" class="successMsg"><c:out value="${resetMsgSuccess}"/></p>
+                        </c:if> 
+                    </div>
+                </div>       
+            </div>         
+                            
             <div id="caseWorkerLogin">
                 <div class="loginDiv">
                     <form action="AccountsController" method="post" id="loginFormCW" class="loginForm">

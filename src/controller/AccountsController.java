@@ -5,6 +5,9 @@ package controller;
 
 import business.*;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
+import java.util.Random;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -12,6 +15,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+
 
 
 public class AccountsController extends HttpServlet {
@@ -40,7 +52,7 @@ public class AccountsController extends HttpServlet {
             action = "arrival";
         }      
         
-        switch(action) {
+        switch(action) {            
             case "arrival": 
                 // check for cookies
                 if (checkForCookies(request, response))
@@ -131,6 +143,29 @@ public class AccountsController extends HttpServlet {
                     String createMsgSuccess = 
                         "Your Account has been successfully created!  Please log in.";
                     request.setAttribute("createMsgSuccess", createMsgSuccess);
+                }                
+                break;
+            // reset password verification code sending
+            case "sendCode":
+                try 
+                {                    
+                    if (sendCode(request))
+                    {
+                        request.setAttribute("vCodeMsgSuccess", "test");
+                    }                    
+                }
+                catch (Exception e)
+                { 
+                    request.setAttribute("vCodeMsg", "There was an error connecting to the SMS service.");
+                }
+                break;
+            // reset password code validation
+            case "resetPW":                
+                if (resetPassword(request))
+                {
+                    String resetMsgSuccess = 
+                        "Your password has been changed.  Please log in.";
+                    request.setAttribute("resetMsgSuccess", resetMsgSuccess);
                 }                
                 break;
         }        
@@ -683,7 +718,138 @@ public class AccountsController extends HttpServlet {
         }        
     }    
     
+    
+    
+    // verifies username with ssn, sends verification code to client's phone
+    private boolean sendCode(HttpServletRequest request) throws UnsupportedEncodingException, IOException 
+    {
+        String vCodeMsg = "";
+        String sqlErrorMsg = "There was an error with the database connection";
+        QueryResult results;
+        Client client = null;
+
+        // get user name and ssn from form
+        String userName = request.getParameter("vCodeUserNameCL");
+        String ssn = request.getParameter("vCodeSSNCL");
         
+        // verify user name exists
+        
+        results = Accounts.verifyUserName(userName, "client");
+        if (!results.successful()) 
+        {            
+            if (results.sqlErrors())
+                vCodeMsg = sqlErrorMsg;
+            else                 
+                vCodeMsg = "That User Name does not exist";   
+
+            request.setAttribute("vCodeMsg", vCodeMsg);
+            return false;
+        }          
+        // verify ssn
+        results = Accounts.verifyUserName(userName, "client");
+        if (!results.successful()) 
+        {            
+            if (results.sqlErrors())
+                vCodeMsg = sqlErrorMsg;
+            else                 
+                vCodeMsg = "That User Name does not exist";   
+
+            request.setAttribute("vCodeMsg", vCodeMsg);
+            return false;
+        }
+        else 
+        {
+            // retrieve user based on user name
+            client = Accounts.logInClient(userName);
+            int id = client.getClientID();
+            
+            // verify ssn
+            results = Accounts.isValidSSN(ssn, id);
+            if (!results.successful()) 
+            {            
+                if (results.sqlErrors())
+                    vCodeMsg = sqlErrorMsg;
+                else                 
+                    vCodeMsg = "The SSN you entered does not match our records.";   
+
+                request.setAttribute("vCodeMsg", vCodeMsg);
+                return false;
+            }  
+        }
+        
+        // retrieve user phone
+        String phone = client.getPhone();
+        
+        // generate verification code
+        Random random = new Random();
+        String code = "";
+        for (int i = 0; i < 6; i++)
+        {
+            code += random.nextInt(10);
+        }
+        
+        // send text with code        
+        boolean success = Accounts.sendSMS(phone, code);
+        // store code in session
+        if (success)
+        {
+            HttpSession session = request.getSession();
+            session.setAttribute("resetCode", code);
+            session.setAttribute("userName", userName);
+            return true;
+        }
+        else 
+        {
+            vCodeMsg = "There was an error sending text.";   
+            request.setAttribute("vCodeMsg", vCodeMsg);
+            return false;
+        }
+    }
+    
+    // verifies code, validates new password, updates password
+    private boolean resetPassword(HttpServletRequest request) 
+    {
+        String resetMsg = "";
+        HttpSession session = request.getSession();
+        String userName = (String)session.getAttribute("userName");
+        String codeSent = (String)session.getAttribute("resetCode");       
+        
+        // get from form
+        String code = request.getParameter("resetCodeCL");
+        String password = request.getParameter("resetPwCL");
+        String password2 = request.getParameter("resetPw2CL");
+        
+        // verify code
+        if (codeSent == null || !codeSent.equals(code))
+        {
+            resetMsg = "The code you entered is invalid.";
+            request.setAttribute("resetMsg", resetMsg);
+            return false;
+        }
+        
+        // verify passwords match
+        String pwMatchMsg = Accounts.isValidUpdateField("password", password, password2);
+        if (!pwMatchMsg.isEmpty())
+        {
+            resetMsg = pwMatchMsg;
+            request.setAttribute("resetMsg", resetMsg);
+            return false;
+        }
+        
+        // attempt update password
+        boolean success = Accounts.updateField("clients", userName, "password", password); 
+        // if update successful
+        if (!success)         
+        {
+            resetMsg = "There was an error updating database"; 
+            request.setAttribute("resetMsg", resetMsg);
+            return false;
+        }
+        return true;  
+    }
+    
+    
+    
     // ---------------------------------------------------------------------------
     
     @Override

@@ -43,6 +43,22 @@ $(document).ready(function() {
     {
         setCssForManageMsg();
     }
+    else if ($("#vCodeMsg").length > 0)
+    {
+        setCssForVCodeMsg();
+    }
+    else if ($("#vCodeMsgSuccess").length > 0)
+    {
+        setCssForReset();
+    }
+    else if ($("#resetMsg").length > 0)
+    {
+        setCssForResetMsg(false);
+    }
+    else if ($("#resetMsgSuccess").length > 0)
+    {
+        setCssForResetMsg(true);
+    }
     // action checks
     else 
     {
@@ -468,7 +484,8 @@ function unfoldCreate() {
         $("#loginSelect").css("display", "none");
         $("#clientLogin").css("display", "none");
         $("#caseWorkerLogin").css("display", "none");
-        
+        $("#resetForm").css("display", "none");
+        $("#vCodeForm").css("display", "none");
         // erase any login error messages
         $("#loginMsgCL").hide();
         $("#loginMsgCW").hide();
@@ -536,9 +553,11 @@ function unfoldLoginSelect() {
 }
 
 // shows client login div, highlights selected button
-function unfoldClLogin() {
+function unfoldClLogin() {    
     $("#caseWorkerLogin").stop(false, true);
-    $("#caseWorkerLogin").hide();    
+    $("#caseWorkerLogin").hide();
+    $("#resetForm").css("display", "none");
+    $("#vCodeForm").css("display", "none");    
     $("#clientLogin").fadeIn(1000);
     $("#btnClient").css("background-color", "#f0e68c");
     $("#btnCaseWorker").css("background-color", "white");    
@@ -553,7 +572,9 @@ function unfoldClLogin() {
 // shows case worker login div, highlights selected button
 function unfoldCwLogin() {
     $("#clientLogin").stop(false, true);
-    $("#clientLogin").hide();          
+    $("#clientLogin").hide();   
+    $("#resetForm").css("display", "none");
+    $("#vCodeForm").css("display", "none");
     $("#caseWorkerLogin").fadeIn(1000);  
     $("#btnClient").css("background-color", "white");
     $("#btnCaseWorker").css("background-color", "#f0e68c");
@@ -626,6 +647,12 @@ function animateTransition() {
     });   
 }
 
+// shows request code for pw reset form
+function showVCodeForm() {
+    $("#clientLogin").hide();
+    $("#vCodeForm").show();
+}
+
 
 // --------------------------------------------
 // |*** CSS ADJUSTMENTS FOR SPECIFIC VIEWS ***|
@@ -640,6 +667,8 @@ function hideDivs() {
     $("#clientLogin").css("display", "none");
     $("#caseWorkerLogin").css("display", "none");   
     $("nav").css("display", "none");
+    $("#vCodeForm").css("display", "none");
+    $("#resetForm").css("display", "none");
 }
 
 // set css for initial arrival with no context
@@ -772,3 +801,54 @@ function setCssForManageMsg() {
     }
 }
 
+// set css to keep view the same and display error msg
+function setCssForVCodeMsg() {
+    $("#accountDiv").css("min-width", actDivMinW);
+    $("#loginSelect").show();
+    $("#welcome").css("font-size", "2.2em");
+    $("#welcome").css("font-style", "normal");
+    $("#welcome").html("Welcome!");
+    
+    $("#vCodeForm").fadeIn(1);   
+    $("#btnClient").css("background-color", "#f0e68c");
+    $("#btnCaseWorker").css("background-color", "white");
+    $("#vCodeMsgDivCL").show();
+    $("#vCodeMsgDivCL").css("background-color", "red");
+}
+
+// set css to keep view the same and display error msg
+function setCssForReset() {
+    $("#accountDiv").css("min-width", actDivMinW);
+    $("#loginSelect").show();
+    $("#welcome").css("font-size", "2.2em");
+    $("#welcome").css("font-style", "normal");
+    $("#welcome").html("Welcome!");
+    
+    $("#resetForm").fadeIn(1);   
+    $("#btnClient").css("background-color", "#f0e68c");
+    $("#btnCaseWorker").css("background-color", "white");    
+}
+
+// set css to keep view the same and display error msg
+function setCssForResetMsg(successful) {
+    $("#accountDiv").css("min-width", actDivMinW);
+    $("#loginSelect").show();
+    $("#welcome").css("font-size", "2.2em");
+    $("#welcome").css("font-style", "normal");
+    $("#welcome").html("Welcome!");
+    
+    $("#resetForm").fadeIn(1);   
+    $("#btnClient").css("background-color", "#f0e68c");
+    $("#btnCaseWorker").css("background-color", "white");
+    $("#resetMsgDivCL").show();
+    
+    if (successful)
+    {
+        $("#resetMsgDivCL").css("background-color", "green");
+        $("#btnResetPW").hide();              
+    }
+    else 
+    {
+        $("#resetMsgDivCL").css("background-color", "red");
+    }
+}

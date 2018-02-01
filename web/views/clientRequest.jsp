@@ -39,7 +39,7 @@
             </aside>
             
             <div id="main">
-                request assistance page    
+                request assistance page                    
             </div>
             
             <c:import url="../Includes/footer.html"/>            
