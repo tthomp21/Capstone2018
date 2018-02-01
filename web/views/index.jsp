@@ -374,7 +374,7 @@
                                 <div class="manageCell">    
                                     <p>
                                         <label>Current Street Address:</label>
-                                        <span><c:out value="${user.street}"/></span>
+                                        <span><c:if test="${user.getClass().simpleName == 'Client'}"><c:out value="${user.street}"/></c:if></span>
                                     </p>
                                     <p>
                                         <label for="fieldValue">Change User Name:</label>
@@ -399,7 +399,7 @@
                                 <div class="manageCell">    
                                     <p>
                                         <label>Current City:</label>
-                                        <span><c:out value="${user.city}"/></span>
+                                        <span><c:if test="${user.getClass().simpleName == 'Client'}"><c:out value="${user.city}"/></c:if></span>
                                     </p>
                                     <p>
                                         <label for="fieldValue">Change City:</label>
@@ -424,7 +424,7 @@
                                 <div class="manageCell">    
                                     <p>
                                         <label>Current Zip Code:</label>
-                                        <span><c:out value="${user.zipFormatted}"/></span>
+                                        <span><c:if test="${user.getClass().simpleName == 'Client'}"><c:out value="${user.zipFormatted}"/></c:if></span>
                                     </p>
                                     <p>
                                         <label for="fieldValue">Change Zip Code:</label>

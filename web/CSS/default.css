@@ -147,13 +147,22 @@ footer {
     color: black;  
     background-color: white;
     overflow: hidden;
-    padding: 10px;
+    padding: 10px;        
 }
-/*@media screen and (max-height: 525px) {
-    footer {
-        top: 470px;
-    }
-}*/
+
+footer ul {
+    margin: 0;    
+}
+
+footer li {    
+    padding: 0 35px;
+    display: inline-block;
+    font-weight: bold;    
+    font-family: tahoma; 
+}
+footer a {
+    color: black;
+}
 
 /* ---- main program area ---- */
 #main {

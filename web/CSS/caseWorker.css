@@ -151,11 +151,21 @@ footer {
     overflow: hidden;
     padding: 10px;
 }
-/*@media screen and (max-height: 525px) {
-    footer {
-        top: 470px;
-    }
-}*/
+/* I added this to the footer of default.css so i put it here too */
+footer ul {
+    margin: 0;    
+}
+
+footer li {    
+    padding: 0 35px;
+    display: inline-block;
+    font-weight: bold;    
+    font-family: tahoma; 
+}
+footer a {
+    color: black;
+}
+/* --------------------------------------------------------------- */
 
 /* ---- main program area ---- */
 #main {
@@ -175,7 +185,7 @@ footer {
     font-size: 1.5em;
 }
 
-/*
+
 @media screen and (max-height: 753px) {
     footer {
         top: 700px;
@@ -187,7 +197,6 @@ footer {
     }
 }
 
-*/
 
 #primarySection{
     float: left;
