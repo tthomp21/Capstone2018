@@ -5,6 +5,10 @@
  */
 package business;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
+
 /**
  *
  * @author Tyler Thompson
@@ -58,6 +62,18 @@ public class Validation {
             message = elementName + " must be a numeric value";
         }
         return message;
+    }
+     public static BigDecimal formatRound(double number) {
+        BigDecimal decimalRound = new BigDecimal(Double.toString(number));
+         decimalRound = decimalRound.setScale(2, RoundingMode.HALF_UP);
+         return decimalRound;
+    }
+
+    public static String formatRoundDollar(double number) {
+        NumberFormat num = NumberFormat.getCurrencyInstance();
+
+        BigDecimal decimalRound = formatRound(number);
+        return num.format(decimalRound);
     }
     
 }

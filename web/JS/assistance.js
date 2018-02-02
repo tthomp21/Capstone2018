@@ -13,6 +13,22 @@ $(document).ready(function () {
                 }
             }
     ); // end click
+    
+    $(".primaryTitle").click(
+            function (){
+                
+                $("#primarySection h2").toggleClass("unfold");
+                $("#primarySection div").toggleClass("open"); 
+            });
+    
+    
+     
+    $(".secondaryTitle").click(
+            function (){
+                
+                $("#secondarySection h2").toggleClass("unfold");
+                $("#secondarySection div").toggleClass("open"); 
+            });
 }); // end ready
 
 

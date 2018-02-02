@@ -77,3 +77,8 @@ div.closed{
 div.open{
     display: block;
 }
+.primaryTitle, .secondaryTitle{
+    cursor: pointer;
+    padding: .25em 0 .25em 50px;
+    background: url(/Images/closeArrow.png) no-repeat left center;
+}

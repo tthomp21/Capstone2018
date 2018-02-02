@@ -114,7 +114,7 @@
                     </div>
                 </section>
 
-                <section id="secondarySection">
+                                <section id="secondarySection">
                     <h1 class="secondaryTitle">Secondary Assistances</h1>
                     <h2 class="fold">Car Repairs</h2>
                     <div class="closed">

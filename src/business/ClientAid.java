@@ -16,16 +16,17 @@ public class ClientAid implements Serializable{
     
     
     private     int	     clientID;
-    private     double       AidAmount;
+    private     String       aidAmount;
     private     LocalDate    clientAidDateDisbursed;
     private     AidType      aidType; // this is for food stams ... (primary)
     
     public ClientAid(){}
-    public ClientAid(int theclientAidID, LocalDate theAidDateDisbursed, AidType theAidType)
+    public ClientAid(int theclientAidID, LocalDate theAidDateDisbursed, String aidAmount, AidType theAidType)
     {
         this.clientID              = theclientAidID;
         this.clientAidDateDisbursed = theAidDateDisbursed;
         this.aidType              = theAidType;
+        this.aidAmount              = aidAmount;
     }
 
     /**
@@ -42,21 +43,7 @@ public class ClientAid implements Serializable{
         this.clientID = clientID;
     }
 
-    /**
-     * @return the AidAmount
-     */
-    public double getAidAmount() {
-        return AidAmount;
-    }
-
-    /**
-     * @param AidAmount the AidAmount to set
-     */
-    public void setAidAmount(double AidAmount) {
-        this.AidAmount = AidAmount;
-    }
-
-    /**
+       /**
      * @return the clientAidDateDisbursed
      */
     public LocalDate getClientAidDateDisbursed() {
@@ -82,6 +69,20 @@ public class ClientAid implements Serializable{
      */
     public void setAidType(AidType aidType) {
         this.aidType = aidType;
+    }
+
+    /**
+     * @param aidAmount the aidAmount to set
+     */
+    public void setAidAmount(String aidAmount) {
+        this.aidAmount = Validation.formatRoundDollar(Double.parseDouble(aidAmount));
+    }
+
+    /**
+     * @return the aidAmount
+     */
+    public String getAidAmount() {
+        return aidAmount;
     }
     
 }

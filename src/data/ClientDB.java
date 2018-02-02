@@ -137,7 +137,7 @@ public class ClientDB {
                 
                 clientAid.setClientID(rs.getInt("clientID"));
                 clientAid.setClientAidDateDisbursed(rs.getDate("dateDisbursed").toLocalDate());
-                clientAid.setAidAmount(rs.getDouble("AidAmount"));
+                clientAid.setAidAmount(rs.getDouble("AidAmount") + "");
                 
                 aidType  = new AidType(rs.getInt("aidType"), rs.getString("aidName"));
                 clientAid.setAidType(aidType);
@@ -311,7 +311,7 @@ public class ClientDB {
                 
                 
                 aidType = new AidType(rs.getInt("aidtype"), rs.getString("aidName"));
-                clientAid = new ClientAid(rs.getInt("clientID"), rs.getDate("clientAidDateDisbursed").toLocalDate() , aidType);
+                //clientAid = new ClientAid(rs.getInt("clientID"), rs.getDate("clientAidDateDisbursed").toLocalDate() , aidType);
 	            
                 //assistRequest.setAssistance(clientAid);
                 

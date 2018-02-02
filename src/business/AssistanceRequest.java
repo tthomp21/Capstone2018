@@ -218,7 +218,7 @@ public class AssistanceRequest implements Serializable, Comparator<AssistanceReq
      * @param amountPaid the amountPaid to set
      */
     public void setAmountPaid(String amountPaid) {
-        this.amountPaid = this.formatRoundDollar(Double.parseDouble(amountPaid));
+        this.amountPaid = Validation.formatRoundDollar(Double.parseDouble(amountPaid));
     }
 
     /**
@@ -228,17 +228,5 @@ public class AssistanceRequest implements Serializable, Comparator<AssistanceReq
         return amountPaid;
     }
     
-     public static BigDecimal formatRound(double number) {
-        BigDecimal decimalRound = new BigDecimal(Double.toString(number));
-         decimalRound = decimalRound.setScale(2, RoundingMode.HALF_UP);
-         return decimalRound;
-    }
-
-    public static String formatRoundDollar(double number) {
-        NumberFormat num = NumberFormat.getCurrencyInstance();
-
-        BigDecimal decimalRound = formatRound(number);
-        return num.format(decimalRound);
-    }
 
 }
