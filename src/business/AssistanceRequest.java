@@ -6,6 +6,9 @@
 package business;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.Comparator;
 
@@ -24,7 +27,8 @@ public class AssistanceRequest implements Serializable, Comparator<AssistanceReq
     private int assistanceID;
     private int clientID;
     private LocalDate requestDate;
-    private double amountPaid;
+    private String amountPaid;
+    //private double amountPaid;
     private String status;
     private LocalDate dateDisbursed;
     //private String    assistanceDescription;
@@ -35,7 +39,7 @@ public class AssistanceRequest implements Serializable, Comparator<AssistanceReq
     public AssistanceRequest() {
     }
 
-    public AssistanceRequest(int requestID, int assistanceID, int clientID, LocalDate requestDate, double amountPaid, String status, LocalDate dateDisbursed) {
+    public AssistanceRequest(int requestID, int assistanceID, int clientID, LocalDate requestDate, String amountPaid, String status, LocalDate dateDisbursed) {
         this.requestID = requestID;
         this.assistanceID = assistanceID;
         this.clientID = clientID;
@@ -104,18 +108,18 @@ public class AssistanceRequest implements Serializable, Comparator<AssistanceReq
 
     /**
      * @return the amountPaid
-     */
+     
     public double getAmountPaid() {
         return amountPaid;
     }
-
+    * */
     /**
      * @param amountPaid the amountPaid to set
-     */
+     
     public void setAmountPaid(double amountPaid) {
-        this.amountPaid = amountPaid;
+        this.setAmountPaid(amountPaid);
     }
-
+*/
     /**
      * @return the status
      */
@@ -208,6 +212,33 @@ public class AssistanceRequest implements Serializable, Comparator<AssistanceReq
      */
     public void setAidType(AidType aidType) {
         this.aidType = aidType;
+    }
+
+    /**
+     * @param amountPaid the amountPaid to set
+     */
+    public void setAmountPaid(String amountPaid) {
+        this.amountPaid = this.formatRoundDollar(Double.parseDouble(amountPaid));
+    }
+
+    /**
+     * @return the amountPaid
+     */
+    public String getAmountPaid() {
+        return amountPaid;
+    }
+    
+     public static BigDecimal formatRound(double number) {
+        BigDecimal decimalRound = new BigDecimal(Double.toString(number));
+         decimalRound = decimalRound.setScale(2, RoundingMode.HALF_UP);
+         return decimalRound;
+    }
+
+    public static String formatRoundDollar(double number) {
+        NumberFormat num = NumberFormat.getCurrencyInstance();
+
+        BigDecimal decimalRound = formatRound(number);
+        return num.format(decimalRound);
     }
 
 }
