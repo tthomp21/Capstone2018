@@ -56,6 +56,8 @@
                     <h1>
                         Create a Client Account
                     </h1>
+                    <h3>You need your Client ID# that was given to you upon referral</h3>
+                    <br>
                     <form action="AccountsController" method="post" id="createForm">                        
                         <p>
                             <label for="createClientID">Enter your Client ID#:</label>
@@ -97,7 +99,6 @@
                             <p id="createMsgSuccess" class="successMsg"><c:out value="${createMsgSuccess}"/></p>
                         </c:if> 
                     </div>
-                    
                 </div>                
             </div>
             

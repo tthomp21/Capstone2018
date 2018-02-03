@@ -1,0 +1,98 @@
+/*
+Sayel Rammaha   
+2/3/18
+style sheet for clientRequest.jsp
+*/
+#container {
+    margin: auto;
+    text-align: center;
+}
+h1 {
+    text-align: center;
+}
+
+#infoDiv {
+    font-size: 1.2em;
+    text-align: left;
+    min-width: 550px;
+    text-align: center;    
+    display: inline-table; 
+    margin-left: 30px;
+}
+
+#requestDiv {    
+    text-align: center;
+    margin-top: 25px;
+    font-size: 1.2em;
+    margin-right: auto;
+    margin-left: auto;
+    min-width: 550px;
+    display: inline-table;
+    padding: 0;
+}
+
+#requestForm {
+    display: table;
+    margin: auto; 
+    height: 330px;
+    
+}
+#requestForm fieldset {
+    border: none;
+    
+}
+#requestForm input {
+    display: table-cell;
+    width: 138px;
+    margin: 10px;
+}
+#requestForm input[type=submit] {
+    width: 180px;
+}
+
+#requestForm label:not(#uploadLbl) {
+    display: table-cell;
+    text-align: right;
+}
+#requestForm p {
+    display: table-row;
+}
+/* base green button properties */
+.button {
+    position: relative;
+    padding: 10px;
+    background-color: #4CAF50;
+    border: none;
+    font-size: 1em;
+    color: #FFFFFF;
+    text-align: center;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+#infoDiv li {
+    list-style: none;   
+    text-align: left;
+}
+#infoDiv ul {    
+    padding: 0;
+}
+
+.requestErrors {
+    color: red;
+    text-align: center;
+    margin-top: 0;
+    padding-bottom: 0;
+}
+#btnUpload {    
+    margin: auto;    
+}
+
+#requestForm input[type=file] {
+    width: 350px;
+    margin: auto;
+    border: 1px dotted;
+    background-color: #f0e68c;
+}
+
