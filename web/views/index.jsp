@@ -155,19 +155,23 @@
             
             <div id="vCodeForm">
                 <div class="loginDiv">                    
-                    <form action="AccountsController" method="post" id="resetFormCL" class="loginForm">
+                    <form action="AccountsController" method="post" id="vCodeFormCL" class="resetForms">
                         <fieldset>
                             <legend>Enter your user name and verify your Social Security Number</legend>
-
+                            <p>
                             <label for="vCodeUserNameCL">User Name:</label>
-                            <input type="text" id="vCodeUserNameCL" name="vCodeUserNameCL" autofocus="true" value=""><br>
-
+                            <input type="text" id="vCodeUserNameCL" name="vCodeUserNameCL" autofocus="true" value="${prevVCodeUserName}"><br>
+                            </p>
+                            <p>
                             <label for="vCodeSSNCL">Social Security Number:</label>
-                            <input type="text" id="vCodeSSNCL" name="vCodeSSNCL" value=""><br>
-                        
+                            <input type="text" id="vCodeSSNCL" name="vCodeSSNCL" value="${prevVCodeSSN}"><br>
+                            </p>
+                            <p>
                             <input type="hidden" name="action" value="sendCode"/>
+                            <label>&nbsp;</label>
                             <input type="submit" name="submit" value="Get Verification Code" class="button" id="btnSendCode"/>
-                            
+                            <label>&nbsp;</label>
+                            </p>
                         </fieldset>                        
                     </form>  
                           
@@ -184,22 +188,27 @@
                  
             <div id="resetForm">
                 <div class="loginDiv">                    
-                    <form action="AccountsController" method="post" id="verifyResetFormCL" class="loginForm">
+                    <form action="AccountsController" method="post" id="resetFormCL" class="resetForms">
                         <fieldset>
                             <legend>A verification code was sent via text to your phone.</legend>
-
+                            <p>
                             <label for="resetCodeCL">Verification Code:</label>
-                            <input type="text" id="resetCodeCL" name="resetCodeCL" autofocus="true" value=""><br>
-
+                            <input type="text" id="resetCodeCL" name="resetCodeCL" autofocus="true" value="">
+                            </p>
+                            <p>
                             <label for="resetPwCL">Enter new password:</label>
-                            <input type="password" id="resetPwCL" name="resetPwCL" value=""><br>
-                        
+                            <input type="password" id="resetPwCL" name="resetPwCL" value="">
+                            </p>
+                            <p>
                             <label for="resetPw2CL">Confirm new password:</label>
-                            <input type="password" id="resetPw2CL" name="resetPw2CL" value=""><br>
-                            
+                            <input type="password" id="resetPw2CL" name="resetPw2CL" value="">
+                            </p>                            
+                            <p>
                             <input type="hidden" name="action" value="resetPW"/>
+                            <label>&nbsp;</label>
                             <input type="submit" name="submit" value="Change Password" class="button" id="btnResetPW"/>
-                            
+                            <label>&nbsp;</label>
+                            </p>
                         </fieldset>                        
                     </form>  
                           

@@ -68,6 +68,10 @@ public class Accounts {
                 if (!isValidLength(fieldValue, 6))
                     return "User Name must be at least 6 characters.";
                 break;
+            case "ssn":
+                String ssnPattern = "\\d{9}";
+                if (!fieldValue.matches(ssnPattern))
+                    return "Please enter a 9-digit social security number.";
         }
         
         return "";
@@ -150,7 +154,8 @@ public class Accounts {
         
         return result;    
     }
-    
+
+       
     // checks if user has already created an account
     public static QueryResult accountCreationAvailable(int clientID)
     {

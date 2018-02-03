@@ -283,20 +283,68 @@ aside, #welcome {
     line-height: 50px;
     color: white;
 }
+
+
+
 #forgot {
     color: blue;
     cursor: default;
 }
-#btnSendCode {
-    margin-left: -213px;
+
+.resetForms {
+    width: 700px;
+    padding: 10px 22.5px 0px 22.5px; 
+    
+}
+.resetForms legend {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-bottom: .5em;
+}
+.resetForms input[type=text], .resetForms input[type=password] {    
+    margin-right: 1em;
+    margin-bottom: 1em;
+    
+}
+.resetForms fieldset {    
+    margin-bottom: 1em;
+    padding-top: .5em;
+    border: none;
+}
+.resetForms label {   
+    text-align: right;
+    width: 16em; 
+    padding-right: 10px;
+    
+}
+.resetForms label.error{    
+    color: red;    
+    text-align: left;
+    display: table-cell;
+    width: 18em;
+    
 }
 
 
-#resetForm input[type=text], .loginForm input[type=password] {
-    width: 14em;
-    margin-left: -200px;
-    margin-right: 1em;
-    margin-bottom: 1em;  
+.resetForms {
+    display: table;    
+}
+
+.resetForms input {
+    display: table-cell;    
+}
+.resetForms label {
+    display: table-cell;
+}
+.resetForms p {
+    display: table-row;
+}
+#btnSendCode, #btnResetPW {
+    margin-left: -15px;
+}
+
+/*#resetForm input[type=text], #resetForm input[type=password] {
+    width: 10em;    
 }
 #resetForm fieldset {    
     margin-bottom: 1em;
@@ -306,17 +354,17 @@ aside, #welcome {
 #resetForm label {
     float: left;
     text-align: right;
-    width: 11em; 
-    margin-left: 50px;
+    width: 13em; 
+    margin-left: 10px;
 }
-#resetForm label.error{
+#resetForm label.error {
     float: right;
     color: red;
     position: absolute;    
     text-align: left;
     width: auto;
-    margin-left: 0;
+    margin-left: 0px;
 }
 #btnResetPW {
-    margin-left: 12px;
-}
+    margin-left: -8px;
+}*/

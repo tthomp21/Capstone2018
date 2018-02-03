@@ -732,8 +732,11 @@ public class AccountsController extends HttpServlet {
         String userName = request.getParameter("vCodeUserNameCL");
         String ssn = request.getParameter("vCodeSSNCL");
         
-        // verify user name exists
+        // retain form values
+        request.setAttribute("prevVCodeUserName", userName);
+        request.setAttribute("prevVCodeSSN", ssn);
         
+        // verify user name exists        
         results = Accounts.verifyUserName(userName, "client");
         if (!results.successful()) 
         {            
@@ -744,21 +747,18 @@ public class AccountsController extends HttpServlet {
 
             request.setAttribute("vCodeMsg", vCodeMsg);
             return false;
-        }          
-        // verify ssn
-        results = Accounts.verifyUserName(userName, "client");
-        if (!results.successful()) 
-        {            
-            if (results.sqlErrors())
-                vCodeMsg = sqlErrorMsg;
-            else                 
-                vCodeMsg = "That User Name does not exist";   
-
-            request.setAttribute("vCodeMsg", vCodeMsg);
-            return false;
-        }
+        }      
         else 
         {
+            // verify ssn format
+            String result = Accounts.isValidUpdateField("ssn", ssn, "");
+            if (!result.equals(""))
+            {
+                vCodeMsg = result;
+                request.setAttribute("vCodeMsg", vCodeMsg);
+                return false;
+            }
+            
             // retrieve user based on user name
             client = Accounts.logInClient(userName);
             int id = client.getClientID();
@@ -823,6 +823,14 @@ public class AccountsController extends HttpServlet {
         if (codeSent == null || !codeSent.equals(code))
         {
             resetMsg = "The code you entered is invalid.";
+            request.setAttribute("resetMsg", resetMsg);
+            return false;
+        }
+        
+        // verify password length
+        if (!Accounts.isValidLength(password, 6))
+        {
+            resetMsg = "Your password must be at least 6 characters";
             request.setAttribute("resetMsg", resetMsg);
             return false;
         }

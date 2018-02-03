@@ -468,6 +468,61 @@ $(document).ready(function() {
             }
         }
     });
+    
+    
+    // reset password forms
+    $("#vCodeFormCL").validate({
+        rules: {
+            vCodeUserNameCL: {
+                required: true
+            },
+            vCodeSSNCL: {
+                required: true,                
+                digits: true,
+                rangelength: [9, 9]
+            }
+        },
+        messages: {
+            vCodeUserNameCL: {
+                required: "Please enter your user name."
+            },
+            vCodeSSNCL: {
+                required: "Please enter your social security number.",               
+                rangelength: "Please enter a 9-digit ssn."
+            }
+        }
+    });
+
+    $("#resetFormCL").validate({
+        rules: {
+            resetCodeCL: {
+                required: true
+            },
+            resetPwCL: {
+                required: true,                
+                minlength: 6                
+            },
+            resetPw2CL: {
+                required: true,
+                equalTo: "#resetPwCL",
+                minlength: 6                
+            }
+        },
+        messages: {
+            resetCodeCL: {
+                required: "Please enter your verification code."
+            },
+            resetPwCL: {
+                required: "Please choose a new password.", 
+                minlength: "Password must be at least 6 characters."
+            },
+            resetPw2CL: {
+                required: "Please enter your password.",
+                equalTo: "The passwords do not match.",
+                minlength: "Password must be at least 6 characters."
+            }
+        }
+    });
 });
 
 
