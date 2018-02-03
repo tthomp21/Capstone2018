@@ -49,7 +49,6 @@
                         <table border="1">
                             <tr>
 
-                                <%-- <th>Date requested</th> --%>
                                 <th>Amount Paid</th>
                                 <th>Date Disbursed</th>
                                 <th>Assistance Status</th>
@@ -58,7 +57,7 @@
 
                                 <tr>
 
-                                    <td><c:out value="${aBenefit.AidAmount}" /></td>--%>
+                                    <td><c:out value="${aBenefit.aidAmount}" /></td>
                                     <td><c:out value="${aBenefit.clientAidDateDisbursed}" /></td>
                                     <td><c:out value="${aBenefit.aidType.aidDescription}" /></td>
                                 </tr>
@@ -72,7 +71,7 @@
                         <table border="1">
                             <tr>
 
-                                <%-- <th>Date requested</th> --%>
+
                                 <th>Amount Paid</th>
                                 <th>Date Disbursed</th>
                                 <th>Assistance Status</th>
@@ -81,7 +80,7 @@
 
                                 <tr>
 
-                                    <td><c:out value="${aBenefit.AidAmount}" /></td>--%>
+                                    <td><c:out value="${aBenefit.aidAmount}" /></td>
                                     <td><c:out value="${aBenefit.clientAidDateDisbursed}" /></td>
                                     <td><c:out value="${aBenefit.aidType.aidDescription}" /></td>
                                 </tr>
@@ -95,7 +94,7 @@
                         <table border="1">
                             <tr>
 
-                                <%-- <th>Date requested</th> --%>
+
                                 <th>Amount Paid</th>
                                 <th>Date Disbursed</th>
                                 <th>Assistance Status</th>
@@ -104,7 +103,7 @@
 
                                 <tr>
 
-                                    <td><c:out value="${aBenefit.AidAmount}" /></td>--%>
+                                    <td><c:out value="${aBenefit.aidAmount}" /></td>
                                     <td><c:out value="${aBenefit.clientAidDateDisbursed}" /></td>
                                     <td><c:out value="${aBenefit.aidType.aidDescription}" /></td>
                                 </tr>
@@ -114,7 +113,7 @@
                     </div>
                 </section>
 
-                                <section id="secondarySection">
+                <section id="secondarySection">
                     <h1 class="secondaryTitle">Secondary Assistances</h1>
                     <h2 class="fold">Car Repairs</h2>
                     <div class="closed">

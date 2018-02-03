@@ -162,44 +162,7 @@ public class AssistanceRequest implements Serializable, Comparator<AssistanceReq
         this.requestID = requestID;
     }
 
-    /**
-     * Sorting the list. based on the field chosen. for this example by
-     * disbursedDate
-     */
-    public static Comparator<AssistanceRequest> sortAssistanceListByDate = new Comparator<AssistanceRequest>() {
-
-        public int compare(AssistanceRequest o1, AssistanceRequest o2) {
-
-            LocalDate date1 = o1.getDateDisbursed();
-            LocalDate date2 = o2.getDateDisbursed();
-
-            //descending order, newest date to oldest, the most current one
-            return date2.compareTo(date1);
-
-            //ascending order, oldest date to newest
-            // return date1.compareTo(date2);
-        }
-
-    };
-
-    @Override
-    public int compare(AssistanceRequest o1, AssistanceRequest o2) {
-        return 0; // just to make the implimentation happy. 
-    }
-
-//    /**
-//     * @return the assistanceDescription
-//     */
-//    public String getAssistanceDescription() {
-//        return assistanceDescription;
-//    }
-//
-//    /**
-//     * @param assistanceDescription the assistanceDescription to set
-//     */
-//    public void setAssistanceDescription(String assistanceDescription) {
-//        this.assistanceDescription = assistanceDescription;
-//    }
+    
     /**
      * @return the aidType
      */
@@ -228,5 +191,29 @@ public class AssistanceRequest implements Serializable, Comparator<AssistanceReq
         return amountPaid;
     }
     
+    /**
+     * Sorting the list. based on the field chosen. for this example by
+     * disbursedDate
+     */
+    public static Comparator<AssistanceRequest> sortAssistanceListByDate = new Comparator<AssistanceRequest>() {
+
+        public int compare(AssistanceRequest o1, AssistanceRequest o2) {
+
+            LocalDate date1 = o1.getDateDisbursed();
+            LocalDate date2 = o2.getDateDisbursed();
+
+            //descending order, newest date to oldest, the most current one
+            return date2.compareTo(date1);
+
+            //ascending order, oldest date to newest
+            // return date1.compareTo(date2);
+        }
+
+    };
+
+    @Override
+    public int compare(AssistanceRequest o1, AssistanceRequest o2) {
+        return 0; // just to make the implimentation happy. 
+    }
 
 }

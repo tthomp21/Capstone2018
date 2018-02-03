@@ -118,7 +118,7 @@ public class AssistanceController extends HttpServlet {
             for (ClientAid clientAssist : clientAidList) {
                 if (clientAssist.getAidType().getAidDescription().equalsIgnoreCase("SNAP")) {
                     foodList.add(clientAssist);
-                } else if (clientAssist.getAidType().getAidDescription().equalsIgnoreCase("ADC")) {
+                } else if (clientAssist.getAidType().getAidDescription().trim().equalsIgnoreCase("ADC")) {
                     cashList.add(clientAssist);
                 } else if (clientAssist.getAidType().getAidDescription().equalsIgnoreCase("MedA")) {
                     medicaidList.add(clientAssist);
@@ -133,9 +133,9 @@ public class AssistanceController extends HttpServlet {
 
             //NOTE: I made the clientAid to extend the AssistanceRequest to take advantage of implementing comparator class
             // so this will be tested once tables are populated later and see if it will work. 
-            //  Collections.sort(foodList, ClientAid.sortAssistanceListByDate);
-            // Collections.sort(cashList, ClientAid.sortAssistanceListByDate);
-            // Collections.sort(medicaidList, ClientAid.sortAssistanceListByDate);
+              Collections.sort(foodList, ClientAid.sortAssistanceListByDate);
+             Collections.sort(cashList, ClientAid.sortAssistanceListByDate);
+             Collections.sort(medicaidList, ClientAid.sortAssistanceListByDate);
         } catch (Exception ex) {
 
         } finally {
