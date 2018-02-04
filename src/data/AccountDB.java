@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class AccountDB {
 
     // will free any resources that aren't null
-    private static void closeResources(PreparedStatement ps, ResultSet rs, Connection conn) {
+    public static void closeResources(PreparedStatement ps, ResultSet rs, Connection conn) {
         DBUtility.closePreparedStatement(ps);
         DBUtility.closeResultSet(rs);
         DBConnection.freeConnection(conn);

@@ -45,7 +45,7 @@
                 <div id="container">
                     
                     <div id="requestDiv">
-                        <form action="ClientRequestController" method="post" id="requestForm">
+                        <form action="ClientRequestController" method="post" id="requestForm" enctype="multipart/form-data">
                             <h1>Submit a request for assistance</h1>
                             <fieldset>
                                 <p>
@@ -65,7 +65,7 @@
                                 </p>                                
                                                                
                                 <label id="uploadLbl">Upload documentation for review:</label><br>
-                                <input type="file" id="documentation" name="documentation">
+                                <input type="file" id="file" name="file">
                                 
                                 <input type="hidden" name="action" value="processRequest"/>
                                 <input type="submit" name="submit" value="Submit Request" class="button" id="btnUpload"/>
@@ -76,7 +76,8 @@
                         </form>  
                     </div>
                     
-                    <div id="infoDiv">
+                    <div id="infoDiv">                        
+                        <a href="/ClientRequestController?action=view" target="_blank">s</a>
                         <h1>About the assistance we provide</h1>
                         <ul>                            
                             <li>Tuition </li>
