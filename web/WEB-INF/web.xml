@@ -8,6 +8,10 @@
         <servlet-name>ClientRequestController</servlet-name>
         <servlet-class>controller.ClientRequestController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EligibilityController</servlet-name>
+        <servlet-class>controller.EligibilityController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AccountsController</servlet-name>
         <url-pattern>/AccountsController</url-pattern>
@@ -43,7 +47,10 @@
         <servlet-name>ClientRequestController</servlet-name>
         <url-pattern>/ClientRequestController</url-pattern>
     </servlet-mapping>
-    
+    <servlet-mapping>
+        <servlet-name>EligibilityController</servlet-name>
+        <url-pattern>/EligibilityController</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

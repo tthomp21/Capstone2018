@@ -44,14 +44,18 @@ public class ClientRequestController extends HttpServlet {
             action = "arrival";
         }      
         
+        ServletContext sc = getServletContext();
+        
         switch(action) {
             case "arrival": 
                 // redirect to 'url'        
-                ServletContext sc = getServletContext();
+                
                 sc.getRequestDispatcher(url).forward(request, response);  
                 break;
             case "view":
-                FileServe.retrieve(request, response, getServletContext(), 21);
+                if(!FileServe.retrieve(request, response, getServletContext(), 23))
+                    sc.getRequestDispatcher(url).forward(request, response);    
+                
                 break;
         }
     }
