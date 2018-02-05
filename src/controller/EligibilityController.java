@@ -5,12 +5,17 @@
  */
 package controller;
 
+import business.Client;
+import data.ClientDB;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -50,7 +55,35 @@ public class EligibilityController extends HttpServlet {
          *      ---> tuition: one time and only once.
          *      ---> car repairs: depends may be once or once per year.
          *      --->
-         */
+         *  6- done forget about SCM.TCF_AIDNOTIFY
+         */ 
+        
+        
+          HttpSession session = request.getSession();
+        ServletContext cs = session.getServletContext();
+
+        String url = ""; //= "/view/the default page";
+        Client aClient = (Client) session.getAttribute("user"); // get this from successful login.
+       try{ 
+                if(aClient == null){
+	url = "/views/index.jsp"; //direct the client to re-login
+	cs.getRequestDispatcher(url).forward(request, response);
+                }
+                double clientHours = 0;
+                double clientPartnerHours =0;
+
+                //check marriage status
+                if(aClient.getPartnerID() != 0 & aClient.getPartnerID()+"" != " " & aClient.getPartnerID()+"" != null ){
+	//get hours for the couple from the db
+	clientHours =   ClientDB.getClientHours(aClient.getClientID());
+	
+                }
+        }
+        catch(IOException ex){
+
+        }finally{
+
+        }
        
     }
 
