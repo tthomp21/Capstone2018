@@ -246,6 +246,41 @@ public class ClientDB {
         return c;
     }
 
+    public static double getClientHours(int clientID) {
+       double clientHours =0.0;
+       
+       
+        Connection connection = DBConnection.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query = "SELECT hours "
+	    + "FROM SCM.TCF_HOURS "
+	    + " WHERE clientID = ?";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, clientID);
+            rs = ps.executeQuery();
+
+            clientHours = rs.getDouble("hours");
+
+            
+        } catch (SQLException sqlException) {
+            System.out.println(sqlException);
+
+            return 0.0;
+        } finally {
+            DBUtility.closeResultSet(rs);
+            DBUtility.closePreparedStatement(ps);
+
+            return clientHours;
+        }
+
+       
+       
+    }
+
 }
 
 /**
