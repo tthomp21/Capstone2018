@@ -34,8 +34,9 @@ public class HoursDB {
             while (rs.next()) {
                 a.setDate(rs.getDate("date"));
                 a.setHours(rs.getBigDecimal("hours"));
-                args.add(a);
+                
             }
+            args.add(a);
         } catch (SQLException e) {
                 System.out.println("Error getting client hours with ID\n" + e );
         } finally {

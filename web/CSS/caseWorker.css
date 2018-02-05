@@ -225,7 +225,7 @@ tr, td, th {
 
 table { 
     border-collapse: separate; 
-    border-spacing: 0 10px; 
+    border-spacing: 0 1px; 
     margin-top: -5px; /* correct offset on first border spacing if desired */
 }
 td {
@@ -243,23 +243,15 @@ th {
 }
 th:first-child {
     border-left-style: solid;
-    border-top-left-radius: 5px; 
-    border-bottom-left-radius: 5px;
 }
 th:last-child {
     border-right-style: solid;
-    border-bottom-right-radius: 5px; 
-    border-top-right-radius: 5px; 
 }
 td:first-child {
     border-left-style: solid;
-    border-top-left-radius: 5px; 
-    border-bottom-left-radius: 5px;
 }
 td:last-child {
     border-right-style: solid;
-    border-bottom-right-radius: 5px; 
-    border-top-right-radius: 5px; 
 }
 th{
     background-color: lightblue;
