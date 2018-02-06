@@ -6,10 +6,13 @@
 package controller;
 
 import business.Client;
+import business.Hours;
+import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import data.ClientDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -64,18 +67,32 @@ public class EligibilityController extends HttpServlet {
 
         String url = ""; //= "/view/the default page";
         Client aClient = (Client) session.getAttribute("user"); // get this from successful login.
+        ArrayList<Hours> clientsHours  = (ArrayList<Hours>) session.getAttribute("clientsHours");
+        ArrayList<Hours> clientsPartnerHours  = (ArrayList<Hours>) session.getAttribute("clientsPartnerHours");
        try{ 
                 if(aClient == null){
-	url = "/views/index.jsp"; //direct the client to re-login
-	cs.getRequestDispatcher(url).forward(request, response);
+                    url = "/views/index.jsp"; //direct the client to re-login
+                    cs.getRequestDispatcher(url).forward(request, response);
+                }else if(clientsHours == null)
+                {
+                    clientsHours = new ArrayList<Hours>();
+                }else if(clientsPartnerHours == null){
+                    clientsPartnerHours = new ArrayList<Hours>();
                 }
-                double clientHours = 0;
-                double clientPartnerHours =0;
-
+               
+                    //it would be nice if know how many hours each of client and the partner required.
                 //check marriage status
                 if(aClient.getPartnerID() != 0 & aClient.getPartnerID()+"" != " " & aClient.getPartnerID()+"" != null ){
 	//get hours for the couple from the db
-	clientHours =   ClientDB.getClientHours(aClient.getClientID());
+                clientsHours =   ClientDB.getClientHours(aClient.getClientID());
+                clientsPartnerHours = ClientDB.getClientHours(aClient.getClientID());
+                
+                //accumulate total hours for the client
+                double clientTotalHours = 0, clientPartnerTotalHours =0;
+                
+                for(Hours h: clientsHours){
+                    clientTotalHours += h.getNumberOfHours();
+                }
 	
                 }
         }
