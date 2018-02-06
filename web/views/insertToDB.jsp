@@ -20,6 +20,7 @@
     <body>
         <h1>Insert into the DB!</h1>
         <h3><b><u>All these inputs assume you have entered valid data!!!!!<br>There is zero error checking on the fields!!!</u></b></h3>
+        <p>All dates are to be in the format of yyyy-MM-dd.
         <div>
             <button onclick="showDiv('clients')">Clients</button>
             <button onclick="showDiv('institution')">Institution</button>
@@ -130,13 +131,13 @@
         <div id="clientinstitution" style="display:none;">
             <p>clientinstitution</p>
             <p>
-                ClientID(int) <input type="text" name="sanctionID"><br>
-                InstitutionID(int) <input type="text" name="sanctionclientID"><br>
-                ProgramLength(smallint) <input type="text" name="sanctionDate"><br>
-                ProgramProgress(smallint) <input type="text" name="sanctionLength"><br>
-                ContactFName(varchar 30) <input type="text" name="sanctionLength"><br>
-                ContactLName(varchar 30) <input type="text" name="sanctionLength"><br>
-                ContactPhone(char 10) <input type="text" name="sanctionLength"><br>
+                ClientID(int) <input type="text" name="CIClientID"><br>
+                InstitutionID(int) <input type="text" name="CIInstiID"><br>
+                ProgramLength(smallint) <input type="text" name="CIProgLength"><br>
+                ProgramProgress(smallint) <input type="text" name="CIProgProg"><br>
+                ContactFName(varchar 30) <input type="text" name="CIContactF"><br>
+                ContactLName(varchar 30) <input type="text" name="CIContactL"><br>
+                ContactPhone(char 10) <input type="text" name="CIContactP"><br>
                 <br>
                 <form action="CaseWorkerController" method="post">
                     <input type="hidden" name="action" value="clientInstDB">
