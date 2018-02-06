@@ -59,41 +59,71 @@ public class EligibilityController extends HttpServlet {
          *      ---> car repairs: depends may be once or once per year.
          *      --->
          *  6- done forget about SCM.TCF_AIDNOTIFY
+         * 
+         * ******************************************************************
+         * build a select tag to allow the client check for the hours based on the week, 1,2,3, and 4.
+         * call  a common method that would get the hours for the week been selected and the one before it, for example 1st week, I need date obj for first of month, and 7th of the month.
+         * may be add two input box of type date to select what date want to be selected
+         * add two radio buttons to check if the client want to get hours for both
+         * 
          */ 
         
         
-          HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
         ServletContext cs = session.getServletContext();
 
         String url = ""; //= "/view/the default page";
         Client aClient = (Client) session.getAttribute("user"); // get this from successful login.
         ArrayList<Hours> clientsHours  = (ArrayList<Hours>) session.getAttribute("clientsHours");
         ArrayList<Hours> clientsPartnerHours  = (ArrayList<Hours>) session.getAttribute("clientsPartnerHours");
+        String lowHoursMsg ="";
+        String warningMsg ="";
+        double clientTotalHours = 0, partnerTotalHours =0;
        try{ 
                 if(aClient == null){
                     url = "/views/index.jsp"; //direct the client to re-login
                     cs.getRequestDispatcher(url).forward(request, response);
-                }else if(clientsHours == null)
+                }if(clientsHours == null)
                 {
                     clientsHours = new ArrayList<Hours>();
-                }else if(clientsPartnerHours == null){
+                }if(clientsPartnerHours == null){
                     clientsPartnerHours = new ArrayList<Hours>();
+	
                 }
                
                     //it would be nice if know how many hours each of client and the partner required.
                 //check marriage status
                 if(aClient.getPartnerID() != 0 & aClient.getPartnerID()+"" != " " & aClient.getPartnerID()+"" != null ){
-	//get hours for the couple from the db
-                clientsHours =   ClientDB.getClientHours(aClient.getClientID());
-                clientsPartnerHours = ClientDB.getClientHours(aClient.getClientID());
+	    //get hours for the couple from the db
+	    clientsHours =   ClientDB.getClientHours(aClient.getClientID());
+	    clientsPartnerHours = ClientDB.getClientHours(aClient.getClientID());
+
+	    //get total hours for couples
+	   
+	    partnerTotalHours = getTotalHours(clientsPartnerHours);
+	    
+	    boolean isGoodOnHours = checkHoursStatus(clientTotalHours, partnerTotalHours);
+	    
+	    //getHoursForSpecificWeek(request, response, session, cs);
+	}
                 
-                //accumulate total hours for the client
-                double clientTotalHours = 0, clientPartnerTotalHours =0;
+                //these will serve as argument the query will be based on.
+                 LocalDate today = LocalDate.now();
+            
+                LocalDate firstOfMonth   = today.withDayOfMonth(1);
+                LocalDate firstWeek      = today.withDayOfMonth(7);
+                LocalDate secondWeek     = today.withDayOfMonth(14);
+                LocalDate thirdWeek      = today.withDayOfMonth(21);
+                LocalDate fourthWeek     = today.withDayOfMonth(28);
+                LocalDate endOfTheMonth  = today.withDayOfMonth(today.lengthOfMonth());
                 
-                for(Hours h: clientsHours){
-                    clientTotalHours += h.getNumberOfHours();
-                }
-	
+                String weekOrMonth = (String)session.getAttribute("weekHours"); 
+                switch(weekOrMonth){
+	case "first":  clientTotalHours = getTotalHours(clientsHours);
+	    break;
+	case "second":
+	// more case based on the whether single or couple    
+	    
                 }
         }
         catch(IOException ex){
@@ -142,5 +172,33 @@ public class EligibilityController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private double getTotalHours(ArrayList<Hours> clientsHours) {
+	    double clientTotalHours =0;
+	     for(Hours hrs: clientsHours){
+	        clientTotalHours += hrs.getNumberOfHours();
+	        
+	    }
+	   return clientTotalHours;
+    }
+
+    private boolean checkHoursStatus(double clientTotalHours, double partnerTotalHours) {
+            boolean isGoodOnHours = true;
+            
+            LocalDate today = LocalDate.now();
+            
+            LocalDate firstOfMonth   = today.withDayOfMonth(1);
+            LocalDate firstWeek      = today.withDayOfMonth(7);
+            LocalDate secondWeek     = today.withDayOfMonth(14);
+            LocalDate thirdWeek      = today.withDayOfMonth(21);
+            LocalDate fourthWeek     = today.withDayOfMonth(28);
+            LocalDate endOfTheMonth  = today.withDayOfMonth(today.lengthOfMonth());
+            
+         //   String dayofWeek = today.getDayOfWeek().FRIDAY +"";
+         //  dayofWeek= dayofWeek.toLowerCase();
+          
+        
+        return isGoodOnHours;
+    }
 
 }
