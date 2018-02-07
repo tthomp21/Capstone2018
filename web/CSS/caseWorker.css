@@ -207,7 +207,7 @@ footer a {
 
 }
 #secondarySection{
-    position: relative;
+    float: right;
 
     /*  background-color: #c0c0c0;*/
 
@@ -260,5 +260,16 @@ th{
 tr:hover td{
     background: #ddd;
     
+}
+
+.column{
+    float: left;
+    width: 50%;
+}
+
+.main:after{
+    content: "";
+    display: table;
+    clear: both;
 }
 

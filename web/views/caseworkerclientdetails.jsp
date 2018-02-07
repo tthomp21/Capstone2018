@@ -41,6 +41,7 @@
                     <c:import url="/Includes/caseWorkerNav.html"/>
                 </nav>
                 <div id="main">
+                    <div class="column">
                     <table>
                         <tr>
                             <td>Name:</td>
@@ -107,7 +108,10 @@
                         </tr>
                     </table>
                 </div>
-                
+                        <div class="column">
+                            <p>Right Div</p>
+                        </div>
+                </div>
             </aside>
             <c:import url="../Includes/footer.html"/>            
         </div>

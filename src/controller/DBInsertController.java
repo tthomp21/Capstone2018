@@ -57,6 +57,8 @@ public class DBInsertController extends HttpServlet {
         String query;
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         
+        if(action == null)
+            action = "";
         
         try{
         switch(action){
@@ -251,9 +253,9 @@ public class DBInsertController extends HttpServlet {
         }
         finally{
             try{
-            conn.close();
-        }catch(SQLException e){
-        }
+                conn.close();
+            }catch(SQLException e){
+            }
         }
         
         // redirect
