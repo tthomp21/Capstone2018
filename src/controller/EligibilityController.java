@@ -153,7 +153,7 @@ public class EligibilityController extends HttpServlet {
                 if(aClient.getPartnerID() != 0 & aClient.getPartnerID()+"" != " " & aClient.getPartnerID()+"" != null ){
 	    //get hours for the couple from the db
 	    
-	    clientsPartnerHours = ClientDB.getClientHours(aClient.getClientID());
+	    clientsPartnerHours = ClientDB.getClientHoursForWholeMonth(aClient.getClientID());
 
 	    //get total hours for couples
 	   

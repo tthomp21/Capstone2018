@@ -249,8 +249,10 @@ public class ClientDB {
         return c;
     }
 
-    public static ArrayList<Hours> getClientHours(int clientID) {
-
+    public static ArrayList<Hours> getClientHoursForWholeMonth(int clientID) {
+        
+        LocalDate firstOfThisMonthDate = LocalDate.now().withDayOfMonth(1);
+        LocalDate lastOfThisMonthDate = LocalDate.now().withDayOfMonth(firstOfThisMonthDate.lengthOfMonth()); // always get end of the month
         ArrayList<Hours> allHours = new ArrayList<Hours>();
 
         Connection connection = DBConnection.getConnection();
@@ -260,13 +262,14 @@ public class ClientDB {
         String query = "SELECT *  " //hours, clientID, date
 	    + "FROM SCM.TCF_HOURS "
 	    + "WHERE clientID = ? "
-	    + "AND (DATE >= (CURRENT DATE) - (DAY(CURRENT DATE) DAYS) + 1 DAYS)  "
-	    + "AND (DATE <= (CURRENT DATE) - (DAY(CURRENT DATE) DAYS)  + "
-	    + "DAY(LAST_DAY(CURRENT DATE)) DAYS)                   ";
+	    + "AND (DATE >= ? )  "
+	    + "AND (DATE <= ? )  ";
 
         try {
             ps = connection.prepareStatement(query);
             ps.setInt(1, clientID);
+            ps.setDate(2, Date.valueOf(firstOfThisMonthDate));
+            ps.setDate(3,Date.valueOf(lastOfThisMonthDate) );
             rs = ps.executeQuery();
 
             Client client = getClientWithID(clientID);
