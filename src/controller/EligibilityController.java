@@ -7,7 +7,7 @@ package controller;
 
 import business.Client;
 import business.Hours;
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
+import business.Sanction;
 import data.ClientDB;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -34,6 +34,8 @@ public class EligibilityController extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * 
+     * 
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException {
@@ -76,11 +78,15 @@ public class EligibilityController extends HttpServlet {
         Client aClient = (Client) session.getAttribute("user"); // get this from successful login.
         ArrayList<Hours> clientsHours  = (ArrayList<Hours>) session.getAttribute("clientsHours");
         ArrayList<Hours> clientsPartnerHours  = (ArrayList<Hours>) session.getAttribute("clientsPartnerHours");
+        ArrayList<Sanction> clientSanctions = (ArrayList<Sanction>)session.getAttribute("clientSanctions");
+        Boolean isSanctioned = (Boolean)session.getAttribute("isSanctioned");
         String lowHoursMsg ="";
         String warningMsg ="";
+        String periodToWaitToB_Eligible ="";
+       
         double clientTotalHours = 0, partnerTotalHours =0;
-       try{ 
-                if(aClient == null){
+        
+                 if(aClient == null){
                     url = "/views/index.jsp"; //direct the client to re-login
                     cs.getRequestDispatcher(url).forward(request, response);
                 }if(clientsHours == null)
@@ -89,13 +95,64 @@ public class EligibilityController extends HttpServlet {
                 }if(clientsPartnerHours == null){
                     clientsPartnerHours = new ArrayList<Hours>();
 	
+                }if(clientSanctions == null){
+	clientSanctions = new ArrayList<Sanction>();
                 }
+                if(isSanctioned == null){
+	 isSanctioned = false;
+                }
+       try{ 
+               //get sanction first , if there is any for the client then it is applied to the partner as well
+               clientSanctions = ClientDB.getClientSanctions(aClient.getClientID()) ;
                
-                    //it would be nice if know how many hours each of client and the partner required.
-                //check marriage status
+               if(clientSanctions != null){   //if the list is empty, there is no sanctions, but if there sanctions in the list, these might have been waived or passed the required time.
+                   for(Sanction sanc: clientSanctions){
+	   if(sanc.getSanctionLength() == 3 & !seeIfSanctionPassedRequiredPeriod(sanc.getSanctionDate(), sanc.getSanctionLength())) // if sanction from type 3  =1 year period, check if it has been a year since
+	   {				            // if type3 and hasnont pass the required period, then no need to check for other sanctions
+	         periodToWaitToB_Eligible = getHowLongClientShouldWait(sanc.getSanctionDate(), sanc.getSanctionLength());
+	         isSanctioned = true;
+	         break;
+	         
+	   }else if(sanc.getSanctionLength() == 2 & !seeIfSanctionPassedRequiredPeriod(sanc.getSanctionDate(), sanc.getSanctionLength())){
+	            periodToWaitToB_Eligible = getHowLongClientShouldWait(sanc.getSanctionDate(), sanc.getSanctionLength());
+	            isSanctioned = true;
+	             break;
+	             
+	   }else if(sanc.getSanctionLength() == 1 & !seeIfSanctionPassedRequiredPeriod(sanc.getSanctionDate(), sanc.getSanctionLength())){
+	            periodToWaitToB_Eligible = getHowLongClientShouldWait(sanc.getSanctionDate(), sanc.getSanctionLength());
+	            isSanctioned = true;
+	             break;
+	   }
+	}
+               }else{//this is ture only if the list has no sanction, in our case/current business policy will never execute, that is why boolean isSanctioned is used. 
+	    //but if sanctions was updated in sanction table right away. some code will be not required plus that this was executed. i though of select count(*) but dont make sense
+                   periodToWaitToB_Eligible += "You are doing awesome by paritcipating hours you are required&mdash;"
+		    + "which is good for you which keeps you from getting sanctioned. Keep the good work.";
+               }
+               
+               
+               //********************if there is no sanction then start counrt hours *******************************
+               
+                            
+               if(isSanctioned == false){
+                    periodToWaitToB_Eligible += "You are doing awesome by paritcipating hours you are required&mdash;"
+		    + "which is good for you which keeps you from getting sanctioned. Keep the good work.";
+              
+                    /**it would be nice if know how many hours each of client and the partner required.check marriage status
+	 * 
+	 * lets get the hours from the begining of this month to today.
+	 * LocalDate today = LocalDate.now();
+	 * LocalDate firstOfMonth   = today.withDayOfMonth(1);
+	 * 
+	 */
+	
+	LocalDate todaysDate = LocalDate.now();
+	LocalDate firstOfMonth   = todaysDate.withDayOfMonth(1);
+	 
+               clientsHours =   ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, todaysDate.withDayOfMonth(15)); // hours for the client are needed anyway; but parter's hours are only needed if married
                 if(aClient.getPartnerID() != 0 & aClient.getPartnerID()+"" != " " & aClient.getPartnerID()+"" != null ){
 	    //get hours for the couple from the db
-	    clientsHours =   ClientDB.getClientHours(aClient.getClientID());
+	    
 	    clientsPartnerHours = ClientDB.getClientHours(aClient.getClientID());
 
 	    //get total hours for couples
@@ -106,7 +163,8 @@ public class EligibilityController extends HttpServlet {
 	    
 	    //getHoursForSpecificWeek(request, response, session, cs);
 	}
-                
+               }
+              //  int time = session.getMaxInactiveInterval();
                 //these will serve as argument the query will be based on.
                  LocalDate today = LocalDate.now();
             
@@ -126,8 +184,8 @@ public class EligibilityController extends HttpServlet {
 	    
                 }
         }
-        catch(IOException ex){
-
+        catch(Exception ex){
+	System.out.print(ex.equals(ex));
         }finally{
 
         }
@@ -199,6 +257,66 @@ public class EligibilityController extends HttpServlet {
           
         
         return isGoodOnHours;
+    }
+
+    private boolean seeIfSanctionPassedRequiredPeriod(LocalDate sanctionDate, int sanctionLength) {
+       LocalDate todaysDate = LocalDate.now();
+       boolean passedSanctionPeriod = true;
+       boolean withinSanctionPeriod = false; // still not eligible
+       
+       switch(sanctionLength){
+           case 3: 
+                if(todaysDate.isAfter(sanctionDate.plusYears(1)) || todaysDate.isEqual(sanctionDate.plusYears(1)) ){
+	    return passedSanctionPeriod;
+                }else{
+	    return withinSanctionPeriod;
+                }
+           case 2: 
+                if(todaysDate.isAfter(sanctionDate.plusMonths(3)) || todaysDate.isEqual(sanctionDate.plusMonths(3)) ){
+	return passedSanctionPeriod;
+                }else{
+	 return withinSanctionPeriod;
+                }
+            case 1: 
+                if(todaysDate.isAfter(sanctionDate.plusMonths(1)) || todaysDate.isEqual(sanctionDate.plusMonths(1)) ){
+	return passedSanctionPeriod;
+                }else{
+	 return withinSanctionPeriod;
+                }   
+            
+       }
+       return false;
+    }
+    
+    private String getHowLongClientShouldWait(LocalDate sanctionDate, int sanctionLength) {
+       
+        String periodLeftToRemoreSanction = "";
+                
+         switch(sanctionLength){
+           case 3: 
+                 periodLeftToRemoreSanction += "The sanction that was applied to your case on "
+		+ sanctionDate.toString() + " was the third one, that you have to wait till " 
+		+ sanctionDate.plusYears(1).toString() + " so you can be re-eligible for the benefits-ADC\n Please be noticed that "
+		+ "once you are not eligible for ADC, you are automatically not eligible for: clothing, fuel, tuition, vehicle registeration or repair.";
+               break;
+           case 2:
+                periodLeftToRemoreSanction += "The sanction that was applied to your case on "
+		+ sanctionDate.toString() + " was the second one, that you have to wait till " 
+		+ sanctionDate.plusMonths(3).toString() + " so you can be re-eligible for the benefits-ADC\n Please be noticed that "
+		+ "once you are not eligible for ADC, you are automatically not eligible for: clothing, fuel, tuition, vehicle registeration or repair.";
+                break;
+           case 1:
+               periodLeftToRemoreSanction += "The sanction that was applied to your case on "
+		+ sanctionDate.toString() + " was the first one that you have to wait till " 
+		+ sanctionDate.plusMonths(1).toString() + " so you can be re-eligible for the benefits-ADC\n Please be noticed that "
+		+ "once you are not eligible for ADC, you are automatically not eligible for: clothing, fuel, tuition, vehicle registeration or repair.";
+                break; 
+            
+       }
+        
+       
+        
+        return periodLeftToRemoreSanction;
     }
 
 }

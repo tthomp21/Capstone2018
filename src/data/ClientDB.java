@@ -12,7 +12,9 @@ import business.AssistanceRequest;
 import business.CaseWorker;
 import business.Client;
 import business.Hours;
+import business.Sanction;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -248,44 +250,37 @@ public class ClientDB {
     }
 
     public static ArrayList<Hours> getClientHours(int clientID) {
-      
-      ArrayList<Hours> allHours = new ArrayList<Hours>();
-       
+
+        ArrayList<Hours> allHours = new ArrayList<Hours>();
+
         Connection connection = DBConnection.getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
-        
-      
 
-        String query = "SELECT *  "   //hours, clientID, date
-                    + "FROM SCM.TCF_HOURS "
-                    + "WHERE clientID = ? "
-                    + "AND (DATE >= (CURRENT DATE) - (DAY(CURRENT DATE) DAYS) + 1 DAYS)  "  
-                    + "AND (DATE <= (CURRENT DATE) - (DAY(CURRENT DATE) DAYS)  + "
-                    + "DAY(LAST_DAY(CURRENT DATE)) DAYS)                   ";
-        
-        
+        String query = "SELECT *  " //hours, clientID, date
+	    + "FROM SCM.TCF_HOURS "
+	    + "WHERE clientID = ? "
+	    + "AND (DATE >= (CURRENT DATE) - (DAY(CURRENT DATE) DAYS) + 1 DAYS)  "
+	    + "AND (DATE <= (CURRENT DATE) - (DAY(CURRENT DATE) DAYS)  + "
+	    + "DAY(LAST_DAY(CURRENT DATE)) DAYS)                   ";
 
         try {
             ps = connection.prepareStatement(query);
             ps.setInt(1, clientID);
             rs = ps.executeQuery();
-            
-            
-            Client client= getClientWithID(clientID);
+
+            Client client = getClientWithID(clientID);
             Hours h = null;
-            while(rs.next()){
-               h = new Hours();
+            while (rs.next()) {
+                h = new Hours();
                 h.setNumberOfHours(rs.getDouble("hours"));
                 h.setDateHoursEntered(rs.getDate("date").toLocalDate());
                 h.setaClientInHours(client);
-                
-                allHours.add(h);
-                
-            }
-           
 
-            
+                allHours.add(h);
+
+            }
+
         } catch (SQLException sqlException) {
             System.out.println(sqlException);
 
@@ -297,27 +292,92 @@ public class ClientDB {
             return allHours;
         }
 
-       
-       
     }
-    
-    //     String queryFromTSO =    " SELECT HOURS, DAY(DATE(CURRENT DATE)) AS ONLYDAYS, "                  
-//                              + "DAY(LAST_DAY(CURRENT DATE)) -  DAY(CURRENT DATE) AS DAYSREMA, "
-//                              + "(CURRENT DATE) - (DAY(CURRENT DATE) DAYS) + 1 DAYS AS B_MONTH, "
-//                              + "(CURRENT DATE) - (DAY(CURRENT DATE) DAYS)  +                  " 
-//                              + "DAY(LAST_DAY(CURRENT DATE)) DAYS AS END_OF_MONTH,            "
-//                              + "DATE AS DATE_ENTERED                                              "                                     
-//                              + "FROM SCM.TCF_HOURS                                                   "
-//                              + "WHERE (CLIENTID =1 AND  "                                       
-//                              + "DATE >= (CURRENT DATE) - (DAY(CURRENT DATE) DAYS) + 1 DAYS   "  
-//                               +" AND DATE <= (CURRENT DATE) - (DAY(CURRENT DATE) DAYS)         "
-//                                +"  DAY(LAST_DAY(CURRENT DATE)) DAYS)                          "
-//                               +" OR (CLIENTID =2 AND                                            "
-//                                +" DATE >= (CURRENT DATE) - (DAY(CURRENT DATE) DAYS) + 1 DAYS  "
-//                                +"AND DATE <= (CURRENT DATE) - (DAY(CURRENT DATE) DAYS)  +       "
-//                                 +" DAY(LAST_DAY(CURRENT DATE)) DAYS)";                         
-//        
 
+    public static ArrayList<Sanction> getClientSanctions(int clientID) {
+        ArrayList<Sanction> clientSanctions = new ArrayList<Sanction>();
+
+        Connection connection = DBConnection.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query = "SELECT *  " //hours, clientID, date
+	    + "FROM SCM.TCF_SANCTIONS "
+	    + "WHERE clientID = ? "
+	    + " ORDER BY sanctionLength desc ";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, clientID);
+            rs = ps.executeQuery();
+
+            Sanction sanc = null;
+            Hours h = null;
+            while (rs.next()) {
+
+                sanc = new Sanction(rs.getInt("sanctionID"), rs.getDate("sanctionDate").toLocalDate(), rs.getInt("sanctionLength"));
+
+                clientSanctions.add(sanc);
+            }
+
+        } catch (SQLException sqlException) {
+            System.out.println(sqlException);
+
+            return null;
+        } finally {
+            DBUtility.closeResultSet(rs);
+            DBUtility.closePreparedStatement(ps);
+
+            return clientSanctions;
+        }
+
+    }
+
+    public static ArrayList<Hours> getClientHoursByDates(int clientID, LocalDate firstDate, LocalDate secondDate) {
+       
+         ArrayList<Hours> allHours = new ArrayList<Hours>();
+
+        Connection connection = DBConnection.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query = "SELECT *  " //hours, clientID, date
+	    + "FROM SCM.TCF_HOURS "
+	    + "WHERE clientID = ? "
+	    + "AND (DATE >= ? ) "
+	    + "AND (DATE <= ? ) ";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, clientID);
+            ps.setDate(2, Date.valueOf(firstDate));
+            ps.setDate(3, Date.valueOf(secondDate));
+            rs = ps.executeQuery();
+
+            Client client = getClientWithID(clientID);
+            Hours h = null;
+            while (rs.next()) {
+                h = new Hours();
+                h.setNumberOfHours(rs.getDouble("hours"));
+                h.setDateHoursEntered(rs.getDate("date").toLocalDate());
+                h.setaClientInHours(client);
+
+                allHours.add(h);
+
+            }
+
+        } catch (SQLException sqlException) {
+            System.out.println(sqlException);
+
+            return null;
+        } finally {
+            DBUtility.closeResultSet(rs);
+            DBUtility.closePreparedStatement(ps);
+
+            return allHours;
+        }
+
+    }
 }
 
 /**
@@ -377,7 +437,6 @@ public class ClientDB {
  *
  * return allAssist; }
  *
- * }//end of get secondary assistance  *
- * }
+ * }//end of get secondary assistance * }
  *
  */
