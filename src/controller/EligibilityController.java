@@ -371,6 +371,9 @@ public class EligibilityController extends HttpServlet {
                             + " while you both supposed to do 105 hours by tody.";
                 
               }
+              else if(todayDate.isAfter(threeWeeksDate.minusDays(7)) || todayDate.isEqual(threeWeeksDate.minusDays(7)) && couplesHours < 70){
+                  
+              }
                 
           }else{ // if single
               warningMsg = "Keep doing the good work! your hours all set; however make sure you the the rest of hours you are required for the last week ";
