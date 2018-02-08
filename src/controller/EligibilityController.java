@@ -267,21 +267,21 @@ public class EligibilityController extends HttpServlet {
        switch(sanctionLength){
            case 3: 
                 if(todaysDate.isAfter(sanctionDate.plusYears(1)) || todaysDate.isEqual(sanctionDate.plusYears(1)) ){
-	    return passedSanctionPeriod;
+                     return passedSanctionPeriod;
                 }else{
-	    return withinSanctionPeriod;
+                        return withinSanctionPeriod;
                 }
            case 2: 
                 if(todaysDate.isAfter(sanctionDate.plusMonths(3)) || todaysDate.isEqual(sanctionDate.plusMonths(3)) ){
-	return passedSanctionPeriod;
+                        return passedSanctionPeriod;
                 }else{
-	 return withinSanctionPeriod;
+                        return withinSanctionPeriod;
                 }
             case 1: 
                 if(todaysDate.isAfter(sanctionDate.plusMonths(1)) || todaysDate.isEqual(sanctionDate.plusMonths(1)) ){
-	return passedSanctionPeriod;
+                        return passedSanctionPeriod;
                 }else{
-	 return withinSanctionPeriod;
+                        return withinSanctionPeriod;
                 }   
             
        }
@@ -290,23 +290,27 @@ public class EligibilityController extends HttpServlet {
     
     private String getHowLongClientShouldWait(LocalDate sanctionDate, int sanctionLength) {
        
-        String periodLeftToRemoreSanction = "";
+        String periodLeftToRemoveSanction = "";
                 
          switch(sanctionLength){
            case 3: 
-                 periodLeftToRemoreSanction += "The sanction that was applied to your case on "
+                 periodLeftToRemoveSanction += "The sanction that was applied to your case on "
 		+ sanctionDate.toString() + " was the third one, that you have to wait till " 
 		+ sanctionDate.plusYears(1).toString() + " so you can be re-eligible for the benefits-ADC\n Please be noticed that "
 		+ "once you are not eligible for ADC, you are automatically not eligible for: clothing, fuel, tuition, vehicle registeration or repair.";
                break;
+               
+               
            case 2:
-                periodLeftToRemoreSanction += "The sanction that was applied to your case on "
+                periodLeftToRemoveSanction += "The sanction that was applied to your case on "
 		+ sanctionDate.toString() + " was the second one, that you have to wait till " 
 		+ sanctionDate.plusMonths(3).toString() + " so you can be re-eligible for the benefits-ADC\n Please be noticed that "
 		+ "once you are not eligible for ADC, you are automatically not eligible for: clothing, fuel, tuition, vehicle registeration or repair.";
                 break;
+                
+                
            case 1:
-               periodLeftToRemoreSanction += "The sanction that was applied to your case on "
+               periodLeftToRemoveSanction += "The sanction that was applied to your case on "
 		+ sanctionDate.toString() + " was the first one that you have to wait till " 
 		+ sanctionDate.plusMonths(1).toString() + " so you can be re-eligible for the benefits-ADC\n Please be noticed that "
 		+ "once you are not eligible for ADC, you are automatically not eligible for: clothing, fuel, tuition, vehicle registeration or repair.";
@@ -316,7 +320,7 @@ public class EligibilityController extends HttpServlet {
         
        
         
-        return periodLeftToRemoreSanction;
+        return periodLeftToRemoveSanction;
     }
 
 }
