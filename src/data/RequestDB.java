@@ -5,6 +5,7 @@
  */
 package data;
 
+import business.AssistanceRequest;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -12,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  *
@@ -46,5 +48,41 @@ public class RequestDB {
         AccountDB.closeResources(ps, null, connection);
 
         return requestID;
+    }
+    
+    public static void getRequest(int clientID)
+    {
+        ArrayList<AssistanceRequest> requests = new ArrayList<AssistanceRequest>();
+        AssistanceRequest req = new AssistanceRequest();
+        Connection conn = DBConnection.getConnection();
+        ResultSet rs = null;
+        String query = "SELECT * FROM scm.tcf_requestassist WHERE clientid = ?";
+        
+        try{
+        
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setInt(1, clientID);
+        rs = ps.executeQuery();
+        while(rs.next())
+        {
+            req.setRequestID(rs.getInt("requestId"));
+            req.setAssistanceID(rs.getInt("assistanceID"));
+            req.setClientID(rs.getInt("clientid"));
+            req.setRequestDate(rs.getDate("daterequest").toLocalDate());
+            req.setStatus(rs.getInt("status"));
+            req.setDateDisbursed(rs.getDate("datedisbursed").toLocalDate());
+            req.setAmountPaid(rs.getDouble("amount"));
+        }
+        
+        }
+        catch(SQLException e)
+        {
+            
+        }
+        finally
+        {
+            DBConnection.freeConnection(conn);
+        }
+        
     }
 }
