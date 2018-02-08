@@ -74,22 +74,39 @@ public class EligibilityController extends HttpServlet {
         HttpSession session = request.getSession();
         ServletContext cs = session.getServletContext();
 
-        String url = ""; //= "/view/the default page";
+       
         Client aClient = (Client) session.getAttribute("user"); // get this from successful login.
         ArrayList<Hours> clientsHours  = (ArrayList<Hours>) session.getAttribute("clientsHours");
         ArrayList<Hours> clientsPartnerHours  = (ArrayList<Hours>) session.getAttribute("clientsPartnerHours");
         ArrayList<Sanction> clientSanctions = (ArrayList<Sanction>)session.getAttribute("clientSanctions");
         Boolean isSanctioned = (Boolean)session.getAttribute("isSanctioned");
+        String url = "/";
         String lowHoursMsg ="";
         String warningMsg ="";
         String periodToWaitToB_Eligible ="";
+        boolean married;
+        
        
+        
         double clientTotalHours = 0, partnerTotalHours =0;
         
                  if(aClient == null){
                     url = "/views/index.jsp"; //direct the client to re-login
                     cs.getRequestDispatcher(url).forward(request, response);
-                }if(clientsHours == null)
+                }else{
+                      if((aClient.getPartnerID() != 0 & aClient.getPartnerID()+"" != " " & aClient.getPartnerID()+"" != null )){
+                          married =true;
+                          warningMsg = getWarningMessage(aClient, married);
+                      }else{
+                          married = false;
+                          warningMsg = getWarningMessage(aClient, married);
+                          
+                      }
+                      session.setAttribute("warningMsg", warningMsg);
+                   }
+                 
+                 
+                 if(clientsHours == null)
                 {
                     clientsHours = new ArrayList<Hours>();
                 }if(clientsPartnerHours == null){
@@ -106,20 +123,20 @@ public class EligibilityController extends HttpServlet {
                clientSanctions = ClientDB.getClientSanctions(aClient.getClientID()) ;
                
                if(clientSanctions != null){   //if the list is empty, there is no sanctions, but if there sanctions in the list, these might have been waived or passed the required time.
-                   for(Sanction sanc: clientSanctions){
-	   if(sanc.getSanctionLength() == 3 & !seeIfSanctionPassedRequiredPeriod(sanc.getSanctionDate(), sanc.getSanctionLength())) // if sanction from type 3  =1 year period, check if it has been a year since
+                   for(Sanction sanction: clientSanctions){
+	   if(sanction.getSanctionLength() == 3 & !seeIfSanctionPassedRequiredPeriod(sanction.getSanctionDate(), sanction.getSanctionLength())) // if sanction from type 3  =1 year period, check if it has been a year since
 	   {				            // if type3 and hasnont pass the required period, then no need to check for other sanctions
-	         periodToWaitToB_Eligible = getHowLongClientShouldWait(sanc.getSanctionDate(), sanc.getSanctionLength());
+	         periodToWaitToB_Eligible = getHowLongClientShouldWait(sanction.getSanctionDate(), sanction.getSanctionLength());
 	         isSanctioned = true;
 	         break;
 	         
-	   }else if(sanc.getSanctionLength() == 2 & !seeIfSanctionPassedRequiredPeriod(sanc.getSanctionDate(), sanc.getSanctionLength())){
-	            periodToWaitToB_Eligible = getHowLongClientShouldWait(sanc.getSanctionDate(), sanc.getSanctionLength());
+	   }else if(sanction.getSanctionLength() == 2 & !seeIfSanctionPassedRequiredPeriod(sanction.getSanctionDate(), sanction.getSanctionLength())){
+	            periodToWaitToB_Eligible = getHowLongClientShouldWait(sanction.getSanctionDate(), sanction.getSanctionLength());
 	            isSanctioned = true;
 	             break;
 	             
-	   }else if(sanc.getSanctionLength() == 1 & !seeIfSanctionPassedRequiredPeriod(sanc.getSanctionDate(), sanc.getSanctionLength())){
-	            periodToWaitToB_Eligible = getHowLongClientShouldWait(sanc.getSanctionDate(), sanc.getSanctionLength());
+	   }else if(sanction.getSanctionLength() == 1 & !seeIfSanctionPassedRequiredPeriod(sanction.getSanctionDate(), sanction.getSanctionLength())){
+	            periodToWaitToB_Eligible = getHowLongClientShouldWait(sanction.getSanctionDate(), sanction.getSanctionLength());
 	            isSanctioned = true;
 	             break;
 	   }
@@ -150,7 +167,7 @@ public class EligibilityController extends HttpServlet {
 	LocalDate firstOfMonth   = todaysDate.withDayOfMonth(1);
 	 
                clientsHours =   ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, todaysDate.withDayOfMonth(15)); // hours for the client are needed anyway; but parter's hours are only needed if married
-                if(aClient.getPartnerID() != 0 & aClient.getPartnerID()+"" != " " & aClient.getPartnerID()+"" != null ){
+                 if(aClient.getPartnerID() != 0 & aClient.getPartnerID()+"" != " " & aClient.getPartnerID()+"" != null ){
 	    //get hours for the couple from the db
 	    
 	    clientsPartnerHours = ClientDB.getClientHoursForWholeMonth(aClient.getClientID());
@@ -239,7 +256,8 @@ public class EligibilityController extends HttpServlet {
 	    }
 	   return clientTotalHours;
     }
-
+    
+    //this method may be deleted later it was just for testing.
     private boolean checkHoursStatus(double clientTotalHours, double partnerTotalHours) {
             boolean isGoodOnHours = true;
             
@@ -321,6 +339,43 @@ public class EligibilityController extends HttpServlet {
        
         
         return periodLeftToRemoveSanction;
+    }
+    
+    //we can get the partners name here too so the message make more sense. 
+    private String getWarningMessage(Client aClient, boolean married) {
+        String warningMsg = "";
+        
+          double parntersTotalHours =0;
+          double clientsTotalHours =0;
+          
+          double couplesHours = 0;
+          LocalDate threeWeeksDate = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()).minusDays(7);
+          LocalDate firstOfMonth   = LocalDate.now().withDayOfMonth(1);
+          LocalDate todayDate = LocalDate.now();
+          ArrayList<Hours> clientsPartnerHours = new ArrayList<Hours>();
+          ArrayList<Hours> clientsHours = new ArrayList<Hours>();
+          
+          clientsPartnerHours = ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, threeWeeksDate);
+          clientsHours =   ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, threeWeeksDate); // hours for the client are needed anyway; but parter's hours are only needed if married
+            
+          clientsTotalHours = getTotalHours(clientsHours);
+          parntersTotalHours = getTotalHours(clientsPartnerHours);
+          
+          couplesHours = clientsTotalHours + parntersTotalHours;
+          if(married){
+              if(todayDate.isAfter(threeWeeksDate) || todayDate.isEqual(threeWeeksDate) && couplesHours < 105 ){
+               
+                    warningMsg = "Our records indicate that your and your partner's hours are low by today " + LocalDate.now().toString() + ". But do not worry you still "
+                                + " One week from " + threeWeeksDate.toString() + " to " + LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()).toString() + 
+                                  "to make those hours. Just for your information your partner's hours are: " + parntersTotalHours + " and yours are: " + clientsTotalHours
+                            + " while you both supposed to do 105 hours by tody.";
+                
+              }
+                
+          }else{ // if single
+              warningMsg = "Keep doing the good work! your hours all set; however make sure you the the rest of hours you are required for the last week ";
+          }
+          return warningMsg;
     }
 
 }
