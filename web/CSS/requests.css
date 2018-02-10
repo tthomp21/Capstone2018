@@ -13,7 +13,6 @@ h1 {
 
 #infoDiv {
     font-size: 1.2em;
-    text-align: left;
     min-width: 550px;
     text-align: center;    
     display: inline-table; 
@@ -73,7 +72,6 @@ h1 {
 
 #infoDiv li {
     list-style: none;   
-    text-align: left;
 }
 #infoDiv ul {    
     padding: 0;
@@ -81,6 +79,12 @@ h1 {
 
 .requestErrors {
     color: red;
+    text-align: center;
+    margin-top: 0;
+    padding-bottom: 0;
+}
+.requestSuccess {
+    color: green;
     text-align: center;
     margin-top: 0;
     padding-bottom: 0;

@@ -50,7 +50,7 @@
                             <fieldset>
                                 <p>
                                 <label for="requestType">Choose a type of assistance: </label>
-                                <select>
+                                <select name="requestType">
                                     <option value="tuition">Tuition</option>
                                     <option value="utilities">Utilities</option>
                                     <option value="repair">Vehicle Repair</option>
@@ -72,19 +72,27 @@
                                 
                             </fieldset>     
                             
-                            <div class="requestErrors"> </div>
+                            <div class="requestErrors"> 
+                                <c:if test="${not empty requestMsg}">
+                                    <c:out value="${requestMsg}"/>
+                                </c:if>
+                            </div>
+                            <div class="requestSuccess"> 
+                                <c:if test="${not empty requestSuccessMsg}">
+                                    <c:out value="${requestSuccessMsg}"/>
+                                </c:if>
+                            </div>
                         </form>  
                     </div>
                     
-                    <div id="infoDiv">                        
-                        <a href="/ClientRequestController?action=view" target="_blank">s</a>
-                        <h1>About the assistance we provide</h1>
+                    <div id="infoDiv">
+                        <h1>Available Assistance</h1>
                         <ul>                            
-                            <li>Tuition </li>
-                            <li>Utility bill </li>
+                            <li>Help paying tuition</li>
+                            <li>Money for utility bills </li>
                             <li>Vehicle repair </li>
                             <li>Vehicle registration </li>
-                            <li>Fuel </li>
+                            <li>Fuel for necessary transportation</li>
                             <li>Professional clothing </li>
                         </ul>
                     </div>

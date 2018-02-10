@@ -10,7 +10,6 @@ import data.RequestDB;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -18,7 +17,6 @@ import java.sql.SQLException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,12 +46,11 @@ public class ClientRequestController extends HttpServlet {
         
         switch(action) {
             case "arrival": 
-                // redirect to 'url'        
-                
+                // redirect to 'url'   
                 sc.getRequestDispatcher(url).forward(request, response);  
                 break;
             case "view":
-                if(!FileServe.retrieve(request, response, getServletContext(), 23))
+                if(!FileServe.retrieve(request, response, getServletContext(), 25))
                     sc.getRequestDispatcher(url).forward(request, response);    
                 
                 break;
@@ -66,7 +63,7 @@ public class ClientRequestController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String url = "/views/clientRequest.jsp";
-        
+        String requestMsg = "";
         Client user = (Client) session.getAttribute("user");
         
         String amount = request.getParameter("amount");
@@ -75,11 +72,12 @@ public class ClientRequestController extends HttpServlet {
         if (isValidRequest(request, amount, user)) 
         {
             // add request to db and retrieve auto inc request id
-            try {
+            try 
+            {
                 requestID = RequestDB.addRequest("", user.getClientID(), Double.parseDouble(amount));
             }
-            catch (SQLException e) {
-                
+            catch (SQLException e) 
+            {                
             }
             if (requestID != 0)
             {
@@ -121,16 +119,43 @@ public class ClientRequestController extends HttpServlet {
     // validates request for assistance
     private static boolean isValidRequest(HttpServletRequest request, String amount, Client client)
             throws ServletException, IOException {
-        boolean properAmt = false;        
-        try {
-            Double.parseDouble(amount);
-            properAmt = true;            
+        
+        String requestMsg = "";
+        HttpSession session = request.getSession();
+        int clientID = ((Client)session.getAttribute("user")).getClientID();
+        double amt = 0;
+        MessageResult result;
+        
+        // validate amount
+        try 
+        {
+            amt = Double.parseDouble(amount);                       
         }
         catch (Exception e)
-        { }
-        return properAmt;
+        { 
+            requestMsg = "Please enter a valid dollar amount.";
+            request.setAttribute("requestMsg", requestMsg);
+            return false;
+        }
+        
+        // validate rules for assistance limits
+        String requestType = request.getParameter("requestType");
+        result = Requests.validate(requestType, clientID, amt);
+        if (result.successful())
+        {
+            String msg = "Your request has been submitted.";
+            request.setAttribute("requestSuccessMsg", msg);
+            return true;
+        }
+        else 
+        {
+            request.setAttribute("requestMsg", result.getMessage());
+            return false;
+        }        
     }
   
+    
+    
     // helper method possibly needed depending on tomcat version
     private static String getSubmittedFileName(Part part) {
         for (String cd : part.getHeader("content-disposition").split(";")) 
