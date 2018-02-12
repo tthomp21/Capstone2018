@@ -40,6 +40,7 @@
                 <nav>
                     <c:import url="/Includes/caseWorkerNav.html"/>
                 </nav>
+                </aside>
                 <div id="main">
                     <div class="column">
                     <table>
@@ -75,19 +76,28 @@
                         <tr><td>Wednesday</td><td> ${wednesday} </td><td><input type="number" name="wednesdayHours"></td></tr>
                         <tr><td>Thursday</td><td> ${thursday} </td><td><input type="number" name="thursdayHours"></td></tr>
                         <tr><td>Friday</td><td> ${friday} </td><td><input type="number" name="fridayHours"></td></tr>
+                        <tr ><td colspan="3">
+                        <form action="CaseWorkerController" method="post">
+                            <input type="hidden" name="action" value="submitHours">
+                            <input type="submit" value="Submit Hours">
+                        </form>
+                                </td></tr>
                     </table>
                 </div>
                     <br>
                 <div class="column">
-                    <table style="margin-top: 10px;">
+                    <table>
                         <tr><th>Assistance Requests</th></tr>
                     <c:forEach var="r" items="${clientRequests}" varStatus="status">
-                            <tr><td><b>Assistance id:</b></td><td> ${r.assistanceID}</td></tr>
+                            <tr><td><b>Request id:</b></td><td> ${r.requestID}</td></tr>
+                            <tr><td><b>Reason/Description:</b></td><td> ${r.getAssistance().assistDescription}</td></tr>
+                            <tr><td><b>Amount:</b></td><td> ${r.amountPaid}</td></tr>
                         <tr><td><b>Date Submitted:</b></td><td> ${r.requestDate}</td></tr>
                         <tr><td><b>Date Approved:</b></td><td> ${r.dateDisbursed}</td></tr>
-                        <tr><td><b>Amount:</b></td><td> ${r.amountPaid}</td></tr>
-                        <tr><td><b>Reason/Description:</b></td><td> ${r.getAssistance().assistDescription}</td></tr>
+                        
+                        
                         <tr><td><b>status:</b></td><td>${r.status}</td></tr>
+                        <tr style="border-bottom-style: solid; margin-bottom: 2px;"><td colspan="2">
                         <c:choose>
                             <c:when test="${r.status == 0}">
                                 <form action="CaseWorkerController" method="post">
@@ -103,7 +113,7 @@
                                 <input type="submit" value="Decline">
                                 </form>
                             </c:when>
-                        </c:choose>
+                        </c:choose></td></tr>
                         
                         
 
@@ -115,7 +125,7 @@
                 </div>
                 
                 </div>
-            </aside>
+            
             <c:import url="../Includes/footer.html"/>            
         </div>
     </body>

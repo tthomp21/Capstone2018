@@ -10,7 +10,12 @@ import data.HoursDB;
 import data.RequestDB;
 import java.util.List;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.function.Predicate;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -22,6 +27,8 @@ import javax.servlet.http.HttpSession;
 
 public class CaseWorkerController extends HttpServlet {
     
+    
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -32,6 +39,21 @@ public class CaseWorkerController extends HttpServlet {
         Client foundClient;
         HttpSession session = request.getSession();
         ArrayList<Client> clients = new ArrayList<Client>();
+        DateFormat datFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        
+        Date monday = getDateForDay(2);
+        session.setAttribute("monday", new SimpleDateFormat("MM/dd/yyyy").format(monday));
+        Date tuesday = getDateForDay(3);
+        session.setAttribute("tuesday", new SimpleDateFormat("MM/dd/yyyy").format(tuesday));
+        Date wednesday = getDateForDay(4);
+        session.setAttribute("wednesday", new SimpleDateFormat("MM/dd/yyyy").format(wednesday));
+        Date thursday = getDateForDay(5);
+        session.setAttribute("thursday", new SimpleDateFormat("MM/dd/yyyy").format(thursday));
+        Date friday = getDateForDay(6);
+        session.setAttribute("friday", new SimpleDateFormat("MM/dd/yyyy").format(friday));
         
         if (action == null) {
             action = "arrival";
@@ -86,6 +108,14 @@ public class CaseWorkerController extends HttpServlet {
         ServletContext sc = getServletContext();
         sc.getRequestDispatcher(url).forward(request, response);  
                 
+    }
+    
+    private Date getDateForDay(int day)
+    {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_WEEK, day);
+        
+        return c.getTime();
     }
     
     

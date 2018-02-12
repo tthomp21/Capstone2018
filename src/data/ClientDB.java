@@ -18,9 +18,12 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  *
@@ -28,6 +31,8 @@ import java.util.ArrayList;
  */
 public class ClientDB {
     //TODO: add code to access the clients from the database
+    
+    
 
     public static ArrayList<AssistanceRequest> getTestData() {
         ArrayList<AssistanceRequest> all = new ArrayList<AssistanceRequest>();
@@ -54,7 +59,7 @@ public class ClientDB {
      */
     public static ArrayList<AssistanceRequest> getSecondaryAssistances(int clientID) {
         ArrayList<AssistanceRequest> allAssist = new ArrayList<AssistanceRequest>();
-
+        
         Connection connection = DBConnection.getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -82,11 +87,26 @@ public class ClientDB {
                 assistRequest.setClientID(rs.getInt("clientID"));
                 assistRequest.setRequestDate(rs.getDate("dateRequest").toLocalDate());
                 assistRequest.setStatus(rs.getString("status"));
-                assistRequest.setDateDisbursed(rs.getDate("dateDisbursed").toLocalDate());
+                String disDate = (rs.getString("dateDisbursed"));
+                
                 assistRequest.setAmountPaid(rs.getDouble("Amount") + "");
-
                 anAssistance = new Assistance(rs.getInt("assistanceID"), rs.getString("description"));
-
+                try{
+                    assistRequest.setDateDisbursed(rs.getDate("dateDisbursed").toLocalDate());
+                }
+                catch(Exception e)
+                {
+                }
+                
+                
+                
+                
+                /*if(disDate != null || disDate != "")
+                {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    formatter = formatter.withLocale(Locale.US);
+                    assistRequest.setDateDisbursed(LocalDate.parse(disDate, formatter));
+                }*/
 //                anAssistance.setClientID(rs.getInt("assistanceID"));
 //                anAssistance.setAidAmount(rs.getDouble("aidAmount"));
                 assistRequest.setAssistance(anAssistance);
