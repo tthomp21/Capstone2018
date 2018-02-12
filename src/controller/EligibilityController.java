@@ -122,7 +122,7 @@ public class EligibilityController extends HttpServlet {
         //********************if there is no sanction then start count hours *******************************
         /**it would be nice if know how many hours each of client and the partner required.check marriage status
 	 * 
-	 * lets get the hours from the begining of this month to today.
+	 * lets get the hours from the beginning of this month to today.
 	 * LocalDate today = LocalDate.now();
 	 * LocalDate firstOfMonth   = today.withDayOfMonth(1);
 	 * 
