@@ -217,6 +217,7 @@ footer a {
 #primarySection, #secondarySection div{
     text-indent: 40px;
 }
+
 tr, td, th {
     text-align: left;
     font-size: 1em;
@@ -224,16 +225,14 @@ tr, td, th {
 }
 
 table { 
-    border-collapse: separate; 
+    border-collapse: collapse; 
     border-spacing: 0 1px; 
     margin-top: -5px; /* correct offset on first border spacing if desired */
 }
 td {
     border: solid 1px #000;
-    border-style: solid none;
+    border-style:  none;
     padding: 5px;
-    vertical-align: middle;
-    text-align: center;
     background-color: white;
 }
 th {
@@ -252,6 +251,14 @@ td:first-child {
 }
 td:last-child {
     border-right-style: solid;
+}
+tr:nth-child(2){
+    border-top-style: solid;
+    border-width: 2px;
+}
+tr:last-child{
+    border-bottom-style: solid;
+    border-width: 2px;
 }
 th{
     background-color: lightblue;

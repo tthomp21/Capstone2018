@@ -7,6 +7,7 @@ package controller;
 import business.*;
 import data.ClientDB;
 import data.HoursDB;
+import data.RequestDB;
 import java.util.List;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -64,15 +65,19 @@ public class CaseWorkerController extends HttpServlet {
                 break;
             case "clientDetails":
                 selectedClient = (String) request.getParameter("clientID");
-                foundClient = ClientDB.getClientWithID(Integer.parseInt(selectedClient));
-                ArrayList<ClientHoursArgs> hours = new ArrayList<ClientHoursArgs>();
-                hours = HoursDB.getClientHours(Integer.parseInt(selectedClient));
-                session.setAttribute("foundClient", foundClient);
-                session.setAttribute("clientHours", hours);
+                getClientDetails(selectedClient, session);
                 url = "/views/caseworkerclientdetails.jsp";
                 break;
             case "search":
                 url = "/views/clientSearch.jsp";
+                break;
+            case "approveRequest":
+                int reqID = (int)session.getAttribute("requestID");
+                int reqStat = (int)session.getAttribute("requestStat");
+                RequestDB.updateRequest(reqID, reqStat);
+                
+                break;
+            case "declienRequest":
                 break;
         }
         
@@ -81,6 +86,22 @@ public class CaseWorkerController extends HttpServlet {
         ServletContext sc = getServletContext();
         sc.getRequestDispatcher(url).forward(request, response);  
                 
+    }
+    
+    
+    public void getClientDetails(String clientID, HttpSession session)
+    {
+        Client foundClient;
+        foundClient = ClientDB.getClientWithID(Integer.parseInt(clientID));
+        session.setAttribute("foundClient", foundClient);
+        
+        ArrayList<ClientHoursArgs> hours = new ArrayList<ClientHoursArgs>();
+        hours = HoursDB.getClientHours(Integer.parseInt(clientID));
+        session.setAttribute("clientHours", hours);
+        
+        ArrayList<AssistanceRequest> assistReq = new ArrayList<AssistanceRequest>();
+        assistReq = ClientDB.getSecondaryAssistances(Integer.parseInt(clientID));
+        session.setAttribute("clientRequests", assistReq);
     }
     
     

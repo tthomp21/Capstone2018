@@ -63,7 +63,8 @@ public class ClientDB {
 	    + "amount, a.assistanceID, description "
 	    + "FROM SCM.TCF_REQUESTASSIST ra join SCM.TCF_ASSISTANCE a "
 	    + "on ra.assistanceId = a.assistanceID "
-	    + "WHERE clientID = ?";
+	    + "WHERE clientID = ?"; 
+
 
         try {
             ps = connection.prepareStatement(query);

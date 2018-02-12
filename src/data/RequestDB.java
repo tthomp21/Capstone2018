@@ -68,6 +68,27 @@ public class RequestDB {
         return requestID;
     }
     
+    public static void updateRequest(int requestID, int requestStatus)
+    {
+        Connection conn = DBConnection.getConnection();
+        String query = "UPDATE scm.tcf_requestAssist SET status = ? WHERE requestId = ?";
+        try{
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, requestStatus);
+            ps.setInt(2, requestID);
+            ps.executeUpdate();
+        }
+        catch(SQLException e)
+        {
+        }
+        finally{
+            DBConnection.freeConnection(conn);
+        }
+        
+        
+        
+    }
+    
     // retrieve request row
     public static void getRequest(int clientID)
     {
@@ -88,9 +109,9 @@ public class RequestDB {
                 req.setAssistanceID(rs.getInt("assistanceID"));
                 req.setClientID(rs.getInt("clientid"));
                 req.setRequestDate(rs.getDate("daterequest").toLocalDate());
-                //req.setStatus(rs.getInt("status"));
+                req.setStatus(rs.getString("status"));
                 req.setDateDisbursed(rs.getDate("datedisbursed").toLocalDate());
-                //req.setAmountPaid(rs.getDouble("amount"));
+                req.setAmountPaid(rs.getString("amount"));
             }
         
         }

@@ -250,6 +250,7 @@ public class DBInsertController extends HttpServlet {
         }
         catch(SQLException e)
         {
+            System.out.print(e);
         }
         finally{
             try{
