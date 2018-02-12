@@ -15,7 +15,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
 
         <link href="../CSS/default.css" rel="stylesheet" type="text/css"/>
-        <link href="../CSS/assist.css" rel="stylesheet" type="text/css"/>
+        <link href="../CSS/eligibility.css" rel="stylesheet" type="text/css"/>
         <script type="text/javascript" src="/JS/assistance.js"></script>
 
 
@@ -47,13 +47,51 @@
             </aside>
 
             <div id="main">
+                <section class="eligibilitySection">
+                 
+                    <table border="1">
+                        <caption>Eligibility Overview</caption>
+                        <tr>
+                            <th>Assistance type</th>
+                            <th>Eligibility Status</th>
+                            <th>Recertification Date</th>
+                        </tr>
+                    </table>
+                   
+                </section>
+                
+                <div id="divider">
+                    <select>
+                        <option>First Week</option>
+                        <option>Second Week</option>
+                        <option>Third Week</option>
+                        <option>Fourth Week</option>
+                      
+                    </select>
+                    <br>
+                    <span>From:</span> <input type="date" id="fromDate"><br>
+                    <span>To:</span><input type="date" id="toDate">
+                    
+                    <p>I will see which one i use</p>
+                </div>
 
-              
+                <section class="alertsSection">
 
+                    <div id="hoursAlertDiv">
+                        <h2>Hours Notification</h2>
+                        <p>The message to notify the client for short hours will go here:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${warningMsg}</p>
+                    </div>
+
+
+                    <div id="sanctionMsgDiv">
+                        <h2>Sanctions Notification</h2>
+                        <p></p>
+                    </div>
+                </section>
+
+                          
             </div>
-
-            <c:import url="../Includes/footer.html"/>            
-        </div>
+                     <c:import url="../Includes/footer.html"/> 
     </body>
 </html>
 

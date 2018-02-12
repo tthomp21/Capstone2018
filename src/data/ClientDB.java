@@ -336,7 +336,7 @@ public class ClientDB {
 
     }
 
-    public static ArrayList<Hours> getClientHoursByDates(int clientID, LocalDate firstDate, LocalDate secondDate) {
+    public static ArrayList<Hours> getClientHoursByDates(int clientID, LocalDate fromDate, LocalDate toDate) {
        
          ArrayList<Hours> allHours = new ArrayList<Hours>();
 
@@ -353,8 +353,8 @@ public class ClientDB {
         try {
             ps = connection.prepareStatement(query);
             ps.setInt(1, clientID);
-            ps.setDate(2, Date.valueOf(firstDate));
-            ps.setDate(3, Date.valueOf(secondDate));
+            ps.setDate(2, Date.valueOf(fromDate));
+            ps.setDate(3, Date.valueOf(toDate));
             rs = ps.executeQuery();
 
             Client client = getClientWithID(clientID);

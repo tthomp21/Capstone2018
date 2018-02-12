@@ -89,24 +89,8 @@ public class EligibilityController extends HttpServlet {
        
         
         double clientTotalHours = 0, partnerTotalHours =0;
-        
-                 if(aClient == null){
-                    url = "/views/index.jsp"; //direct the client to re-login
-                    cs.getRequestDispatcher(url).forward(request, response);
-                }else{
-                      if((aClient.getPartnerID() != 0 & aClient.getPartnerID()+"" != " " & aClient.getPartnerID()+"" != null )){
-                          married =true;
-                          warningMsg = getWarningMessage(aClient, married);
-                      }else{
-                          married = false;
-                          warningMsg = getWarningMessage(aClient, married);
-                          
-                      }
-                      session.setAttribute("warningMsg", warningMsg);
-                   }
-                 
-                 
-                 if(clientsHours == null)
+                
+                if(clientsHours == null)
                 {
                     clientsHours = new ArrayList<Hours>();
                 }if(clientsPartnerHours == null){
@@ -118,6 +102,23 @@ public class EligibilityController extends HttpServlet {
                 if(isSanctioned == null){
 	 isSanctioned = false;
                 }
+                 if(aClient == null){
+                    url = "/views/index.jsp"; //direct the client to re-login
+                    cs.getRequestDispatcher(url).forward(request, response);
+                }else{
+                      if((aClient.getPartnerID() != 0 & aClient.getPartnerID()+"" != " " & aClient.getPartnerID()+"" != null )){
+                          married =true;
+                      }else{
+                          married = false;
+                          //warningMsg = getWarningMessage(aClient, married);
+                      }
+	   warningMsg = getWarningMessage(aClient, married);
+                      session.setAttribute("warningMsg", warningMsg);
+                   }
+                 url ="/views/viewEligibility.jsp";
+                  cs.getRequestDispatcher(url).forward(request, response);
+                 
+               
        try{ 
                //get sanction first , if there is any for the client then it is applied to the partner as well
                clientSanctions = ClientDB.getClientSanctions(aClient.getClientID()) ;
