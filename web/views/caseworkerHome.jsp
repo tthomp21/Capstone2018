@@ -62,13 +62,13 @@
                                 <input type="submit" value="Details">
                                 </form>
                             </td>
-                            <td>
+                            <!-- <td>
                                 <form action="CaseWorkerController" method="post">
                                 <input type="hidden" value="${c.clientID}" name="clientID">
                                 <input type="hidden" name="action" value="clientHours">
                                 <input type="submit" value="Enter Hours">
                                 </form>
-                            </td>
+                            </td> -->
                         </tr>
                     </c:forEach>  
                 </table>

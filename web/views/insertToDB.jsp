@@ -59,7 +59,7 @@
                 UserName(varchar 20) <input type="text" name="clientUserName"><br>
                 Password(varchar 20) <input type="text" name="clientPass"><br>
                 <br>
-                <form action="CaseWorkerController" method="post">
+                <form action="DBInsertController`" method="post">
                     <input type="hidden" name="action" value="clientDB">
                     <input type="submit" value="Submit">
                 </form>
@@ -77,7 +77,7 @@
                 Zip(char 5) <input type="text" name="institutionZip"><br>
                 ExtZip(char 4) <input type="text" name="institutionExtZip"><br>
                 <br>
-                <form action="CaseWorkerController" method="post">
+                <form action="DBInsertController" method="post">
                     <input type="hidden" name="action" value="institutionDB">
                     <input type="submit" value="Submit">
                 </form>
@@ -95,7 +95,7 @@
                 UserName(varchar 20) <input type="text" name="caseworkerUserName"><br>
                 Password(varchar 20) <input type="text" name="caseworkerPassword"><br>
                 <br>
-                <form action="CaseWorkerController" method="post">
+                <form action="DBInsertController" method="post">
                     <input type="hidden" name="action" value="caseworkerDB">
                     <input type="submit" value="Submit">
                 </form>
@@ -108,7 +108,7 @@
                 Date(date) <input type="text" name="hoursDate"><br>
                 Hours(decimal(5,2)) <input type="text" name="hourshours"><br>
                 <br>
-                <form action="CaseWorkerController" method="post">
+                <form action="DBInsertController" method="post">
                     <input type="hidden" name="action" value="hoursDB">
                     <input type="submit" value="Submit">
                 </form>
@@ -122,7 +122,7 @@
                 SanctionDate(date) <input type="text" name="sanctionDate"><br>
                 SanctionLength(smallint) <input type="text" name="sanctionLength"><br>
                 <br>
-                <form action="CaseWorkerController" method="post">
+                <form action="DBInsertController" method="post">
                     <input type="hidden" name="action" value="sanctionDB">
                     <input type="submit" value="Submit">
                 </form>
@@ -139,7 +139,7 @@
                 ContactLName(varchar 30) <input type="text" name="CIContactL"><br>
                 ContactPhone(char 10) <input type="text" name="CIContactP"><br>
                 <br>
-                <form action="CaseWorkerController" method="post">
+                <form action="DBInsertController" method="post">
                     <input type="hidden" name="action" value="clientInstDB">
                     <input type="submit" value="Submit">
                 </form>
@@ -151,7 +151,7 @@
                 AidType(int) <input type="text" name="aidType"><br>
                 AidName(char 4) <input type="text" name="aidName"><br>
                 <br>
-                <form action="CaseWorkerController" method="post">
+                <form action="DBInsertController" method="post">
                     <input type="hidden" name="action" value="aidDB">
                     <input type="submit" value="Submit">
                 </form>
@@ -163,7 +163,7 @@
                 AssistanceID(int) <input type="text" name="assID"><br>
                 Description(varchar 50) <input type="text" name="assDesc"><br>
                 <br>
-                <form action="CaseWorkerController" method="post">
+                <form action="DBInsertController" method="post">
                     <input type="hidden" name="action" value="assDB">
                     <input type="submit" value="Submit">
                 </form>
@@ -180,7 +180,7 @@
                 Zip(char 5) <input type="text" name="empZip"><br>
                 ExtZip(char 4) <input type="text" name="empExtzip"><br>
                 <br>
-                <form action="CaseWorkerController" method="post">
+                <form action="DBInsertController" method="post">
                     <input type="hidden" name="action" value="empDB">
                     <input type="submit" value="Submit">
                 </form>
@@ -196,7 +196,7 @@
                 ContactLName(varchar 30) <input type="text" name="CEContactLName"><br>
                 ContactPhone(char 10) <input type="text" name="CEPhone"><br>
                 <br>
-                <form action="CaseWorkerController" method="post">
+                <form action="DBInsertController" method="post">
                     <input type="hidden" name="action" value="CEDB">
                     <input type="submit" value="Submit">
                 </form>
@@ -209,7 +209,7 @@
                 DateDisbursed(date) <input type="text" name="CADate"><br>
                 AidType(int) <input type="text" name="CAAidType"><br>
                 <br>
-                <form action="CaseWorkerController" method="post">
+                <form action="DBInsertController" method="post">
                     <input type="hidden" name="action" value="CADB">
                     <input type="submit" value="Submit">
                 </form>
@@ -226,7 +226,7 @@
                 DateDisbursed(date) <input type="text" name="RADate"><br>
                 Amount(decimal(7,2)) <input type="text" name="RAAmount"><br>
                 <br>
-                <form action="CaseWorkerController" method="post">
+                <form action="DBInsertController" method="post">
                     <input type="hidden" name="action" value="RADB">
                     <input type="submit" value="Submit">
                 </form>
