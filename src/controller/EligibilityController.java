@@ -84,79 +84,43 @@ public class EligibilityController extends HttpServlet {
         String lowHoursMsg ="";
         String warningMsg ="";
         String periodToWaitToB_Eligible ="";
-        boolean married;
-        
+        boolean isMarried;
        
-        
         double clientTotalHours = 0, partnerTotalHours =0;
                 
-                if(clientsHours == null)
-                {
-                    clientsHours = new ArrayList<Hours>();
-                }if(clientsPartnerHours == null){
-                    clientsPartnerHours = new ArrayList<Hours>();
-	
-                }if(clientSanctions == null){
-	clientSanctions = new ArrayList<Sanction>();
-                }
-                if(isSanctioned == null){
-	 isSanctioned = false;
-                }
-                 if(aClient == null){
-                    url = "/views/index.jsp"; //direct the client to re-login
-                    cs.getRequestDispatcher(url).forward(request, response);
-                }else{
-                      if((aClient.getPartnerID() != 0 & aClient.getPartnerID()+"" != " " & aClient.getPartnerID()+"" != null )){
-                          married =true;
-                      }else{
-                          married = false;
-                          //warningMsg = getWarningMessage(aClient, married);
-                      }
-	   warningMsg = getWarningMessage(aClient, married);
-                      session.setAttribute("warningMsg", warningMsg);
-                   }
-                 url ="/views/viewEligibility.jsp";
-                  cs.getRequestDispatcher(url).forward(request, response);
-                 
+        if(clientsHours == null)
+        {
+            clientsHours = new ArrayList<Hours>();
+        }if(clientsPartnerHours == null){
+            clientsPartnerHours = new ArrayList<Hours>();
+
+        }if(clientSanctions == null){
+            clientSanctions = new ArrayList<Sanction>();
+        }
+        if(isSanctioned == null){
+        isSanctioned = false;
+        }
+
+        isMarried = checkMarriageStatus(aClient);
+        warningMsg = getWarningMessage(aClient, isMarried);
+        session.setAttribute("warningMsg", warningMsg);
+        url ="/views/viewEligibility.jsp";
+     //   cs.getRequestDispatcher(url).forward(request, response);
+                
                
        try{ 
                //get sanction first , if there is any for the client then it is applied to the partner as well
-               clientSanctions = ClientDB.getClientSanctions(aClient.getClientID()) ;
                
-               if(clientSanctions != null){   //if the list is empty, there is no sanctions, but if there sanctions in the list, these might have been waived or passed the required time.
-                   for(Sanction sanction: clientSanctions){
-	   if(sanction.getSanctionLength() == 3 & !seeIfSanctionPassedRequiredPeriod(sanction.getSanctionDate(), sanction.getSanctionLength())) // if sanction from type 3  =1 year period, check if it has been a year since
-	   {				            // if type3 and hasnont pass the required period, then no need to check for other sanctions
-	         periodToWaitToB_Eligible = getHowLongClientShouldWait(sanction.getSanctionDate(), sanction.getSanctionLength());
-	         isSanctioned = true;
-	         break;
-	         
-	   }else if(sanction.getSanctionLength() == 2 & !seeIfSanctionPassedRequiredPeriod(sanction.getSanctionDate(), sanction.getSanctionLength())){
-	            periodToWaitToB_Eligible = getHowLongClientShouldWait(sanction.getSanctionDate(), sanction.getSanctionLength());
-	            isSanctioned = true;
-	             break;
-	             
-	   }else if(sanction.getSanctionLength() == 1 & !seeIfSanctionPassedRequiredPeriod(sanction.getSanctionDate(), sanction.getSanctionLength())){
-	            periodToWaitToB_Eligible = getHowLongClientShouldWait(sanction.getSanctionDate(), sanction.getSanctionLength());
-	            isSanctioned = true;
-	             break;
-	   }
-	}
-               }else{//this is ture only if the list has no sanction, in our case/current business policy will never execute, that is why boolean isSanctioned is used. 
-	    //but if sanctions was updated in sanction table right away. some code will be not required plus that this was executed. i though of select count(*) but dont make sense
-                   periodToWaitToB_Eligible += "You are doing awesome by paritcipating hours you are required&mdash;"
-		    + "which is good for you which keeps you from getting sanctioned. Keep the good work.";
-               }
+               clientSanctions = ClientDB.getClientSanctions(aClient.getClientID());
+               //this method also set the atrribute of session, to periodToWaitToB_Eligible
+               isSanctioned = getSanctionStatus(clientSanctions, session);
                
-               
-               //********************if there is no sanction then start counrt hours *******************************
-               
-                            
-               if(isSanctioned == false){
-                    periodToWaitToB_Eligible += "You are doing awesome by paritcipating hours you are required&mdash;"
-		    + "which is good for you which keeps you from getting sanctioned. Keep the good work.";
               
-                    /**it would be nice if know how many hours each of client and the partner required.check marriage status
+               
+               
+               
+        //********************if there is no sanction then start count hours *******************************
+        /**it would be nice if know how many hours each of client and the partner required.check marriage status
 	 * 
 	 * lets get the hours from the begining of this month to today.
 	 * LocalDate today = LocalDate.now();
@@ -170,23 +134,19 @@ public class EligibilityController extends HttpServlet {
                clientsHours =   ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, todaysDate.withDayOfMonth(15)); // hours for the client are needed anyway; but parter's hours are only needed if married
                  if(aClient.getPartnerID() != 0 & aClient.getPartnerID()+"" != " " & aClient.getPartnerID()+"" != null ){
 	    //get hours for the couple from the db
-	    
 	    clientsPartnerHours = ClientDB.getClientHoursForWholeMonth(aClient.getClientID());
-
 	    //get total hours for couples
-	   
 	    partnerTotalHours = getTotalHours(clientsPartnerHours);
-	    
 	    boolean isGoodOnHours = checkHoursStatus(clientTotalHours, partnerTotalHours);
 	    
 	    //getHoursForSpecificWeek(request, response, session, cs);
 	}
-               }
+               
               //  int time = session.getMaxInactiveInterval();
                 //these will serve as argument the query will be based on.
                  LocalDate today = LocalDate.now();
             
-                LocalDate firstOfMonth   = today.withDayOfMonth(1);
+               // LocalDate firstOfMonth   = today.withDayOfMonth(1);
                 LocalDate firstWeek      = today.withDayOfMonth(7);
                 LocalDate secondWeek     = today.withDayOfMonth(14);
                 LocalDate thirdWeek      = today.withDayOfMonth(21);
@@ -357,7 +317,7 @@ public class EligibilityController extends HttpServlet {
           ArrayList<Hours> clientsHours = new ArrayList<Hours>();
           
           clientsPartnerHours = ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, threeWeeksDate);
-          clientsHours =   ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, threeWeeksDate); // hours for the client are needed anyway; but parter's hours are only needed if married
+          clientsHours        = ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, threeWeeksDate); // hours for the client are needed anyway; but parter's hours are only needed if married
             
           clientsTotalHours = getTotalHours(clientsHours);
           parntersTotalHours = getTotalHours(clientsPartnerHours);
@@ -380,6 +340,60 @@ public class EligibilityController extends HttpServlet {
               warningMsg = "Keep doing the good work! your hours all set; however make sure you the the rest of hours you are required for the last week ";
           }
           return warningMsg;
+    }
+
+    private boolean checkMarriageStatus(Client aClient) {
+        boolean isMarried = false;
+
+       // if((aClient.getPartnerID() != 0 & aClient.getPartnerID()+"" != " " & aClient.getPartnerID()+"" != null )){
+       if(aClient.isMarried()){
+           if((aClient.getPartnerID() != 0)){
+                isMarried =true;
+           }
+        }
+        
+        return isMarried;
+    }
+
+    private Boolean getSanctionStatus(ArrayList<Sanction> clientSanctions, HttpSession session) {
+        
+        
+        String periodToWaitToB_Eligible ="";
+        boolean isSanctioned = false;
+        
+        
+            if(clientSanctions != null){   //if the list is empty, there is no sanctions, but if there sanctions in the list, these might have been waived or passed the required time.
+                   for(Sanction sanction: clientSanctions){
+                        if(sanction.getSanctionLength() == 3 & !seeIfSanctionPassedRequiredPeriod(sanction.getSanctionDate(), sanction.getSanctionLength())) // if sanction from type 3  =1 year period, check if it has been a year since
+                        {				            // if type3 and hasnont pass the required period, then no need to check for other sanctions
+                              periodToWaitToB_Eligible = getHowLongClientShouldWait(sanction.getSanctionDate(), sanction.getSanctionLength());
+                              isSanctioned = true;
+                              break;
+
+                        }else if(sanction.getSanctionLength() == 2 & !seeIfSanctionPassedRequiredPeriod(sanction.getSanctionDate(), sanction.getSanctionLength())){
+                                 periodToWaitToB_Eligible = getHowLongClientShouldWait(sanction.getSanctionDate(), sanction.getSanctionLength());
+                                 isSanctioned = true;
+                                  break;
+
+                        }else if(sanction.getSanctionLength() == 1 & !seeIfSanctionPassedRequiredPeriod(sanction.getSanctionDate(), sanction.getSanctionLength())){
+                                 periodToWaitToB_Eligible = getHowLongClientShouldWait(sanction.getSanctionDate(), sanction.getSanctionLength());
+                                 isSanctioned = true;
+                                  break;
+                        }
+                    }
+               }else{//this is ture only if the list has no sanction, in our case/current business policy will never execute, that is why boolean isSanctioned is used. 
+	    //but if sanctions was updated in sanction table right away. some code will be not required plus that this was executed. i though of select count(*) but dont make sense
+                   periodToWaitToB_Eligible += "You are doing awesome by paritcipating hours you have been required&mdash;"
+		   + "which is good for you which keeps you from getting sanctioned. Keep the good work.";
+               }
+            
+                if(isSanctioned == false){
+                    periodToWaitToB_Eligible += "You are doing awesome by paritcipating hours you are required&mdash;"
+		    + "which is good for you which keeps you from getting sanctioned. Keep the good work.";
+                }
+                session.setAttribute("periodToWaitToB_Eligible", periodToWaitToB_Eligible);
+           
+           return isSanctioned;
     }
 
 }
