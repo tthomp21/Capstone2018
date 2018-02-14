@@ -102,7 +102,7 @@ public class EligibilityController extends HttpServlet {
         }
 
         isMarried = checkMarriageStatus(aClient);
-        warningMsg = getWarningMessage(aClient, isMarried);
+        warningMsg = getWarningMessage(aClient, isMarried); //this for the whole month
         session.setAttribute("warningMsg", warningMsg);
         url ="/views/viewEligibility.jsp";
      // cs.getRequestDispatcher(url).forward(request, response);
@@ -181,33 +181,45 @@ public class EligibilityController extends HttpServlet {
     }// </editor-fold>
 
     private double getTotalHoursAccumulated(ArrayList<Hours> clientsHours) {
-	    double clientTotalHours =0;
+	    double totalHours =0;
 	     for(Hours hrs: clientsHours){
-	        clientTotalHours += hrs.getNumberOfHours();
+	        totalHours += hrs.getNumberOfHours();
 	        
 	    }
-	   return clientTotalHours;
+	   return totalHours;
     }
     
-    //this method may be deleted later it was just for testing.
+    //
     private boolean checkHoursStatus(double totalHours, boolean married) {
             boolean isGoodOnHours = true;
             
-            LocalDate today = LocalDate.now();
             
-            LocalDate firstOfMonth   = today.withDayOfMonth(1);
-            LocalDate firstWeek      = today.withDayOfMonth(7);
-            LocalDate secondWeek     = today.withDayOfMonth(14);
-            LocalDate thirdWeek      = today.withDayOfMonth(21);
-            LocalDate fourthWeek     = today.withDayOfMonth(28);
-            LocalDate endOfTheMonth  = today.withDayOfMonth(today.lengthOfMonth());
+            if(married){
+                if(totalHours < 35){
+                    isGoodOnHours = false;
+                }
+            }
+            else{
+                if(totalHours < 20){
+                    isGoodOnHours = false;
+                }
+            }
+                 return isGoodOnHours;
+    }
+//            LocalDate today = LocalDate.now();
+//            
+//            LocalDate firstOfMonth   = today.withDayOfMonth(1);
+//            LocalDate firstWeek      = today.withDayOfMonth(7);
+//            LocalDate secondWeek     = today.withDayOfMonth(14);
+//            LocalDate thirdWeek      = today.withDayOfMonth(21);
+//            LocalDate fourthWeek     = today.withDayOfMonth(28);
+//            LocalDate endOfTheMonth  = today.withDayOfMonth(today.lengthOfMonth());
             
          //   String dayofWeek = today.getDayOfWeek().FRIDAY +"";
          //  dayofWeek= dayofWeek.toLowerCase();
           
         
-        return isGoodOnHours;
-    }
+   
 
     private boolean seeIfSanctionPassedRequiredPeriod(LocalDate sanctionDate, int sanctionLength){
        LocalDate todaysDate = LocalDate.now();
@@ -284,17 +296,19 @@ public class EligibilityController extends HttpServlet {
           LocalDate threeWeeksDate = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()).minusDays(7);
           LocalDate firstOfMonth   = LocalDate.now().withDayOfMonth(1);
           LocalDate todayDate = LocalDate.now();
+          
           ArrayList<Hours> clientsPartnerHours = new ArrayList<Hours>();
           ArrayList<Hours> clientsHours = new ArrayList<Hours>();
           
           clientsPartnerHours = ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, threeWeeksDate);
           clientsHours        = ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, threeWeeksDate); // hours for the client are needed anyway; but parter's hours are only needed if married
             
-          clientsTotalHours = getTotalHoursAccumulated(clientsHours);
-          parntersTotalHours = getTotalHoursAccumulated(clientsPartnerHours);
-          
-          couplesHours = clientsTotalHours + parntersTotalHours;
+          clientsTotalHours  = getTotalHoursAccumulated(clientsHours);
+         
           if(married){
+              parntersTotalHours = getTotalHoursAccumulated(clientsPartnerHours);
+              couplesHours = clientsTotalHours + parntersTotalHours;
+              
               if(todayDate.isAfter(threeWeeksDate) || todayDate.isEqual(threeWeeksDate) && couplesHours < 105 ){
                
                     warningMsg = "Our records indicate that your and your partner's hours are low by today " + LocalDate.now().toString() + ". But do not worry you still "
@@ -303,8 +317,8 @@ public class EligibilityController extends HttpServlet {
                             + " while you both supposed to do 105 hours by tody.";
                 
               }
-              else if(todayDate.isAfter(threeWeeksDate.minusDays(7)) || todayDate.isEqual(threeWeeksDate.minusDays(7)) && couplesHours < 70){
-                  
+              else if(todayDate.isAfter(threeWeeksDate.minusDays(7)) || todayDate.isEqual(threeWeeksDate.minusDays(7)) && clientsTotalHours < 70){
+                  //provide the two week message
               }
                 
           }else{ // if single
