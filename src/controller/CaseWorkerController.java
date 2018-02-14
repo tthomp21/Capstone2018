@@ -12,6 +12,7 @@ import java.util.List;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -101,6 +102,9 @@ public class CaseWorkerController extends HttpServlet {
                 break;
             case "declienRequest":
                 break;
+            case "submitHours":
+                enterHours(session);
+                break;
         }
         
         
@@ -108,6 +112,19 @@ public class CaseWorkerController extends HttpServlet {
         ServletContext sc = getServletContext();
         sc.getRequestDispatcher(url).forward(request, response);  
                 
+    }
+    
+    private void enterHours(HttpSession session)
+    {
+        int mondayHours = (int)session.getAttribute("mondayHours");
+        int tuesdayHours = (int)session.getAttribute("tuesdayHours");
+        int wednesdayHours = (int)session.getAttribute("wednesdayHours");
+        int thurdayHours = (int)session.getAttribute("thurdayHours");
+        int fridayHours = (int)session.getAttribute("fridayHours");
+        
+        
+        
+        
     }
     
     private Date getDateForDay(int day)

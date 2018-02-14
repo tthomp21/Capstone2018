@@ -8,6 +8,7 @@ package data;
 import business.Client;
 import business.ClientHoursArgs;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -44,6 +45,25 @@ public class HoursDB {
         }
         
         return args;
+    }
+    
+    public static void insertClientHours(int mon, int tue, int wed, int thur, int fri, Date monday, Date tuesday, Date wednesday, Date thurday, Date friday, int clientId)
+    {
+        Connection connection = DBConnection.getConnection();
+        String query = "insert into scm.tcf_hours " +
+                "(clientid, date, hours) " +
+                "values (?, ?, ?)";
+        
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, clientId);
+            ps.setDate(2, monday);
+            ps.setDouble(2, mon);
+        }
+        catch(Exception e)
+        {
+            
+        }
     }
     
 }
