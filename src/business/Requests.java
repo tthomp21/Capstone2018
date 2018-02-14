@@ -13,27 +13,27 @@ public class Requests {
     // numbers are loose for testing purposes to allow many requests
     // to make testing file upload/re serving to cw easier
     private static final int maxTuitionOccurrences = 20;
-    private static final double maxTuitionAmount = 99500;
+    private static final double maxTuitionAmount = 9999;
     private static final int tuitionRange = 12;
     
-    private static final int maxUtilitiesOccurrences = 30;
-    private static final double maxUtilitiesAmount = 99200;
+    private static final int maxUtilitiesOccurrences = 10;
+    private static final double maxUtilitiesAmount = 999;
     private static final int utilitiesRange = 12;
     
-    private static final int maxRepairOccurrences = 20;
-    private static final double maxRepairAmount = 99500;
+    private static final int maxRepairOccurrences = 10;
+    private static final double maxRepairAmount = 9999;
     private static final int repairRange = 12;
     
-    private static final int maxRegistrationOccurrences = 20;
-    private static final double maxRegistrationAmount = 99100;
+    private static final int maxRegistrationOccurrences = 2;
+    private static final double maxRegistrationAmount = 500;
     private static final int registrationRange = 12;
     
-    private static final int maxFuelOccurrences = 50;
-    private static final double maxFuelAmount = 99100;
+    private static final int maxFuelOccurrences = 10;
+    private static final double maxFuelAmount = 200;
     private static final int fuelRange = 12;
     
-    private static final int maxClothingOccurrences = 10;
-    private static final double maxClothingAmount = 99100;
+    private static final int maxClothingOccurrences = 2;
+    private static final double maxClothingAmount = 200;
     private static final int clothingRange = 12;
     
     // validates requests for assistance according to business rules limits on payouts
