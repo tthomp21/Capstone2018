@@ -26,35 +26,23 @@ import javax.servlet.http.Part;
 
 @MultipartConfig
 public class ClientRequestController extends HttpServlet {
-        
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+   
+    // arrival get method
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
+                        
+        checkForSanctions(request);
+
+        // testing for showing the file back to user        
+        /* 
+        if(!FileServe.retrieve(request, response, getServletContext(), 25))
+            sc.getRequestDispatcher(url).forward(request, response);                    
+        */    
+        
         String url = "/views/clientRequest.jsp";
-        
-        // set directory for uploaded files
-        String fileDir = System.getProperty("user.home") + "/Desktop";
-        
-        Client user = (Client) session.getAttribute("user");
-        
-        String action = request.getParameter("action");
-        if (action == null) {
-            action = "arrival";
-        }      
-        
-        ServletContext sc = getServletContext();
-        
-        switch(action) {
-            case "arrival": 
-                // redirect to 'url'   
-                sc.getRequestDispatcher(url).forward(request, response);  
-                break;
-            case "view":
-                if(!FileServe.retrieve(request, response, getServletContext(), 25))
-                    sc.getRequestDispatcher(url).forward(request, response);    
-                
-                break;
-        }
+        ServletContext sc = getServletContext();        
+        sc.getRequestDispatcher(url).forward(request, response);     
     }
 
     // post function handles file upload
@@ -63,30 +51,47 @@ public class ClientRequestController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String url = "/views/clientRequest.jsp";
-        String requestMsg = "";
-        Client user = (Client) session.getAttribute("user");
         
-        String amount = request.getParameter("amount");
-        int requestID = 0;
-        // validate request
-        if (isValidRequest(request, amount, user)) 
+        boolean underSanction = checkForSanctions(request);
+        
+        if (!underSanction) 
         {
-            // add request to db and retrieve auto inc request id
-            try 
+            Client user = (Client) session.getAttribute("user");
+            String requestMsg = "";
+
+            String amount = request.getParameter("amount");
+            request.setAttribute("prevAmount", amount);
+            
+            int requestID = 0;
+            String requestType = request.getParameter("requestType");
+            // validate request
+            if (isValidRequest(request, amount, user)) 
             {
-                requestID = RequestDB.addRequest("", user.getClientID(), Double.parseDouble(amount));
+                // add request to db and retrieve auto inc request id
+                try 
+                {   // possible sql exception
+                    requestID = RequestDB.addRequest(requestType, user.getClientID(), Double.parseDouble(amount));
+                    if (requestID != 0)
+                    {
+                        // upload file to server
+                        uploadFile(request, requestID); //possible IO exception
+
+                        // show success msg to user
+                        String msg = "Your request has been submitted.";
+                        request.setAttribute("requestSuccessMsg", msg);                    
+                    }            
+                }
+                catch (SQLException e) 
+                {   
+                    requestMsg = "There was an error connecting to the database.";
+                    request.setAttribute("requestMsg", requestMsg);
+                }
+                catch (IOException e)
+                {
+                    requestMsg = "There was an error uploading the file.";
+                    request.setAttribute("requestMsg", requestMsg);
+                }
             }
-            catch (SQLException e) 
-            {                
-            }
-            if (requestID != 0)
-            {
-                // upload file to server
-                uploadFile(request, requestID);
-                
-                // show msg to user
-                
-            }            
         }
         
         // redirect to 'url'        
@@ -94,6 +99,48 @@ public class ClientRequestController extends HttpServlet {
         sc.getRequestDispatcher(url).forward(request, response);  
     }
 
+    
+    // checks for sanctions
+    private boolean checkForSanctions(HttpServletRequest request) 
+    {
+        HttpSession session = request.getSession();
+        String sanctionMsg;
+        String msg = "You are under sanction until ";
+        String sanctionEnd;
+        
+        String status = (String) session.getAttribute("sanctionStatus");
+        if (status != null)
+            if (status.equals("true"))
+            {
+                sanctionEnd = (String) session.getAttribute("sanctionEndDate");
+                sanctionMsg = msg + sanctionEnd;
+                request.setAttribute("sanctionMsg", sanctionMsg);
+                return true;
+            }
+            else 
+                return false;
+        else 
+        {
+            // retrieve sanction
+            int clientID = ((Client) session.getAttribute("user")).getClientID();
+            MessageResult result = Requests.checkForSanction(clientID);
+            if (result.successful())
+            {
+                sanctionEnd = result.getMessage();
+                sanctionMsg = msg + sanctionEnd;
+                request.setAttribute("sanctionMsg", sanctionMsg);
+                session.setAttribute("sanctionStatus", "true");
+                session.setAttribute("sanctionEndDate", sanctionEnd);
+                return true;
+            }
+            else 
+            {
+                session.setAttribute("sanctionStatus", "false");
+                return false;
+            }
+        }
+    }
+    
     
     // retrieves file from upload form, saves to file directory with filename:
     // requestID-filename.ext ||  ex: 5-document.pdf
@@ -119,32 +166,28 @@ public class ClientRequestController extends HttpServlet {
     // validates request for assistance
     private static boolean isValidRequest(HttpServletRequest request, String amount, Client client)
             throws ServletException, IOException {
-        
-        String requestMsg = "";
-        HttpSession session = request.getSession();
-        int clientID = ((Client)session.getAttribute("user")).getClientID();
-        double amt = 0;
-        MessageResult result;
-        
+ 
+        double amt = 0;        
         // validate amount
         try 
         {
             amt = Double.parseDouble(amount);                       
         }
-        catch (Exception e)
+        catch (NumberFormatException e)
         { 
-            requestMsg = "Please enter a valid dollar amount.";
+            String requestMsg = "Please enter a valid dollar amount.";
             request.setAttribute("requestMsg", requestMsg);
             return false;
         }
         
         // validate rules for assistance limits
         String requestType = request.getParameter("requestType");
-        result = Requests.validate(requestType, clientID, amt);
+        HttpSession session = request.getSession();
+        int clientID = ((Client)session.getAttribute("user")).getClientID();
+        MessageResult result = Requests.validate(requestType, clientID, amt);
+        
         if (result.successful())
-        {
-            String msg = "Your request has been submitted.";
-            request.setAttribute("requestSuccessMsg", msg);
+        {            
             return true;
         }
         else 
@@ -170,17 +213,9 @@ public class ClientRequestController extends HttpServlet {
         return null;
     }
     
-    
-    
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-    
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Submit Requests";
     }// </editor-fold>
 
 }

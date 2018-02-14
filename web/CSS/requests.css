@@ -83,6 +83,12 @@ h1 {
     margin-top: 0;
     padding-bottom: 0;
 }
+.sanctionMsg {
+    color: red;
+    text-align: center;
+    margin-top: 0;
+    padding-bottom: 0;
+}
 .requestSuccess {
     color: green;
     text-align: center;

@@ -6,6 +6,7 @@
 package data;
 
 import business.AssistanceRequest;
+import business.MessageResult;
 import static data.AccountDB.closeResources;
 import java.sql.Connection;
 import java.sql.Date;
@@ -22,28 +23,48 @@ import java.util.HashMap;
 public class RequestDB {
     
     private static HashMap<String, String> dbMap;
+    private static HashMap<String, Integer> dbIdMap;
     
-    // creates a map of the values to be looked up in validation methods
+    // store assistance descriptions
+    // used to convert assistance type to their actual description in the table    
     private static void mapDbNames()
     {        
-        dbMap = new HashMap<String, String>();
-        dbMap.put("tuition", "tuition");
-        dbMap.put("utilities", "utilities");
-        dbMap.put("fuel", "gas");
-        dbMap.put("registration", "Vehicle Register");
-        dbMap.put("repair", "car repair");
-        dbMap.put("clothing", "clothing");
-        // maps asst types to the way they're currently in the database
-        // used in the where clause for where tcf_assistance.description = ?
+        if (dbMap == null) {
+            dbMap = new HashMap<String, String>();
+            dbMap.put("tuition", "tuition");
+            dbMap.put("utilities", "utilities");
+            dbMap.put("fuel", "gas");
+            dbMap.put("registration", "Vehicle Register");
+            dbMap.put("repair", "car repair");
+            dbMap.put("clothing", "clothing");
+            // maps asst types to the way they're currently in the database
+            // used in the where clause for where tcf_assistance.description = ?
+        }
     }    
+    
+    // store assistance id's 
+    // used to convert assistance type to its id in the table
+    private static void mapDbAsstIDs()
+    {
+        if (dbIdMap == null) {
+            dbIdMap = new HashMap<String, Integer>();
+            dbIdMap.put("repair", 1);
+            dbIdMap.put("fuel", 2);
+            dbIdMap.put("tuition", 3);
+            dbIdMap.put("clothing", 4);
+            dbIdMap.put("registration", 5);
+            dbIdMap.put("utilities", 21);
+        }
+    }
     
     // insert request row 
     public static int addRequest(String asstType, int clientID, double amount) throws SQLException
     {
         Connection connection = DBConnection.getConnection();
-    
-        int asstID = 1;
+        
         Date date = Date.valueOf(LocalDate.now());
+        mapDbAsstIDs();
+        int asstID = dbIdMap.get(asstType);
         
         String query = "insert into scm.tcf_requestassist " +
                 "(assistanceid, clientid, daterequest, status, datedisbursed, amount) " +
@@ -206,5 +227,47 @@ public class RequestDB {
         }
     }
     
+    // checks for current sanction, returns the end date of the sanction if active
+    public static MessageResult checkForSanction(int clientID) throws SQLException
+    {       
+        Connection connection = DBConnection.getConnection();
+        String query = "SELECT SANCTIONDATE, SANCTIONLENGTH, " +
+                "CASE SANCTIONLENGTH " +
+                    "WHEN 1 THEN SANCTIONDATE + 1 MONTH "  +
+                    "WHEN 2 THEN SANCTIONDATE + 3 MONTH "  +
+                    "WHEN 3 THEN SANCTIONDATE + 12 MONTH " +
+                "END AS SANCTIONEND " +                
+                "FROM SCM.TCF_SANCTIONS " +
+                "WHERE CLIENTID = ? " +
+                "ORDER BY SANCTIONDATE DESC";                            
+               
+        PreparedStatement ps = connection.prepareStatement(query);
+        ps.setInt(1, clientID);    
+        
+        ResultSet rs = ps.executeQuery();
 
+        MessageResult result = new MessageResult();
+        if (rs.next()) 
+        {
+            LocalDate sanctionEndDate = rs.getDate("sanctionend").toLocalDate();
+            if (sanctionEndDate.isAfter(LocalDate.now()))
+            {
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+                String endDate = sanctionEndDate.format(dtf);
+                result.setMessage(endDate);    
+                result.setResult(true);                            
+            }
+            else 
+            {
+                result.setResult(false);
+            }
+        }
+        else 
+        {
+            result.setResult(false);            
+        }
+        
+        closeResources(ps, rs, connection);
+        return result;
+    }
 }

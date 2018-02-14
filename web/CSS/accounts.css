@@ -209,7 +209,6 @@ aside, #welcome {
     text-align: left;
 }
 .manageForm span {
-    font-size: 1.4em;
     margin-left: 5px;   
 }
 .manageForm input:not([type=submit]) {

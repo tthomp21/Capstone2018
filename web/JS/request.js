@@ -34,8 +34,10 @@ $(document).ready(function() {
             }
         },
         errorElement: 'div',
-        errorLabelContainer: '.requestErrors'
+        errorLabelContainer: '.requestErrors'        
     });
 });
 
-
+function hideOldMsg() {
+    $(".requestSuccess").hide();
+}

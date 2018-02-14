@@ -30,8 +30,7 @@
                        
                         <a href="/AccountsController?action=logout" id="btnLogout">
                             <li class="actItem">Log Out</li>
-                        </a>
-                        
+                        </a>                        
                     </ul>       
                 </div>
                                 
@@ -42,39 +41,43 @@
             </aside>
             
             <div id="main">
-                <div id="container">
-                    
+                <div id="container">                    
                     <div id="requestDiv">
                         <form action="ClientRequestController" method="post" id="requestForm" enctype="multipart/form-data">
                             <h1>Submit a request for assistance</h1>
                             <fieldset>
                                 <p>
-                                <label for="requestType">Choose a type of assistance: </label>
-                                <select name="requestType">
-                                    <option value="tuition">Tuition</option>
-                                    <option value="utilities">Utilities</option>
-                                    <option value="repair">Vehicle Repair</option>
-                                    <option value="registration">Vehicle Registration</option>
-                                    <option value="fuel">Fuel</option>
-                                    <option value="clothing">Clothing</option>
-                                </select>
+                                    <label for="requestType">Choose a type of assistance: </label>
+                                    <select name="requestType">
+                                        <option value="tuition">Tuition</option>
+                                        <option value="utilities">Utilities</option>
+                                        <option value="repair">Vehicle Repair</option>
+                                        <option value="registration">Vehicle Registration</option>
+                                        <option value="fuel">Fuel</option>
+                                        <option value="clothing">Clothing</option>
+                                    </select>
                                 </p>
                                 <p>
-                                <label for="amount">Enter the amount you are requesting: </label>
-                                <input type="text" id="amount" name="amount" value="${prevAmount}"><br>
+                                    <label for="amount">Enter the amount you are requesting: </label>
+                                    <input type="text" id="amount" name="amount" value="${prevAmount}"><br>
                                 </p>                                
                                                                
                                 <label id="uploadLbl">Upload documentation for review:</label><br>
                                 <input type="file" id="file" name="file">
                                 
                                 <input type="hidden" name="action" value="processRequest"/>
-                                <input type="submit" name="submit" value="Submit Request" class="button" id="btnUpload"/>
+                                <input type="submit" name="submit" value="Submit Request" class="button" id="btnUpload" onclick="hideOldMsg()"/>
                                 
                             </fieldset>     
                             
                             <div class="requestErrors"> 
                                 <c:if test="${not empty requestMsg}">
                                     <c:out value="${requestMsg}"/>
+                                </c:if>
+                            </div>
+                            <div class="sanctionMsg"> 
+                                <c:if test="${not empty sanctionMsg}">
+                                    <c:out value="${sanctionMsg}"/>
                                 </c:if>
                             </div>
                             <div class="requestSuccess"> 
@@ -85,6 +88,7 @@
                         </form>  
                     </div>
                     
+                                
                     <div id="infoDiv">
                         <h1>Available Assistance</h1>
                         <ul>                            
@@ -95,8 +99,7 @@
                             <li>Fuel for necessary transportation</li>
                             <li>Professional clothing </li>
                         </ul>
-                    </div>
-                    
+                    </div>                    
                 </div>
             </div>
             

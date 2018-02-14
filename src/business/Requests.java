@@ -126,4 +126,19 @@ public class Requests {
         result.setMessage("");
         return result;
     }
+    
+    public static MessageResult checkForSanction(int clientID)
+    {
+        MessageResult result = new MessageResult();
+        try {
+            result = RequestDB.checkForSanction(clientID);
+        }
+        catch (SQLException e)
+        {
+            result.setResult(false);
+            result.setMessage("There was an error connecting to the database.");
+        }         
+        
+        return result;       
+    }
 }
