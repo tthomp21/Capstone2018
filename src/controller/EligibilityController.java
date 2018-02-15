@@ -76,23 +76,27 @@ public class EligibilityController extends HttpServlet {
 
        
         Client aClient = (Client) session.getAttribute("user"); // get this from successful login.
-        ArrayList<Hours> clientsHours  = (ArrayList<Hours>) session.getAttribute("clientsHours");
-        ArrayList<Hours> clientsPartnerHours  = (ArrayList<Hours>) session.getAttribute("clientsPartnerHours");
+        ArrayList<Hours> clientsHoursList  = (ArrayList<Hours>) session.getAttribute("clientsHoursList");
+        ArrayList<Hours> clientsPartnerHoursList  = (ArrayList<Hours>) session.getAttribute("clientsPartnerHoursList");
         ArrayList<Sanction> clientSanctions = (ArrayList<Sanction>)session.getAttribute("clientSanctions");
         Boolean isSanctioned = (Boolean)session.getAttribute("isSanctioned");
+        Boolean isMarried  =(Boolean)session.getAttribute("isMarried");
+        
         String url = "/";
         String lowHoursMsg ="";
         String warningMsg ="";
         String periodToWaitToB_Eligible ="";
-        boolean isMarried;
+        
        
-        double clientMarriedTotalHours = 0, clientSingleTotalHours =0;
+        double clientMarriedOrSingleTotalHours = 0, clientSingleTotalHours =0;
                 
-        if(clientsHours == null)
+        if(clientsHoursList == null)
         {
-            clientsHours = new ArrayList<Hours>();
-        }if(clientsPartnerHours == null){
-            clientsPartnerHours = new ArrayList<Hours>();
+            clientsHoursList = new ArrayList<Hours>();
+            setClientOrPartnerHoursAndAccumulated(clientsHoursList, aClient, session);
+            
+        }if(clientsPartnerHoursList == null){
+            clientsPartnerHoursList = new ArrayList<Hours>();
 
         }if(clientSanctions == null){
             clientSanctions = new ArrayList<Sanction>();
@@ -100,26 +104,32 @@ public class EligibilityController extends HttpServlet {
         if(isSanctioned == null){
             isSanctioned = false;
         }
+        if(isMarried == null){
+            isMarried = false;
+        }
 
-        isMarried = checkMarriageStatus(aClient);
-        warningMsg = getWarningMessage(aClient, isMarried); //this for the whole month
-        session.setAttribute("warningMsg", warningMsg);
-        url ="/views/viewEligibility.jsp";
+        
+         
+        
+      //  url ="/views/viewEligibility.jsp";
      // cs.getRequestDispatcher(url).forward(request, response);
                 
                
        try{ 
                //get sanction first , if there is any for the client then it is applied to the partner as well
                clientSanctions = ClientDB.getClientSanctions(aClient.getClientID());
-               //this method also set the atrribute of session, to periodToWaitToB_Eligible
+               //this method also set the atrribute of session, to periodToWaitToB_Eligible, it calls, !seeIfSanctionPassedRequiredPeriod method == false, then resulted to = true, 
+               //then it calls getHowLongClientShouldWait to set the appropriate message in periodToWaitToB_Eligible variable. 
                isSanctioned = getSanctionStatus(clientSanctions, session);
-               if(!isSanctioned){ //if is not sanctioned then do the hours for the clietns 
-                  clientMarriedTotalHours = getTotalHoursMarridOrSingle(isMarried, request.getSession());
-               }else{
+               if(!isSanctioned){ //if client is not sanctioned then do the hours for the clietns , if anyone is sanctioned, it applies to both.
+                  isMarried = checkMarriageStatus(aClient);
+                  clientMarriedOrSingleTotalHours = (double)session.getAttribute("totalHours");
+                  warningMsg = getWarningMessage(aClient, isMarried, session); //this for the three weeks
+               }else{ //if sanctioned then the other processing should be on the view side on JSP. whether to display the secondary message and ADC benefits. 
                    
                }
               
-               
+               url = "/views/viewEligibility.jsp";
                
                
         //********************if there is no sanction then start count hours *******************************
@@ -136,7 +146,10 @@ public class EligibilityController extends HttpServlet {
         catch(Exception ex){
 	System.out.print(ex.equals(ex));
         }finally{
-
+            session.setAttribute("warningMsg", warningMsg);
+            session.setAttribute("isSanctioned", isSanctioned);
+            cs.getRequestDispatcher(url).forward(request, response);
+            
         }
        
     }
@@ -182,7 +195,7 @@ public class EligibilityController extends HttpServlet {
 
     private double getTotalHoursAccumulated(ArrayList<Hours> clientsHours) {
 	    double totalHours =0;
-	     for(Hours hrs: clientsHours){
+	    for(Hours hrs: clientsHours){
 	        totalHours += hrs.getNumberOfHours();
 	        
 	    }
@@ -286,44 +299,75 @@ public class EligibilityController extends HttpServlet {
     }
     
     //we can get the partners name here too so the message make more sense. 
-    private String getWarningMessage(Client aClient, boolean married) {
-        String warningMsg = "";
-        
-          double parntersTotalHours =0;
-          double clientsTotalHours =0;
-          
-          double couplesHours = 0;
+    private String getWarningMessage(Client aClient, Boolean married, HttpSession session) {
+//        double clientsTotalHours        = (double) session.getAttribute("clientTotalHours");
+//        double parntersTotalHours       = (double) session.getAttribute("partnerTotalHours");
+//        double couplesHours             = (double) session.getAttribute("totalHours");
+
+            String warningMsg = "";
+            double clientsTotalHours =0;
+            double parntersTotalHours =0;
+            double couplesHours  =0;
+            
           LocalDate threeWeeksDate = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()).minusDays(7);
           LocalDate firstOfMonth   = LocalDate.now().withDayOfMonth(1);
-          LocalDate todayDate = LocalDate.now();
+          LocalDate todayDate      = LocalDate.now();
           
-          ArrayList<Hours> clientsPartnerHours = new ArrayList<Hours>();
-          ArrayList<Hours> clientsHours = new ArrayList<Hours>();
+          ArrayList<Hours> clientsPartnerHoursList = new ArrayList<Hours>(); //(ArrayList<Hours>)session.getAttribute("clientsPartnerHoursList");
+          ArrayList<Hours> clientsHoursList        = new ArrayList<Hours>();//(ArrayList<Hours>)session.getAttribute("clientsHoursList");
           
-          clientsPartnerHours = ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, threeWeeksDate);
-          clientsHours        = ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, threeWeeksDate); // hours for the client are needed anyway; but parter's hours are only needed if married
-            
-          clientsTotalHours  = getTotalHoursAccumulated(clientsHours);
-         
-          if(married){
-              parntersTotalHours = getTotalHoursAccumulated(clientsPartnerHours);
-              couplesHours = clientsTotalHours + parntersTotalHours;
-              
-              if(todayDate.isAfter(threeWeeksDate) || todayDate.isEqual(threeWeeksDate) && couplesHours < 105 ){
+          if((todayDate.isAfter(threeWeeksDate) || todayDate.isEqual(threeWeeksDate))){ //dont calculate if it is not three weeks yet.
                
-                    warningMsg = "Our records indicate that your and your partner's hours are low by today " + LocalDate.now().toString() + ". But do not worry you still "
-                                + " One week from " + threeWeeksDate.toString() + " to " + LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()).toString() + 
-                                  "to make those hours. Just for your information your partner's hours are: " + parntersTotalHours + " and yours are: " + clientsTotalHours
-                            + " while you both supposed to do 105 hours by tody.";
-                
+                clientsHoursList        = ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, threeWeeksDate); // hours for the client are needed anyway; but parter's hours are only needed if married
+
+                clientsTotalHours       = getTotalHoursAccumulated(clientsHoursList);
+
+                if(married){
+                    clientsPartnerHoursList = ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, threeWeeksDate);
+                    parntersTotalHours = getTotalHoursAccumulated(clientsPartnerHoursList);
+                    couplesHours = clientsTotalHours + parntersTotalHours;
+
+                    if((todayDate.isAfter(threeWeeksDate) || todayDate.isEqual(threeWeeksDate)) && couplesHours < 105 ){
+
+                          warningMsg = "Our records indicate that your and your partner's hours are low by today " + LocalDate.now().toString() 
+                                        + ". But do not worry you still "
+                                        + " One week from " + threeWeeksDate.toString() 
+                                        + " to " + LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()).toString() 
+                                        + "to make those hours. Just for your information your partner's hours are: " + parntersTotalHours + " and yours are: " + clientsTotalHours
+                                        + " while you both supposed to do 105 hours by today.";
+
+                    }else {
+                         warningMsg = "Keep doing the good work! your hours and your partner's too are all set; however make sure you make the rest of hours you are required for the last week ";
+                    }
+                   
+
+                }else{ // if single, only clientTotalHours are needed
+                    if(todayDate.isAfter(threeWeeksDate) || todayDate.isEqual(threeWeeksDate) && clientsTotalHours < 60){
+                       warningMsg = "Our records indicate that your hours are low by today " 
+                                    + LocalDate.now().toString() + ". But do not worry you still "
+                                    + " One week from " + threeWeeksDate.toString() + " to " + LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()).toString() 
+                                    + "to make those hours. Just for your information your hours are: " + clientsTotalHours
+                                    + " while you were supposed to make 60 hours by today.";
+                    }else{
+                         warningMsg = "Keep doing the good work! your hours are all set; however make sure you the the rest of hours you are required for the last week ";
+                    }
+                }
+          }else{// if it hasn't been three weeks yet, display a regular message based on marriage
+              if(married){
+                  warningMsg = "Keep doing the good work! your hours and your partner's at this point are fine; however make sure you make whatever hours you are required for the remaining of the month ";
+              }else{
+                  warningMsg = "Keep doing the good work! your hours are fine; however make sure you make whatever hours you are required for the remaining of the month ";
               }
-              else if(todayDate.isAfter(threeWeeksDate.minusDays(7)) || todayDate.isEqual(threeWeeksDate.minusDays(7)) && clientsTotalHours < 70){
-                  //provide the two week message
-              }
-                
-          }else{ // if single
-              warningMsg = "Keep doing the good work! your hours all set; however make sure you the the rest of hours you are required for the last week ";
           }
+          session.setAttribute("clinetHoursList3Weeks", clientsHoursList);
+          session.setAttribute("clientsPartnerHoursList3Weeks", clientsPartnerHoursList);
+          session.setAttribute("coupleHours3Weeks", couplesHours);
+          session.setAttribute("clientsTotalHours3Weeks", clientsTotalHours);
+          session.setAttribute("parntersTotalHours3Weeks", parntersTotalHours);
+          
+          
+          
+          
           return warningMsg;
     }
 
@@ -332,7 +376,7 @@ public class EligibilityController extends HttpServlet {
 
        // if((aClient.getPartnerID() != 0 & aClient.getPartnerID()+"" != " " & aClient.getPartnerID()+"" != null )){
        if(aClient.isMarried()){
-           if((aClient.getPartnerID() != 0)){
+           if((aClient.getPartnerID() != 0)){ //this is a double check, extra maybe
                 isMarried =true;
            }
         }
@@ -381,31 +425,69 @@ public class EligibilityController extends HttpServlet {
            return isSanctioned;
     }
 
-    private double getTotalHoursMarridOrSingle(boolean married, HttpSession session) {
+   
+
+    private void setClientOrPartnerHoursAndAccumulated(ArrayList<Hours> clientsHoursList, Client aClient, HttpSession session) {
+        ArrayList<Hours> clientsPartnerHoursList =  new ArrayList<Hours>();
         
-        LocalDate todaysDate = LocalDate.now();
-	LocalDate firstOfMonth   = todaysDate.withDayOfMonth(1);
-	ArrayList<Hours> clientsHours = new ArrayList<Hours>();
-        ArrayList<Hours> clientsPartnerHours =  new ArrayList<Hours>();
-        Client aClient = (Client)session.getAttribute("user");
-        double clientHours =0;
-        double partnerHours =0;
+        boolean isMarried;
+        isMarried = checkMarriageStatus(aClient);
+        
+        double clientTotalHours =0;
+        double partnerTotalHours =0;
         
         double totalHours =0; //todaysDate.withDayOfMonth(15)
-        // ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, todaysDate); // hours for the client are needed anyway; but parter's hours are only needed if married
-        clientsHours = ClientDB.getClientHoursForWholeMonth(aClient.getClientID());
-        clientHours = getTotalHoursAccumulated(clientsHours);
+        //ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, todaysDate); // hours for the client are needed anyway; but parter's hours are only needed if married
+        clientsHoursList = ClientDB.getClientHoursForWholeMonth(aClient.getClientID());
+        clientTotalHours = getTotalHoursAccumulated(clientsHoursList);
         
-        if(married){ //if married get clients partner hours too, otheriwse the hours are accumulated above.
-            clientsPartnerHours = ClientDB.getClientHoursForWholeMonth(aClient.getClientID());
-            partnerHours =  getTotalHoursAccumulated(clientsPartnerHours);
-            
-            session.setAttribute("partnerHours", partnerHours);
+        if(isMarried){
+            clientsPartnerHoursList = ClientDB.getClientHoursForWholeMonth(aClient.getClientID());
+            partnerTotalHours =  getTotalHoursAccumulated(clientsPartnerHoursList); 
         }
-        session.setAttribute("clientHours", clientHours);
         
-        totalHours = clientHours + partnerHours;
-        return totalHours;
+        totalHours = clientTotalHours + partnerTotalHours;
+        
+        session.setAttribute("clientsHoursList", clientsHoursList);
+        session.setAttribute("clientsPartnerHoursList", clientsPartnerHoursList);
+        session.setAttribute("clientTotalHours", clientTotalHours);
+        session.setAttribute("partnerTotalHours", partnerTotalHours);
+        session.setAttribute("totalHours", totalHours);
+        session.setAttribute("isMarried", isMarried);
+       
     }
 
+    
+
+    
+
 }
+//
+// private double getTotalHoursMarridOrSingle(boolean married, HttpSession session) {
+//        
+//        LocalDate todaysDate = LocalDate.now();
+//	LocalDate firstOfMonth   = todaysDate.withDayOfMonth(1);
+//        
+//	ArrayList<Hours> clientsHours = new ArrayList<Hours>();
+//        ArrayList<Hours> clientsPartnerHours =  new ArrayList<Hours>();
+//        Client aClient = (Client)session.getAttribute("user");
+//        
+//        double clientTotalHours =0;
+//        double partnerTotalHours =0;
+//        
+//        double totalHours =0; //todaysDate.withDayOfMonth(15)
+//        // ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, todaysDate); // hours for the client are needed anyway; but parter's hours are only needed if married
+//        clientsHours = ClientDB.getClientHoursForWholeMonth(aClient.getClientID());
+//        clientTotalHours = getTotalHoursAccumulated(clientsHours);
+//        
+//        if(married){ //if married get clients partner hours too, otheriwse the hours are accumulated above.
+//            clientsPartnerHours = ClientDB.getClientHoursForWholeMonth(aClient.getClientID());
+//            partnerTotalHours =  getTotalHoursAccumulated(clientsPartnerHours);            
+//            
+//        }
+//        session.setAttribute("clientTotalHours", clientTotalHours);
+//        session.setAttribute("partnerTotalHours", partnerTotalHours);
+//        
+//        totalHours = clientTotalHours + partnerTotalHours;
+//        return totalHours;
+//    }

@@ -76,17 +76,21 @@
                 </div>
 
                 <section class="alertsSection">
-
-                    <div id="hoursAlertDiv">
-                        <h2>Hours Notification</h2>
-                        <p>The message to notify the client for short hours will go here:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${warningMsg}</p>
-                    </div>
-
-
-                    <div id="sanctionMsgDiv">
+                    <c:if test="${isSanctioned == false}">   
+                        <div id="hoursAlertDiv">
+                            <h2>Hours Notification</h2>
+                            <p>The message to notify the client for short hours will go here:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${warningMsg}</p>
+                           
+                        </div>
+                    </c:if>
+                    
+                    <c:if test="${isSanctioned}">   
+                        <div id="sanctionMsgDiv">
                         <h2>Sanctions Notification</h2>
-                        <p></p>
+                        <p>${periodToWaitToB_Eligible}</p>
                     </div>
+                    </c:if>
+                    
                 </section>
 
                           
