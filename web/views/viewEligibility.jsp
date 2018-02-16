@@ -48,7 +48,7 @@
 
             <div id="main">
                 <section class="eligibilitySection">
-                 
+
                     <table border="1">
                         <caption>Eligibility Overview</caption>
                         <tr>
@@ -57,22 +57,52 @@
                             <th>Recertification Date</th>
                         </tr>
                     </table>
-                   
+
                 </section>
-                
+
                 <div id="divider">
-                    <select>
-                        <option>First Week</option>
-                        <option>Second Week</option>
-                        <option>Third Week</option>
-                        <option>Fourth Week</option>
-                      
-                    </select>
-                    <br>
-                    <span>From:</span> <input type="date" id="fromDate"><br>
-                    <span>To:</span><input type="date" id="toDate">
-                    
-                    <p>I will see which one i use</p>
+                    <h3>Select the date you want to look at your hours.</h3>
+                    <form action="EligibilityController" method="POST">
+                        <input type="hidden" name="action" value="filterHours">
+                        <label>From:</label><input type="date" id="fromDate"><br>
+                        <label>To:</label><input type="date" id="toDate"><br>
+                        <label></label><input type="submit" value="Get Hours">
+                    </form>
+
+                    <c:if test="${user.isMarried()}"> 
+
+                        <section class="hourSection">
+                            <fieldset>
+                                <legend>${user.getFirstName()} ${user.getLastName()}&apos;s Hours</legend>
+                                <table border="1" style="width: 100%">
+
+                                    <tr>
+                                        <th>Number of hours</th>
+                                        <th>Date Hours Made</th>
+                                    </tr>
+                                    <c:forEach items="${clientWeeklyHours}" var="hrs" varStatus="loop">
+
+                                        <tr>
+                                            <td><c:out value="${hrs.numberOfHours}" /></td>
+                                            <td><c:out value="${hrs.dateHoursEntered}" /></td>
+                                        </tr>
+                                    </c:forEach>
+                                    <tr><td colspan="2">${clientPartner.getFirstName()} ${clientPartner.getLastName()}
+                                            &apos;s Hours</td></tr>
+                                    <c:forEach items="${partnerWeeklyHours}" var="hrs" varStatus="loop">
+
+                                        <tr>
+                                            <td><c:out value="${hrs.numberOfHours}" /></td>
+                                            <td><c:out value="${hrs.dateHoursEntered}" /></td>
+                                        </tr>
+                                    </c:forEach>
+
+                            </fieldset>
+
+                            </table>
+                        </section>
+                    </c:if>
+
                 </div>
 
                 <section class="alertsSection">
@@ -80,22 +110,22 @@
                         <div id="hoursAlertDiv">
                             <h2>Hours Notification</h2>
                             <p>The message to notify the client for short hours will go here:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${warningMsg}</p>
-                           
+
                         </div>
                     </c:if>
-                    
+
                     <c:if test="${isSanctioned}">   
                         <div id="sanctionMsgDiv">
-                        <h2>Sanctions Notification</h2>
-                        <p>${periodToWaitToB_Eligible}</p>
-                    </div>
+                            <h2>Sanctions Notification</h2>
+                            <p>${periodToWaitToB_Eligible}</p>
+                        </div>
                     </c:if>
-                    
+
                 </section>
 
-                          
+
             </div>
-                     <c:import url="../Includes/footer.html"/> 
+            <c:import url="../Includes/footer.html"/> 
     </body>
 </html>
 

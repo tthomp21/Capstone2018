@@ -81,14 +81,14 @@ public class EligibilityController extends HttpServlet {
         ArrayList<Sanction> clientSanctions = (ArrayList<Sanction>)session.getAttribute("clientSanctions");
         Boolean isSanctioned = (Boolean)session.getAttribute("isSanctioned");
         Boolean isMarried  =(Boolean)session.getAttribute("isMarried");
+        String action = (String)session.getAttribute("action");
+        String strToDate = request.getParameter("fromDate");
+        String strFromDate = request.getParameter("toDate");
         
+        double clientMarriedOrSingleTotalHours =0;
         String url = "/";
-        String lowHoursMsg ="";
         String warningMsg ="";
         String periodToWaitToB_Eligible ="";
-        
-       
-        double clientMarriedOrSingleTotalHours = 0, clientSingleTotalHours =0;
                 
         if(clientsHoursList == null)
         {
@@ -104,9 +104,29 @@ public class EligibilityController extends HttpServlet {
         if(isSanctioned == null){
             isSanctioned = false;
         }
-        if(isMarried == null){
-            isMarried = false;
+//        if(isMarried == null){
+//            isMarried = false;
+//        }
+        if(aClient.isMarried()){
+            Client clientPartner = (Client)session.getAttribute("clientPartner");
+            
+            if(clientPartner == null){
+                clientPartner = ClientDB.getClientWithID(aClient.getPartnerID());
+                session.setAttribute("clientPartner", clientPartner);
+            }
         }
+        
+        if(action == null){
+            action = "filterHours";
+          // "filterHours";
+        }
+         
+        if(action.equals("filterHours"))
+        {
+            provideFilteredHours(request, response, session);
+        }
+          
+        
 
         
          
@@ -115,7 +135,7 @@ public class EligibilityController extends HttpServlet {
      // cs.getRequestDispatcher(url).forward(request, response);
                 
                
-       try{ 
+       try{
                //get sanction first , if there is any for the client then it is applied to the partner as well
                clientSanctions = ClientDB.getClientSanctions(aClient.getClientID());
                //this method also set the atrribute of session, to periodToWaitToB_Eligible, it calls, !seeIfSanctionPassedRequiredPeriod method == false, then resulted to = true, 
@@ -123,7 +143,7 @@ public class EligibilityController extends HttpServlet {
                isSanctioned = getSanctionStatus(clientSanctions, session);
                if(!isSanctioned){ //if client is not sanctioned then do the hours for the clietns , if anyone is sanctioned, it applies to both.
                   isMarried = checkMarriageStatus(aClient);
-                  clientMarriedOrSingleTotalHours = (double)session.getAttribute("totalHours");
+                    clientMarriedOrSingleTotalHours = (double)session.getAttribute("totalHours");
                   warningMsg = getWarningMessage(aClient, isMarried, session); //this for the three weeks
                }else{ //if sanctioned then the other processing should be on the view side on JSP. whether to display the secondary message and ADC benefits. 
                    
@@ -435,7 +455,6 @@ public class EligibilityController extends HttpServlet {
         
         double clientTotalHours =0;
         double partnerTotalHours =0;
-        
         double totalHours =0; //todaysDate.withDayOfMonth(15)
         //ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, todaysDate); // hours for the client are needed anyway; but parter's hours are only needed if married
         clientsHoursList = ClientDB.getClientHoursForWholeMonth(aClient.getClientID());
@@ -455,6 +474,35 @@ public class EligibilityController extends HttpServlet {
         session.setAttribute("totalHours", totalHours);
         session.setAttribute("isMarried", isMarried);
        
+    }
+
+    private void provideFilteredHours(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+          ArrayList<Hours>  clientWeeklyHours = (ArrayList<Hours>)session.getAttribute("clientsHoursList");
+          ArrayList<Hours>  partnerWeeklyHours = (ArrayList<Hours>)session.getAttribute("clientsPartnerHoursList");
+          
+          
+          Boolean isMarried = (Boolean)session.getAttribute("isMarried");
+          ServletContext cs =session.getServletContext();
+          LocalDate f = LocalDate.now();
+          LocalDate sec = f.withDayOfMonth(1);
+          
+           for(int i =0; i<clientWeeklyHours.size(); i++){
+               if( clientWeeklyHours.get(i).getDateHoursEntered().isAfter(LocalDate.now())){
+                   clientWeeklyHours.remove(i);
+               }
+           }
+          String strToDate = (String)session.getAttribute("toDate");
+          String strFromDate = request.getParameter("toDate");
+          if(isMarried){
+              for(int i =0; i<partnerWeeklyHours.size(); i++){
+               if( partnerWeeklyHours.get(i).getDateHoursEntered().isAfter(LocalDate.now())){
+                   partnerWeeklyHours.remove(i);
+               }
+           }
+          }
+          session.setAttribute("clientWeeklyHours", clientWeeklyHours);
+          session.setAttribute("partnerWeeklyHours", partnerWeeklyHours);
+          cs.getRequestDispatcher("/views/viewEligibility.jsp").forward(request, response);
     }
 
     

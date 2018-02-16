@@ -7,8 +7,10 @@ body{
     /*font-size: 12px;*/
 }
 #main{
-    min-width: 800px;
-    overflow: auto;
+    min-width: 1200px;
+     max-width: 1200px;
+     padding: 0 100px 0 20px;
+    overflow: hidden;
     /*position: relative;*/
 }
 
@@ -20,31 +22,43 @@ main, header, footer, h1, h2{
     float: left;
     clear: right;
     height: 100%;
-    width: 50%;
+    width: 60%;
+    padding: 0;
     /* background-color: #a39d79;*/
     margin-right: 220px;
 
 }
 .alertsSection{
 
-
+    
 
 }
 .eligibilitySection table{
-
+    width: 500px;
 }
 
 #divider{
     position: absolute;
-    margin-left: 380px;
+    margin-left: 520px;
     height: 100%;
     background-color: #ddd;
-    width: 200px;
+    width: 300px;
     top: 0;
-    padding: 25px 0 0 5px;
+   text-align: center; 
+   padding-top: 25px;
 }
-span{
+label{
+     font-size: 1.1em;
     font-weight: bold;
-    display: block;
+    width: 50px;
+    display: inline-block;
+    text-align: right;
+    margin: 10px 10px 0 0;
 
+}
+input[type=submit]{
+    width: 150px;
+    margin-top: 20px;
+    font-size: 1.1em;
+    font-weight: bold;
 }
