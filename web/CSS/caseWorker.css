@@ -265,10 +265,10 @@ th{
     background-color: lightblue;
     width: auto;
 }
-tr:hover td{
+/*tr:hover td{
     background: #ddd;
     
-}
+}*/
 
 .column{
     float: left;
@@ -280,15 +280,15 @@ tr:hover td{
     display: table;
     clear: both;
 }
-.button {
-    background-color: #4CAF50; /* Green */
+#button {
+    background-color: #008CBA; /* Green */
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 5px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .buttonBlue {background-color: #008CBA;}

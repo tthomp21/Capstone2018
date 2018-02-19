@@ -24,7 +24,7 @@ public class HoursDB {
     
     public static ArrayList<ClientHoursArgs> getClientHours(int clientID, int month, int year){
         ArrayList<ClientHoursArgs> args = new ArrayList<ClientHoursArgs>();
-        ClientHoursArgs a = new ClientHoursArgs();
+        ClientHoursArgs a = null;
         Connection connection = DBConnection.getConnection();
         String query = "SELECT * FROM scm.TCF_hours WHERE ClientID = ? AND MONTH(Date) = ? AND YEAR(Date) = ?";
         ResultSet rs = null;
@@ -37,8 +37,9 @@ public class HoursDB {
 
             rs = ps.executeQuery();
             while (rs.next()) {
+                a = new ClientHoursArgs();
                 a.setDate(rs.getDate("date"));
-                a.setHours(rs.getBigDecimal("hours"));
+                a.setHours(rs.getDouble("hours"));
                 args.add(a);
             }
             
@@ -62,7 +63,7 @@ public class HoursDB {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, clientId);
             ps.setDate(2, Date.valueOf(monday));
-            ps.setDouble(2, mon);
+            ps.setDouble(3, mon);
             
             ps.executeUpdate();
         }
@@ -75,7 +76,7 @@ public class HoursDB {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, clientId);
             ps.setDate(2, Date.valueOf(tuesday));
-            ps.setDouble(2, tue);
+            ps.setDouble(3, tue);
             
             ps.executeUpdate();
         }
@@ -88,7 +89,7 @@ public class HoursDB {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, clientId);
             ps.setDate(2, Date.valueOf(wednesday));
-            ps.setDouble(2, wed);
+            ps.setDouble(3, wed);
             
             ps.executeUpdate();
         }
@@ -101,7 +102,7 @@ public class HoursDB {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, clientId);
             ps.setDate(2, Date.valueOf(thursday));
-            ps.setDouble(2, thur);
+            ps.setDouble(3, thur);
             
             ps.executeUpdate();
         }
@@ -114,7 +115,7 @@ public class HoursDB {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, clientId);
             ps.setDate(2, Date.valueOf(friday));
-            ps.setDouble(2, fri);
+            ps.setDouble(3, fri);
             
             ps.executeUpdate();
         }

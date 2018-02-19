@@ -45,27 +45,29 @@
                     <div class="column">
                     <table>
                         <tr><th>Client Information</th></tr>
-                        <tr><td>Name:</td><td>${foundClient.firstName} <c:choose><c:when test="${foundClient.middleInit != null}">${foundClient.middleInit}.</c:when></c:choose> ${foundClient.lastName}<br>
-                        <tr><td>Client Id:</td><td>${foundClient.clientID}</td></tr>
-                            <tr><td>Client SSN:</td><td>${foundClient.SSN}</td></tr>
-                            <tr><td>Address:</td><td>${foundClient.street}</td></tr>
-                            <tr><td>City:</td><td>${foundClient.city}</td></tr>
-                            <tr><td>State:</td><td>${foundClient.state}</td></tr>
-                            <tr><td>Zip:</td><td>${foundClient.emZip}- ${foundClient.extZip}</td></tr>
-                            <tr><td>Email:</td><td>${foundClient.email}</td></tr>
-                            <tr><td>Phone:</td><td>${foundClient.getPhoneFormatted()}</td></tr>
-                            <tr><td>BirthDate:</td><td>${foundClient.birthDate}</td></tr>
-                            <tr><td>Enroll Date:</td><td>${foundClient.enrollmentDate}</td></tr>
-                            <tr><td>Dependents:</td><td>${foundClient.dependents}</td></tr>
-                            <tr><td>Partner Id:</td><td>${foundClient.partnerID}</td></tr>
-                            <tr><td>Caseworker Id:</td><td>${foundClient.caseWorkerID}</td></tr>
-                            <tr><td>Hours for this month:</td><td>${clientHours}</td></tr>
-                            <tr><td>Hours for last month:</td><td>${lastMonthClientHours} </td></tr>
+                        <tr><td><b>Name:</b></td><td>${foundClient.firstName} <c:choose><c:when test="${foundClient.middleInit != null}">${foundClient.middleInit}.</c:when></c:choose> ${foundClient.lastName}<br>
+                        <tr><td><b>Client Id:</b></td><td>${foundClient.clientID}</td></tr>
+                            <tr><td><b>Client SSN:</b></td><td>${foundClient.SSN}</td></tr>
+                            <tr><td><b>Address:</b></td><td>${foundClient.street}</td></tr>
+                            <tr><td><b>City:</b></td><td>${foundClient.city}</td></tr>
+                            <tr><td><b>State:</b></td><td>${foundClient.state}</td></tr>
+                            <tr><td><b>Zip:</b></td><td>${foundClient.emZip}- ${foundClient.extZip}</td></tr>
+                            <tr><td><b>Email:</b></td><td>${foundClient.email}</td></tr>
+                            <tr><td><b>Phone:</b></td><td>${foundClient.getPhoneFormatted()}</td></tr>
+                            <tr><td><b>BirthDate:</b></td><td>${foundClient.birthDate}</td></tr>
+                            <tr><td><b>Enroll Date:</b></td><td>${foundClient.enrollmentDate}</td></tr>
+                            <tr><td><b>Dependents:</b></td><td>${foundClient.dependents}</td></tr>
+                            <tr><td><b>Partner Id:</b></td><td>${foundClient.partnerID}</td></tr>
+                            <tr><td><b>Caseworker Id:</b></td><td>${foundClient.caseWorkerID}</td></tr>
+                            <tr><td><b>Hours for this month:</b></td><td>${clientHours}</td></tr>
+                            <tr><td><b>Hours for last month:</b></td><td>${lastMonthClientHours} </td></tr>
                         </tr>
                     </table>
                 </div>
                 <div class="column">
                     <table>
+                        <form action="CaseWorkerController" method="post">
+                            <!-- need to change the input text to variables.. get them with session instead of request -->
                         <tr><th><b>Hours</b></th></tr>
                         <tr><td><b>Monday</b></td><td> ${monday} </td><td><input type="number" name="mondayHours"></td></tr>
                         <tr><td><b>Tuesday</b></td><td> ${tuesday} </td><td><input type="number" name="tuesdayHours"></td></tr>
@@ -73,8 +75,9 @@
                         <tr><td><b>Thursday</b></td><td> ${thursday} </td><td><input type="number" name="thursdayHours"></td></tr>
                         <tr><td><b>Friday</b></td><td> ${friday} </td><td><input type="number" name="fridayHours"></td></tr>
                         <tr ><td colspan="3">
-                        <form action="CaseWorkerController" method="post">
+                        
                             <input type="hidden" name="action" value="submitHours">
+                            <input type="hidden" name="clientID" value="${foundClient.clientID}">
                             <input type="submit" value="Submit Hours">
                         </form>
                                 </td></tr>
@@ -92,22 +95,32 @@
                         <tr><td><b>Date Approved/Denied:</b></td><td> ${r.dateDisbursed}</td></tr>
                         
                         
-                        <tr><td><b>status:</b></td><td>${r.status}</td></tr>
-                        <tr style="border-bottom-style: solid; margin-bottom: 2px;"><td colspan="2">
+                        
                         <c:choose>
                             <c:when test="${r.status == 0}">
+                                <tr><td>
+                                <b>Status:</b></td><td> Pending</td></tr>
+                                <tr style="border-bottom-style: solid; margin-bottom: 2px;"><td>
                                 <form action="CaseWorkerController" method="post">
                                 <input type="hidden" value="${r.requestID}" name="requestID">
                                 <input type="hidden" value="1" name="requestStat">
                                 <input type="hidden" name="action" value="approveRequest">
-                                <input type="submit" value="Approve">
-                                </form>
+                                <input type="submit" value="Approve" id="button">
+                                </form></td><td>
                                 <form action="CaseWorkerController" method="post">
                                 <input type="hidden" value="${r.requestID}" name="requestID">
                                 <input type="hidden" value="2" name="requestStat">
                                 <input type="hidden" name="action" value="declineRequest">
                                 <input type="submit" value="Decline">
                                 </form>
+                            </c:when>
+                            <c:when test="${r.status == 1}">
+                                <tr style="border-bottom-style: solid; margin-bottom: 2px;"><td>
+                                <b>Status:</b></td><td> Approved
+                            </c:when>
+                            <c:when test="${r.status == 2}">
+                                <tr style="border-bottom-style: solid; margin-bottom: 2px;"><td>
+                                <b>Status:</b></td><td> Denied
                             </c:when>
                         </c:choose></td></tr>
                         

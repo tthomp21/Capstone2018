@@ -102,6 +102,7 @@ public class RequestDB {
         }
         catch(SQLException e)
         {
+            System.out.print(e);
         }
         finally{
             DBConnection.freeConnection(conn);

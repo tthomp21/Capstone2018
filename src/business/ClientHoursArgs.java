@@ -14,10 +14,10 @@ import java.util.Date;
  */
 public class ClientHoursArgs {
     
-    private BigDecimal hours;
+    private Double hours;
     private Date date;
     
-    public BigDecimal getHours()
+    public Double getHours()
     {
         return hours;
     }
@@ -26,7 +26,7 @@ public class ClientHoursArgs {
         return date;
     }
     
-    public void setHours(BigDecimal hours){
+    public void setHours(Double hours){
         this.hours = hours;
     }
     

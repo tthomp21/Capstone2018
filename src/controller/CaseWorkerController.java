@@ -39,6 +39,8 @@ public class CaseWorkerController extends HttpServlet {
         String message = "";
         String action = request.getParameter("action");
         String selectedClient;
+        int reqID = 0;
+        int reqStat = 0;
         Client foundClient;
         HttpSession session = request.getSession();
         ArrayList<Client> clients = new ArrayList<Client>();
@@ -72,43 +74,54 @@ public class CaseWorkerController extends HttpServlet {
         
         
         
-        switch(action) {
-            case "arrival":
-                //when the caseworker arrives on this page get all the clients assigned to them
-                clients = getClients(caseWorker, session);
-                if(clients != null)
-                    session.setAttribute("foundClients", clients);
-                break;
-            case "sendHome":
-                //if there was an error getting the user send them back home
-                url = "/AccountsController";
-                break;
-            case "clientHours":
-                selectedClient = (String) request.getParameter("clientID");
-                foundClient = ClientDB.getClientWithID(Integer.parseInt(selectedClient));
-                session.setAttribute("foundClient", foundClient);
-                url = "/views/caseworkerclienteditor.jsp";
-                break;
-            case "clientDetails":
-                selectedClient = (String) request.getParameter("clientID");
-                getClientDetails(selectedClient, session);
-                url = "/views/caseworkerclientdetails.jsp";
-                break;
-            case "search":
-                url = "/views/clientSearch.jsp";
-                break;
-            case "approveRequest":
-                int reqID = Integer.parseInt((String)request.getParameter("requestID"));
-                int reqStat = Integer.parseInt((String)request.getParameter("requestStat"));
-                RequestDB.updateRequest(reqID, reqStat);
-                updateRequestApproval(session, reqID);
-                
-                break;
-            case "declienRequest":
-                break;
-            case "submitHours":
-                enterHours(session, request);
-                break;
+        switch(action) 
+        {
+        case "arrival":
+            //when the caseworker arrives on this page get all the clients assigned to them
+            clients = getClients(caseWorker, session);
+            if(clients != null)
+                session.setAttribute("foundClients", clients);
+            break;
+        case "sendHome":
+            //if there was an error getting the user send them back home
+            url = "/AccountsController";
+            break;
+        case "clientHours":
+            selectedClient = (String) request.getParameter("clientID");
+            foundClient = ClientDB.getClientWithID(Integer.parseInt(selectedClient));
+            session.setAttribute("foundClient", foundClient);
+            url = "/views/caseworkerclienteditor.jsp";
+            break;
+        case "clientDetails":
+            //gets the general information about a client
+            selectedClient = (String) request.getParameter("clientID");
+            getClientDetails(selectedClient, session, request);
+            url = "/views/caseworkerclientdetails.jsp";
+            break;
+        case "search":
+            url = "/views/clientSearch.jsp";
+            break;
+        case "approveRequest":
+            //approves a assistance request from the client
+            reqID = Integer.parseInt((String)request.getParameter("requestID"));
+            reqStat = Integer.parseInt((String)request.getParameter("requestStat"));
+            RequestDB.updateRequest(reqID, reqStat);
+            updateRequestApproval(session, reqID);
+            url = "/views/caseworkerclientdetails.jsp";
+            break;
+        case "declineRequest":
+            //denies a assistance request from the client
+            reqID = Integer.parseInt((String)request.getParameter("requestID"));
+            reqStat = Integer.parseInt((String)request.getParameter("requestStat"));
+            RequestDB.updateRequest(reqID, reqStat);
+            updateRequestDenial(session, reqID);
+            url = "/views/caseworkerclientdetails.jsp";
+            break;
+        case "submitHours":
+            //enters the weeks hours into the db
+            enterHours(session, request);
+            url = "/views/caseworkerclientdetails.jsp";
+            break;
         }
         
         
@@ -130,14 +143,25 @@ public class CaseWorkerController extends HttpServlet {
                 as.setDateDisbursed(LocalDate.now());
             }
         }
-        
-        
-        
+    }
+    
+    private void updateRequestDenial(HttpSession session, int reqID)
+    {
+        ArrayList<AssistanceRequest> assistReq = new ArrayList<AssistanceRequest>();
+        assistReq = (ArrayList<AssistanceRequest>)session.getAttribute("clientRequests");
+        for(AssistanceRequest as : assistReq)
+        {
+            if(as.getRequestID() == reqID)
+            {
+                as.setStatus("2");
+                as.setDateDisbursed(LocalDate.now());
+            }
+        }
     }
     
     private void enterHours(HttpSession session,HttpServletRequest request)
     {
-        String mon = (String)request.getAttribute("mondayHours");
+        //change request to session
         int mondayHours = Integer.parseInt((String)request.getParameter("mondayHours"));
         int tuesdayHours = Integer.parseInt((String)request.getParameter("tuesdayHours"));
         int wednesdayHours = Integer.parseInt((String)request.getParameter("wednesdayHours"));
@@ -152,7 +176,7 @@ public class CaseWorkerController extends HttpServlet {
         LocalDate thursday = LocalDate.parse((String)session.getAttribute("thursday"),format);
         LocalDate friday = LocalDate.parse((String)session.getAttribute("friday"),format);
         
-        HoursDB.insertClientHours(mondayHours, tuesdayHours, wednesdayHours, thursdayHours, fridayHours, monday, tuesday, wednesday, thursday, friday, (int)session.getAttribute("clientID"));
+        HoursDB.insertClientHours(mondayHours, tuesdayHours, wednesdayHours, thursdayHours, fridayHours, monday, tuesday, wednesday, thursday, friday, Integer.parseInt((String)request.getParameter("clientID")));
         
     }
     
@@ -165,11 +189,22 @@ public class CaseWorkerController extends HttpServlet {
     }
     
     
-    public void getClientDetails(String clientID, HttpSession session)
+    
+    
+    public void getClientDetails(String clientID, HttpSession session, HttpServletRequest request)
     {
         Client foundClient;
         foundClient = ClientDB.getClientWithID(Integer.parseInt(clientID));
         session.setAttribute("foundClient", foundClient);
+        
+        
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        format = format.withLocale(Locale.US);
+        LocalDate monday = LocalDate.parse((String)session.getAttribute("monday"),format);
+        LocalDate tuesday = LocalDate.parse((String)session.getAttribute("tuesday"),format);
+        LocalDate wednesday = LocalDate.parse((String)session.getAttribute("wednesday"),format);
+        LocalDate thursday = LocalDate.parse((String)session.getAttribute("thursday"),format);
+        LocalDate friday = LocalDate.parse((String)session.getAttribute("friday"),format);
         
         ArrayList<ClientHoursArgs> thisMonthHours = new ArrayList<ClientHoursArgs>();
         ArrayList<ClientHoursArgs> lastMonthHours = new ArrayList<ClientHoursArgs>();
@@ -187,23 +222,26 @@ public class CaseWorkerController extends HttpServlet {
         }
         
         double totalMonthHours = 0;
-        if(thisMonthHours.size() > 0 && thisMonthHours != null)
+        if(thisMonthHours != null && thisMonthHours.size() > 0)
         {
             for(ClientHoursArgs arg : thisMonthHours)
             {
                 if(arg.getHours() != null)
-                    totalMonthHours += arg.getHours().doubleValue();
+                    totalMonthHours += arg.getHours();
+                
+                //if(LocalDate.parse(arg.getDate().toString(), format) == monday)
+                //    request.s
             }
         }
         session.setAttribute("clientHours", totalMonthHours);
         
         totalMonthHours = 0;
-        if(lastMonthHours.size() > 0 && lastMonthHours != null)
+        if(lastMonthHours != null && lastMonthHours.size() > 0)
         {
             for(ClientHoursArgs arg : lastMonthHours)
             {
                 if(arg.getHours() != null)
-                    totalMonthHours += arg.getHours().doubleValue();
+                    totalMonthHours += arg.getHours();
             }
         }
         session.setAttribute("lastMonthClientHours", totalMonthHours);
@@ -212,6 +250,7 @@ public class CaseWorkerController extends HttpServlet {
         ArrayList<AssistanceRequest> assistReq = new ArrayList<AssistanceRequest>();
         assistReq = ClientDB.getSecondaryAssistances(Integer.parseInt(clientID));
         session.setAttribute("clientRequests", assistReq);
+        
     }
     
     
