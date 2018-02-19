@@ -1,7 +1,7 @@
 <%-- 
     Document   : caseworkerclientdetails
     Created on : Jan 23, 2018, 9:38:00 PM
-    Author     : Ty
+    Author     : Tyler
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -59,23 +59,19 @@
                             <tr><td>Dependents:</td><td>${foundClient.dependents}</td></tr>
                             <tr><td>Partner Id:</td><td>${foundClient.partnerID}</td></tr>
                             <tr><td>Caseworker Id:</td><td>${foundClient.caseWorkerID}</td></tr>
-                            <tr><td>Monthly Hours:</td>
-                            <td>
-                                <c:forEach var="c" items="${clientHours}" varStatus="status">
-                                    ${c.hours}
-                                </c:forEach>
-                            </td> 
+                            <tr><td>Hours for this month:</td><td>${clientHours}</td></tr>
+                            <tr><td>Hours for last month:</td><td>${lastMonthClientHours} </td></tr>
                         </tr>
                     </table>
                 </div>
                 <div class="column">
                     <table>
-                        <tr><th>Hours</th></tr>
-                        <tr><td>Monday</td><td> ${monday} </td><td><input type="number" name="mondayHours"></td></tr>
-                        <tr><td>Tuesday</td><td> ${tuesday} </td><td><input type="number" name="tuesdayHours"></td></tr>
-                        <tr><td>Wednesday</td><td> ${wednesday} </td><td><input type="number" name="wednesdayHours"></td></tr>
-                        <tr><td>Thursday</td><td> ${thursday} </td><td><input type="number" name="thursdayHours"></td></tr>
-                        <tr><td>Friday</td><td> ${friday} </td><td><input type="number" name="fridayHours"></td></tr>
+                        <tr><th><b>Hours</b></th></tr>
+                        <tr><td><b>Monday</b></td><td> ${monday} </td><td><input type="number" name="mondayHours"></td></tr>
+                        <tr><td><b>Tuesday</b></td><td> ${tuesday} </td><td><input type="number" name="tuesdayHours"></td></tr>
+                        <tr><td><b>Wednesday</b></td><td> ${wednesday} </td><td><input type="number" name="wednesdayHours"></td></tr>
+                        <tr><td><b>Thursday</b></td><td> ${thursday} </td><td><input type="number" name="thursdayHours"></td></tr>
+                        <tr><td><b>Friday</b></td><td> ${friday} </td><td><input type="number" name="fridayHours"></td></tr>
                         <tr ><td colspan="3">
                         <form action="CaseWorkerController" method="post">
                             <input type="hidden" name="action" value="submitHours">
@@ -89,11 +85,11 @@
                     <table>
                         <tr><th>Assistance Requests</th></tr>
                     <c:forEach var="r" items="${clientRequests}" varStatus="status">
-                            <tr><td><b>Request id:</b></td><td> ${r.requestID}</td></tr>
-                            <tr><td><b>Reason/Description:</b></td><td> ${r.getAssistance().assistDescription}</td></tr>
-                            <tr><td><b>Amount:</b></td><td> ${r.amountPaid}</td></tr>
+                        <tr><td><b>Request id:</b></td><td> ${r.requestID}</td></tr>
+                        <tr><td><b>Reason/Description:</b></td><td> ${r.getAssistance().assistDescription}</td></tr>
+                        <tr><td><b>Amount:</b></td><td> ${r.amountPaid}</td></tr>
                         <tr><td><b>Date Submitted:</b></td><td> ${r.requestDate}</td></tr>
-                        <tr><td><b>Date Approved:</b></td><td> ${r.dateDisbursed}</td></tr>
+                        <tr><td><b>Date Approved/Denied:</b></td><td> ${r.dateDisbursed}</td></tr>
                         
                         
                         <tr><td><b>status:</b></td><td>${r.status}</td></tr>

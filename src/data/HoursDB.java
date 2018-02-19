@@ -12,32 +12,36 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 /**
  *
- * @author Ty
+ * @author Tyler
  */
 public class HoursDB {
     
-    public static ArrayList<ClientHoursArgs> getClientHours(int clientID){
+    public static ArrayList<ClientHoursArgs> getClientHours(int clientID, int month, int year){
         ArrayList<ClientHoursArgs> args = new ArrayList<ClientHoursArgs>();
         ClientHoursArgs a = new ClientHoursArgs();
         Connection connection = DBConnection.getConnection();
-        String query = "SELECT * FROM scm.TCF_hours WHERE ClientID = ?";
+        String query = "SELECT * FROM scm.TCF_hours WHERE ClientID = ? AND MONTH(Date) = ? AND YEAR(Date) = ?";
         ResultSet rs = null;
 
         try {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, clientID);
+            ps.setInt(2, month);
+            ps.setInt(3, year);
 
             rs = ps.executeQuery();
             while (rs.next()) {
                 a.setDate(rs.getDate("date"));
                 a.setHours(rs.getBigDecimal("hours"));
-                
+                args.add(a);
             }
-            args.add(a);
+            
         } catch (SQLException e) {
                 System.out.println("Error getting client hours with ID\n" + e );
         } finally {
@@ -47,7 +51,7 @@ public class HoursDB {
         return args;
     }
     
-    public static void insertClientHours(int mon, int tue, int wed, int thur, int fri, Date monday, Date tuesday, Date wednesday, Date thurday, Date friday, int clientId)
+    public static void insertClientHours(int mon, int tue, int wed, int thur, int fri, LocalDate monday, LocalDate tuesday, LocalDate wednesday, LocalDate thursday, LocalDate friday, int clientId)
     {
         Connection connection = DBConnection.getConnection();
         String query = "insert into scm.tcf_hours " +
@@ -57,13 +61,70 @@ public class HoursDB {
         try {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, clientId);
-            ps.setDate(2, monday);
+            ps.setDate(2, Date.valueOf(monday));
             ps.setDouble(2, mon);
+            
+            ps.executeUpdate();
         }
         catch(Exception e)
         {
-            
+            System.out.print("error inserting monday hours");
         }
+        
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, clientId);
+            ps.setDate(2, Date.valueOf(tuesday));
+            ps.setDouble(2, tue);
+            
+            ps.executeUpdate();
+        }
+        catch(Exception e)
+        {
+            System.out.print("error inserting tuesday hours");
+        }
+        
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, clientId);
+            ps.setDate(2, Date.valueOf(wednesday));
+            ps.setDouble(2, wed);
+            
+            ps.executeUpdate();
+        }
+        catch(Exception e)
+        {
+            System.out.print("error inserting wednesday hours");
+        }
+        
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, clientId);
+            ps.setDate(2, Date.valueOf(thursday));
+            ps.setDouble(2, thur);
+            
+            ps.executeUpdate();
+        }
+        catch(Exception e)
+        {
+            System.out.print("error inserting thursday hours");
+        }
+        
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, clientId);
+            ps.setDate(2, Date.valueOf(friday));
+            ps.setDouble(2, fri);
+            
+            ps.executeUpdate();
+        }
+        catch(Exception e)
+        {
+            System.out.print("error inserting friday hours");
+        }
+        
+        
+        DBConnection.freeConnection(connection);
     }
     
 }

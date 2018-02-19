@@ -10,9 +10,11 @@ import data.HoursDB;
 import data.RequestDB;
 import java.util.List;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -44,6 +46,7 @@ public class CaseWorkerController extends HttpServlet {
         
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        
         
         Date monday = getDateForDay(2);
         session.setAttribute("monday", new SimpleDateFormat("MM/dd/yyyy").format(monday));
@@ -95,15 +98,16 @@ public class CaseWorkerController extends HttpServlet {
                 url = "/views/clientSearch.jsp";
                 break;
             case "approveRequest":
-                int reqID = (int)session.getAttribute("requestID");
-                int reqStat = (int)session.getAttribute("requestStat");
+                int reqID = Integer.parseInt((String)request.getParameter("requestID"));
+                int reqStat = Integer.parseInt((String)request.getParameter("requestStat"));
                 RequestDB.updateRequest(reqID, reqStat);
+                updateRequestApproval(session, reqID);
                 
                 break;
             case "declienRequest":
                 break;
             case "submitHours":
-                enterHours(session);
+                enterHours(session, request);
                 break;
         }
         
@@ -114,16 +118,41 @@ public class CaseWorkerController extends HttpServlet {
                 
     }
     
-    private void enterHours(HttpSession session)
+    private void updateRequestApproval(HttpSession session, int reqID)
     {
-        int mondayHours = (int)session.getAttribute("mondayHours");
-        int tuesdayHours = (int)session.getAttribute("tuesdayHours");
-        int wednesdayHours = (int)session.getAttribute("wednesdayHours");
-        int thurdayHours = (int)session.getAttribute("thurdayHours");
-        int fridayHours = (int)session.getAttribute("fridayHours");
+        ArrayList<AssistanceRequest> assistReq = new ArrayList<AssistanceRequest>();
+        assistReq = (ArrayList<AssistanceRequest>)session.getAttribute("clientRequests");
+        for(AssistanceRequest as : assistReq)
+        {
+            if(as.getRequestID() == reqID)
+            {
+                as.setStatus("1");
+                as.setDateDisbursed(LocalDate.now());
+            }
+        }
         
         
         
+    }
+    
+    private void enterHours(HttpSession session,HttpServletRequest request)
+    {
+        String mon = (String)request.getAttribute("mondayHours");
+        int mondayHours = Integer.parseInt((String)request.getParameter("mondayHours"));
+        int tuesdayHours = Integer.parseInt((String)request.getParameter("tuesdayHours"));
+        int wednesdayHours = Integer.parseInt((String)request.getParameter("wednesdayHours"));
+        int thursdayHours = Integer.parseInt((String)request.getParameter("thursdayHours"));
+        int fridayHours = Integer.parseInt((String)request.getParameter("fridayHours"));
+        
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        format = format.withLocale(Locale.US);
+        LocalDate monday = LocalDate.parse((String)session.getAttribute("monday"),format);
+        LocalDate tuesday = LocalDate.parse((String)session.getAttribute("tuesday"),format);
+        LocalDate wednesday = LocalDate.parse((String)session.getAttribute("wednesday"),format);
+        LocalDate thursday = LocalDate.parse((String)session.getAttribute("thursday"),format);
+        LocalDate friday = LocalDate.parse((String)session.getAttribute("friday"),format);
+        
+        HoursDB.insertClientHours(mondayHours, tuesdayHours, wednesdayHours, thursdayHours, fridayHours, monday, tuesday, wednesday, thursday, friday, (int)session.getAttribute("clientID"));
         
     }
     
@@ -142,9 +171,43 @@ public class CaseWorkerController extends HttpServlet {
         foundClient = ClientDB.getClientWithID(Integer.parseInt(clientID));
         session.setAttribute("foundClient", foundClient);
         
-        ArrayList<ClientHoursArgs> hours = new ArrayList<ClientHoursArgs>();
-        hours = HoursDB.getClientHours(Integer.parseInt(clientID));
-        session.setAttribute("clientHours", hours);
+        ArrayList<ClientHoursArgs> thisMonthHours = new ArrayList<ClientHoursArgs>();
+        ArrayList<ClientHoursArgs> lastMonthHours = new ArrayList<ClientHoursArgs>();
+        int month = LocalDate.now().getMonthValue();
+        int year = LocalDate.now().getYear();
+        thisMonthHours = HoursDB.getClientHours(Integer.parseInt(clientID),month,year);
+        if(month == 1)
+        {
+            month = 12;
+            year--;
+            lastMonthHours = HoursDB.getClientHours(Integer.parseInt(clientID), month, year);
+        }
+        else{
+            lastMonthHours = HoursDB.getClientHours(Integer.parseInt(clientID), month - 1, year);
+        }
+        
+        double totalMonthHours = 0;
+        if(thisMonthHours.size() > 0 && thisMonthHours != null)
+        {
+            for(ClientHoursArgs arg : thisMonthHours)
+            {
+                if(arg.getHours() != null)
+                    totalMonthHours += arg.getHours().doubleValue();
+            }
+        }
+        session.setAttribute("clientHours", totalMonthHours);
+        
+        totalMonthHours = 0;
+        if(lastMonthHours.size() > 0 && lastMonthHours != null)
+        {
+            for(ClientHoursArgs arg : lastMonthHours)
+            {
+                if(arg.getHours() != null)
+                    totalMonthHours += arg.getHours().doubleValue();
+            }
+        }
+        session.setAttribute("lastMonthClientHours", totalMonthHours);
+        
         
         ArrayList<AssistanceRequest> assistReq = new ArrayList<AssistanceRequest>();
         assistReq = ClientDB.getSecondaryAssistances(Integer.parseInt(clientID));

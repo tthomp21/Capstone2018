@@ -92,11 +92,12 @@ public class RequestDB {
     public static void updateRequest(int requestID, int requestStatus)
     {
         Connection conn = DBConnection.getConnection();
-        String query = "UPDATE scm.tcf_requestAssist SET status = ? WHERE requestId = ?";
+        String query = "UPDATE scm.tcf_requestAssist SET status = ?, Datedisbursed = ? WHERE requestId = ?";
         try{
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, requestStatus);
-            ps.setInt(2, requestID);
+            ps.setDate(2, Date.valueOf(LocalDate.now()));
+            ps.setInt(3, requestID);
             ps.executeUpdate();
         }
         catch(SQLException e)
