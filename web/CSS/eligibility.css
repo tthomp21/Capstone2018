@@ -42,7 +42,7 @@ main, header, footer, h1, h2{
     margin-left: 520px;
     height: 100%;
     background-color: #ddd;
-    width: 300px;
+    width: 400px;
     top: 0;
    text-align: center; 
    padding-top: 25px;
@@ -61,4 +61,8 @@ input[type=submit]{
     margin-top: 20px;
     font-size: 1.1em;
     font-weight: bold;
+    margin-bottom: 40px;
+}
+.formatDateMessage{
+    background-color: #f0e68c;
 }

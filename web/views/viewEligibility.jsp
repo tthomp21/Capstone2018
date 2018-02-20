@@ -61,11 +61,27 @@
                 </section>
 
                 <div id="divider">
-                    <h3>Select the date you want to look at your hours.</h3>
-                    <form action="EligibilityController" method="POST">
+                    <%--
+                                        <c:if test="${empty '${dateMessage}'}">
+                                            <h3>Select the date you want to look at your hours.</h3>
+                                        </c:if>
+                                        <c:if test="${not empty '${dateMessage}'}">
+                                            <h3 class="formatDateMessage">${dateMessage}</h3>
+                                        </c:if>
+                    --%>
+                    <c:choose>
+                        <c:when test="${empty '${dateMessage}'}">">
+                            <h3>Select the date you want to look at your hours.</h3>
+                        </c:when>
+                        <c:otherwise>
+                            <h3 class="formatDateMessage">${dateMessage}</h3>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <form action="EligibilityController" method="post">
                         <input type="hidden" name="action" value="filterHours">
-                        <label>From:</label><input type="date" id="fromDate"><br>
-                        <label>To:</label><input type="date" id="toDate"><br>
+                        <label>From:</label><input type="date" name="fromDate"><br>
+                        <label>To:</label><input type="date" name="toDate"><br>
                         <label></label><input type="submit" value="Get Hours">
                     </form>
 
@@ -73,29 +89,46 @@
 
                         <section class="hourSection">
                             <fieldset>
-                                <legend>${user.getFirstName()} ${user.getLastName()}&apos;s Hours</legend>
-                                <table border="1" style="width: 100%">
+                                <legend style="font-weight: bold; background-color: #f0e68c">${user.getFirstName()} ${user.getLastName()}&apos;s Hours</legend>
+                                <table border="1" style="width: 100%; border-collapse: collapse">
 
                                     <tr>
-                                        <th>Number of hours</th>
                                         <th>Date Hours Made</th>
+                                        <th>Number of hours</th>
                                     </tr>
                                     <c:forEach items="${clientWeeklyHours}" var="hrs" varStatus="loop">
-
                                         <tr>
-                                            <td><c:out value="${hrs.numberOfHours}" /></td>
                                             <td><c:out value="${hrs.dateHoursEntered}" /></td>
+                                            <td><c:out value="${hrs.numberOfHours}" /></td>
                                         </tr>
                                     </c:forEach>
-                                    <tr><td colspan="2">${clientPartner.getFirstName()} ${clientPartner.getLastName()}
+                                    <tr><td colspan="2" style="font-weight: bold; background-color: #f0e68c">${clientPartner.getFirstName()} ${clientPartner.getLastName()}
                                             &apos;s Hours</td></tr>
-                                    <c:forEach items="${partnerWeeklyHours}" var="hrs" varStatus="loop">
+                                            <c:forEach items="${partnerWeeklyHours}" var="hrs" varStatus="loop">
 
                                         <tr>
-                                            <td><c:out value="${hrs.numberOfHours}" /></td>
+
                                             <td><c:out value="${hrs.dateHoursEntered}" /></td>
+                                            <td><c:out value="${hrs.numberOfHours}" /></td>
+
                                         </tr>
+
                                     </c:forEach>
+                                        <tr>
+                                            <td colspan="2" style="background-color: #f0e68c">Total Hours in this period for both of you</td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td style="font-weight: bold">${user.getFirstName()}&apos;s hours</td>
+                                             <td><c:out value="${clientTotalFilteredHours}" /></td>
+                                        </tr>
+                                        <tr>
+                                        <td style="font-weight: bold">${clientPartner.getFirstName()}&apos;s hours</td>
+                                             <td><c:out value="${clientTotalFilteredHours}" /></td>
+                                        </tr>
+                                        <td style="font-weight: bold">Total Hours for you both</td>
+                                             <td><c:out value="${totalHoursFilteredForBoth}" /></td>
+                                        </tr>
 
                             </fieldset>
 
@@ -109,7 +142,7 @@
                     <c:if test="${isSanctioned == false}">   
                         <div id="hoursAlertDiv">
                             <h2>Hours Notification</h2>
-                            <p>The message to notify the client for short hours will go here:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${warningMsg}</p>
+                            <p>${warningMsg}</p>
 
                         </div>
                     </c:if>
