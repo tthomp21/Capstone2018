@@ -76,13 +76,17 @@ public class EligibilityController extends HttpServlet {
         ServletContext cs = session.getServletContext();
 
        
-        Client aClient = (Client) session.getAttribute("user"); // get this from successful login.
-        ArrayList<Hours> clientsHoursList  = (ArrayList<Hours>) session.getAttribute("clientsHoursList");
-        ArrayList<Hours> clientsPartnerHoursList  = (ArrayList<Hours>) session.getAttribute("clientsPartnerHoursList");
-        ArrayList<Sanction> clientSanctions = (ArrayList<Sanction>)session.getAttribute("clientSanctions");
-        Boolean isSanctioned = (Boolean)session.getAttribute("isSanctioned");
-        Boolean isMarried  =(Boolean)session.getAttribute("isMarried");
-        String action = (String)request.getParameter("action");
+        Client aClient	            = (Client) session.getAttribute("user"); // get this from successful login.
+        ArrayList<Hours> clientsHoursList           = (ArrayList<Hours>) session.getAttribute("clientsHoursList");
+        ArrayList<Hours> clientsPartnerHoursList    = (ArrayList<Hours>) session.getAttribute("clientsPartnerHoursList");
+        ArrayList<Sanction> clientSanctions         = (ArrayList<Sanction>)session.getAttribute("clientSanctions");
+        Boolean isSanctioned	            = (Boolean)session.getAttribute("isSanctioned");
+        Boolean isMarried	            = (Boolean)session.getAttribute("isMarried");
+        Boolean isHideTable	            = (Boolean)session.getAttribute("isHideTable");
+        Boolean isOnlyLoadOnce	            = (Boolean)session.getAttribute("isOnlyLoadOnce");
+        
+        String action	            = (String)request.getParameter("action");
+        
         //String strToDate = (String)request.getParameter("fromDate");
         //String strFromDate = (String)request.getParameter("toDate");
         
@@ -90,87 +94,107 @@ public class EligibilityController extends HttpServlet {
         String url = "/";
         String warningMsg ="";
         String periodToWaitToB_Eligible ="";
-                
-        if(clientsHoursList == null)
-        {
-            clientsHoursList = new ArrayList<Hours>();
-            setClientOrPartnerHoursAndAccumulated(clientsHoursList, aClient, session);
-            
-        }if(clientsPartnerHoursList == null){
-            clientsPartnerHoursList = new ArrayList<Hours>();
-
-        }if(clientSanctions == null){
-            clientSanctions = new ArrayList<Sanction>();
-        }
-        if(isSanctioned == null){
-            isSanctioned = false;
-        }
-//        if(isMarried == null){
-//            isMarried = false;
-//        }
-        if(aClient.isMarried()){
-            Client clientPartner = (Client)session.getAttribute("clientPartner");
-            
-            if(clientPartner == null){
-                clientPartner = ClientDB.getClientWithID(aClient.getPartnerID());
-                session.setAttribute("clientPartner", clientPartner);
-            }
-        }
-        
-        if(action == null){
-            action = "dont do anything";
-            String dateMessage ="";
-            
-            session.setAttribute("dateMessage", dateMessage);
-          // "filterHours";
-        }
-        if(action.equals("filterHours"))
-        {
-            provideFilteredHours(request, response, session);
-        }
-          
-        
-
-        
-         
-        
-      //  url ="/views/viewEligibility.jsp";
-     // cs.getRequestDispatcher(url).forward(request, response);
-                
-               
+                 
        try{
-               //get sanction first , if there is any for the client then it is applied to the partner as well
-               clientSanctions = ClientDB.getClientSanctions(aClient.getClientID());
-               //this method also set the atrribute of session, to periodToWaitToB_Eligible, it calls, !seeIfSanctionPassedRequiredPeriod method == false, then resulted to = true, 
-               //then it calls getHowLongClientShouldWait to set the appropriate message in periodToWaitToB_Eligible variable. 
-               isSanctioned = getSanctionStatus(clientSanctions, session);
-               if(!isSanctioned){ //if client is not sanctioned then do the hours for the clietns , if anyone is sanctioned, it applies to both.
-                  isMarried = (Boolean)session.getAttribute("isMarried");
-                    clientMarriedOrSingleTotalHours = (double)session.getAttribute("totalHours");
-                  warningMsg = getWarningMessage(aClient, isMarried, session); //this for the three weeks
-               }else{ //if sanctioned then the other processing should be on the view side on JSP. whether to display the secondary message and ADC benefits. 
-                   
-               }
-              
-               url = "/views/viewEligibility.jsp";
-               
-               
-        //********************if there is no sanction then start count hours *******************************
-        /**it would be nice if know how many hours each of client and the partner required.check marriage status
-	 * 
-	 * lets get the hours from the beginning of this month to today.
-	 * LocalDate today = LocalDate.now();
-	 * LocalDate firstOfMonth   = today.withDayOfMonth(1);
-	 * 
-	 */
+//	if(aClient == null)      {
+//	    cs.getRequestDispatcher("/views/index.jsp").forward(request, response);
+//	}
+	if(aClient.isMarried()){
+	    Client clientPartner = (Client)session.getAttribute("clientPartner");
+
+	    if(clientPartner == null){
+	        clientPartner = ClientDB.getClientWithID(aClient.getPartnerID());
+	        session.setAttribute("clientPartner", clientPartner);
+	    }
+	}
+	if(clientsHoursList == null)
+	{
+	    clientsHoursList = new ArrayList<Hours>();
+	    clientsHoursList = ClientDB.getClientHoursForWholeMonth(aClient.getClientID());
+	    
+	    //setClientOrPartnerHoursAndAccumulated(session);
+
+	}if(clientsPartnerHoursList == null){
+	    clientsPartnerHoursList = new ArrayList<Hours>();
+	    if(aClient.isMarried()){
+	        clientsPartnerHoursList = ClientDB.getClientHoursForWholeMonth(aClient.getPartnerID());
+	    }
+
+	}if(clientSanctions == null){
+	    clientSanctions = new ArrayList<Sanction>();
+	    clientSanctions = ClientDB.getClientSanctions(aClient.getClientID());
+	    
+	}
+	if(isSanctioned == null){
+	    isSanctioned = false;
+	}
+//	if(isOnlyLoadOnce == null){
+//	    isOnlyLoadOnce = true;
+//	    session.setAttribute("isOnlyLoadOnce", isOnlyLoadOnce);
+//	    //setClientOrPartnerHoursAndAccumulated(clientsHoursList, clientsPartnerHoursList, session);
+//
+//	}
+
+	setClientOrPartnerHoursAndAccumulated(clientsHoursList, clientsPartnerHoursList, session);
 	
+	if(isHideTable == null){
+	    isHideTable = true;
+	}else{
+	    isHideTable = false;
+	}
+	 session.setAttribute("isHideTable", isHideTable);
+	
+
+	if(action == null){
+	    action = "dont do anything";
+	   // String dateMessage ="";
+
+	   // session.setAttribute("dateMessage", dateMessage);
+	  // "filterHours";
+	}url = "/views/viewEligibility.jsp";
+	if(action.equals("filterHours"))
+	{
+	    provideFilteredHours(request, response, session);
+	}
+ 
+
+	       //get sanction first , if there is any for the client then it is applied to the partner as well
+	      
+	       //this method also set the atrribute of session, to periodToWaitToB_Eligible, it calls, !seeIfSanctionPassedRequiredPeriod method == false, then resulted to = true, 
+	       //then it calls getHowLongClientShouldWait to set the appropriate message in periodToWaitToB_Eligible variable. 
+	       isSanctioned = getSanctionStatus(clientSanctions, session);
+	       if(!isSanctioned){ //if client is not sanctioned then do the hours for the clietns , if anyone is sanctioned, it applies to both.
+	          isMarried = (Boolean)session.getAttribute("isMarried");
+	            clientMarriedOrSingleTotalHours = (double)session.getAttribute("totalHours");
+	          warningMsg = getWarningMessage(aClient, isMarried, session); //this for the three weeks
+	       }else{ //if sanctioned then the other processing should be on the view side on JSP. whether to display the secondary message and ADC benefits. 
+
+	       }
+
+	      
+
+
+	//********************if there is no sanction then start count hours *******************************
+	/**it would be nice if know how many hours each of client and the partner required.check marriage status
+	             * 
+	             * lets get the hours from the beginning of this month to today.
+	             * LocalDate today = LocalDate.now();
+	             * LocalDate firstOfMonth   = today.withDayOfMonth(1);
+	             * 
+	             */
+
 	
         }
         catch(Exception ex){
-	System.out.print(ex.equals(ex));
+	System.out.print(ex.getMessage());
         }finally{
             session.setAttribute("warningMsg", warningMsg);
             session.setAttribute("isSanctioned", isSanctioned);
+            session.setAttribute("clientsHoursList", clientsHoursList);
+            session.setAttribute("clientsPartnerHoursList", clientsPartnerHoursList);
+            session.setAttribute("clientSanctions", clientSanctions);
+            session.setAttribute("isHideTable", isHideTable);
+            
             cs.getRequestDispatcher(url).forward(request, response);
             
         }
@@ -241,20 +265,7 @@ public class EligibilityController extends HttpServlet {
                 }
             }
                  return isGoodOnHours;
-    }
-//            LocalDate today = LocalDate.now();
-//            
-//            LocalDate firstOfMonth   = today.withDayOfMonth(1);
-//            LocalDate firstWeek      = today.withDayOfMonth(7);
-//            LocalDate secondWeek     = today.withDayOfMonth(14);
-//            LocalDate thirdWeek      = today.withDayOfMonth(21);
-//            LocalDate fourthWeek     = today.withDayOfMonth(28);
-//            LocalDate endOfTheMonth  = today.withDayOfMonth(today.lengthOfMonth());
-            
-         //   String dayofWeek = today.getDayOfWeek().FRIDAY +"";
-         //  dayofWeek= dayofWeek.toLowerCase();
-          
-        
+    }      
    
 
     private boolean seeIfSanctionPassedRequiredPeriod(LocalDate sanctionDate, int sanctionLength){
@@ -294,7 +305,7 @@ public class EligibilityController extends HttpServlet {
            case 3: 
                  periodLeftToRemoveSanction += "The sanction that was applied to your case on "
 		+ sanctionDate.toString() + " was the third one, that you have to wait till " 
-		+ sanctionDate.plusYears(1).toString() + " so you can be re-eligible for the benefits-ADC\n Please be noticed that "
+		+ sanctionDate.plusYears(1).toString() + " so you can be re-eligible for the benefits-ADC.\n Please be noticed that "
 		+ "once you are not eligible for ADC, you are automatically not eligible for: clothing, fuel, tuition, vehicle registeration or repair.";
                break;
                
@@ -302,7 +313,7 @@ public class EligibilityController extends HttpServlet {
            case 2:
                 periodLeftToRemoveSanction += "The sanction that was applied to your case on "
 		+ sanctionDate.toString() + " was the second one, that you have to wait till " 
-		+ sanctionDate.plusMonths(3).toString() + " so you can be re-eligible for the benefits-ADC\n Please be noticed that "
+		+ sanctionDate.plusMonths(3).toString() + " so you can be re-eligible for the benefits-ADC.\n Please be noticed that "
 		+ "once you are not eligible for ADC, you are automatically not eligible for: clothing, fuel, tuition, vehicle registeration or repair.";
                 break;
                 
@@ -310,7 +321,7 @@ public class EligibilityController extends HttpServlet {
            case 1:
                periodLeftToRemoveSanction += "The sanction that was applied to your case on "
 		+ sanctionDate.toString() + " was the first one that you have to wait till " 
-		+ sanctionDate.plusMonths(1).toString() + " so you can be re-eligible for the benefits-ADC\n Please be noticed that "
+		+ sanctionDate.plusMonths(1).toString() + " so you can be re-eligible for the benefits-ADC.\n Please be noticed that "
 		+ "once you are not eligible for ADC, you are automatically not eligible for: clothing, fuel, tuition, vehicle registeration or repair.";
                 break; 
             
@@ -323,9 +334,7 @@ public class EligibilityController extends HttpServlet {
     
     //we can get the partners name here too so the message make more sense. 
     private String getWarningMessage(Client aClient, Boolean married, HttpSession session) {
-//        double clientsTotalHours        = (double) session.getAttribute("clientTotalHours");
-//        double parntersTotalHours       = (double) session.getAttribute("partnerTotalHours");
-//        double couplesHours             = (double) session.getAttribute("totalHours");
+
 
             String warningMsg = "";
             double clientsTotalHours =0;
@@ -360,7 +369,7 @@ public class EligibilityController extends HttpServlet {
                                         + " while you both supposed to do 105 hours by today.";
 
                     }else {
-                         warningMsg = "Keep doing the good work! your hours and your partner's too are all set; however make sure you make the rest of hours you are required for the last week ";
+                         warningMsg = "Keep doing the good work! your hours and your partner's too are all set; however make sure you make the rest of hours you are required for the last week.";
                     }
                    
 
@@ -437,32 +446,46 @@ public class EligibilityController extends HttpServlet {
 
    
 
-    private void setClientOrPartnerHoursAndAccumulated(ArrayList<Hours> clientsHoursList, Client aClient, HttpSession session) {
-        ArrayList<Hours> clientsPartnerHoursList =  new ArrayList<Hours>();
+    private void setClientOrPartnerHoursAndAccumulated(ArrayList<Hours> clientsHoursList, ArrayList<Hours> clientsPartnerHoursList,HttpSession session) {
+        Client client = (Client)session.getAttribute("user");
         double clientTotalHours =0;
         double partnerTotalHours =0;
         double totalHours =0; 
-        //todaysDate.withDayOfMonth(15)
-        //ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, todaysDate); // hours for the client are needed anyway; but parter's hours are only needed if married
-        
-        clientsHoursList = ClientDB.getClientHoursForWholeMonth(aClient.getClientID());
-        clientTotalHours = getTotalHoursAccumulated(clientsHoursList);
-        
-        
-        
-        if(aClient.isMarried()){
-            clientsPartnerHoursList = ClientDB.getClientHoursForWholeMonth(aClient.getClientID());
-            partnerTotalHours =  getTotalHoursAccumulated(clientsPartnerHoursList); 
+        try{
+        //        ArrayList<Hours> clientsPartnerHoursList =  new ArrayList<Hours>();
+        //        ArrayList<Hours> clientsHoursList =  new ArrayList<Hours>();
+        //        HttpSession session = request.getSession();
+
+
+
+                //todaysDate.withDayOfMonth(15)
+                //ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, todaysDate); // hours for the client are needed anyway; but parter's hours are only needed if married
+
+        //        clientsHoursList = ClientDB.getClientHoursForWholeMonth(client.getClientID());
+        //        clientTotalHours = getTotalHoursAccumulated(clientsHoursList);
+
+
+
+                if(client.isMarried()){
+	clientsPartnerHoursList = ClientDB.getClientHoursForWholeMonth(client.getPartnerID());
+	partnerTotalHours =  getTotalHoursAccumulated(clientsPartnerHoursList); 
+                }
+
+                totalHours = clientTotalHours + partnerTotalHours;
+                
         }
-        
-        totalHours = clientTotalHours + partnerTotalHours;
+        catch(Exception ex){
+            
+        }
+        finally{
         
         session.setAttribute("clientsHoursList", clientsHoursList);
         session.setAttribute("clientsPartnerHoursList", clientsPartnerHoursList);
         session.setAttribute("clientTotalHours", clientTotalHours);
         session.setAttribute("partnerTotalHours", partnerTotalHours);
         session.setAttribute("totalHours", totalHours);
-        session.setAttribute("isMarried", aClient.isMarried());
+        session.setAttribute("isMarried", client.isMarried());
+        }
         
        
     }
@@ -548,8 +571,10 @@ public class EligibilityController extends HttpServlet {
           
         }catch(IOException iox){
             session.setAttribute("dateMessage", dateMessage);
+            session.setAttribute("isHideTable", true);
         }catch(NullPointerException nullExp){
             session.setAttribute("dateMessage", dateMessage);
+            session.setAttribute("isHideTable", true);
         }
         finally{
           session.setAttribute("clientWeeklyHours", clientHoursFiltered);

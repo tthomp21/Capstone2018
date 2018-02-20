@@ -70,7 +70,7 @@
                                         </c:if>
                     --%>
                     <c:choose>
-                        <c:when test="${empty '${dateMessage}'}">">
+                        <c:when test="${empty dateMessage}">
                             <h3>Select the date you want to look at your hours.</h3>
                         </c:when>
                         <c:otherwise>
@@ -85,7 +85,7 @@
                         <label></label><input type="submit" value="Get Hours">
                     </form>
 
-                    <c:if test="${user.isMarried()}"> 
+                    <c:if test="${not isHideTable}"> 
 
                         <section class="hourSection">
                             <fieldset>
@@ -124,7 +124,7 @@
                                         </tr>
                                         <tr>
                                         <td style="font-weight: bold">${clientPartner.getFirstName()}&apos;s hours</td>
-                                             <td><c:out value="${clientTotalFilteredHours}" /></td>
+                                             <td><c:out value="${partnerTotalFilteredHours}" /></td>
                                         </tr>
                                         <td style="font-weight: bold">Total Hours for you both</td>
                                              <td><c:out value="${totalHoursFilteredForBoth}" /></td>
