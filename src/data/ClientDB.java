@@ -47,7 +47,7 @@ public class ClientDB {
         Connection connection = DBConnection.getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
-        //insert some data into requestassist table and then try this.
+       
         String query = "SELECT requestID, ra.assistanceID, clientID, dateRequest, status, dateDisbursed, "
 	    + "amount, a.assistanceID, description "
 	    + "FROM SCM.TCF_REQUESTASSIST ra join SCM.TCF_ASSISTANCE a "

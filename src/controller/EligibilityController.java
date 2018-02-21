@@ -77,9 +77,11 @@ public class EligibilityController extends HttpServlet {
 
        
         Client aClient	            = (Client) session.getAttribute("user"); // get this from successful login.
+        CaseWorker clientCaseWorker	            = (CaseWorker) session.getAttribute("clientCaseWorker"); // get this from successful login.
         ArrayList<Hours> clientsHoursList           = (ArrayList<Hours>) session.getAttribute("clientsHoursList");
         ArrayList<Hours> clientsPartnerHoursList    = (ArrayList<Hours>) session.getAttribute("clientsPartnerHoursList");
         ArrayList<Sanction> clientSanctions         = (ArrayList<Sanction>)session.getAttribute("clientSanctions");
+        ArrayList<AidNotify> aidNotifyList          = (ArrayList<AidNotify>)session.getAttribute("aidNotifyList");
         Boolean isSanctioned	            = (Boolean)session.getAttribute("isSanctioned");
         Boolean isMarried	            = (Boolean)session.getAttribute("isMarried");
         Boolean isHideTable	            = (Boolean)session.getAttribute("isHideTable");
@@ -96,10 +98,13 @@ public class EligibilityController extends HttpServlet {
         String periodToWaitToB_Eligible ="";
                  
        try{
-              //  CaseWorker clientCaseWorker = CaseWorkerDB
-//	if(aClient == null)      {
-//	    cs.getRequestDispatcher("/views/index.jsp").forward(request, response);
-//	}
+	if(clientCaseWorker == null){
+	     clientCaseWorker = CaseWorkerDB.getClientCaseWorker(aClient.getCaseWorkerID());
+	}
+	if(aidNotifyList == null){
+	   // aidNotifyList = new ArrayList<AidNotify>();
+	    aidNotifyList = prepareAidNotifyList(aClient.getClientID());
+	}
 	if(aClient.isMarried()){
 	    Client clientPartner = (Client)session.getAttribute("clientPartner");
 
@@ -155,8 +160,7 @@ public class EligibilityController extends HttpServlet {
 
 	       //get sanction first , if there is any for the client then it is applied to the partner as well
 	      
-	       //this method also set the atrribute of session, to periodToWaitToB_Eligible, it calls, !seeIfSanctionPassedRequiredPeriod method == false, then resulted to = true, 
-	       //then it calls getHowLongClientShouldWait to set the appropriate message in periodToWaitToB_Eligible variable. 
+	       
 	       isSanctioned = getSanctionStatus(clientSanctions, session);
 	       if(!isSanctioned){ //if client is not sanctioned then do the hours for the clietns , if anyone is sanctioned, it applies to both.
 	          isMarried = (Boolean)session.getAttribute("isMarried");
@@ -176,6 +180,8 @@ public class EligibilityController extends HttpServlet {
             session.setAttribute("clientsPartnerHoursList", clientsPartnerHoursList);
             session.setAttribute("clientSanctions", clientSanctions);
             session.setAttribute("isHideTable", isHideTable);
+            session.setAttribute("clientCaseWorker", clientCaseWorker);
+            session.setAttribute("aidNotifyList", aidNotifyList);
             
             
             cs.getRequestDispatcher(url).forward(request, response);
@@ -331,7 +337,8 @@ public class EligibilityController extends HttpServlet {
           ArrayList<Hours> clientsPartnerHoursList = new ArrayList<Hours>(); //(ArrayList<Hours>)session.getAttribute("clientsPartnerHoursList");
           ArrayList<Hours> clientsHoursList        = new ArrayList<Hours>();//(ArrayList<Hours>)session.getAttribute("clientsHoursList");
           
-          if((todayDate.isAfter(threeWeeksDate) || todayDate.isEqual(threeWeeksDate))){ //dont calculate if it is not three weeks yet.
+          //dont calculate if it is not three weeks yet.
+          if((todayDate.isAfter(threeWeeksDate) || todayDate.isEqual(threeWeeksDate))){ 
                
                 clientsHoursList        = ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, threeWeeksDate); // hours for the client are needed anyway; but parter's hours are only needed if married
 
@@ -359,7 +366,7 @@ public class EligibilityController extends HttpServlet {
                 }else{ // if single, only clientTotalHours are needed
                     if(todayDate.isAfter(threeWeeksDate) || todayDate.isEqual(threeWeeksDate) && clientsTotalHours < 60){
                        warningMsg = "Our records indicate that your hours are low by today " 
-                                    + LocalDate.now().toString() + ". But do not worry you still "
+                                    + LocalDate.now().toString() + ". But do not worry you still have "
                                     + " One week from " + threeWeeksDate.toString() + " to " + LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()).toString() 
                                     + "to make those hours. Just for your information your hours are: " + clientsTotalHours
                                     + " while you were supposed to make 60 hours by today.";
@@ -385,7 +392,8 @@ public class EligibilityController extends HttpServlet {
           
           return warningMsg;
     }
-
+    //this method also set the atrribute of session, to periodToWaitToB_Eligible, it calls, !seeIfSanctionPassedRequiredPeriod method == false, then resulted to = true, 
+    //then it calls getHowLongClientShouldWait to set the appropriate message in periodToWaitToB_Eligible variable. 
     private Boolean getSanctionStatus(ArrayList<Sanction> clientSanctions, HttpSession session) {
         
         
@@ -574,9 +582,31 @@ public class EligibilityController extends HttpServlet {
         }
     }
 
+    private ArrayList<AidNotify> prepareAidNotifyList(int clientID) {
+       
+        ArrayList<AidNotify> aidNotifyList = new ArrayList<AidNotify>();
+        
+        try{
+            aidNotifyList = AssistanceDB.getClientSanctions(clientID);
+            
+                        
+        }catch(Exception ex)
+        {
+            
+        }
+        finally{
+             return  aidNotifyList;
+        }
+        
+        
+        
+       
+    }
+
     
 
     
 
 }
+
 

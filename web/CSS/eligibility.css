@@ -65,3 +65,16 @@ input[type=submit]{
 .formatDateMessage{
     background-color: #f0e68c;
 }
+
+#caseWorkerInfo td:nth-child(1){
+    font-weight: bolder;
+}
+#caseWorkerInfo tr:nth-child(1){
+    font-size: 1.1em;
+    
+}
+
+#caseWorkerInfo {
+    font-size: 1.1em;
+    
+}

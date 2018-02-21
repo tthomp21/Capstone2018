@@ -26,7 +26,6 @@ public class Sanction implements Serializable {
 
     public Sanction(int sanctionID, LocalDate sanctionDate, int sanctionLength) {
         this.sanctionID = sanctionID;
-      //  this.clientID = clientID;
         this.sanctionDate = sanctionDate;
         this.sanctionLength = sanctionLength;
     }

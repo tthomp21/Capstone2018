@@ -16,7 +16,6 @@ import java.time.LocalDate;
 public class Hours implements Serializable {
     
     private Client      aClientInHours;
-    //private Client      aClients_Partner;
     private LocalDate   dateHoursEntered;
     private double      numberOfHours;
     private double      totalHoursForEach;   
@@ -26,10 +25,8 @@ public class Hours implements Serializable {
     public Hours(Client aClientInHours, LocalDate  dateHoursEntered, double numberOfHours){
         
         this.aClientInHours     =   aClientInHours;
-       // this.aClients_Partner   =   aClients_Partner;
         this.dateHoursEntered   =   dateHoursEntered;
-        this.numberOfHours      =   numberOfHours;
-       // this.totalHoursForEach  =   
+        this.numberOfHours      =   numberOfHours; 
     }
 
     /**

@@ -130,7 +130,7 @@ public class CaseWorkerController extends HttpServlet {
         sc.getRequestDispatcher(url).forward(request, response);  
                 
     }
-    
+        
     private void updateRequestApproval(HttpSession session, int reqID)
     {
         ArrayList<AssistanceRequest> assistReq = new ArrayList<AssistanceRequest>();

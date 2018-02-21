@@ -53,9 +53,43 @@
                         <caption>Eligibility Overview</caption>
                         <tr>
                             <th>Assistance type</th>
-                            <th>Eligibility Status</th>
                             <th>Recertification Date</th>
                         </tr>
+
+                        <c:forEach items="${aidNotifyList}" var="aidNotify" varStatus="loop">
+
+                            <tr>
+                                <c:choose>
+
+                                    <c:when test="${aidNotify.aidTypeID == 1}">
+                                        <td>Foot Stamps (SNAP)</td>
+                                    </c:when>
+
+                                    <c:when test="${aidNotify.aidTypeID == 2}">
+                                        <c:if test="${isSanctioned}">
+                                            <td>Cash Assistance (ADC)<br><span style="color: red; font-size: 1.5em;">Your are sanctioned; check with your case worker for details.</span></td>
+                                            <%-- <c:set target="${AidNotify} property =recertificationDate" scope="session" value="null"></c:set> --%>
+                                        </c:if>
+                                        <c:if test="${not isSanctioned}">
+                                            <td>Cash Assistance (ADC)</td>
+                                        </c:if>
+
+                                    </c:when>
+
+                                    <c:otherwise>
+                                        <td>Medicaid</td>
+                                    </c:otherwise>
+                                </c:choose>
+                                        
+                                        
+
+                                    <td><c:out value="${aidNotify.recertificationDate}" /></td>
+                            
+
+
+                            </tr>
+
+                        </c:forEach>
                     </table>
 
                 </section>
@@ -71,12 +105,12 @@
                     </c:choose>
 
                     <form action="EligibilityController" method="post">
-                        
+
                         <input type="hidden" name="action" value="filterHours">
                         <label>From:</label><input type="date" name="fromDate"><br>
                         <label>To:</label><input type="date" name="toDate"><br>
                         <label></label><input type="submit" value="Get Hours">
-                        
+
                     </form>
 
                     <c:if test="${not isHideTable}"> 
@@ -112,28 +146,59 @@
 
                                         </c:forEach>
                                     </c:if>
-                                        <c:if test="${user.isMarried()}">
-                                    <tr>
-                                        <td colspan="2" style="background-color: #f0e68c">Total Hours in this period for both of you</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="font-weight: bold">${clientPartner.getFirstName()}&apos;s hours</td>
-                                        <td><c:out value="${partnerTotalFilteredHours}" /></td>
-                                    </tr>
+                                    <c:if test="${user.isMarried()}">
+                                        <tr>
+                                            <td colspan="2" style="background-color: #f0e68c">Total Hours in this period for both of you</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: bold">${clientPartner.getFirstName()}&apos;s hours</td>
+                                            <td><c:out value="${partnerTotalFilteredHours}" /></td>
+                                        </tr>
                                     </c:if>
                                     <tr>
                                         <td style="font-weight: bold">${user.getFirstName()}&apos;s hours</td>
                                         <td><c:out value="${clientTotalFilteredHours}" /></td>
                                     </tr>
-                                    
-                                    <td style="font-weight: bold">Total Hours for you both</td>
-                                    <td><c:out value="${totalHoursFilteredForBoth}" /></td>
+                                    <c:if test="${user.isMarried()}">
+                                        <td style="font-weight: bold">Total Hours for you both</td>
+                                    </c:if>
+                                    <c:if test="${not user.isMarried()}">
+                                        <td style="font-weight: bold">Your Total Hours</td>
+                                    </c:if>
+                                    <td  style="font-weight: bold"><c:out value="${totalHoursFilteredForBoth}" /></td>
                                     </tr>
 
                             </fieldset>
 
                             </table>
                         </section>
+                        <div id="caseWorkerInfo">
+                            <table style="border: none; text-align: left; margin-top: 20px;">
+                                <tr>
+                                    <td colspan="2" style="font-weight: bold;">
+                                        <p>You have questions?<br>
+                                            contact your case worker, ${clientCaseWorker.firstName} ${clientCaseWorker.lastName} 
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>Email:</td>
+                                    <td>${clientCaseWorker.email}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Phone:</td>
+                                    <td><a href="tel:${clientCaseWorker.phone}">${clientCaseWorker.phone} </a></td>
+                                </tr>
+                                <tr>
+                                    <td>Office:</td>
+                                    <td>${clientCaseWorker.office}</td>
+                                </tr>
+
+                            </table>
+
+                        </div>
                     </c:if>
 
                 </div>
