@@ -137,6 +137,8 @@ public class AssistanceController extends HttpServlet {
              Collections.sort(cashList, ClientAid.sortAssistanceListByDate);
              Collections.sort(medicaidList, ClientAid.sortAssistanceListByDate);
         } catch (Exception ex) {
+            url = "/views/assistance.jsp";
+            cs.getRequestDispatcher(url).forward(request, response);
 
         } finally {
 

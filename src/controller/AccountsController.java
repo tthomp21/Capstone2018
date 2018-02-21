@@ -70,7 +70,8 @@ public class AccountsController extends HttpServlet {
                     }
                     // redirect to appropriate user controller
                     if (redirect.equals("client"))
-                        url = "/AssistanceController";
+                        url = "/EligibilityController";
+	    
                     else if (redirect.equals("cw"))
                         url = "/CaseWorkerController";
                 }
@@ -119,7 +120,7 @@ public class AccountsController extends HttpServlet {
                 rememberMe = rememberMeStatus != null;
                 
                 if (clientLogIn(request, response, userName, password, rememberMe))
-                    request.setAttribute("redirect", "/AssistanceController");                
+                    request.setAttribute("redirect", "/EligibilityController");                
                 else
                     request.setAttribute("loginType", "cl");
                 break;

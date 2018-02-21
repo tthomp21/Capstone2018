@@ -5,11 +5,11 @@
  */
 package controller;
 
-import business.Client;
+import business.*;
 import business.Hours;
 import business.Sanction;
 import com.sun.org.apache.bcel.internal.generic.AALOAD;
-import data.ClientDB;
+import data.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
@@ -83,7 +83,7 @@ public class EligibilityController extends HttpServlet {
         Boolean isSanctioned	            = (Boolean)session.getAttribute("isSanctioned");
         Boolean isMarried	            = (Boolean)session.getAttribute("isMarried");
         Boolean isHideTable	            = (Boolean)session.getAttribute("isHideTable");
-        Boolean isOnlyLoadOnce	            = (Boolean)session.getAttribute("isOnlyLoadOnce");
+      //  Boolean isOnlyLoadOnce	            = (Boolean)session.getAttribute("isOnlyLoadOnce");
         
         String action	            = (String)request.getParameter("action");
         
@@ -96,6 +96,7 @@ public class EligibilityController extends HttpServlet {
         String periodToWaitToB_Eligible ="";
                  
        try{
+              //  CaseWorker clientCaseWorker = CaseWorkerDB
 //	if(aClient == null)      {
 //	    cs.getRequestDispatcher("/views/index.jsp").forward(request, response);
 //	}
@@ -128,12 +129,6 @@ public class EligibilityController extends HttpServlet {
 	if(isSanctioned == null){
 	    isSanctioned = false;
 	}
-//	if(isOnlyLoadOnce == null){
-//	    isOnlyLoadOnce = true;
-//	    session.setAttribute("isOnlyLoadOnce", isOnlyLoadOnce);
-//	    //setClientOrPartnerHoursAndAccumulated(clientsHoursList, clientsPartnerHoursList, session);
-//
-//	}
 
 	setClientOrPartnerHoursAndAccumulated(clientsHoursList, clientsPartnerHoursList, session);
 	
@@ -170,19 +165,6 @@ public class EligibilityController extends HttpServlet {
 	       }else{ //if sanctioned then the other processing should be on the view side on JSP. whether to display the secondary message and ADC benefits. 
 
 	       }
-
-	      
-
-
-	//********************if there is no sanction then start count hours *******************************
-	/**it would be nice if know how many hours each of client and the partner required.check marriage status
-	             * 
-	             * lets get the hours from the beginning of this month to today.
-	             * LocalDate today = LocalDate.now();
-	             * LocalDate firstOfMonth   = today.withDayOfMonth(1);
-	             * 
-	             */
-
 	
         }
         catch(Exception ex){
@@ -194,6 +176,7 @@ public class EligibilityController extends HttpServlet {
             session.setAttribute("clientsPartnerHoursList", clientsPartnerHoursList);
             session.setAttribute("clientSanctions", clientSanctions);
             session.setAttribute("isHideTable", isHideTable);
+            
             
             cs.getRequestDispatcher(url).forward(request, response);
             
@@ -410,7 +393,7 @@ public class EligibilityController extends HttpServlet {
         boolean isSanctioned = false;
         
         
-            if(clientSanctions != null){   //if the list is empty, there is no sanctions, but if there sanctions in the list, these might have been waived or passed the required time.
+            if(clientSanctions.size() != 0){   //if the list is empty, there is no sanctions, but if there sanctions in the list, these might have been waived or passed the required time.
                    for(Sanction sanction: clientSanctions){
                         if(sanction.getSanctionLength() == 3 & !seeIfSanctionPassedRequiredPeriod(sanction.getSanctionDate(), sanction.getSanctionLength())) // if sanction from type 3  =1 year period, check if it has been a year since
                         {				            // if type3 and hasnont pass the required period, then no need to check for other sanctions
@@ -440,7 +423,7 @@ public class EligibilityController extends HttpServlet {
 		    + "which is good for you which keeps you from getting sanctioned. Keep the good work.";
                 }
                 session.setAttribute("periodToWaitToB_Eligible", periodToWaitToB_Eligible);
-           
+                 session.setAttribute("isSanctioned", isSanctioned);
            return isSanctioned;
     }
 
@@ -526,6 +509,7 @@ public class EligibilityController extends HttpServlet {
           
           if(dFromDate.isAfter(dToDate)){
               dateMessage = "Please make sure the first Date is before the second one.";
+              throw new IOException("");
              
           }else if(dFromDate.isBefore(firstOfMonth) || dToDate.isAfter(currentDate))
           {

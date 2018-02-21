@@ -19,7 +19,7 @@
         <script type="text/javascript" src="/JS/assistance.js"></script>
 
 
-        <title>Team Cash Flow</title>
+        <title>Eligibility Status</title>
 
     </head>
 
@@ -61,14 +61,6 @@
                 </section>
 
                 <div id="divider">
-                    <%--
-                                        <c:if test="${empty '${dateMessage}'}">
-                                            <h3>Select the date you want to look at your hours.</h3>
-                                        </c:if>
-                                        <c:if test="${not empty '${dateMessage}'}">
-                                            <h3 class="formatDateMessage">${dateMessage}</h3>
-                                        </c:if>
-                    --%>
                     <c:choose>
                         <c:when test="${empty dateMessage}">
                             <h3>Select the date you want to look at your hours.</h3>
@@ -79,10 +71,12 @@
                     </c:choose>
 
                     <form action="EligibilityController" method="post">
+                        
                         <input type="hidden" name="action" value="filterHours">
                         <label>From:</label><input type="date" name="fromDate"><br>
                         <label>To:</label><input type="date" name="toDate"><br>
                         <label></label><input type="submit" value="Get Hours">
+                        
                     </form>
 
                     <c:if test="${not isHideTable}"> 
@@ -102,33 +96,39 @@
                                             <td><c:out value="${hrs.numberOfHours}" /></td>
                                         </tr>
                                     </c:forEach>
-                                    <tr><td colspan="2" style="font-weight: bold; background-color: #f0e68c">${clientPartner.getFirstName()} ${clientPartner.getLastName()}
-                                            &apos;s Hours</td></tr>
-                                            <c:forEach items="${partnerWeeklyHours}" var="hrs" varStatus="loop">
+                                    <c:if test="${user.isMarried()}">
 
-                                        <tr>
 
-                                            <td><c:out value="${hrs.dateHoursEntered}" /></td>
-                                            <td><c:out value="${hrs.numberOfHours}" /></td>
+                                        <tr><td colspan="2" style="font-weight: bold; background-color: #f0e68c">${clientPartner.getFirstName()} ${clientPartner.getLastName()}
+                                                &apos;s Hours</td></tr>
+                                                <c:forEach items="${partnerWeeklyHours}" var="hrs" varStatus="loop">
 
-                                        </tr>
+                                            <tr>
 
-                                    </c:forEach>
-                                        <tr>
-                                            <td colspan="2" style="background-color: #f0e68c">Total Hours in this period for both of you</td>
-                                        </tr>
-                                        
-                                        <tr>
-                                            <td style="font-weight: bold">${user.getFirstName()}&apos;s hours</td>
-                                             <td><c:out value="${clientTotalFilteredHours}" /></td>
-                                        </tr>
-                                        <tr>
+                                                <td><c:out value="${hrs.dateHoursEntered}" /></td>
+                                                <td><c:out value="${hrs.numberOfHours}" /></td>
+
+                                            </tr>
+
+                                        </c:forEach>
+                                    </c:if>
+                                        <c:if test="${user.isMarried()}">
+                                    <tr>
+                                        <td colspan="2" style="background-color: #f0e68c">Total Hours in this period for both of you</td>
+                                    </tr>
+                                    <tr>
                                         <td style="font-weight: bold">${clientPartner.getFirstName()}&apos;s hours</td>
-                                             <td><c:out value="${partnerTotalFilteredHours}" /></td>
-                                        </tr>
-                                        <td style="font-weight: bold">Total Hours for you both</td>
-                                             <td><c:out value="${totalHoursFilteredForBoth}" /></td>
-                                        </tr>
+                                        <td><c:out value="${partnerTotalFilteredHours}" /></td>
+                                    </tr>
+                                    </c:if>
+                                    <tr>
+                                        <td style="font-weight: bold">${user.getFirstName()}&apos;s hours</td>
+                                        <td><c:out value="${clientTotalFilteredHours}" /></td>
+                                    </tr>
+                                    
+                                    <td style="font-weight: bold">Total Hours for you both</td>
+                                    <td><c:out value="${totalHoursFilteredForBoth}" /></td>
+                                    </tr>
 
                             </fieldset>
 
@@ -150,7 +150,7 @@
                     <c:if test="${isSanctioned}">   
                         <div id="sanctionMsgDiv">
                             <h2>Sanctions Notification</h2>
-                            <p>${periodToWaitToB_Eligible}</p>
+                            <p style="color: red; font-size: 1.5em;">${periodToWaitToB_Eligible}</p>
                         </div>
                     </c:if>
 
