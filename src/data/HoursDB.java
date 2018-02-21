@@ -52,7 +52,35 @@ public class HoursDB {
         return args;
     }
     
-    public static void insertClientHours(int mon, int tue, int wed, int thur, int fri, LocalDate monday, LocalDate tuesday, LocalDate wednesday, LocalDate thursday, LocalDate friday, int clientId)
+    public static double getClientHoursForSingleDate(int clientID, LocalDate date)
+    {
+        double hours = 0;
+        Connection connection = DBConnection.getConnection();
+        String query = "Select hours from scm.tcf_hours where clientID = ? AND date = ?";
+        ResultSet rs = null;
+        
+        try{
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, clientID);
+            ps.setDate(2, Date.valueOf(date));
+            
+            rs = ps.executeQuery();
+            while(rs.next())
+            {
+                hours = rs.getDouble("hours");
+            }
+        }catch (SQLException e){
+            
+        }finally{
+            DBConnection.freeConnection(connection);
+        }
+        
+        return hours;
+    }
+    
+    
+    
+    public static void insertClientHours(double mon, double tue, double wed, double thur, double fri, LocalDate monday, LocalDate tuesday, LocalDate wednesday, LocalDate thursday, LocalDate friday, int clientId)
     {
         Connection connection = DBConnection.getConnection();
         String query = "insert into scm.tcf_hours " +

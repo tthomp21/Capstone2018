@@ -42,7 +42,7 @@
                 </nav>
                 </aside>
                 <div id="main">
-                    <div class="column">
+                    <div style="width: 25%; float: left;">
                     <table>
                         <tr><th>Client Information</th></tr>
                         <tr><td><b>Name:</b></td><td>${foundClient.firstName} <c:choose><c:when test="${foundClient.middleInit != null}">${foundClient.middleInit}.</c:when></c:choose> ${foundClient.lastName}<br>
@@ -64,27 +64,8 @@
                         </tr>
                     </table>
                 </div>
-                <div class="column">
-                    <table>
-                        <form action="CaseWorkerController" method="post">
-                            <!-- need to change the input text to variables.. get them with session instead of request -->
-                        <tr><th><b>Hours</b></th></tr>
-                        <tr><td><b>Monday</b></td><td> ${monday} </td><td><input type="number" name="mondayHours"></td></tr>
-                        <tr><td><b>Tuesday</b></td><td> ${tuesday} </td><td><input type="number" name="tuesdayHours"></td></tr>
-                        <tr><td><b>Wednesday</b></td><td> ${wednesday} </td><td><input type="number" name="wednesdayHours"></td></tr>
-                        <tr><td><b>Thursday</b></td><td> ${thursday} </td><td><input type="number" name="thursdayHours"></td></tr>
-                        <tr><td><b>Friday</b></td><td> ${friday} </td><td><input type="number" name="fridayHours"></td></tr>
-                        <tr ><td colspan="3">
-                        
-                            <input type="hidden" name="action" value="submitHours">
-                            <input type="hidden" name="clientID" value="${foundClient.clientID}">
-                            <input type="submit" value="Submit Hours">
-                        </form>
-                                </td></tr>
-                    </table>
-                </div>
-                    <br>
-                <div class="column">
+                
+                <div style="width: 50%; float: left;">
                     <table>
                         <tr><th>Assistance Requests</th></tr>
                     <c:forEach var="r" items="${clientRequests}" varStatus="status">
@@ -111,7 +92,7 @@
                                 <input type="hidden" value="${r.requestID}" name="requestID">
                                 <input type="hidden" value="2" name="requestStat">
                                 <input type="hidden" name="action" value="declineRequest">
-                                <input type="submit" value="Decline">
+                                <input type="submit" value="Decline" id="button">
                                 </form>
                             </c:when>
                             <c:when test="${r.status == 1}">
@@ -124,12 +105,26 @@
                             </c:when>
                         </c:choose></td></tr>
                         
-                        
-
-                        <!--aid type: ${r.aidType}<br><br> -->
-                                </td>
-                    </tr>
                     </c:forEach>
+                    </table>
+                </div>
+                    <div style="width: 20%; float: left;">
+                    <table>
+                        <form action="CaseWorkerController" method="post">
+                            <!-- need to change the input text to variables.. get them with session instead of request -->
+                        <tr><th><b>Hours</b></th></tr>
+                        <tr><td><b>Monday</b></td><td> ${monday} </td><td><input type="number" name="mondayHours" value="${monHours}"></td></tr>
+                        <tr><td><b>Tuesday</b></td><td> ${tuesday} </td><td><input type="number" name="tuesdayHours" value="${tueHours}"></td></tr>
+                        <tr><td><b>Wednesday</b></td><td> ${wednesday} </td><td><input type="number" name="wednesdayHours" value="${wedHours}"></td></tr>
+                        <tr><td><b>Thursday</b></td><td> ${thursday} </td><td><input type="number" name="thursdayHours" value="${thurHours}"></td></tr>
+                        <tr><td><b>Friday</b></td><td> ${friday} </td><td><input type="number" name="fridayHours" value="${friHours}"></td></tr>
+                        <tr ><td colspan="3">
+                        
+                            <input type="hidden" name="action" value="submitHours">
+                            <input type="hidden" name="clientID" value="${foundClient.clientID}">
+                            <input type="submit" value="Submit Hours" id="button">
+                        </form>
+                                </td></tr>
                     </table>
                 </div>
                 

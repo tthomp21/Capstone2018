@@ -59,7 +59,7 @@
                                 <form action="CaseWorkerController" method="post">
                                 <input type="hidden" value="${c.clientID}" name="clientID">
                                 <input type="hidden" name="action" value="clientDetails">
-                                <input type="submit" value="Details">
+                                <input type="submit" value="Details" id="button">
                                 </form>
                             </td>
                             <!-- <td>

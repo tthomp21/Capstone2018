@@ -281,9 +281,9 @@ th{
     clear: both;
 }
 #button {
-    background-color: #008CBA; /* Green */
+    background-color: lightblue; /* Green */
     border: none;
-    color: white;
+    color: black;
     padding: 5px 20px;
     text-align: center;
     text-decoration: none;

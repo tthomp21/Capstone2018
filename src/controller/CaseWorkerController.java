@@ -162,11 +162,11 @@ public class CaseWorkerController extends HttpServlet {
     private void enterHours(HttpSession session,HttpServletRequest request)
     {
         //change request to session
-        int mondayHours = Integer.parseInt((String)request.getParameter("mondayHours"));
-        int tuesdayHours = Integer.parseInt((String)request.getParameter("tuesdayHours"));
-        int wednesdayHours = Integer.parseInt((String)request.getParameter("wednesdayHours"));
-        int thursdayHours = Integer.parseInt((String)request.getParameter("thursdayHours"));
-        int fridayHours = Integer.parseInt((String)request.getParameter("fridayHours"));
+        double mondayHours = (double)session.getAttribute("monHours");
+        double tuesdayHours = (double)session.getAttribute("tueHours");
+        double wednesdayHours = (double)session.getAttribute("wedHours");
+        double thursdayHours = (double)session.getAttribute("thurHours");
+        double fridayHours = (double)session.getAttribute("friHours");
         
         DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         format = format.withLocale(Locale.US);
@@ -205,6 +205,12 @@ public class CaseWorkerController extends HttpServlet {
         LocalDate wednesday = LocalDate.parse((String)session.getAttribute("wednesday"),format);
         LocalDate thursday = LocalDate.parse((String)session.getAttribute("thursday"),format);
         LocalDate friday = LocalDate.parse((String)session.getAttribute("friday"),format);
+        
+        session.setAttribute("monHours", HoursDB.getClientHoursForSingleDate(Integer.parseInt(clientID), monday));
+        session.setAttribute("tueHours", HoursDB.getClientHoursForSingleDate(Integer.parseInt(clientID), tuesday));
+        session.setAttribute("wedHours", HoursDB.getClientHoursForSingleDate(Integer.parseInt(clientID), wednesday));
+        session.setAttribute("thurHours", HoursDB.getClientHoursForSingleDate(Integer.parseInt(clientID), thursday));
+        session.setAttribute("friHours", HoursDB.getClientHoursForSingleDate(Integer.parseInt(clientID), friday));
         
         ArrayList<ClientHoursArgs> thisMonthHours = new ArrayList<ClientHoursArgs>();
         ArrayList<ClientHoursArgs> lastMonthHours = new ArrayList<ClientHoursArgs>();
