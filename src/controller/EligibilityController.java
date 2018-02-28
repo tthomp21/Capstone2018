@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.time.temporal.ChronoUnit;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -333,6 +334,8 @@ public class EligibilityController extends HttpServlet {
           LocalDate threeWeeksDate = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()).minusDays(7);
           LocalDate firstOfMonth   = LocalDate.now().withDayOfMonth(1);
           LocalDate todayDate      = LocalDate.now();
+          LocalDate endoOfMonth = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
+          
           
           ArrayList<Hours> clientsPartnerHoursList = new ArrayList<Hours>(); //(ArrayList<Hours>)session.getAttribute("clientsPartnerHoursList");
           ArrayList<Hours> clientsHoursList        = new ArrayList<Hours>();//(ArrayList<Hours>)session.getAttribute("clientsHoursList");
@@ -352,11 +355,11 @@ public class EligibilityController extends HttpServlet {
                     if((todayDate.isAfter(threeWeeksDate) || todayDate.isEqual(threeWeeksDate)) && couplesHours < 105 ){
 
                           warningMsg = "Our records indicate that your and your partner's hours are low by today " + LocalDate.now().toString() 
-                                        + ". But do not worry you still "
-                                        + " One week from " + threeWeeksDate.toString() 
-                                        + " to " + LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()).toString() 
+                                        + ". You have " + ChronoUnit.DAYS.between(endoOfMonth, todayDate) + " days " 
+                                        + " from " + todayDate.toString() 
+                                        + " to " + endoOfMonth.toString() 
                                         + "to make those hours. Just for your information your partner's hours are: " + parntersTotalHours + " and yours are: " + clientsTotalHours
-                                        + " while you both supposed to do 105 hours by today.";
+                                        + " while you both supposed to do 105 hours by the third week of the month.";
 
                     }else {
                          warningMsg = "Keep doing the good work! your hours and your partner's too are all set; however make sure you make the rest of hours you are required for the last week.";
@@ -366,10 +369,11 @@ public class EligibilityController extends HttpServlet {
                 }else{ // if single, only clientTotalHours are needed
                     if(todayDate.isAfter(threeWeeksDate) || todayDate.isEqual(threeWeeksDate) && clientsTotalHours < 60){
                        warningMsg = "Our records indicate that your hours are low by today " 
-                                    + LocalDate.now().toString() + ". But do not worry you still have "
-                                    + " One week from " + threeWeeksDate.toString() + " to " + LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()).toString() 
+                                    + LocalDate.now().toString() 
+	                + ". You have " + ChronoUnit.DAYS.between(endoOfMonth, todayDate) + " days "
+                                    + " from " + todayDate.toString() + " to " + endoOfMonth.toString() 
                                     + "to make those hours. Just for your information your hours are: " + clientsTotalHours
-                                    + " while you were supposed to make 60 hours by today.";
+                                    + " while you were supposed to make 60 hours by the thrid week.";
                     }else{
                          warningMsg = "Keep doing the good work! your hours are all set; however make sure you the the rest of hours you are required for the last week ";
                     }

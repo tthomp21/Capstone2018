@@ -49,8 +49,8 @@
             <div id="main">
                 <section class="eligibilitySection">
 
-                    <table border="1">
-                        <caption>Eligibility Overview</caption>
+                    <table border="1" style="border-collapse: collapse;">
+                        <caption style="font-weight: bold; font-size: 1.5em;">Assistance Eligibility Overview</caption>
                         <tr>
                             <th>Assistance type</th>
                             <th>Recertification Date</th>
@@ -67,10 +67,10 @@
 
                                     <c:when test="${aidNotify.aidTypeID == 2}">
                                         <c:if test="${isSanctioned}">
-                                            <td>Cash Assistance (ADC)<br><span style="color: red; font-size: 1.5em;">Your are sanctioned; check with your case worker for details.</span></td>
-                                            <%-- <c:set target="${AidNotify} property =recertificationDate" scope="session" value="null"></c:set> --%>
-                                        </c:if>
-                                        <c:if test="${not isSanctioned}">
+                                            <td>Cash Assistance (ADC)<br><span style="color: red; font-size: 1.5em;">You are sanctioned; check with your case worker for details.</span></td>
+                                                <%-- <c:set target="${AidNotify} property =recertificationDate" scope="session" value="null"></c:set> --%>
+                                            </c:if>
+                                            <c:if test="${not isSanctioned}">
                                             <td>Cash Assistance (ADC)</td>
                                         </c:if>
 
@@ -80,12 +80,10 @@
                                         <td>Medicaid</td>
                                     </c:otherwise>
                                 </c:choose>
-                                        
-                                        
 
-                                    <td><c:out value="${aidNotify.recertificationDate}" /></td>
-                            
 
+
+                                <td><c:out value="${aidNotify.recertificationDate}" /></td>
 
                             </tr>
 
@@ -197,7 +195,6 @@
                                 </tr>
 
                             </table>
-
                         </div>
                     </c:if>
 
@@ -206,8 +203,18 @@
                 <section class="alertsSection">
                     <c:if test="${isSanctioned == false}">   
                         <div id="hoursAlertDiv">
-                            <h2>Hours Notification</h2>
-                            <p>${warningMsg}</p>
+                            <h2>Client's Notifications</h2>
+                            <table>
+                                <tr>
+                                    <td class="warning">Warning</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        ${warningMsg}
+                                    </td>
+                                </tr>
+                            </table>
+
 
                         </div>
                     </c:if>

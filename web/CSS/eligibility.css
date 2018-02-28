@@ -10,7 +10,7 @@ body{
     min-width: 1200px;
      max-width: 1200px;
      padding: 0 100px 0 20px;
-    overflow: hidden;
+    overflow: auto;
     /*position: relative;*/
 }
 
@@ -19,6 +19,7 @@ main, header, footer, h1, h2{
 }
 
 .eligibilitySection{
+    margin-top: 25px;
     float: left;
     clear: right;
     height: 100%;
@@ -27,6 +28,12 @@ main, header, footer, h1, h2{
     /* background-color: #a39d79;*/
     margin-right: 220px;
 
+}
+.eligibilitySection table td{
+    text-align: center;
+}
+.eligibilitySection caption{
+    margin-bottom: 20px;
 }
 .alertsSection{
 
@@ -77,4 +84,12 @@ input[type=submit]{
 #caseWorkerInfo {
     font-size: 1.1em;
     
+}
+
+.warning{
+   background: url(/Images/warning.PNG) no-repeat left center;
+   height: 50px;
+   padding-left: 60px;
+   font-weight: bolder;
+   font-size: 1.8em;
 }
