@@ -56,6 +56,8 @@
                     <c:if test="${aidNotifyList.size() gt 0}">
                         <table border="1" style="border-collapse: collapse;">
                             <caption style="font-weight: bold; font-size: 1.5em;">Assistance Recertification Overview</caption>
+                            <p style="font-size: 1.2em;">Below the benefit(s) that is/are due to reapply.<br>Please make sure you reapply to the underlying benefit by the<br>
+                                listed due date to continue get the benefits without disconnection. </p>
                             <tr>
                                 <th>Assistance type</th>
                                 <th>Recertification Date</th>
@@ -121,7 +123,7 @@
 
                         <section class="hourSection">
                             <fieldset>
-                                <legend style="font-weight: bold; background-color: #f0e68c">${user.getFirstName()} ${user.getLastName()}&apos;s Hours</legend>
+                                <legend>${user.getFirstName()} ${user.getLastName()}&apos;s Hours</legend>
                                 <table border="1" style="width: 100%; border-collapse: collapse">
 
                                     <tr>
@@ -130,20 +132,20 @@
                                     </tr>
                                     <c:forEach items="${clientWeeklyHours}" var="hrs" varStatus="loop">
                                         <tr>
-                                            <td><c:out value="${hrs.dateHoursEntered}" /></td>
+                                            <td><c:out value="${hrs.dateHoursEnteredFormatted}" /></td>
                                             <td><c:out value="${hrs.numberOfHours}" /></td>
                                         </tr>
                                     </c:forEach>
                                     <c:if test="${user.isMarried()}">
 
 
-                                        <tr><td colspan="2" style="font-weight: bold; background-color: #f0e68c">${clientPartner.getFirstName()} ${clientPartner.getLastName()}
+                                        <tr><td colspan="2" class="nameOnhoursTable">${clientPartner.getFirstName()} ${clientPartner.getLastName()}
                                                 &apos;s Hours</td></tr>
                                                 <c:forEach items="${partnerWeeklyHours}" var="hrs" varStatus="loop">
 
                                             <tr>
 
-                                                <td><c:out value="${hrs.dateHoursEntered}" /></td>
+                                                <td><c:out value="${hrs.dateHoursEnteredFormatted}" /></td>
                                                 <td><c:out value="${hrs.numberOfHours}" /></td>
 
                                             </tr>
@@ -155,12 +157,12 @@
                                             <td colspan="2" style="background-color: #f0e68c">Total Hours in this period for both of you</td>
                                         </tr>
                                         <tr>
-                                            <td style="font-weight: bold">${clientPartner.getFirstName()}&apos;s hours</td>
+                                            <td class="nameOnhoursTable">${clientPartner.getFirstName()}&apos;s hours</td>
                                             <td><c:out value="${partnerTotalFilteredHours}" /></td>
                                         </tr>
                                     </c:if>
                                     <tr>
-                                        <td style="font-weight: bold">${user.getFirstName()}&apos;s hours</td>
+                                        <td class="nameOnhoursTable">${user.getFirstName()}&apos;s hours</td>
                                         <td><c:out value="${clientTotalFilteredHours}" /></td>
                                     </tr>
                                     <c:if test="${user.isMarried()}">

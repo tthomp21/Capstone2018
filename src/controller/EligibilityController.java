@@ -367,14 +367,14 @@ public class EligibilityController extends HttpServlet {
 	                + " while you were supposed to make 60 hours by the thrid week.";
 	isWarning = true;
                 } else {
-	warningMsg = "Keep doing the good work! your hours are all set; however make sure you the the rest of hours you are required for the last week ";
+	warningMsg = "Keep doing the good work! your hours are all set; however make sure you the the rest of hours you are required for the last week.";
                 }
             }
         } else {// if it hasn't been three weeks yet, display a regular message based on marriage
             if (married) {
-                warningMsg = "Keep doing the good work! your hours and your partner's at this point are fine; however make sure you make whatever hours you are required for the remaining of the month ";
+                warningMsg = "Keep doing the good work! your hours and your partner's at this point are fine; however make sure you make whatever hours you are required for the remaining of the month. ";
             } else {
-                warningMsg = "Keep doing the good work! your hours are fine; however make sure you make whatever hours you are required for the remaining of the month ";
+                warningMsg = "Keep doing the good work! your hours are fine; however make sure you make whatever hours you are required for the remaining of the month.";
             }
         }
         session.setAttribute("clinetHoursList3Weeks", clientsHoursList);

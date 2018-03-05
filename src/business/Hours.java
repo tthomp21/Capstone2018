@@ -7,6 +7,7 @@ package business;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 /**
@@ -19,6 +20,7 @@ public class Hours implements Serializable {
     private LocalDate   dateHoursEntered;
     private double      numberOfHours;
     private double      totalHoursForEach;   
+    private String	    dateHoursEnteredFormatted;
     public Hours(){}
     
     
@@ -82,6 +84,8 @@ public class Hours implements Serializable {
      * @param dateHoursEntered the dateHoursEntered to set
      */
     public void setDateHoursEntered(LocalDate dateHoursEntered) {
+          DateTimeFormatter formatter	= DateTimeFormatter.ofPattern("MM/dd/yyyy");
+         this.dateHoursEnteredFormatted =  dateHoursEntered.format(formatter);
         this.dateHoursEntered = dateHoursEntered;
     }
 
@@ -97,6 +101,20 @@ public class Hours implements Serializable {
      */
     public void setNumberOfHours(double numberOfHours) {
         this.numberOfHours = numberOfHours;
+    }
+
+    /**
+     * @return the dateHoursEnteredFormatted
+     */
+    public String getDateHoursEnteredFormatted() {
+        return dateHoursEnteredFormatted;
+    }
+
+    /**
+     * @param dateHoursEnteredFormatted the dateHoursEnteredFormatted to set
+     */
+    public void setDateHoursEnteredFormatted(String dateHoursEnteredFormatted) {
+        this.dateHoursEnteredFormatted = dateHoursEnteredFormatted;
     }
     
     

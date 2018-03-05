@@ -115,3 +115,8 @@ input[type=submit]{
 .warningText{
     font-size: 1.5em;
 }
+
+.nameOnhoursTable, legend{
+    font-weight: bold;
+    font-size: 1.5em;
+}
