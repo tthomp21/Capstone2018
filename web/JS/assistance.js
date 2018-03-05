@@ -1,33 +1,94 @@
 $(document).ready(function () {
-        
-    $("#main h2").click(
+
+    $("#primarySection h2, #secondarySection h2").click(
             function () {
 
                 if ($(this).hasClass("fold")) {
-                    $(this).toggleClass("unfold");
-                    $(this).next().toggleClass("open");
+                   // $(this).toggleClass("unfold");
+                   // $(this).next().toggleClass("open");
+                   
+                    $(this).removeClass("fold");
+                    $(this).addClass("unfold");
+                    
+                    $(this).next().removeClass("closed");
+                    $(this).next().addClass("open");
+                    
+                    
 
                 } else {
-                    $(this).toggleClass("fold");
-                    $(this).next().toggleClass("closed");
+                   // $(this).toggleClass("fold");
+                   // $(this).next().toggleClass("closed");
+                   
+                   $(this).removeClass("unfold");
+                    $(this).addClass("fold");
+                    
+                    $(this).next().removeClass("open");
+                    $(this).next().addClass("closed");
                 }
+                
             }
-    ); // end click
-    
-    $(".primaryTitle").click(
-            function (){
-                
-                $("#primarySection h2").toggleClass("unfold");
-                $("#primarySection div").toggleClass("open"); 
+    ); // end h2 click
+
+    $("#priH1").click(
+            function () {
+                if ($(this).hasClass("priClose"))
+                {
+                    $(this).attr("class", "priOpen");
+                    
+                    $("#primarySection h2").removeClass("fold");
+                    $("#primarySection h2").addClass("unfold");
+                    
+                    $("#primarySection div").removeClass("closed");
+                    $("#primarySection div").addClass("open");
+                   
+              
+                  
+                    
+                }else
+                {
+                    $(this).attr("class", "priClose");
+                    
+                    $("#primarySection h2").removeClass("unfold");
+                    $("#primarySection h2").addClass("fold");
+                    
+                    $("#primarySection div").removeClass("open");
+                    $("#primarySection div").addClass("closed");
+                }
+
+
             });
-    
-    
-     
-    $(".secondaryTitle").click(
-            function (){
+
+
+
+    $("#secH1").click(
+            function () {
                 
-                $("#secondarySection h2").toggleClass("unfold");
-                $("#secondarySection div").toggleClass("open"); 
+                if ($(this).hasClass("priClose"))
+                {
+                    $(this).attr("class", "priOpen");
+                    
+                    $("#secondarySection h2").removeClass("fold");
+                    $("#secondarySection h2").addClass("unfold");
+                    
+                    $("#secondarySection div").removeClass("closed");
+                    $("#secondarySection div").addClass("open");
+                   
+              
+                  
+                    
+                }else
+                {
+                    $(this).attr("class", "priClose");
+                    
+                    $("#secondarySection h2").removeClass("unfold");
+                    $("#secondarySection h2").addClass("fold");
+                    
+                    $("#secondarySection div").removeClass("open");
+                    $("#secondarySection div").addClass("closed");
+                }
+
+                //$("#secondarySection h2").toggleClass("unfold");
+                //$("#secondarySection div").toggleClass("open");
             });
 }); // end ready
 

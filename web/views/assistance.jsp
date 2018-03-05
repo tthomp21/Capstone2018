@@ -43,7 +43,8 @@
             <div id="main">
 
                 <section id="primarySection">
-                    <h1 class="primaryTitle" id="priTitle">Primary Assistances</h1>
+                    <%-- <h1 class="primaryTitle" class="priClose">Primary Assistances</h1> --%>
+                    <h1 id="priH1" class="priClose">Primary Assistances</h1>
                     <h2 class="fold">Food Stamp or SNAP</h2>
                     <div class="closed">
                         <table border="1">
@@ -123,7 +124,7 @@
                 </section>
 
                 <section id="secondarySection">
-                    <h1 class="secondaryTitle">Secondary Assistances</h1>
+                    <h1 id="secH1" class="priClose">Secondary Assistances</h1>
 
                     <c:choose>
                         <c:when test="${isSanctioned}">

@@ -30,7 +30,16 @@ main, header, footer, h1, h2{
 
 }
 .eligibilitySection table td{
-    text-align: center;
+    text-align: left;
+    padding: 5px;
+    font-size: 1.2em;
+}
+.eligibilitySection table tr:hover{
+    background-color: #f0e68c;
+    font-size: 1.5em;
+}
+.eligibilitySection table th{
+    font-size: 1.5em;
 }
 .eligibilitySection caption{
     margin-bottom: 20px;
@@ -42,6 +51,8 @@ main, header, footer, h1, h2{
     width: 500px;
     
 }
+
+
 
 #divider{
     position: absolute;

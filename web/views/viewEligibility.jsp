@@ -49,45 +49,51 @@
             <div id="main">
                 <section class="eligibilitySection">
 
-                    <table border="1" style="border-collapse: collapse;">
-                        <caption style="font-weight: bold; font-size: 1.5em;">Assistance Eligibility Overview</caption>
-                        <tr>
-                            <th>Assistance type</th>
-                            <th>Recertification Date</th>
-                        </tr>
-
-                        <c:forEach items="${aidNotifyList}" var="aidNotify" varStatus="loop">
-
+                    <c:if test="${aidNotifyList.size() eq 0}">
+                        <h1>Assistance Recertification Overview</h1>
+                        <p class="warningText">You have no benefits that are due to reapply at this time.</p>
+                    </c:if>
+                    <c:if test="${aidNotifyList.size() gt 0}">
+                        <table border="1" style="border-collapse: collapse;">
+                            <caption style="font-weight: bold; font-size: 1.5em;">Assistance Recertification Overview</caption>
                             <tr>
-                                <c:choose>
-
-                                    <c:when test="${aidNotify.aidTypeID == 1}">
-                                        <td>Foot Stamps (SNAP)</td>
-                                    </c:when>
-
-                                    <c:when test="${aidNotify.aidTypeID == 2}">
-                                        <c:if test="${isSanctioned}">
-                                            <td>Cash Assistance (ADC)<br><span style="color: red; font-size: 1.5em;">You are sanctioned; check with your case worker for details.</span></td>
-                                                <%-- <c:set target="${AidNotify} property =recertificationDate" scope="session" value="null"></c:set> --%>
-                                            </c:if>
-                                            <c:if test="${not isSanctioned}">
-                                            <td>Cash Assistance (ADC)</td>
-                                        </c:if>
-
-                                    </c:when>
-
-                                    <c:otherwise>
-                                        <td>Medicaid</td>
-                                    </c:otherwise>
-                                </c:choose>
-
-
-
-                                <td><c:out value="${aidNotify.recertificationDate}" /></td>
-
+                                <th>Assistance type</th>
+                                <th>Recertification Date</th>
                             </tr>
 
-                        </c:forEach>
+                            <c:forEach items="${aidNotifyList}" var="aidNotify" varStatus="loop">
+
+                                <tr>
+                                    <c:choose>
+
+                                        <c:when test="${aidNotify.aidTypeID == 1}">
+                                            <td>Foot Stamps (SNAP)</td>
+                                        </c:when>
+
+                                        <c:when test="${aidNotify.aidTypeID == 2}">
+                                            <c:if test="${isSanctioned}">
+                                                <td>Cash Assistance (ADC)<br><span style="color: red; font-size: 1.5em;">You are sanctioned; check with your case worker for details.</span></td>
+                                                    <%-- <c:set target="${AidNotify} property =recertificationDate" scope="session" value="null"></c:set> --%>
+                                                </c:if>
+                                                <c:if test="${not isSanctioned}">
+                                                <td>Cash Assistance (ADC)</td>
+                                            </c:if>
+
+                                        </c:when>
+
+                                        <c:otherwise>
+                                            <td>Medicaid</td>
+                                        </c:otherwise>
+                                    </c:choose>
+
+
+
+                                    <td><c:out value="${aidNotify.recertDateFormatted}" /></td>
+
+                                </tr>
+
+                            </c:forEach>
+                        </c:if>
                     </table>
 
                 </section>
@@ -208,27 +214,27 @@
                                 <%-- if there is a low hours warning for the three weeks , 
                                     then display the warning icon and the word warning --%>
                                 <c:if test="${isWarning}">
-                                    
-                                <tr>
-                                    <td class="warning">Warning</td>
-                                </tr>
-                                <tr>
-                                    <td class="warningText">
-                                        ${warningMsg}
-                                    </td>
-                                </tr>
+
+                                    <tr>
+                                        <td class="warning">Warning</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="warningText">
+                                            ${warningMsg}
+                                        </td>
+                                    </tr>
                                 </c:if>
-                                
-                                 <c:if test="${not isWarning}">
-                                    
-                                <tr>
-                                    <td class="perfectIcon">Awesome</td>
-                                </tr>
-                                <tr>
-                                    <td class="warningText">
-                                        ${warningMsg}
-                                    </td>
-                                </tr>
+
+                                <c:if test="${not isWarning}">
+
+                                    <tr>
+                                        <td class="perfectIcon">Awesome</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="warningText">
+                                            ${warningMsg}
+                                        </td>
+                                    </tr>
                                 </c:if>
                             </table>
 

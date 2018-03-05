@@ -6,6 +6,7 @@
 package business;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -16,7 +17,7 @@ public class AidNotify {
     private int	    clientID;
     private int	    aidTypeID;
     private LocalDate   recertificationDate;
-    
+    private String	    recertDateFormatted;
     
     public AidNotify(){}
 
@@ -49,6 +50,20 @@ public class AidNotify {
     }
 
     /**
+     * @return the recertDateFormatted
+     */
+    public String getRecertDateFormatted() {
+        return recertDateFormatted;
+    }
+
+    /**
+     * @param recertDateFormatted the recertDateFormatted to set
+     */
+    public void setRecertDateFormatted(String recertDateFormatted) {
+        this.recertDateFormatted = recertDateFormatted;
+    }
+
+    /**
      * @return the recertificationDate
      */
     public LocalDate getRecertificationDate() {
@@ -59,7 +74,10 @@ public class AidNotify {
      * @param recertificationDate the recertificationDate to set
      */
     public void setRecertificationDate(LocalDate recertificationDate) {
-        this.recertificationDate = recertificationDate;
+        
+         DateTimeFormatter formatter	= DateTimeFormatter.ofPattern("MM/dd/yyyy");
+         this.recertDateFormatted =  recertificationDate.format(formatter);
+         this.recertificationDate = recertificationDate;
     }
     
     
