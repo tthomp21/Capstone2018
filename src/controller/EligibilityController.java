@@ -330,6 +330,7 @@ public class EligibilityController extends HttpServlet {
             double clientsTotalHours =0;
             double parntersTotalHours =0;
             double couplesHours  =0;
+            boolean isWarning = false;
             
           LocalDate threeWeeksDate = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()).minusDays(7);
           LocalDate firstOfMonth   = LocalDate.now().withDayOfMonth(1);
@@ -360,6 +361,8 @@ public class EligibilityController extends HttpServlet {
                                         + " to " + endoOfMonth.toString() 
                                         + "to make those hours. Just for your information your partner's hours are: " + parntersTotalHours + " and yours are: " + clientsTotalHours
                                         + " while you both supposed to do 105 hours by the third week of the month.";
+	      
+	      isWarning = true;
 
                     }else {
                          warningMsg = "Keep doing the good work! your hours and your partner's too are all set; however make sure you make the rest of hours you are required for the last week.";
@@ -374,6 +377,7 @@ public class EligibilityController extends HttpServlet {
                                     + " from " + todayDate.toString() + " to " + endoOfMonth.toString() 
                                     + "to make those hours. Just for your information your hours are: " + clientsTotalHours
                                     + " while you were supposed to make 60 hours by the thrid week.";
+	   isWarning = true;
                     }else{
                          warningMsg = "Keep doing the good work! your hours are all set; however make sure you the the rest of hours you are required for the last week ";
                     }

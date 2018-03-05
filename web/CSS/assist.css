@@ -49,6 +49,12 @@ th, td:nth-child(1){
 }
 th{
     padding: 5px;
+    font-size: 1.5em;
+}
+
+
+td{
+    padding: 5px;
 }
 .primaryTitle, .secondaryTitle{
    background-color: #f0e68c;

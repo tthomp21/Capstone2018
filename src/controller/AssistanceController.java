@@ -75,7 +75,7 @@ public class AssistanceController extends HttpServlet {
         //allAssitancesList = ClientDB.getAllAssistances(aClient.getClientID());
 
         clientAidList = ClientDB.getPrimaryAssistances(aClient.getClientID());
-
+        Collections.sort(clientAidList, ClientAid.sortAssistanceListByDate);
         //this is only test data (hard coded)
         // allAssitancesList = ClientDB.getTestData();
         ArrayList<AssistanceRequest> carRepairsList = new ArrayList<AssistanceRequest>();
@@ -124,18 +124,8 @@ public class AssistanceController extends HttpServlet {
                     medicaidList.add(clientAssist);
                 }
             }
+            
 
-            Collections.sort(carRepairsList, AssistanceRequest.sortAssistanceListByDate);
-            Collections.sort(clothingList, AssistanceRequest.sortAssistanceListByDate);
-            Collections.sort(gasList, AssistanceRequest.sortAssistanceListByDate);
-            Collections.sort(vehicleRegisterList, AssistanceRequest.sortAssistanceListByDate);
-            Collections.sort(tuitionList, AssistanceRequest.sortAssistanceListByDate);
-
-            //NOTE: I made the clientAid to extend the AssistanceRequest to take advantage of implementing comparator class
-            // so this will be tested once tables are populated later and see if it will work. 
-              Collections.sort(foodList, ClientAid.sortAssistanceListByDate);
-             Collections.sort(cashList, ClientAid.sortAssistanceListByDate);
-             Collections.sort(medicaidList, ClientAid.sortAssistanceListByDate);
         } catch (Exception ex) {
             url = "/views/assistance.jsp";
             cs.getRequestDispatcher(url).forward(request, response);

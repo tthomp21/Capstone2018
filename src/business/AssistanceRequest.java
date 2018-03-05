@@ -10,7 +10,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
+import javax.swing.text.DateFormatter;
 
 /**
  * 1/23/2018
@@ -31,6 +33,7 @@ public class AssistanceRequest implements Serializable, Comparator<AssistanceReq
     //private double amountPaid;
     private String status;
     private LocalDate dateDisbursed;
+    
     //private String    assistanceDescription;
     private AidType aidType;
 
@@ -190,6 +193,8 @@ public class AssistanceRequest implements Serializable, Comparator<AssistanceReq
     public String getAmountPaid() {
         return amountPaid;
     }
+
+ 
     
     /**
      * Sorting the list. based on the field chosen. for this example by

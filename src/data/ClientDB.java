@@ -52,7 +52,8 @@ public class ClientDB {
 	    + "amount, a.assistanceID, description "
 	    + "FROM SCM.TCF_REQUESTASSIST ra join SCM.TCF_ASSISTANCE a "
 	    + "on ra.assistanceId = a.assistanceID "
-	    + "WHERE clientID = ?"; 
+	    + "WHERE clientID = ? " 
+	    +"Order BY dateDisbursed ";
 
 
         try {
@@ -71,7 +72,7 @@ public class ClientDB {
                 assistRequest.setClientID(rs.getInt("clientID"));
                 assistRequest.setRequestDate(rs.getDate("dateRequest").toLocalDate());
                 assistRequest.setStatus(rs.getString("status"));
-                String disDate = (rs.getString("dateDisbursed"));
+                
                 
                 assistRequest.setAmountPaid(rs.getDouble("Amount") + "");
                 anAssistance = new Assistance(rs.getInt("assistanceID"), rs.getString("description"));
@@ -121,7 +122,8 @@ public class ClientDB {
         String query = "SELECT clientID, dateDisbursed, c.aidtype, aidName, AidAmount "
 	    + "FROM SCM.TCF_CLIENTAID c join SCM.TCF_AIDTYPES a "
 	    + "ON c.aidtype = a.aidtype "
-	    + " WHERE clientID = ?";
+	    + "WHERE clientID = ? " 
+	    + "Order BY aidname asc ";
 
         try {
             ps = connection.prepareStatement(query);
@@ -137,7 +139,6 @@ public class ClientDB {
                 clientAid.setClientID(rs.getInt("clientID"));
                 clientAid.setClientAidDateDisbursed(rs.getDate("dateDisbursed").toLocalDate());
                 clientAid.setAidAmount(rs.getDouble("AidAmount") + "");
-
                 aidType = new AidType(rs.getInt("aidType"), rs.getString("aidName"));
                 clientAid.setAidType(aidType);
 

@@ -93,3 +93,14 @@ input[type=submit]{
    font-weight: bolder;
    font-size: 1.8em;
 }
+
+.perfectIcon{
+     background: url(/Images/perfect2.PNG) no-repeat left center;
+   height: 85px;
+   padding-left: 90px;
+   font-weight: bolder;
+   font-size: 1.8em;
+}
+.warningText{
+    font-size: 1.5em;
+}

@@ -6,7 +6,9 @@
 package business;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 
 /**
@@ -19,6 +21,7 @@ public class ClientAid implements Serializable, Comparator<ClientAid> {
     private String aidAmount;
     private LocalDate clientAidDateDisbursed;
     private AidType aidType; // this is for food stams ... (primary)
+    private String aidDateDisbursedFormatted;
 
     public ClientAid() {
     }
@@ -55,7 +58,10 @@ public class ClientAid implements Serializable, Comparator<ClientAid> {
      * @param clientAidDateDisbursed the clientAidDateDisbursed to set
      */
     public void setClientAidDateDisbursed(LocalDate clientAidDateDisbursed) {
-        this.clientAidDateDisbursed = clientAidDateDisbursed;
+        
+        DateTimeFormatter formatter	= DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        this.aidDateDisbursedFormatted  = clientAidDateDisbursed.format(formatter);
+        this.clientAidDateDisbursed	= clientAidDateDisbursed;
     }
 
     /**
@@ -86,22 +92,38 @@ public class ClientAid implements Serializable, Comparator<ClientAid> {
         return aidAmount;
     }
 
+    /**
+     * @return the aidDateDisbursedFormatted
+     */
+    public String getAidDateDisbursedFormatted() {
+        return aidDateDisbursedFormatted;
+    }
+
+    /**
+     * @param aidDateDisbursedFormatted the aidDateDisbursedFormatted to set
+     */
+    public void setAidDateDisbursedFormatted(String aidDateDisbursedFormatted) {
+        this.aidDateDisbursedFormatted = aidDateDisbursedFormatted;
+    }
+
     public static Comparator<ClientAid> sortAssistanceListByDate = new Comparator<ClientAid>() {
 
         public int compare(ClientAid o1, ClientAid o2) {
 
-            LocalDate date1 = o1.getClientAidDateDisbursed();
-            LocalDate date2 = o2.getClientAidDateDisbursed();
+            //LocalDate date1 = o1.getClientAidDateDisbursed();
+            //LocalDate date2 = o2.getClientAidDateDisbursed();
+            
+            String date1 = o1.getAidDateDisbursedFormatted();
+            String date2 = o2.getAidDateDisbursedFormatted();
 
             //descending order, newest date to oldest, the most current one
-            return date2.compareTo(date1);
+            //return date2.compareTo(date1);
 
             //ascending order, oldest date to newest
-            // return date1.compareTo(date2);
+             return date1.compareTo(date2);
         }
-    
 
-};
+    };
 
     @Override
     public int compare(ClientAid o1, ClientAid o2) {

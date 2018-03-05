@@ -43,7 +43,7 @@
             <div id="main">
 
                 <section id="primarySection">
-                    <h1 class="primaryTitle">Primary Assistances</h1>
+                    <h1 class="primaryTitle" id="priTitle">Primary Assistances</h1>
                     <h2 class="fold">Food Stamp or SNAP</h2>
                     <div class="closed">
                         <table border="1">
@@ -58,7 +58,7 @@
                                 <tr>
 
                                     <td><c:out value="${aBenefit.aidAmount}" /></td>
-                                    <td><c:out value="${aBenefit.clientAidDateDisbursed}" /></td>
+                                    <td><c:out value="${aBenefit.aidDateDisbursedFormatted}" /></td>
                                     <td><c:out value="${aBenefit.aidType.aidDescription}" /></td>
                                 </tr>
 
@@ -78,8 +78,6 @@
                             <div class="closed">
                                 <table border="1">
                                     <tr>
-
-
                                         <th>Amount Paid</th>
                                         <th>Date Disbursed</th>
                                         <th>Assistance Status</th>
@@ -87,9 +85,8 @@
                                     <c:forEach items="${cashList}" var="aBenefit" varStatus="loop">
 
                                         <tr>
-
                                             <td><c:out value="${aBenefit.aidAmount}" /></td>
-                                            <td><c:out value="${aBenefit.clientAidDateDisbursed}" /></td>
+                                            <td><c:out value="${aBenefit.aidDateDisbursedFormatted}" /></td>
                                             <td><c:out value="${aBenefit.aidType.aidDescription}" /></td>
                                         </tr>
 
@@ -116,7 +113,7 @@
                                 <tr>
 
                                     <td><c:out value="${aBenefit.aidAmount}" /></td>
-                                    <td><c:out value="${aBenefit.clientAidDateDisbursed}" /></td>
+                                    <td><c:out value="${aBenefit.aidDateDisbursedFormatted}" /></td>
                                     <td><c:out value="${aBenefit.aidType.aidDescription}" /></td>
                                 </tr>
 

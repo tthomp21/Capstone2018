@@ -205,14 +205,31 @@
                         <div id="hoursAlertDiv">
                             <h2>Client's Notifications</h2>
                             <table>
+                                <%-- if there is a low hours warning for the three weeks , 
+                                    then display the warning icon and the word warning --%>
+                                <c:if test="${isWarning}">
+                                    
                                 <tr>
                                     <td class="warning">Warning</td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <td class="warningText">
                                         ${warningMsg}
                                     </td>
                                 </tr>
+                                </c:if>
+                                
+                                 <c:if test="${not isWarning}">
+                                    
+                                <tr>
+                                    <td class="perfectIcon">Awesome</td>
+                                </tr>
+                                <tr>
+                                    <td class="warningText">
+                                        ${warningMsg}
+                                    </td>
+                                </tr>
+                                </c:if>
                             </table>
 
 
@@ -222,7 +239,8 @@
                     <c:if test="${isSanctioned}">   
                         <div id="sanctionMsgDiv">
                             <h2>Sanctions Notification</h2>
-                            <p style="color: red; font-size: 1.5em;">${periodToWaitToB_Eligible}</p>
+                            <span style="font-family: fantasy; font-size: 2.8em; color: red;">Sanctioned!</span><br><p class="warningText"> ${periodToWaitToB_Eligible}</p>
+                            <%-- <img src="/Images/sanctioned.PNG" width="220" height="200"> --%>
                         </div>
                     </c:if>
 
