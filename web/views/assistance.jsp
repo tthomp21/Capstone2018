@@ -11,7 +11,8 @@
         <link href="../CSS/default.css" rel="stylesheet" type="text/css"/>
         <link href="../CSS/assist.css" rel="stylesheet" type="text/css"/>
         <script type="text/javascript" src="/JS/assistance.js"></script>
-
+        
+        <script src="../JS/modals.js" type="text/javascript"></script>
 
         <title>Team Cash Flow</title>
 

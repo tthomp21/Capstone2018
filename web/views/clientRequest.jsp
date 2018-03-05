@@ -13,6 +13,8 @@
         <link href="../CSS/default.css" rel="stylesheet" type="text/css"/>
         <link href="../CSS/requests.css" rel="stylesheet" type="text/css"/>
         <script src="../JS/request.js" type="text/javascript"></script>
+        
+        <script src="../JS/modals.js" type="text/javascript"></script>
         <title>Team Cash Flow</title>
     </head>
     

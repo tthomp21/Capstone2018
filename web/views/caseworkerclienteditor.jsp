@@ -18,6 +18,7 @@
         <link href="../CSS/caseWorker.css" rel="stylesheet" type="text/css"/>
         <script src="../JS/caseworker.js" type="text/javascript"></script>
         
+        <script src="../JS/modals.js" type="text/javascript"></script>
         <title>Team Cash Flow</title>
     </head>
     

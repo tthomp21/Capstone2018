@@ -1,9 +1,22 @@
 <!-- this might contain the links to the other pages or any other commons code among other pages -->
 <footer>    
     <ul>
-        <li><a href="aboutUs.jsp">About Us</a></li>
-        <li><a href="contact.jsp">Contact Info</a></li>
+        <li><a onclick="showAboutUs()">About Us</a></li>
+        <li><a onclick="showContactUs()">Contact Info</a></li>
         <li><a href="/DBInsertController">Database</a></li>
-        <li><a href="link">link</a></li>
-    </ul>    
+    </ul> 
 </footer>
+
+<div id="aboutUs" class="modal">  
+    <div class="modal-content">
+        <span id="closeAbout" class="close">&times;</span>
+        <p>Some text in the Modal..</p>
+    </div>
+</div>
+
+<div id="contactUs" class="modal">  
+    <div class="modal-content">
+        <span id="closeContact" class="close">&times;</span>
+        <p>Some text in the Modal2..</p>
+    </div>
+</div>

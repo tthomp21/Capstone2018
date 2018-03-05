@@ -9,7 +9,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
         
         <link href="../CSS/default.css" rel="stylesheet" type="text/css"/>
-             
+        
+        <script src="../JS/modals.js" type="text/javascript"></script>     
         <title>Team Cash Flow</title>
     </head>
     

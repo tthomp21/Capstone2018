@@ -17,7 +17,8 @@
         <link href="../CSS/default.css" rel="stylesheet" type="text/css"/>
         <link href="../CSS/eligibility.css" rel="stylesheet" type="text/css"/>
         <script type="text/javascript" src="/JS/assistance.js"></script>
-
+        
+        <script src="../JS/modals.js" type="text/javascript"></script>
 
         <title>Eligibility Status</title>
 
