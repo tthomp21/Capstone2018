@@ -14,7 +14,7 @@
         
         <script src="../JS/modals.js" type="text/javascript"></script>
 
-        <title>Team Cash Flow</title>
+        <title>Primary Assistances</title>
 
     </head>
 
@@ -60,8 +60,8 @@
                                 <tr>
 
                                     <td><c:out value="${aBenefit.aidAmount}" /></td>
-                                    <td><c:out value="${aBenefit.aidDateDisbursedFormatted}" /></td>
-                                    <td><c:out value="${aBenefit.aidType.aidDescription}" /></td>
+                                    <td><c:out value="${aBenefit.clientAidDateDisbursed}" /></td>
+                                    <td><c:out value="${aBenefit.assistanceStatus}" /></td>
                                 </tr>
 
                             </c:forEach>
@@ -88,8 +88,8 @@
 
                                         <tr>
                                             <td><c:out value="${aBenefit.aidAmount}" /></td>
-                                            <td><c:out value="${aBenefit.aidDateDisbursedFormatted}" /></td>
-                                            <td><c:out value="${aBenefit.aidType.aidDescription}" /></td>
+                                            <td><c:out value="${aBenefit.clientAidDateDisbursed}" /></td>
+                                            <td><c:out value="${aBenefit.assistanceStatus}" /></td>
                                         </tr>
 
                                     </c:forEach>
@@ -106,17 +106,17 @@
                             <tr>
 
 
-                                <th>Amount Paid</th>
-                                <th>Date Disbursed</th>
+                                <%--   <th>Approval Code</th> --%>
+                                <th>Activation Date</th>
                                 <th>Assistance Status</th>
                             </tr>
                             <c:forEach items="${medicaidList}" var="aBenefit" varStatus="loop">
 
                                 <tr>
 
-                                    <td><c:out value="${aBenefit.aidAmount}" /></td>
-                                    <td><c:out value="${aBenefit.aidDateDisbursedFormatted}" /></td>
-                                    <td><c:out value="${aBenefit.aidType.aidDescription}" /></td>
+                                  <%--  <td><c:out value="${aBenefit.aidAmount}" /></td> --%>
+                                    <td><c:out value="${aBenefit.clientAidDateDisbursed}" /></td>
+                                    <td><c:out value="${aBenefit.assistanceStatus}" /></td>
                                 </tr>
 
                             </c:forEach>
