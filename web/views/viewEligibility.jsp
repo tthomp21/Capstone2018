@@ -52,7 +52,7 @@
 
                     <c:if test="${aidNotifyList.size() eq 0}">
                         <h1>Assistance Recertification Overview</h1>
-                        <p class="warningText">You have no benefits that are due to reapply at this time.</p>
+                        <p class="warningText">You have no benefits that are due to reapply at this<br> time.</p>
                     </c:if>
                     <c:if test="${aidNotifyList.size() gt 0}">
                         <table border="1" style="border-collapse: collapse;">
@@ -70,7 +70,7 @@
                                     <c:choose>
 
                                         <c:when test="${aidNotify.aidTypeID == 1}">
-                                            <td>Foot Stamps (SNAP)</td>
+                                            <td>Food Stamps (SNAP)</td>
                                         </c:when>
 
                                         <c:when test="${aidNotify.aidTypeID == 2}">

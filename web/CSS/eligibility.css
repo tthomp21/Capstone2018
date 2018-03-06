@@ -36,7 +36,7 @@ main, header, footer, h1, h2{
 }
 .eligibilitySection table tr:hover{
     background-color: #f0e68c;
-    font-size: 1.5em;
+    font-size: 1.2em;
 }
 .eligibilitySection table th{
     font-size: 1.5em;
@@ -58,7 +58,7 @@ main, header, footer, h1, h2{
     position: absolute;
     margin-left: 520px;
     height: 100%;
-    background-color: #ddd;
+    background-color:  #e6e6ff;
     width: 400px;
     top: 0;
    text-align: center; 
@@ -79,6 +79,7 @@ input[type=submit]{
     font-size: 1.1em;
     font-weight: bold;
     margin-bottom: 40px;
+     background-color: #00b33c;
 }
 .formatDateMessage{
     background-color: #f0e68c;
@@ -115,8 +116,15 @@ input[type=submit]{
 .warningText{
     font-size: 1.5em;
 }
-
+/* font-weight: bold;
+font-size: 1.1em;*/
 .nameOnhoursTable, legend{
-    font-weight: bold;
-    font-size: 1.5em;
+    
+    
+}
+
+
+th{
+    background-color: 	#1a53ff;
+    color: white;
 }
