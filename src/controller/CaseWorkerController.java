@@ -5,6 +5,7 @@
 package controller;
 
 import business.*;
+import data.AssistanceDB;
 import data.ClientDB;
 import data.HoursDB;
 import data.RequestDB;
@@ -254,7 +255,7 @@ public class CaseWorkerController extends HttpServlet {
         
         
         ArrayList<AssistanceRequest> assistReq = new ArrayList<AssistanceRequest>();
-        assistReq = ClientDB.getSecondaryAssistances(Integer.parseInt(clientID));
+        assistReq = AssistanceDB.getSecondaryAssistances(Integer.parseInt(clientID));
         session.setAttribute("clientRequests", assistReq);
         
     }
