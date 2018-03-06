@@ -27,7 +27,7 @@ public class FileServe {
         String id = requestID + "";
         
         // set directory for uploaded files
-        String fileDir = System.getProperty("user.home") + "/Desktop";
+        String fileDir = System.getProperty("user.home") + "/My Documents";
         // create file object from fileDir
         File searchDir = new File(fileDir);
         // reference for chosen file
