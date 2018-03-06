@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *  Murad Smoqy
+ *  get assistances
  */
 package controller;
 
@@ -9,6 +8,7 @@ import business.AssistanceRequest;
 import business.Client;
 import business.ClientAid;
 import data.AccountDB;
+import data.AssistanceDB;
 import data.ClientDB;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -71,10 +71,8 @@ public class AssistanceController extends HttpServlet {
         ArrayList<ClientAid> medicaidList = new ArrayList<ClientAid>();
 
         //this list is only seconary list, as the names of the lists indicate
-        allSecondaryAssistList = ClientDB.getSecondaryAssistances(aClient.getClientID());
-        //allAssitancesList = ClientDB.getAllAssistances(aClient.getClientID());
-
-        clientAidList = ClientDB.getPrimaryAssistances(aClient.getClientID());
+        allSecondaryAssistList = AssistanceDB.getSecondaryAssistances(aClient.getClientID());
+        clientAidList = AssistanceDB.getPrimaryAssistances(aClient.getClientID());
 
         //this is only test data (hard coded)
         // allAssitancesList = ClientDB.getTestData();
@@ -83,21 +81,8 @@ public class AssistanceController extends HttpServlet {
         ArrayList<AssistanceRequest> vehicleRegisterList = new ArrayList<AssistanceRequest>();
         ArrayList<AssistanceRequest> gasList = new ArrayList<AssistanceRequest>();
         ArrayList<AssistanceRequest> tuitionList = new ArrayList<AssistanceRequest>();
-
         
         
-        
-        
-        
-//        if (a.getStatus().trim().equalsIgnoreCase("1")) {
-//                    a.setStatus("active");
-//                } else if (a.getStatus().trim().equalsIgnoreCase("0")) {
-//                    a.setStatus("denied");
-//
-//                } else {
-//                    a.setStatus("Pending");
-//                }
-        //secondary assistances
         try {
 
             for (AssistanceRequest a : allSecondaryAssistList) {
@@ -215,24 +200,5 @@ public class AssistanceController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    /**
-     * this is sorting the list based on the year for now. ***** come up with
-     * something that would sort based on the whole date.
-     *
-     * this method may need session object so it forwards the sorted list from
-     * here.
-     *
-     * @param foodList
-     *
-     * private void sortOurLists(ArrayList<AssistanceRequest> foodList) {
-     *
-     * Collections.sort(foodList, new Comparator<AssistanceRequest>() { public
-     * int compare(AssistanceRequest assis1, AssistanceRequest assis2) { return
-     * Integer.valueOf(assis1.getDateDisbursed().getYear()).compareTo(assis2.getDateDisbursed().getYear());
-     * }
-     *
-     * }
-     * );
-     *
-     */
+    
 }

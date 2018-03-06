@@ -75,7 +75,7 @@
 
                                         <c:when test="${aidNotify.aidTypeID == 2}">
                                             <c:if test="${isSanctioned}">
-                                                <td>Cash Assistance (ADC)<br><span style="color: red; font-size: 1.5em;">You are sanctioned; check with your case worker for details.</span></td>
+                                                <td>Cash Assistance (ADC)<br><span style="color: red; font-size: 1.2em;">You are under sanctioned; check with your case worker for details.</span></td>
                                                     <%-- <c:set target="${AidNotify} property =recertificationDate" scope="session" value="null"></c:set> --%>
                                                 </c:if>
                                                 <c:if test="${not isSanctioned}">
@@ -88,8 +88,6 @@
                                             <td>Medicaid</td>
                                         </c:otherwise>
                                     </c:choose>
-
-
 
                                     <td><c:out value="${aidNotify.recertDateFormatted}" /></td>
 

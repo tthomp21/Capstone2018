@@ -6,7 +6,11 @@
 package data;
 
 import business.AidNotify;
+import business.AidType;
+import business.Assistance;
+import business.AssistanceRequest;
 import business.Client;
+import business.ClientAid;
 import business.Hours;
 import business.Sanction;
 import static data.ClientDB.getClientWithID;
@@ -114,5 +118,123 @@ public class AssistanceDB {
         }
 
     }
+    
+    
+     public static ArrayList<AssistanceRequest> getSecondaryAssistances(int clientID) {
+        ArrayList<AssistanceRequest> allAssist = new ArrayList<AssistanceRequest>();
+        
+        Connection connection = DBConnection.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+       
+        String query = "SELECT requestID, ra.assistanceID, clientID, dateRequest, status, dateDisbursed, "
+	    + "amount, a.assistanceID, description "
+	    + "FROM SCM.TCF_REQUESTASSIST ra join SCM.TCF_ASSISTANCE a "
+	    + "on ra.assistanceId = a.assistanceID "
+	    + "WHERE clientID = ? " 
+	    +"Order BY dateRequest desc, dateDisbursed desc ";
+
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, clientID);
+            rs = ps.executeQuery();
+
+            AssistanceRequest assistRequest = null;
+            Assistance anAssistance = null;
+
+            while (rs.next()) {
+                assistRequest = new AssistanceRequest();
+
+                assistRequest.setRequestID(rs.getInt("requestID"));
+                assistRequest.setAssistanceID(rs.getInt("assistanceID"));
+                assistRequest.setClientID(rs.getInt("clientID"));
+                assistRequest.setRequestDate(rs.getDate("dateRequest").toLocalDate());
+                assistRequest.setStatus(rs.getString("status"));
+                
+                
+                assistRequest.setAmountPaid(rs.getDouble("Amount") + "");
+                anAssistance = new Assistance(rs.getInt("assistanceID"), rs.getString("description"));
+                try{
+                    assistRequest.setDateDisbursed(rs.getDate("dateDisbursed").toLocalDate());
+                }
+                catch(Exception e)
+                {
+                }
+                
+                
+                
+                
+                /*if(disDate != null || disDate != "")
+                {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    formatter = formatter.withLocale(Locale.US);
+                    assistRequest.setDateDisbursed(LocalDate.parse(disDate, formatter));
+                }*/
+//                anAssistance.setClientID(rs.getInt("assistanceID"));
+//                anAssistance.setAidAmount(rs.getDouble("aidAmount"));
+                assistRequest.setAssistance(anAssistance);
+
+                allAssist.add(assistRequest);
+
+            }
+        } catch (SQLException sqlException) {
+            System.out.println(sqlException);
+
+            return null;
+        } finally {
+            DBUtility.closeResultSet(rs);
+            DBUtility.closePreparedStatement(ps);
+
+            return allAssist;
+        }
+
+    }//end of get secondary assistance
+
+    public static ArrayList<ClientAid> getPrimaryAssistances(int clientID) {
+        ArrayList<ClientAid> clientAidList = new ArrayList<ClientAid>();
+
+        Connection connection = DBConnection.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query = "SELECT clientID, dateDisbursed, c.aidtype, aidName, AidAmount "
+	    + "FROM SCM.TCF_CLIENTAID c join SCM.TCF_AIDTYPES a "
+	    + "ON c.aidtype = a.aidtype "
+	    + "WHERE clientID = ? " 
+	    + "Order BY  dateDisbursed desc";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, clientID);
+            rs = ps.executeQuery();
+
+            ClientAid clientAid = null;
+            AidType aidType = null;
+
+            while (rs.next()) {
+                clientAid = new ClientAid();
+
+                clientAid.setClientID(rs.getInt("clientID"));
+                clientAid.setClientAidDateDisbursed(rs.getDate("dateDisbursed").toLocalDate());
+                clientAid.setAidAmount(rs.getDouble("AidAmount") + "");
+                aidType = new AidType(rs.getInt("aidType"), rs.getString("aidName"));
+                clientAid.setAidType(aidType);
+
+                clientAidList.add(clientAid);
+
+            }
+        } catch (SQLException sqlException) {
+            System.out.println(sqlException);
+
+            return null;
+        } finally {
+            DBUtility.closeResultSet(rs);
+            DBUtility.closePreparedStatement(ps);
+
+            return clientAidList;
+        }
+
+    }//end of get primary assistances
     
 }
