@@ -75,7 +75,7 @@ public class AssistanceController extends HttpServlet {
         //allAssitancesList = ClientDB.getAllAssistances(aClient.getClientID());
 
         clientAidList = ClientDB.getPrimaryAssistances(aClient.getClientID());
-        Collections.sort(clientAidList, ClientAid.sortAssistanceListByDate);
+
         //this is only test data (hard coded)
         // allAssitancesList = ClientDB.getTestData();
         ArrayList<AssistanceRequest> carRepairsList = new ArrayList<AssistanceRequest>();
@@ -84,17 +84,30 @@ public class AssistanceController extends HttpServlet {
         ArrayList<AssistanceRequest> gasList = new ArrayList<AssistanceRequest>();
         ArrayList<AssistanceRequest> tuitionList = new ArrayList<AssistanceRequest>();
 
+        
+        
+        
+        
+        
+//        if (a.getStatus().trim().equalsIgnoreCase("1")) {
+//                    a.setStatus("active");
+//                } else if (a.getStatus().trim().equalsIgnoreCase("0")) {
+//                    a.setStatus("denied");
+//
+//                } else {
+//                    a.setStatus("Pending");
+//                }
         //secondary assistances
         try {
 
             for (AssistanceRequest a : allSecondaryAssistList) {
-                if (a.getStatus().trim().equalsIgnoreCase("1")) {
-                    a.setStatus("active");
-                } else if (a.getStatus().trim().equalsIgnoreCase("0")) {
+                if (a.getStatus().trim().equalsIgnoreCase("1") && a.getDateDisbursed() != null) {
+                    a.setStatus("approved");
+                } else if (a.getStatus().trim().equalsIgnoreCase("0") && a.getDateDisbursed() != null ) {
                     a.setStatus("denied");
 
                 } else {
-                     a.setStatus("Pending");
+                    a.setStatus("Pending");
                 }
             }
             for (AssistanceRequest assist : allSecondaryAssistList) {
@@ -116,6 +129,17 @@ public class AssistanceController extends HttpServlet {
             //filter primary benefits 
             //remove spaces from ADC from the table
             for (ClientAid clientAssist : clientAidList) {
+
+                if (clientAssist.getAidAmountDouble() == 0.0) {
+                    clientAssist.setAssistanceStatus("denied");
+                } else if (clientAssist.getAidType().getAidDescription().equalsIgnoreCase("MedA") && clientAssist.getAidAmountDouble() == 1) {
+
+                    clientAssist.setAssistanceStatus("active");
+                } else {
+                    clientAssist.setAssistanceStatus("approved");
+                }
+
+                
                 if (clientAssist.getAidType().getAidDescription().equalsIgnoreCase("SNAP")) {
                     foodList.add(clientAssist);
                 } else if (clientAssist.getAidType().getAidDescription().trim().equalsIgnoreCase("ADC")) {
@@ -124,8 +148,10 @@ public class AssistanceController extends HttpServlet {
                     medicaidList.add(clientAssist);
                 }
             }
-            
 
+//            Collections.sort(foodList, ClientAid.sortAssistanceListByDate);
+//            Collections.sort(cashList, ClientAid.sortAssistanceListByDate);
+//            Collections.sort(medicaidList, ClientAid.sortAssistanceListByDate);
         } catch (Exception ex) {
             url = "/views/assistance.jsp";
             cs.getRequestDispatcher(url).forward(request, response);

@@ -40,11 +40,10 @@ public class EligibilityController extends HttpServlet {
      *
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-	throws ServletException, IOException {
+            throws ServletException, IOException {
 
         /**
-         * to view the eligibility for ADC:
-         * 1- check the marriage status ---> if
+         * to view the eligibility for ADC: 1- check the marriage status ---> if
          * married get the partnerID for the underlying/signed in client do step
          * 2 otherwise check step 3 for single person against 20 hours a week.
          * 2- check the hours for both and has to be 35 hours for the current
@@ -114,8 +113,8 @@ public class EligibilityController extends HttpServlet {
                 Client clientPartner = (Client) session.getAttribute("clientPartner");
 
                 if (clientPartner == null) {
-	clientPartner = ClientDB.getClientWithID(aClient.getPartnerID());
-	session.setAttribute("clientPartner", clientPartner);
+                    clientPartner = ClientDB.getClientWithID(aClient.getPartnerID());
+                    session.setAttribute("clientPartner", clientPartner);
                 }
             }
             if (clientsHoursList == null) {
@@ -127,7 +126,7 @@ public class EligibilityController extends HttpServlet {
             if (clientsPartnerHoursList == null) {
                 clientsPartnerHoursList = new ArrayList<Hours>();
                 if (aClient.isMarried()) {
-	clientsPartnerHoursList = ClientDB.getClientHoursForWholeMonth(aClient.getPartnerID());
+                    clientsPartnerHoursList = ClientDB.getClientHoursForWholeMonth(aClient.getPartnerID());
                 }
 
             }
@@ -200,7 +199,7 @@ public class EligibilityController extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -214,7 +213,7 @@ public class EligibilityController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-	throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -261,21 +260,21 @@ public class EligibilityController extends HttpServlet {
         switch (sanctionLength) {
             case 3:
                 if (todaysDate.isAfter(sanctionDate.plusYears(1)) || todaysDate.isEqual(sanctionDate.plusYears(1))) {
-	return passedSanctionPeriod;
+                    return passedSanctionPeriod;
                 } else {
-	return withinSanctionPeriod;
+                    return withinSanctionPeriod;
                 }
             case 2:
                 if (todaysDate.isAfter(sanctionDate.plusMonths(3)) || todaysDate.isEqual(sanctionDate.plusMonths(3))) {
-	return passedSanctionPeriod;
+                    return passedSanctionPeriod;
                 } else {
-	return withinSanctionPeriod;
+                    return withinSanctionPeriod;
                 }
             case 1:
                 if (todaysDate.isAfter(sanctionDate.plusMonths(1)) || todaysDate.isEqual(sanctionDate.plusMonths(1))) {
-	return passedSanctionPeriod;
+                    return passedSanctionPeriod;
                 } else {
-	return withinSanctionPeriod;
+                    return withinSanctionPeriod;
                 }
 
         }
@@ -289,23 +288,23 @@ public class EligibilityController extends HttpServlet {
         switch (sanctionLength) {
             case 3:
                 periodLeftToRemoveSanction += "The sanction that was applied to your case on "
-	            + sanctionDate.toString() + " was the third one, that you have to wait till "
-	            + sanctionDate.plusYears(1).toString() + " so you can be re-eligible for the benefits-ADC.\n Please be noticed that "
-	            + "once you are not eligible for ADC, you are automatically not eligible for: clothing, fuel, tuition, vehicle registeration or repair.";
+                        + sanctionDate.toString() + " was the third one, that you have to wait till "
+                        + sanctionDate.plusYears(1).toString() + " so you can be re-eligible for the benefits-ADC.\n Please be noticed that "
+                        + "once you are not eligible for ADC, you are automatically not eligible for: clothing, fuel, tuition, vehicle registeration or repair.";
                 break;
 
             case 2:
                 periodLeftToRemoveSanction += "The sanction that was applied to your case on "
-	            + sanctionDate.toString() + " was the second one, that you have to wait till "
-	            + sanctionDate.plusMonths(3).toString() + " so you can be re-eligible for the benefits-ADC.\n Please be noticed that "
-	            + "once you are not eligible for ADC, you are automatically not eligible for: clothing, fuel, tuition, vehicle registeration or repair.";
+                        + sanctionDate.toString() + " was the second one, that you have to wait till "
+                        + sanctionDate.plusMonths(3).toString() + " so you can be re-eligible for the benefits-ADC.\n Please be noticed that "
+                        + "once you are not eligible for ADC, you are automatically not eligible for: clothing, fuel, tuition, vehicle registeration or repair.";
                 break;
 
             case 1:
                 periodLeftToRemoveSanction += "The sanction that was applied to your case on "
-	            + sanctionDate.toString() + " was the first one that you have to wait till "
-	            + sanctionDate.plusMonths(1).toString() + " so you can be re-eligible for the benefits-ADC.\n Please be noticed that "
-	            + "once you are not eligible for ADC, you are automatically not eligible for: clothing, fuel, tuition, vehicle registeration or repair.";
+                        + sanctionDate.toString() + " was the first one that you have to wait till "
+                        + sanctionDate.plusMonths(1).toString() + " so you can be re-eligible for the benefits-ADC.\n Please be noticed that "
+                        + "once you are not eligible for ADC, you are automatically not eligible for: clothing, fuel, tuition, vehicle registeration or repair.";
                 break;
 
         }
@@ -326,64 +325,70 @@ public class EligibilityController extends HttpServlet {
         LocalDate firstOfMonth = LocalDate.now().withDayOfMonth(1);
         LocalDate todayDate = LocalDate.now();
         LocalDate endoOfMonth = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
+        LocalDate twoWeeks = todayDate.withDayOfMonth(14);
+        LocalDate oneWeek = todayDate.withDayOfMonth(7);
 
         ArrayList<Hours> clientsPartnerHoursList = new ArrayList<Hours>(); //(ArrayList<Hours>)session.getAttribute("clientsPartnerHoursList");
         ArrayList<Hours> clientsHoursList = new ArrayList<Hours>();//(ArrayList<Hours>)session.getAttribute("clientsHoursList");
 
-        //dont calculate if it is not three weeks yet.
-        if ((todayDate.isAfter(threeWeeksDate) || todayDate.isEqual(threeWeeksDate))) {
+        clientsHoursList = ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, todayDate); // hours for the client are needed anyway; but parter's hours are only needed if married
+        if (married) {
+            clientsPartnerHoursList = ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, todayDate);
+            parntersTotalHours = getTotalHoursAccumulated(clientsPartnerHoursList);
 
-            clientsHoursList = ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, threeWeeksDate); // hours for the client are needed anyway; but parter's hours are only needed if married
+        }
+        couplesHours = clientsTotalHours + parntersTotalHours;
+        //don't calculate if it is not three weeks yet.
+        if ((todayDate.isAfter(threeWeeksDate) || todayDate.isEqual(threeWeeksDate))) {
 
             clientsTotalHours = getTotalHoursAccumulated(clientsHoursList);
 
             if (married) {
-                clientsPartnerHoursList = ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, threeWeeksDate);
-                parntersTotalHours = getTotalHoursAccumulated(clientsPartnerHoursList);
-                couplesHours = clientsTotalHours + parntersTotalHours;
 
                 if ((todayDate.isAfter(threeWeeksDate) || todayDate.isEqual(threeWeeksDate)) && couplesHours < 105) {
 
-	warningMsg = "Our records indicate that your and your partner's hours are low by today " + LocalDate.now().toString()
-	                + ". You have " + ChronoUnit.DAYS.between(endoOfMonth, todayDate) + " days "
-	                + " from " + todayDate.toString()
-	                + " to " + endoOfMonth.toString()
-	                + "to make those hours. Just for your information your partner's hours are: " + parntersTotalHours + " and yours are: " + clientsTotalHours
-	                + " while you both supposed to do 105 hours by the third week of the month.";
+                    warningMsg = "Our records indicate that your and your partner's hours are low by today " + LocalDate.now().toString()
+                            + ". You have " + ChronoUnit.DAYS.between(endoOfMonth, todayDate) + " days "
+                            + " from " + todayDate.toString()
+                            + " to " + endoOfMonth.toString()
+                            + "to make those hours. Just for your information your partner's hours are: " + parntersTotalHours + " and yours are: " + clientsTotalHours
+                            + " while you both supposed to do 105 hours by the third week of the month.";
 
-	isWarning = true;
+                    isWarning = true;
 
                 } else {
-	warningMsg = "Keep doing the good work! your hours and your partner's too are all set; however make sure you make the rest of hours you are required for the last week.";
+                    warningMsg = "Keep doing the good work! your hours and your partner's too are all set; however make sure you make the rest of hours you are required for the last week.";
                 }
 
             } else { // if single, only clientTotalHours are needed
-                if (todayDate.isAfter(threeWeeksDate) || todayDate.isEqual(threeWeeksDate) && clientsTotalHours < 60) {
-	warningMsg = "Our records indicate that your hours are low by today "
-	                + LocalDate.now().toString()
-	                + ". You have " + ChronoUnit.DAYS.between(endoOfMonth, todayDate) + " days "
-	                + " from " + todayDate.toString() + " to " + endoOfMonth.toString()
-	                + "to make those hours. Just for your information your hours are: " + clientsTotalHours
-	                + " while you were supposed to make 60 hours by the thrid week.";
-	isWarning = true;
+                if (clientsTotalHours < 60) { //if (todayDate.isAfter(threeWeeksDate) || todayDate.isEqual(threeWeeksDate) && clientsTotalHours < 60) {
+                    warningMsg = "Our records indicate that your hours are low by today "
+                            + LocalDate.now().toString()
+                            + ". You have " + ChronoUnit.DAYS.between(endoOfMonth, todayDate) + " days "
+                            + " from " + todayDate.toString() + " to " + endoOfMonth.toString()
+                            + "to make those hours. Just for your information your hours are: " + clientsTotalHours
+                            + " while you were supposed to make 60 hours by the thrid week.";
+                    isWarning = true;
                 } else {
-	warningMsg = "Keep doing the good work! your hours are all set; however make sure you the the rest of hours you are required for the last week.";
+                    warningMsg = "Keep doing the good work! your hours are all set; however make sure you the the rest of hours you are required for the last week.";
                 }
             }
         } else {// if it hasn't been three weeks yet, display a regular message based on marriage
+
             if (married) {
-                warningMsg = "Keep doing the good work! your hours and your partner's at this point are fine; however make sure you make whatever hours you are required for the remaining of the month. ";
+                warningMsg = "Your hours and your partner's at this point are fine; however make sure you make whatever hours you are required for the remaining of the month. ";
             } else {
-                warningMsg = "Keep doing the good work! your hours are fine; however make sure you make whatever hours you are required for the remaining of the month.";
+                warningMsg = "Your hours are fine; however make sure you make whatever hours you are required for the remaining of the month.";
             }
         }
+        warningMsg = "This message is based on three weeks calculation <br><br> " + warningMsg;
+        
         session.setAttribute("clinetHoursList3Weeks", clientsHoursList);
         session.setAttribute("clientsPartnerHoursList3Weeks", clientsPartnerHoursList);
         session.setAttribute("coupleHours3Weeks", couplesHours);
         session.setAttribute("clientsTotalHours3Weeks", clientsTotalHours);
         session.setAttribute("parntersTotalHours3Weeks", parntersTotalHours);
         session.setAttribute("isWarning", isWarning);
-        
 
         return warningMsg;
     }
@@ -399,30 +404,30 @@ public class EligibilityController extends HttpServlet {
             for (Sanction sanction : clientSanctions) {
                 if (sanction.getSanctionLength() == 3 & !seeIfSanctionPassedRequiredPeriod(sanction.getSanctionDate(), sanction.getSanctionLength())) // if sanction from type 3  =1 year period, check if it has been a year since
                 {				            // if type3 and hasnont pass the required period, then no need to check for other sanctions
-	periodToWaitToB_Eligible = getMessageHowLongClientShouldWait(sanction.getSanctionDate(), sanction.getSanctionLength());
-	isSanctioned = true;
-	break;
+                    periodToWaitToB_Eligible = getMessageHowLongClientShouldWait(sanction.getSanctionDate(), sanction.getSanctionLength());
+                    isSanctioned = true;
+                    break;
 
                 } else if (sanction.getSanctionLength() == 2 & !seeIfSanctionPassedRequiredPeriod(sanction.getSanctionDate(), sanction.getSanctionLength())) {
-	periodToWaitToB_Eligible = getMessageHowLongClientShouldWait(sanction.getSanctionDate(), sanction.getSanctionLength());
-	isSanctioned = true;
-	break;
+                    periodToWaitToB_Eligible = getMessageHowLongClientShouldWait(sanction.getSanctionDate(), sanction.getSanctionLength());
+                    isSanctioned = true;
+                    break;
 
                 } else if (sanction.getSanctionLength() == 1 & !seeIfSanctionPassedRequiredPeriod(sanction.getSanctionDate(), sanction.getSanctionLength())) {
-	periodToWaitToB_Eligible = getMessageHowLongClientShouldWait(sanction.getSanctionDate(), sanction.getSanctionLength());
-	isSanctioned = true;
-	break;
+                    periodToWaitToB_Eligible = getMessageHowLongClientShouldWait(sanction.getSanctionDate(), sanction.getSanctionLength());
+                    isSanctioned = true;
+                    break;
                 }
             }
         } else {//this is ture only if the list has no sanction, in our case/current business policy will never execute, that is why boolean isSanctioned is used. 
             //but if sanctions was updated in sanction table right away. some code will be not required plus that this was executed. i though of select count(*) but dont make sense
             periodToWaitToB_Eligible += "You are doing awesome by paritcipating hours you have been required&mdash;"
-	        + "which is good for you which keeps you from getting sanctioned. Keep the good work.";
+                    + "which is good for you which keeps you from getting sanctioned. Keep the good work.";
         }
 
         if (isSanctioned == false) {
             periodToWaitToB_Eligible += "You are doing awesome by paritcipating hours you are required&mdash;"
-	        + "which is good for you which keeps you from getting sanctioned. Keep the good work.";
+                    + "which is good for you which keeps you from getting sanctioned. Keep the good work.";
         }
         session.setAttribute("periodToWaitToB_Eligible", periodToWaitToB_Eligible);
         session.setAttribute("isSanctioned", isSanctioned);
@@ -507,29 +512,29 @@ public class EligibilityController extends HttpServlet {
                 //clientWeeklyHours.get(i).getDateHoursEntered().equals(dFromDate)) && 
                 dateMessage = "";
                 for (int i = 0; i < clientAllHours.size(); i++) {
-	if ((clientAllHours.get(i).getDateHoursEntered().isAfter(dFromDate) || clientAllHours.get(i).getDateHoursEntered().equals(dFromDate))
-	                && ((clientAllHours.get(i).getDateHoursEntered().isBefore(dToDate) || clientAllHours.get(i).getDateHoursEntered().equals(dToDate)))) {
-	    clientHoursFiltered.add(clientAllHours.get(i));
-	}
+                    if ((clientAllHours.get(i).getDateHoursEntered().isAfter(dFromDate) || clientAllHours.get(i).getDateHoursEntered().equals(dFromDate))
+                            && ((clientAllHours.get(i).getDateHoursEntered().isBefore(dToDate) || clientAllHours.get(i).getDateHoursEntered().equals(dToDate)))) {
+                        clientHoursFiltered.add(clientAllHours.get(i));
+                    }
 
                 }
 
                 for (Hours h : clientHoursFiltered) {
-	clientTotalFilteredHours += h.getNumberOfHours();
+                    clientTotalFilteredHours += h.getNumberOfHours();
                 }
 
                 if (isMarried) {
-	for (int i = 0; i < partnerAllHours.size(); i++) {
+                    for (int i = 0; i < partnerAllHours.size(); i++) {
 
-	    if ((partnerAllHours.get(i).getDateHoursEntered().isAfter(dFromDate) || partnerAllHours.get(i).getDateHoursEntered().equals(dFromDate))
-		&& ((partnerAllHours.get(i).getDateHoursEntered().isBefore(dToDate) || partnerAllHours.get(i).getDateHoursEntered().equals(dToDate)))) {
-	        partnerHoursFiltered.add(partnerAllHours.get(i));
-	    }
-	}
+                        if ((partnerAllHours.get(i).getDateHoursEntered().isAfter(dFromDate) || partnerAllHours.get(i).getDateHoursEntered().equals(dFromDate))
+                                && ((partnerAllHours.get(i).getDateHoursEntered().isBefore(dToDate) || partnerAllHours.get(i).getDateHoursEntered().equals(dToDate)))) {
+                            partnerHoursFiltered.add(partnerAllHours.get(i));
+                        }
+                    }
 
-	for (Hours h : partnerHoursFiltered) {
-	    partnerTotalFilteredHours += h.getNumberOfHours();
-	}
+                    for (Hours h : partnerHoursFiltered) {
+                        partnerTotalFilteredHours += h.getNumberOfHours();
+                    }
                 }
                 totalHourBoth = clientTotalFilteredHours + partnerTotalFilteredHours;
 

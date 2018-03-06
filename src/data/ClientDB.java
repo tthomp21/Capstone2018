@@ -53,7 +53,7 @@ public class ClientDB {
 	    + "FROM SCM.TCF_REQUESTASSIST ra join SCM.TCF_ASSISTANCE a "
 	    + "on ra.assistanceId = a.assistanceID "
 	    + "WHERE clientID = ? " 
-	    +"Order BY dateDisbursed ";
+	    +"Order BY dateRequest desc, dateDisbursed desc ";
 
 
         try {
@@ -123,7 +123,7 @@ public class ClientDB {
 	    + "FROM SCM.TCF_CLIENTAID c join SCM.TCF_AIDTYPES a "
 	    + "ON c.aidtype = a.aidtype "
 	    + "WHERE clientID = ? " 
-	    + "Order BY aidname asc ";
+	    + "Order BY  dateDisbursed desc";
 
         try {
             ps = connection.prepareStatement(query);
@@ -389,63 +389,3 @@ public class ClientDB {
     }
 }
 
-/**
- * //checking if it can incude all the tables together public static
- * ArrayList<AssistanceRequest> getAllAssistances(int clientID) {
- * ArrayList<AssistanceRequest> allAssist = new ArrayList<AssistanceRequest>();
- *
- * Connection connection = DBConnection.getConnection(); PreparedStatement ps =
- * null; ResultSet rs = null; //insert some data into requestassist table and
- * then try this. String query = "SELECT requestID, ra.assistanceID, clientID,
- * dateRequest, " + "CASE status " + "WHEN '1' THEN active " + "WHEN '0' THEN
- * denied " + "ELSE Processing " + "END assistStatus, " + "dateDisbursed,
- * amount, a.assistanceID, description, " + "FROM SCM.TCF_REQUESTASSIST ra JOIN
- * SCM.TCF_ASSISTANCE a " + "on ra.assistanceId = a.assistanceID " + "WHERE
- * clientID = ? "; //	+ "UNION " //	+ "SELECT dateDisbursed as
- * clientAidDateDisbursed, c.aidtype, aidName " //	+ "FROM SCM.TCF_CLIENTAID c
- * join SCM.TCF_AIDTYPES at " //	+ "ON c.aidtype = at.aidtype " //	+ " WHERE
- * clientID = ?";
- *
- *
- *
- * try { ps = connection.prepareStatement(query); ps.setInt(1, clientID); rs =
- * ps.executeQuery();
- *
- * AssistanceRequest assistRequest = null; ClientAid clientAid = null; AidType
- * aidType = null; while (rs.next()) { assistRequest = new AssistanceRequest();
- * //clientAid = new ClientAid();
- *
- * assistRequest.setRequestID(rs.getInt("requestID"));
- * assistRequest.setAssistanceID(rs.getInt("assistanceID"));
- * assistRequest.setClientID(rs.getInt("clientID"));
- * assistRequest.setRequestDate(rs.getDate("dateRequest").toLocalDate());
- * assistRequest.setStatus(rs.getString("assistStatus"));
- * assistRequest.setDateDisbursed(rs.getDate("dateDisbursed").toLocalDate());
- * assistRequest.setAmountPaid(rs.getDouble("Amount") + "");
- *
- * //clientAid.setClientID(rs.getInt("clientID")); //this could be set to the
- * clientId recieved as argument
- * //clientAid.setClientAidDesc(rs.getString("description"));
- *
- *
- * aidType = new AidType(rs.getInt("aidtype"), rs.getString("aidName"));
- * //clientAid = new ClientAid(rs.getInt("clientID"),
- * rs.getDate("clientAidDateDisbursed").toLocalDate() , aidType);
- *
- * //assistRequest.setAssistance(clientAid);
- *
- *
- *
- * allAssist.add(assistRequest);
- *
- * }
- * } catch (SQLException sqlException) { System.out.println(sqlException);
- *
- * return null; } finally { DBUtility.closeResultSet(rs);
- * DBUtility.closePreparedStatement(ps);
- *
- * return allAssist; }
- *
- * }//end of get secondary assistance * }
- *
- */

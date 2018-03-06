@@ -41,15 +41,19 @@ tr, td, th {
     font-size: 1em;
     text-align: center;
 }
-th, td:nth-child(1){
-    background-color: lightblue;
+  /* , td:nth-child(1){
+  font-weight: bold;
+  */
+th {                
+    background-color: 	#1a53ff;
+    color: white;
     width: auto;
     text-align: center;
-    font-weight: bold;
+    
 }
 th{
     padding: 5px;
-    font-size: 1.5em;
+    font-size: 1.3em;
 }
 
 

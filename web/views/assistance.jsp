@@ -14,7 +14,7 @@
         
         <script src="../JS/modals.js" type="text/javascript"></script>
 
-        <title>Team Cash Flow</title>
+        <title>Primary Assistances</title>
 
     </head>
 
@@ -60,8 +60,8 @@
                                 <tr>
 
                                     <td><c:out value="${aBenefit.aidAmount}" /></td>
-                                    <td><c:out value="${aBenefit.aidDateDisbursedFormatted}" /></td>
-                                    <td><c:out value="${aBenefit.aidType.aidDescription}" /></td>
+                                    <td><c:out value="${aBenefit.clientAidDateDisbursed}" /></td>
+                                    <td><c:out value="${aBenefit.assistanceStatus}" /></td>
                                 </tr>
 
                             </c:forEach>
@@ -88,8 +88,8 @@
 
                                         <tr>
                                             <td><c:out value="${aBenefit.aidAmount}" /></td>
-                                            <td><c:out value="${aBenefit.aidDateDisbursedFormatted}" /></td>
-                                            <td><c:out value="${aBenefit.aidType.aidDescription}" /></td>
+                                            <td><c:out value="${aBenefit.clientAidDateDisbursed}" /></td>
+                                            <td><c:out value="${aBenefit.assistanceStatus}" /></td>
                                         </tr>
 
                                     </c:forEach>
@@ -106,17 +106,17 @@
                             <tr>
 
 
-                                <th>Amount Paid</th>
-                                <th>Date Disbursed</th>
+                                <%--   <th>Approval Code</th> --%>
+                                <th>Activation Date</th>
                                 <th>Assistance Status</th>
                             </tr>
                             <c:forEach items="${medicaidList}" var="aBenefit" varStatus="loop">
 
                                 <tr>
 
-                                    <td><c:out value="${aBenefit.aidAmount}" /></td>
-                                    <td><c:out value="${aBenefit.aidDateDisbursedFormatted}" /></td>
-                                    <td><c:out value="${aBenefit.aidType.aidDescription}" /></td>
+                                  <%--  <td><c:out value="${aBenefit.aidAmount}" /></td> --%>
+                                    <td><c:out value="${aBenefit.clientAidDateDisbursed}" /></td>
+                                    <td><c:out value="${aBenefit.assistanceStatus}" /></td>
                                 </tr>
 
                             </c:forEach>
@@ -144,7 +144,7 @@
 
                                         <th>Date requested</th>
                                         <th>Amount Paid</th>
-                                        <th>Date Disbursed</th>
+                                        <th>Date Approved</th>
                                         <th>Assistance Status</th>
                                     </tr>
                                     <c:forEach items="${carRepairsList}" var="aBenefit" varStatus="loop">
@@ -168,7 +168,7 @@
 
                                         <th>Date requested</th>
                                         <th>Amount Paid</th>
-                                        <th>Date Disbursed</th>
+                                        <th>Date Approved</th>
                                         <th>Assistance Status</th>
                                     </tr>
                                     <c:forEach items="${clothingList}" var="aBenefit" varStatus="loop">
@@ -192,7 +192,7 @@
 
                                         <th>Date requested</th>
                                         <th>Amount Paid</th>
-                                        <th>Date Disbursed</th>
+                                        <th>Date Approved</th>
                                         <th>Assistance Status</th>
                                     </tr>
                                     <c:forEach items="${vehicleRegisterList}" var="aBenefit" varStatus="loop">
@@ -216,13 +216,12 @@
 
                                         <th>Date requested</th>
                                         <th>Amount Paid</th>
-                                        <th>Date Disbursed</th>
+                                        <th>Date Approved</th>
                                         <th>Assistance Status</th>
                                     </tr>
                                     <c:forEach items="${gasList}" var="aBenefit" varStatus="loop">
 
                                         <tr>
-
                                             <td><c:out value="${aBenefit.requestDate}" /></td>
                                             <td><c:out value="${aBenefit.amountPaid}" /></td>
                                             <td><c:out value="${aBenefit.dateDisbursed}" /></td>
@@ -239,7 +238,7 @@
 
                                         <th>Date requested</th>
                                         <th>Amount Paid</th>
-                                        <th>Date Disbursed</th>
+                                        <th>Date Approved</th>
                                         <th>Assistance Status</th>
                                     </tr>
                                     <c:forEach items="${tuitionList}" var="aBenefit" varStatus="loop">
