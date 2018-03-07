@@ -166,5 +166,12 @@ public class Client extends User {
         return emZip + "-" + extZip;
     }
     
-    
+    public String getNameFormatted()
+    {
+        String fullname = getLastName() + ", " + getFirstName();
+        if(middleInit != null && middleInit != "")
+            fullname += " " + middleInit + ".";
+        
+        return fullname;
+    }
 }

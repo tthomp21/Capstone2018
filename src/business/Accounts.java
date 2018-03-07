@@ -256,7 +256,7 @@ public class Accounts {
         final NameValuePair[] data = {
             new BasicNameValuePair("phone", phone),
             new BasicNameValuePair("message", msg + code + " - " + msg2),
-            new BasicNameValuePair("key", "9f70ff94db13cf920ae4dd3d9b9ebf9ea62b1daezhhICAVvELkpmwJ8PLuO0LsnS_test")
+            new BasicNameValuePair("key", "9f70ff94db13cf920ae4dd3d9b9ebf9ea62b1daezhhICAVvELkpmwJ8PLuO0LsnS")
         };
         HttpClient httpClient = HttpClients.createMinimal();
         HttpPost httpPost = new HttpPost("https://textbelt.com/text");

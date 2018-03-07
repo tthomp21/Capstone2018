@@ -147,7 +147,7 @@ public class ClientRequestController extends HttpServlet {
     private static void uploadFile(HttpServletRequest request, int requestID) throws ServletException, IOException
     {
         // set directory for uploaded files
-        String fileDir = System.getProperty("user.home") + "/Desktop";
+        String fileDir = System.getProperty("user.home") + "/My Documents";
         // retrieve file from form
         Part filePart = request.getPart("file");
         // retrieve file name of document

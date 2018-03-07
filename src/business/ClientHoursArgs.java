@@ -10,12 +10,23 @@ import java.util.Date;
 
 /**
  *
- * @author Ty
+ * @author Tyler
  */
 public class ClientHoursArgs {
     
     private Double hours;
     private Date date;
+    private Client client;
+    
+    public Client getClient()
+    {
+        return client;
+    }
+    
+    public void setClient(Client client)
+    {
+        this.client = client;
+    }
     
     public Double getHours()
     {
