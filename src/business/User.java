@@ -39,7 +39,7 @@ public abstract class User {
     }
     public String getPhone()
     {
-        return phone;
+        return String.valueOf(phone).replaceFirst("(\\d{3})(\\d{3})(\\d+)", "($1)-$2-$3");
     }
     public void setPhone(String phone)
     {

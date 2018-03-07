@@ -7,6 +7,7 @@ package controller;
 import business.*;
 import data.AssistanceDB;
 import data.ClientDB;
+import data.FileServe;
 import data.HoursDB;
 import data.RequestDB;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 import java.util.function.Predicate;
@@ -44,7 +46,7 @@ public class CaseWorkerController extends HttpServlet {
         int reqStat = 0;
         Client foundClient;
         HttpSession session = request.getSession();
-        ArrayList<Client> clients = new ArrayList<Client>();
+        ArrayList<ClientHoursArgs> clients = new ArrayList<ClientHoursArgs>();
         DateFormat datFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         
         Calendar c = Calendar.getInstance();
@@ -123,6 +125,12 @@ public class CaseWorkerController extends HttpServlet {
             enterHours(session, request);
             url = "/views/caseworkerclientdetails.jsp";
             break;
+        case "viewDoucment":
+            //opens up a file that was uploaded if there is one
+            reqID = Integer.parseInt((String)request.getParameter("requestID"));
+            boolean found = FileServe.retrieve(request, response, getServletContext(), reqID);
+            if(!found)
+                url = "/views/caseworkerclientdetails.jsp";
         }
         
         
@@ -134,6 +142,7 @@ public class CaseWorkerController extends HttpServlet {
         
     private void updateRequestApproval(HttpSession session, int reqID)
     {
+        //updates a assistance request with approval values
         ArrayList<AssistanceRequest> assistReq = new ArrayList<AssistanceRequest>();
         assistReq = (ArrayList<AssistanceRequest>)session.getAttribute("clientRequests");
         for(AssistanceRequest as : assistReq)
@@ -148,13 +157,14 @@ public class CaseWorkerController extends HttpServlet {
     
     private void updateRequestDenial(HttpSession session, int reqID)
     {
+        //updates a assistance request with denial values
         ArrayList<AssistanceRequest> assistReq = new ArrayList<AssistanceRequest>();
         assistReq = (ArrayList<AssistanceRequest>)session.getAttribute("clientRequests");
         for(AssistanceRequest as : assistReq)
         {
             if(as.getRequestID() == reqID)
             {
-                as.setStatus("2");
+                as.setStatus("0");
                 as.setDateDisbursed(LocalDate.now());
             }
         }
@@ -162,12 +172,12 @@ public class CaseWorkerController extends HttpServlet {
     
     private void enterHours(HttpSession session,HttpServletRequest request)
     {
-        //change request to session
-        double mondayHours = (double)session.getAttribute("monHours");
-        double tuesdayHours = (double)session.getAttribute("tueHours");
-        double wednesdayHours = (double)session.getAttribute("wedHours");
-        double thursdayHours = (double)session.getAttribute("thurHours");
-        double fridayHours = (double)session.getAttribute("friHours");
+        //gets the hours from the page and inserts them into the database
+        double mondayHours = Double.parseDouble((String)request.getParameter("mondayHours"));
+        double tuesdayHours = Double.parseDouble((String)request.getParameter("tuesdayHours"));
+        double wednesdayHours = Double.parseDouble((String)request.getParameter("wednesdayHours"));
+        double thursdayHours = Double.parseDouble((String)request.getParameter("thursdayHours"));
+        double fridayHours = Double.parseDouble((String)request.getParameter("fridayHours"));
         
         DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         format = format.withLocale(Locale.US);
@@ -177,28 +187,38 @@ public class CaseWorkerController extends HttpServlet {
         LocalDate thursday = LocalDate.parse((String)session.getAttribute("thursday"),format);
         LocalDate friday = LocalDate.parse((String)session.getAttribute("friday"),format);
         
-        HoursDB.insertClientHours(mondayHours, tuesdayHours, wednesdayHours, thursdayHours, fridayHours, monday, tuesday, wednesday, thursday, friday, Integer.parseInt((String)request.getParameter("clientID")));
+        HoursDB.insertClientHours(mondayHours, tuesdayHours, wednesdayHours, thursdayHours, 
+                fridayHours, monday, tuesday, wednesday, thursday, friday, 
+                Integer.parseInt((String)request.getParameter("clientID")));
         
+        session.setAttribute("monHours", mondayHours);
+        session.setAttribute("tueHours", tuesdayHours);
+        session.setAttribute("wedHours", wednesdayHours);
+        session.setAttribute("thurHours", thursdayHours);
+        session.setAttribute("friHours", fridayHours);
+        
+        double hours = (double)session.getAttribute("clientHours");
+        session.setAttribute("clientHours", hours + mondayHours + tuesdayHours 
+                + wednesdayHours + thursdayHours + fridayHours );
     }
     
     private Date getDateForDay(int day)
     {
+        //simple method to get the date for a day of the week
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_WEEK, day);
         
         return c.getTime();
     }
     
-    
-    
-    
     public void getClientDetails(String clientID, HttpSession session, HttpServletRequest request)
     {
+        //gets all the client information from the database for the client details page
         Client foundClient;
         foundClient = ClientDB.getClientWithID(Integer.parseInt(clientID));
         session.setAttribute("foundClient", foundClient);
         
-        
+        //date stuff for hours input
         DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         format = format.withLocale(Locale.US);
         LocalDate monday = LocalDate.parse((String)session.getAttribute("monday"),format);
@@ -213,60 +233,77 @@ public class CaseWorkerController extends HttpServlet {
         session.setAttribute("thurHours", HoursDB.getClientHoursForSingleDate(Integer.parseInt(clientID), thursday));
         session.setAttribute("friHours", HoursDB.getClientHoursForSingleDate(Integer.parseInt(clientID), friday));
         
-        ArrayList<ClientHoursArgs> thisMonthHours = new ArrayList<ClientHoursArgs>();
-        ArrayList<ClientHoursArgs> lastMonthHours = new ArrayList<ClientHoursArgs>();
+        //get the hours for the current and previous month
         int month = LocalDate.now().getMonthValue();
         int year = LocalDate.now().getYear();
-        thisMonthHours = HoursDB.getClientHours(Integer.parseInt(clientID),month,year);
+        
+        session.setAttribute("clientHours", getHoursForMonthYear(Integer.parseInt(clientID),month,year));
+        
         if(month == 1)
         {
             month = 12;
             year--;
-            lastMonthHours = HoursDB.getClientHours(Integer.parseInt(clientID), month, year);
+            session.setAttribute("lastMonthClientHours", getHoursForMonthYear(Integer.parseInt(clientID),month,year));
         }
         else{
-            lastMonthHours = HoursDB.getClientHours(Integer.parseInt(clientID), month - 1, year);
+            session.setAttribute("lastMonthClientHours", getHoursForMonthYear(Integer.parseInt(clientID),month,year));
         }
         
-        double totalMonthHours = 0;
-        if(thisMonthHours != null && thisMonthHours.size() > 0)
-        {
-            for(ClientHoursArgs arg : thisMonthHours)
-            {
-                if(arg.getHours() != null)
-                    totalMonthHours += arg.getHours();
-                
-                //if(LocalDate.parse(arg.getDate().toString(), format) == monday)
-                //    request.s
-            }
-        }
-        session.setAttribute("clientHours", totalMonthHours);
-        
-        totalMonthHours = 0;
-        if(lastMonthHours != null && lastMonthHours.size() > 0)
-        {
-            for(ClientHoursArgs arg : lastMonthHours)
-            {
-                if(arg.getHours() != null)
-                    totalMonthHours += arg.getHours();
-            }
-        }
-        session.setAttribute("lastMonthClientHours", totalMonthHours);
-        
-        
+        //get all assistance requests
         ArrayList<AssistanceRequest> assistReq = new ArrayList<AssistanceRequest>();
         assistReq = AssistanceDB.getSecondaryAssistances(Integer.parseInt(clientID));
+        assistReq.sort(Comparator.comparingInt(AssistanceRequest::getRequestID));
         session.setAttribute("clientRequests", assistReq);
         
+        //check if client is sanctioned    
+        MessageResult result = Requests.checkForSanction(Integer.parseInt(clientID));
+        if (result.successful())
+        {
+            String sanctionEnd = result.getMessage();
+            session.setAttribute("sanctionMessage","This client is under a sanction until " + sanctionEnd + ".");
+        }
+        else 
+        {
+            session.setAttribute("sanctionMessage", "");
+        }
+    }
+    
+    public double getHoursForMonthYear(int clientID, int month, int year)
+    {
+        ArrayList<ClientHoursArgs> monthHours = new ArrayList<ClientHoursArgs>();
+        monthHours = HoursDB.getClientHours(clientID,month,year);
+        
+        double totalMonthHours = 0;
+        if(monthHours != null && monthHours.size() > 0)
+        {
+            for(ClientHoursArgs arg : monthHours)
+            {
+                if(arg.getHours() != null)
+                    totalMonthHours += arg.getHours();
+            }
+        }
+        
+        return totalMonthHours;
     }
     
     
-    public ArrayList<Client> getClients(CaseWorker caseWorker, HttpSession session)
+    public ArrayList<ClientHoursArgs> getClients(CaseWorker caseWorker, HttpSession session)
     {
         //returns a list of clients from the DB
         ArrayList<Client> allClients = new ArrayList<Client>();
+        ArrayList<ClientHoursArgs> clientHours = new ArrayList<ClientHoursArgs>();
         allClients = ClientDB.getAllClientsForCaseWorker(caseWorker);
-        return allClients;
+        int month = LocalDate.now().getMonthValue();
+        int year = LocalDate.now().getYear();
+        
+        for(Client c : allClients)
+        {
+            ClientHoursArgs a = new ClientHoursArgs();
+            a.setClient(c);
+            a.setHours(getHoursForMonthYear(c.getClientID(),month,year));
+            clientHours.add(a);
+        }
+        return clientHours;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
