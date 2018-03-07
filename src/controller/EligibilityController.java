@@ -370,7 +370,7 @@ public class EligibilityController extends HttpServlet {
                             + " while you were supposed to make 60 hours by the thrid week.";
                     isWarning = true;
                 } else {
-                    warningMsg = "Keep doing the good work! your hours are all set; however make sure you the the rest of hours you are required for the last week.";
+                    warningMsg = "Keep doing the good work! your hours are all set; however make sure you make the rest of hours you are required for the last week.";
                 }
             }
         } else {// if it hasn't been three weeks yet, display a regular message based on marriage
@@ -420,14 +420,14 @@ public class EligibilityController extends HttpServlet {
                 }
             }
         } else {//this is ture only if the list has no sanction, in our case/current business policy will never execute, that is why boolean isSanctioned is used. 
-            //but if sanctions was updated in sanction table right away. some code will be not required plus that this was executed. i though of select count(*) but dont make sense
+                 //but if sanctions was updated in sanction table right away. some code will be not required plus that this was executed. i though of select count(*) but dont make sense
             periodToWaitToB_Eligible += "You are doing awesome by paritcipating hours you have been required&mdash;"
-                    + "which is good for you which keeps you from getting sanctioned. Keep the good work.";
+                                     + "which is good for you and keeps you from getting sanctioned.";
         }
 
         if (isSanctioned == false) {
             periodToWaitToB_Eligible += "You are doing awesome by paritcipating hours you are required&mdash;"
-                    + "which is good for you which keeps you from getting sanctioned. Keep the good work.";
+                    + "which is good for you and keeps you from getting sanctioned.";
         }
         session.setAttribute("periodToWaitToB_Eligible", periodToWaitToB_Eligible);
         session.setAttribute("isSanctioned", isSanctioned);
