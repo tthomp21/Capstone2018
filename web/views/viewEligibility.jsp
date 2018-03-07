@@ -17,7 +17,7 @@
         <link href="../CSS/default.css" rel="stylesheet" type="text/css"/>
         <link href="../CSS/eligibility.css" rel="stylesheet" type="text/css"/>
         <script type="text/javascript" src="/JS/assistance.js"></script>
-        
+
         <script src="../JS/modals.js" type="text/javascript"></script>
 
         <title>Eligibility Status</title>
@@ -53,8 +53,8 @@
                     <c:if test="${aidNotifyList.size() eq 0}">
                         <h1>Assistance Recertification Overview</h1>
                         <p class="warningText">You have no benefits that are due to reapply at this<br> time.</p>
-                    </c:if>
-                    <c:if test="${aidNotifyList.size() gt 0}">
+                        </c:if>
+                        <c:if test="${aidNotifyList.size() gt 0}">
                         <table border="1" style="border-collapse: collapse;">
                             <caption style="font-weight: bold; font-size: 1.5em;">Assistance Recertification Overview</caption>
                             <p style="font-size: 1.2em;">Below the benefit(s) that is/are due to reapply.<br>Please make sure you reapply to the underlying benefit by the<br>
@@ -102,7 +102,7 @@
                 <div id="divider">
                     <c:choose>
                         <c:when test="${empty dateMessage}">
-                            <h3>Select the date you want to look at your hours.</h3>
+                            <h3>Select dates to search for hours only for this month.</h3>
                         </c:when>
                         <c:otherwise>
                             <h3 class="formatDateMessage">${dateMessage}</h3>
@@ -153,7 +153,7 @@
                                     </c:if>
                                     <c:if test="${user.isMarried()}">
                                         <tr>
-                                            <td colspan="2" style="background-color: #f0e68c">Total Hours in this period for both of you</td>
+                                            <td colspan="2" style="background-color: lightblue">Total Hours in this period for both of you</td>
                                         </tr>
                                         <tr>
                                             <td class="nameOnhoursTable">${clientPartner.getFirstName()}&apos;s hours</td>
@@ -246,7 +246,7 @@
                     <c:if test="${isSanctioned}">   
                         <div id="sanctionMsgDiv">
                             <h2>Sanctions Notification</h2>
-                            <span style="font-family: fantasy; font-size: 2.8em; color: red;">Sanctioned!</span><br><p class="warningText"> ${periodToWaitToB_Eligible}</p>
+                            <span style="font-family: fantasy; font-size: 1.8em; color: red;">Sanctioned!</span><br><p class="warningText"> ${periodToWaitToB_Eligible}</p>
                             <%-- <img src="/Images/sanctioned.PNG" width="220" height="200"> --%>
                         </div>
                     </c:if>

@@ -60,7 +60,7 @@
                                 <tr>
 
                                     <td><c:out value="${aBenefit.aidAmount}" /></td>
-                                    <td><c:out value="${aBenefit.clientAidDateDisbursed}" /></td>
+                                    <td><c:out value="${aBenefit.aidDateDisbursedFormatted}" /></td>
                                     <td><c:out value="${aBenefit.assistanceStatus}" /></td>
                                 </tr>
 
@@ -88,7 +88,7 @@
 
                                         <tr>
                                             <td><c:out value="${aBenefit.aidAmount}" /></td>
-                                            <td><c:out value="${aBenefit.clientAidDateDisbursed}" /></td>
+                                            <td><c:out value="${aBenefit.aidDateDisbursedFormatted}" /></td>
                                             <td><c:out value="${aBenefit.assistanceStatus}" /></td>
                                         </tr>
 
@@ -115,7 +115,7 @@
                                 <tr>
 
                                   <%--  <td><c:out value="${aBenefit.aidAmount}" /></td> --%>
-                                    <td><c:out value="${aBenefit.clientAidDateDisbursed}" /></td>
+                                    <td><c:out value="${aBenefit.aidDateDisbursedFormatted}" /></td>
                                     <td><c:out value="${aBenefit.assistanceStatus}" /></td>
                                 </tr>
 
@@ -130,7 +130,7 @@
                     <c:choose>
                         <c:when test="${isSanctioned}">
                             <div>
-                                <h1 style="color: red;">Sanction Has applied to your case</h1>
+                                <h1 style="color: red;">Sanction has applied to your case</h1>
                                 <p style="font-size: 1.5em; text-align: justify;">Here are details of the sanction:<br>
                                     ${periodToWaitToB_Eligible}
                                 </p>
