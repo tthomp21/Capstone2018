@@ -1,7 +1,5 @@
-
-
-/* Sayel Rammaha    
-   1/12/18
+/* Tyler Thompson    
+   2/4/18
 */
 
 body {
@@ -30,6 +28,7 @@ header {
     color: #fff;
     text-align: center;
     min-width: 970px;
+    font-family: arial;
 }
 
 header h1 {
@@ -42,7 +41,6 @@ header h1 {
 #logo {
     float: right;
 }
-
 
 /* ---- aside column ---- */
 aside {
@@ -149,9 +147,9 @@ footer {
     color: black;  
     background-color: white;
     overflow: hidden;
-    padding: 10px;
+    padding: 10px;        
 }
-/* I added this to the footer of default.css so i put it here too */
+
 footer ul {
     margin: 0;    
 }
@@ -165,11 +163,9 @@ footer li {
 footer a {
     color: black;
 }
-
 footer a:hover {
     cursor: pointer;
 }
-/* --------------------------------------------------------------- */
 
 /* ---- main program area ---- */
 #main {
@@ -185,12 +181,11 @@ footer a:hover {
     background-color: white;
     white-space: normal;
     overflow: scroll;
+    overflow-x: auto;
 }
 #main h2{
     font-size: 1.5em;
 }
-
-
 @media screen and (max-height: 753px) {
     footer {
         top: 700px;
@@ -202,7 +197,7 @@ footer a:hover {
     }
 }
 
-/* The Modal (background) */
+ /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -218,6 +213,7 @@ footer a:hover {
 .modal h1 {
     text-align: center;
 }
+
 /* Modal Content/Box */
 .modal-content {
     background-color: #fefefe;
@@ -243,100 +239,146 @@ footer a:hover {
     cursor: pointer;
 } 
 
-
-
-#primarySection{
-    float: left;
-    clear: right;
-    height: 90%;
-    position: relative;
-    margin-right: 20px;
-
+h2{
+    font-family: tahoma;
 }
-#secondarySection{
-    float: right;
 
-    /*  background-color: #c0c0c0;*/
-
+h1{
+    font-family: tahoma;
 }
 
 
-#primarySection, #secondarySection div{
-    text-indent: 40px;
+table.table1 {
+    border: 1px solid black;
+    font-family: tahoma;
+    border-collapse: collapse;
 }
 
-tr, td, th {
-    text-align: left;
-    font-size: 1em;
-    padding: 2px;
+table.table1 {
+    border: none;
+    border-collapse: collapse;
+    height: 225px;
+    margin-bottom: 15px;
+    font-family: tahoma;
 }
 
-table { 
-    border-collapse: collapse; 
-    border-spacing: 0 1px; 
-    margin-top: -5px; /* correct offset on first border spacing if desired */
-}
-td {
-    border: solid 1px #000;
-    border-style:  none;
-    padding: 5px;
-    background-color: white;
-}
-th {
-    border: solid 1px #000;
-    border-style: solid none;
-    padding: 5px;
-}
-th:first-child {
-    border-left-style: solid;
-}
-th:last-child {
-    border-right-style: solid;
-}
-td:first-child {
-    border-left-style: solid;
-}
-td:last-child {
-    border-right-style: solid;
-}
-tr:nth-child(2){
+table.table1 tr:nth-child(2) {
     border-top-style: solid;
     border-width: 2px;
 }
-tr:last-child{
+
+table.table1 td{
+    padding-right: 5px;
+    text-align: center;
+}
+
+table.table1 th{
+    height: 30px;
+}
+
+table.table1 tr:last-child {
     border-bottom-style: solid;
     border-width: 2px;
 }
-th{
-    background-color: lightblue;
-    width: auto;
-}
-/*tr:hover td{
-    background: #ddd;
+
+table.table1 td:first-child {
+    border-left-style: solid;
+    border-width: 2px;
     
-}*/
-
-.column{
-    float: left;
-    width: 33%;
+}
+table.table1 td:last-child {
+    border-right-style: solid;
+    border-width: 2px;
 }
 
-.main:after{
-    content: "";
-    display: table;
-    clear: both;
-}
-#button {
-    background-color: lightblue; /* Green */
+table.table1 tr:first-child{
     border: none;
+    background-color: #1a53ff;
+    border-top-style: none;
+    color: white;
+}
+
+table.table1 tr:hover{
+    background-color: #f0e68c;
+}
+
+
+table.table2 {
+    border: none;
+    border-collapse: collapse;
+    height: 225px;
+    margin-bottom: 15px;
+    font-family: tahoma;
+}
+
+table.table2 tr:nth-child(2) {
+    border-top-style: solid;
+    border-width: 2px;
+}
+
+table.table2 td{
+    padding-right: 5px;
+}
+
+table.table2 th{
+    height: 30px;
+}
+
+table.table2 tr:last-child {
+    border-bottom-style: solid;
+    border-width: 2px;
+}
+
+table.table2 td:first-child {
+    border-left-style: solid;
+    border-width: 2px;
+    
+}
+table.table2 td:last-child {
+    border-right-style: solid;
+    border-width: 2px;
+}
+
+table.table2 tr:first-child{
+    border: none;
+    background-color: #1a53ff;
+    border-top-style: none;
+    color: white;
+}
+
+
+table.table3 {
+    border: 2px solid black;
+    border-collapse: collapse;
+    width: 375px;
+    position: relative;
+    height: 180px;
+    padding: 1px;
+    font-family: tahoma;
+}
+
+table.table4{
+    border: none;
+    margin-top: 15px;
+    font-family: tahoma;
+}
+
+table.table4 th{
+    text-align: left;
+    background-color: #1a53ff;
+    height: 30px;
+    color: white;
+}
+
+
+#button {
+    background-color: #00b33c; /* Green */
+    border: 1px;
     color: black;
     padding: 5px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 12px;
+    font-size: 13px;
+    color: white;
 }
-
-.buttonBlue {background-color: #008CBA;}
-
-

@@ -80,6 +80,8 @@ public class HoursDB {
     
     
     
+    
+    
     public static void insertClientHours(double mon, double tue, double wed, double thur, double fri, LocalDate monday, LocalDate tuesday, LocalDate wednesday, LocalDate thursday, LocalDate friday, int clientId)
     {
         Connection connection = DBConnection.getConnection();
