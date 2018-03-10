@@ -57,8 +57,8 @@
                         <c:if test="${aidNotifyList.size() gt 0}">
                         <table border="1" style="border-collapse: collapse;">
                             <caption style="font-weight: bold; font-size: 1.5em;">Assistance Recertification Overview</caption>
-                            <p style="font-size: 1.2em;">Below the benefit(s) that is/are due to reapply.<br>Please make sure you reapply to the underlying benefit by the<br>
-                                listed due date to continue get the benefits without disconnection. </p>
+                            <p style="font-size: 1.5em;">Below the benefit(s) that is/are due to reapply.<br>Please make sure you reapply to the underlying<br> benefit by the
+                                listed due date to continue get the <br>benefits without disconnection. </p>
                             <tr>
                                 <th>Assistance type</th>
                                 <th>Recertification Date</th>

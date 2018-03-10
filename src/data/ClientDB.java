@@ -142,7 +142,8 @@ public class ClientDB {
 	    + "FROM SCM.TCF_HOURS "
 	    + "WHERE clientID = ? "
 	    + "AND (DATE >= ? )  "
-	    + "AND (DATE <= ? )  ";
+	    + "AND (DATE <= ? )  "
+	    + "ORDER BY DATE asc ";
 
         try {
             ps = connection.prepareStatement(query);
