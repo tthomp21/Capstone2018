@@ -75,7 +75,7 @@ public class CaseWorkerController extends HttpServlet {
             action = "sendHome";
         }
         
-        
+        boolean redirect = true;
         
         switch(action) 
         {
@@ -131,12 +131,16 @@ public class CaseWorkerController extends HttpServlet {
             boolean found = FileServe.retrieve(request, response, getServletContext(), reqID);
             if(!found)
                 url = "/views/caseworkerclientdetails.jsp";
+            else redirect = false;
         }
         
         
         // redirect
-        ServletContext sc = getServletContext();
-        sc.getRequestDispatcher(url).forward(request, response);  
+        if (redirect) {
+            ServletContext sc = getServletContext();
+            sc.getRequestDispatcher(url).forward(request, response);  
+        }
+        
                 
     }
         
