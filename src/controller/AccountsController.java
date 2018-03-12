@@ -25,10 +25,10 @@ public class AccountsController extends HttpServlet {
         String url = "/views/index.jsp";
         
         // Auto fill login forms for easy testing purposes ----- |
-        request.setAttribute("prevLoginUserNameCW", "testing");//|
-        request.setAttribute("prevLoginPasswordCW", "testing");//|
-        request.setAttribute("prevLoginUserNameCL", "testun");// |
-        request.setAttribute("prevLoginPasswordCL", "pppppp");// |
+        request.setAttribute("prevLoginUserNameCW", "praymond");//|
+        request.setAttribute("prevLoginPasswordCW", "praymond");//|
+        request.setAttribute("prevLoginUserNameCL", "sayelr");// |
+        request.setAttribute("prevLoginPasswordCL", "sayelr");// |
         // ------------------------------------------------------|
                 
         User user = null;
