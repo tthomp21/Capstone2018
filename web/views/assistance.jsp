@@ -143,8 +143,8 @@
                                     <tr>
 
                                         <th>Date requested</th>
-                                        <th>Amount Paid</th>
-                                        <th>Date Approved</th>
+                                        <th>Amount requested</th>
+                                        <th>Approval/denial Date</th>
                                         <th>Assistance Status</th>
                                     </tr>
                                     <c:forEach items="${carRepairsList}" var="aBenefit" varStatus="loop">
@@ -167,8 +167,8 @@
                                     <tr>
 
                                         <th>Date requested</th>
-                                        <th>Amount Paid</th>
-                                        <th>Date Approved</th>
+                                        <th>Amount requested</th>
+                                        <th>Approval/denial Date</th>
                                         <th>Assistance Status</th>
                                     </tr>
                                     <c:forEach items="${clothingList}" var="aBenefit" varStatus="loop">
@@ -185,14 +185,14 @@
                                 </table>
                             </div>
 
-                            <h2 class="fold">Vehicle Register</h2>
+                            <h2 class="fold">Vehicle Registration</h2>
                             <div class="closed">
                                 <table border="1">
                                     <tr>
 
                                         <th>Date requested</th>
-                                        <th>Amount Paid</th>
-                                        <th>Date Approved</th>
+                                        <th>Amount requested</th>
+                                        <th>Approval/denial Date</th>
                                         <th>Assistance Status</th>
                                     </tr>
                                     <c:forEach items="${vehicleRegisterList}" var="aBenefit" varStatus="loop">
@@ -215,8 +215,8 @@
                                     <tr>
 
                                         <th>Date requested</th>
-                                        <th>Amount Paid</th>
-                                        <th>Date Approved</th>
+                                        <th>Amount requested</th>
+                                        <th>Approval/denial Date</th>
                                         <th>Assistance Status</th>
                                     </tr>
                                     <c:forEach items="${gasList}" var="aBenefit" varStatus="loop">
@@ -237,8 +237,8 @@
                                     <tr>
 
                                         <th>Date requested</th>
-                                        <th>Amount Paid</th>
-                                        <th>Date Approved</th>
+                                        <th>Amount requested</th>
+                                        <th>Approval/denial Date</th>
                                         <th>Assistance Status</th>
                                     </tr>
                                     <c:forEach items="${tuitionList}" var="aBenefit" varStatus="loop">
