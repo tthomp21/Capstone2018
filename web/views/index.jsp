@@ -450,7 +450,7 @@
                                         <span><c:if test="${user.getClass().simpleName == 'Client'}"><c:out value="${user.street}"/></c:if></span>
                                     </p>
                                     <p>
-                                        <label for="fieldValue">Change User Name:</label>
+                                        <label for="fieldValue">Change Street Address:</label>
                                         <input type="text" name="fieldValue" value="${prevManageStreetCL}">
                                     </p>
                                     <p>   

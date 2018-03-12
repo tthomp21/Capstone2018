@@ -28,7 +28,7 @@ public class AccountsController extends HttpServlet {
         request.setAttribute("prevLoginUserNameCW", "praymond");//|
         request.setAttribute("prevLoginPasswordCW", "praymond");//|
         request.setAttribute("prevLoginUserNameCL", "sayelr");// |
-        request.setAttribute("prevLoginPasswordCL", "sayelr");// |
+        request.setAttribute("prevLoginPasswordCL", "rsayel");// |
         // ------------------------------------------------------|
                 
         User user = null;
@@ -86,8 +86,18 @@ public class AccountsController extends HttpServlet {
                 if (updateClientInfo(request))
                 {
                     String manageMsgSuccess = 
-                        "Your Account has been successfully updated";
-                    request.setAttribute("manageMsgSuccess", manageMsgSuccess);
+                        "Your Account has been successfully updated";                    
+                    request.setAttribute("manageMsgSuccess", "");
+                    // clear form
+                    request.setAttribute("prevManagePassword1CL", "");                
+                    request.setAttribute("prevManagePassword2CL", "");                
+                    request.setAttribute("prevManagePhoneCL", "");      
+                    request.setAttribute("prevManageEmailCL", "");      
+                    request.setAttribute("prevManageUserNameCL", "");      
+                    request.setAttribute("prevManageStreetCL", "");    
+                    request.setAttribute("prevManageCityCL", "");    
+                    request.setAttribute("prevManageZipCL", "");                
+                    request.setAttribute("prevManageZipExtCL", "");
                 }                    
                 break;
             case "updateCaseWorker":                
@@ -96,7 +106,14 @@ public class AccountsController extends HttpServlet {
                 {
                     String manageMsgSuccess = 
                         "Your Account has been successfully updated";
-                    request.setAttribute("manageMsgSuccess", manageMsgSuccess);                
+                    request.setAttribute("manageMsgSuccess", manageMsgSuccess);
+                    
+                    // clear form
+                    request.setAttribute("prevManagePassword1CW", "");                
+                    request.setAttribute("prevManagePassword2CW", "");
+                    request.setAttribute("prevManagePhoneCW", ""); 
+                    request.setAttribute("prevManageEmailCW", ""); 
+                    request.setAttribute("prevManageUserNameCW", "");      
                 }
                 break;
                 
