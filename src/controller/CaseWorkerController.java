@@ -46,6 +46,7 @@ public class CaseWorkerController extends HttpServlet {
         int reqStat = 0;
         Client foundClient;
         HttpSession session = request.getSession();
+        //ServletContext cs = session.getServletContext();
         ArrayList<ClientHoursArgs> clients = new ArrayList<ClientHoursArgs>();
         DateFormat datFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         
@@ -122,7 +123,7 @@ public class CaseWorkerController extends HttpServlet {
             break;
         case "submitHours":
             //enters the weeks hours into the db
-            enterHours(session, request);
+            enterHours(session, request, response);
             url = "/views/caseworkerclientdetails.jsp";
             break;
         case "viewDoucment":
@@ -174,15 +175,28 @@ public class CaseWorkerController extends HttpServlet {
         }
     }
     
-    private void enterHours(HttpSession session,HttpServletRequest request)
+    private void enterHours(HttpSession session, HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException
     {
-        //gets the hours from the page and inserts them into the database
-        double mondayHours = Double.parseDouble((String)request.getParameter("mondayHours"));
-        double tuesdayHours = Double.parseDouble((String)request.getParameter("tuesdayHours"));
-        double wednesdayHours = Double.parseDouble((String)request.getParameter("wednesdayHours"));
-        double thursdayHours = Double.parseDouble((String)request.getParameter("thursdayHours"));
-        double fridayHours = Double.parseDouble((String)request.getParameter("fridayHours"));
+        double mondayHours =0;
+        double tuesdayHours=0;
+        double wednesdayHours=0;
+        double thursdayHours=0;
+        double fridayHours =0;
         
+        try{
+        //gets the hours from the page and inserts them into the database
+         mondayHours = Double.parseDouble((String)request.getParameter("mondayHours"));
+         tuesdayHours = Double.parseDouble((String)request.getParameter("tuesdayHours"));
+         wednesdayHours = Double.parseDouble((String)request.getParameter("wednesdayHours"));
+         thursdayHours = Double.parseDouble((String)request.getParameter("thursdayHours"));
+         fridayHours = Double.parseDouble((String)request.getParameter("fridayHours"));
+        }catch(Exception ex){
+            ServletContext cs = session.getServletContext();
+           
+            cs.getRequestDispatcher("/views/caseworkerHome.jsp").forward(request, response);
+            
+            
+        }finally{
         DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         format = format.withLocale(Locale.US);
         LocalDate monday = LocalDate.parse((String)session.getAttribute("monday"),format);
@@ -204,6 +218,7 @@ public class CaseWorkerController extends HttpServlet {
         double hours = (double)session.getAttribute("clientHours");
         session.setAttribute("clientHours", hours + mondayHours + tuesdayHours 
                 + wednesdayHours + thursdayHours + fridayHours );
+        }
     }
     
     private Date getDateForDay(int day)
