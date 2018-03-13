@@ -20,7 +20,7 @@ $(document).ready(function() {
                 required: true,
                 money: true
             },
-            documentation: {
+            file: {
                 required: true
             }
         },
@@ -29,7 +29,7 @@ $(document).ready(function() {
                 required: "Please enter the amount of your request.",
                 money: "Please enter a valid dollar amount."
             },
-            documentation: {
+            file: {
                 required: "Please upload documentation."
             }
         },

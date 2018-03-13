@@ -34,7 +34,7 @@ public class RequestDB {
             dbMap.put("tuition", "tuition");
             dbMap.put("utilities", "utilities");
             dbMap.put("fuel", "gas");
-            dbMap.put("registration", "Vehicle Register");
+            dbMap.put("registration", "Vehicle Registration");
             dbMap.put("repair", "car repair");
             dbMap.put("clothing", "clothing");
             // maps asst types to the way they're currently in the database

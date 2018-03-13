@@ -64,6 +64,26 @@ public class ClientRequestController extends HttpServlet {
             
             int requestID = 0;
             String requestType = request.getParameter("requestType");
+            switch (requestType) {
+                case "tuition":
+                    request.setAttribute("tuiChk", "true");
+                    break;
+                case "utilities":
+                    request.setAttribute("utiChk", "true");
+                    break;
+                case "registration":
+                    request.setAttribute("regChk", "true");
+                    break;
+                case "repair":
+                    request.setAttribute("repChk", "true");
+                    break;
+                case "clothing":
+                    request.setAttribute("cloChk", "true");
+                    break;
+                case "fuel":
+                    request.setAttribute("fueChk", "true");
+                    break;
+            }
             // validate request
             if (isValidRequest(request, amount, user)) 
             {

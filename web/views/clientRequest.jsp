@@ -51,12 +51,12 @@
                                 <p>
                                     <label for="requestType">Choose a type of assistance: </label>
                                     <select name="requestType">
-                                        <option value="tuition">Tuition</option>
-                                        <option value="utilities">Utilities</option>
-                                        <option value="repair">Vehicle Repair</option>
-                                        <option value="registration">Vehicle Registration</option>
-                                        <option value="fuel">Fuel</option>
-                                        <option value="clothing">Clothing</option>
+                                        <option value="tuition" <c:if test="${not empty tuiChk}">selected="selected"</c:if>>Tuition</option>
+                                        <option value="utilities" <c:if test="${not empty utiChk}">selected="selected"</c:if>>Utilities</option>
+                                        <option value="repair" <c:if test="${not empty repChk}">selected="selected"</c:if>>Vehicle Repair</option>
+                                        <option value="registration" <c:if test="${not empty regChk}">selected="selected"</c:if>>Vehicle Registration</option>
+                                        <option value="fuel" <c:if test="${not empty fueChk}">selected="selected"</c:if>>Fuel</option>
+                                        <option value="clothing" <c:if test="${not empty cloChk}">selected="selected"</c:if>>Clothing</option>
                                     </select>
                                 </p>
                                 <p>
