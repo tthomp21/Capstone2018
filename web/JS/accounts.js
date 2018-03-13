@@ -194,8 +194,7 @@ $(document).ready(function() {
                 rangelength: [10, 10]
             },
             managePasswordCW: {
-                required: true,
-                minlength: 6
+                required: true
             }
         },
         messages: {
@@ -204,8 +203,7 @@ $(document).ready(function() {
                 rangelength: "Please enter a 10-digit phone number."
             },
             managePasswordCW: {
-                required: "Please enter your password.",
-                minlength: "Password must be at least 6 characters."
+                required: "Please enter your password."
             }
         }
     });
@@ -217,8 +215,7 @@ $(document).ready(function() {
                 email: true
             },
             managePasswordCW: {
-                required: true,
-                minlength: 6
+                required: true
             }
         },
         messages: {
@@ -227,8 +224,7 @@ $(document).ready(function() {
                 email: "Email address invalid."
             },
             managePasswordCW: {
-                required: "Please enter your password.",
-                minlength: "Password must be at least 6 characters."
+                required: "Please enter your password."
             }
         }
     });
@@ -240,8 +236,7 @@ $(document).ready(function() {
                 minlength: 6
             },
             managePasswordCW: {
-                required: true,
-                minlength: 6
+                required: true
             }
         },
         messages: {
@@ -250,8 +245,7 @@ $(document).ready(function() {
                 minlength: "User name must be at least 6 characters."
             },
             managePasswordCW: {
-                required: "Please enter your password.",
-                minlength: "Password must be at least 6 characters."
+                required: "Please enter your password."
             }
         }
     });
@@ -268,8 +262,7 @@ $(document).ready(function() {
                 equalTo: "#newPwCW"
             },
             managePasswordCW: {
-                required: true,
-                minlength: 6
+                required: true
             }
         },
         messages: {
@@ -283,8 +276,7 @@ $(document).ready(function() {
                 equalTo: "Passwords must match."
             },
             managePasswordCW: {
-                required: "Please enter your current password.",
-                minlength: "Password must be at least 6 characters."
+                required: "Please enter your current password."
             }
         }
     });
@@ -299,8 +291,7 @@ $(document).ready(function() {
                 rangelength: [10, 10]
             },
             managePasswordCL: {
-                required: true,
-                minlength: 6
+                required: true
             }
         },
         messages: {
@@ -309,8 +300,7 @@ $(document).ready(function() {
                 rangelength: "Please enter a 10-digit phone number."
             },
             managePasswordCL: {
-                required: "Please enter your password.",
-                minlength: "Password must be at least 6 characters."
+                required: "Please enter your password."
             }
         }
     });
@@ -322,8 +312,7 @@ $(document).ready(function() {
                 email: true
             },
             managePasswordCL: {
-                required: true,
-                minlength: 6
+                required: true
             }
         },
         messages: {
@@ -332,8 +321,7 @@ $(document).ready(function() {
                 email: "Email address invalid."
             },
             managePasswordCL: {
-                required: "Please enter your password.",
-                minlength: "Password must be at least 6 characters."
+                required: "Please enter your password."
             }
         }
     });
@@ -344,8 +332,7 @@ $(document).ready(function() {
                 required: true
             },
             managePasswordCL: {
-                required: true,
-                minlength: 6
+                required: true
             }
         },
         messages: {
@@ -353,8 +340,7 @@ $(document).ready(function() {
                 required: "Please enter your street address."
             },
             managePasswordCL: {
-                required: "Please enter your password.",
-                minlength: "Password must be at least 6 characters."
+                required: "Please enter your password."
             }
         }
     });
@@ -365,8 +351,7 @@ $(document).ready(function() {
                 required: true
             },
             managePasswordCL: {
-                required: true,
-                minlength: 6
+                required: true
             }
         },
         messages: {
@@ -374,8 +359,7 @@ $(document).ready(function() {
                 required: "Please enter your city of residence."
             },
             managePasswordCL: {
-                required: "Please enter your password.",
-                minlength: "Password must be at least 6 characters."
+                required: "Please enter your password."
             }
         }
     });
@@ -393,22 +377,20 @@ $(document).ready(function() {
                 rangelength: [4, 4]
             },
             managePasswordCL: {
-                required: true,
-                minlength: 6
+                required: true
             }
         },
         messages: {
             fieldValue: {
-                required: "Please enter your phone number.", 
+                required: "Please enter your zip code.", 
                 rangelength: "Please enter a 5-digit zip code."
             },
             fieldValue2: {
-                required: "Please enter your phone number.", 
+                required: "Please enter your zip code extension.", 
                 rangelength: "Please enter a 4-digit zip code extension."
             },
             managePasswordCL: {
-                required: "Please enter your password.",
-                minlength: "Password must be at least 6 characters."
+                required: "Please enter your password."
             }
         }
     });
@@ -420,8 +402,7 @@ $(document).ready(function() {
                 minlength: 6
             },
             managePasswordCL: {
-                required: true,
-                minlength: 6
+                required: true
             }
         },
         messages: {
@@ -430,8 +411,7 @@ $(document).ready(function() {
                 minlength: "User name must be at least 6 characters."
             },
             managePasswordCL: {
-                required: "Please enter your password.",
-                minlength: "Password must be at least 6 characters."
+                required: "Please enter your password."
             }
         }
     });
@@ -448,8 +428,7 @@ $(document).ready(function() {
                 equalTo: "#newPwCL"
             },
             managePasswordCL: {
-                required: true,
-                minlength: 6
+                required: true
             }
         },
         messages: {
@@ -463,8 +442,7 @@ $(document).ready(function() {
                 equalTo: "Passwords must match."
             },
             managePasswordCL: {
-                required: "Please enter your current password.",
-                minlength: "Password must be at least 6 characters."
+                required: "Please enter your current password."
             }
         }
     });
