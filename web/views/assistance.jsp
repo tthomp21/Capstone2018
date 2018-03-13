@@ -72,7 +72,7 @@
                         <c:when test="${isSanctioned}">
                             <div class="closed" style="color: red;">
                                 <h3>Our records indicate that you were sanctioned; which means that you are no longer eligible
-                                    for cash assistance till the date the sanction is terminated.
+                                    for cash assistance until the date the sanction is terminated.
                                 </h3>
                             </div>
                         </c:when>

@@ -288,23 +288,23 @@ public class EligibilityController extends HttpServlet {
         switch (sanctionLength) {
             case 3:
                 periodLeftToRemoveSanction += "The sanction that was applied to your case on "
-                        + sanctionDate.toString() + " was the third one, that you have to wait till "
+                        + sanctionDate.toString() + " was the third one, that you have to wait until "
                         + sanctionDate.plusYears(1).toString() + " so you can be re-eligible for the benefits-ADC.\n Please be noticed that "
-                        + "once you are not eligible for ADC, you are automatically not eligible for: clothing, fuel, tuition, vehicle registeration or repair.";
+                        + "once you are not eligible for ADC, you are automatically not eligible for: clothing, fuel, tuition, vehicle registration or repair.";
                 break;
 
             case 2:
                 periodLeftToRemoveSanction += "The sanction that was applied to your case on "
-                        + sanctionDate.toString() + " was the second one, that you have to wait till "
+                        + sanctionDate.toString() + " was the second one, that you have to wait until "
                         + sanctionDate.plusMonths(3).toString() + " so you can be re-eligible for the benefits-ADC.\n Please be noticed that "
-                        + "once you are not eligible for ADC, you are automatically not eligible for: clothing, fuel, tuition, vehicle registeration or repair.";
+                        + "once you are not eligible for ADC, you are automatically not eligible for: clothing, fuel, tuition, vehicle registration or repair.";
                 break;
 
             case 1:
                 periodLeftToRemoveSanction += "The sanction that was applied to your case on "
-                        + sanctionDate.toString() + " was the first one that you have to wait till "
+                        + sanctionDate.toString() + " was the first one that you have to wait until "
                         + sanctionDate.plusMonths(1).toString() + " so you can be re-eligible for the benefits-ADC.\n Please be noticed that "
-                        + "once you are not eligible for ADC, you are automatically not eligible for: clothing, fuel, tuition, vehicle registeration or repair.";
+                        + "once you are not eligible for ADC, you are automatically not eligible for: clothing, fuel, tuition, vehicle registration or repair.";
                 break;
 
         }
@@ -320,7 +320,13 @@ public class EligibilityController extends HttpServlet {
         double parntersTotalHours = 0;
         double couplesHours = 0;
         boolean isWarning = false;
-
+        
+       // String clientName = aClient.getFirstName();
+        
+        Client partner = null;
+       
+               
+        
         LocalDate threeWeeksDate = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()).minusDays(7);
         LocalDate firstOfMonth = LocalDate.now().withDayOfMonth(1);
         LocalDate todayDate = LocalDate.now();
@@ -333,26 +339,28 @@ public class EligibilityController extends HttpServlet {
 
         clientsHoursList = ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, todayDate); // hours for the client are needed anyway; but parter's hours are only needed if married
         if (married) {
+            partner = ClientDB.getClientWithID(aClient.getClientID());
             clientsPartnerHoursList = ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, todayDate);
             parntersTotalHours = getTotalHoursAccumulated(clientsPartnerHoursList);
 
         }
+        
+        clientsTotalHours = getTotalHoursAccumulated(clientsHoursList);
         couplesHours = clientsTotalHours + parntersTotalHours;
-        //don't calculate if it is not three weeks yet.
-        if ((todayDate.isAfter(threeWeeksDate) || todayDate.isEqual(threeWeeksDate))) {
+        //don't calculate if it is not three weeks yet. 
+        if ((todayDate.isAfter(todayDate.withDayOfMonth(7)) && todayDate.isBefore(twoWeeks))) {
 
-            clientsTotalHours = getTotalHoursAccumulated(clientsHoursList);
+            
 
             if (married) {
 
-                if ((todayDate.isAfter(threeWeeksDate) || todayDate.isEqual(threeWeeksDate)) && couplesHours < 105) {
+                if (couplesHours < 70) {
 
-                    warningMsg = "Our records indicate that your and your partner's hours are low by today " + LocalDate.now().toString()
-                            + ". You have " + ChronoUnit.DAYS.between(endoOfMonth, todayDate) + " days "
-                            + " from " + todayDate.toString()
-                            + " to " + endoOfMonth.toString()
-                            + "to make those hours. Just for your information your partner's hours are: " + parntersTotalHours + " and yours are: " + clientsTotalHours
-                            + " while you both supposed to do 105 hours by the third week of the month.";
+                    warningMsg = "Our records indicate that your and your partner's hours are low by today, " + LocalDate.now().toString()
+                            + ". You have " + (todayDate.withDayOfMonth(todayDate.lengthOfMonth()).getDayOfMonth() -  todayDate.getDayOfMonth()) + " days "
+                            + "up to " + endoOfMonth.toString()
+                            + " to make those hours." // + partner.getFirstName() +  "'s hours are " + parntersTotalHours + " and yours are " + clientsTotalHours
+                            + " You both were supposed to make 70 hours by today.";
 
                     isWarning = true;
 
@@ -361,13 +369,13 @@ public class EligibilityController extends HttpServlet {
                 }
 
             } else { // if single, only clientTotalHours are needed
-                if (clientsTotalHours < 60) { //if (todayDate.isAfter(threeWeeksDate) || todayDate.isEqual(threeWeeksDate) && clientsTotalHours < 60) {
-                    warningMsg = "Our records indicate that your hours are low by today "
+                if (clientsTotalHours < 40) { //if (todayDate.isAfter(threeWeeksDate) || todayDate.isEqual(threeWeeksDate) && clientsTotalHours < 60) {
+                    warningMsg = "Our records indicate that your hours are low by today, "
                             + LocalDate.now().toString()
-                            + ". You have " + ChronoUnit.DAYS.between(endoOfMonth, todayDate) + " days "
-                            + " from " + todayDate.toString() + " to " + endoOfMonth.toString()
-                            + "to make those hours. Just for your information your hours are: " + clientsTotalHours
-                            + " while you were supposed to make 60 hours by the thrid week.";
+                            + ". You have " +(todayDate.withDayOfMonth(todayDate.lengthOfMonth()).getDayOfMonth() -  todayDate.getDayOfMonth()) + " days " // +  todayDate.withDayOfMonth(todayDate.lengthOfMonth()).minus(todayDate.getDayOfMonth())
+                            + " up to " + endoOfMonth.toString()
+                            + "to make those hours."  //Your hours are: " + clientsTotalHours
+                            + " You were supposed to make 40 hours by today.";
                     isWarning = true;
                 } else {
                     warningMsg = "Keep doing the good work! your hours are all set; however make sure you make the rest of hours you are required for the last week.";
@@ -381,7 +389,7 @@ public class EligibilityController extends HttpServlet {
                 warningMsg = "Your hours are fine; however make sure you make whatever hours you are required for the remaining of the month.";
             }
         }
-        warningMsg = "This message is based on three weeks calculation <br><br> " + warningMsg;
+        
         
         session.setAttribute("clinetHoursList3Weeks", clientsHoursList);
         session.setAttribute("clientsPartnerHoursList3Weeks", clientsPartnerHoursList);

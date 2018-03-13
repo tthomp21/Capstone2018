@@ -103,7 +103,7 @@ public class AssistanceController extends HttpServlet {
 
                 } else if (assist.getAssistance().getAssistDescription().equalsIgnoreCase("gas")) {
                     gasList.add(assist);
-                } else if (assist.getAssistance().getAssistDescription().equalsIgnoreCase("vehicle registeration")) {
+                } else if (assist.getAssistance().getAssistDescription().equalsIgnoreCase("vehicle Registration")) {
                     vehicleRegisterList.add(assist);
                 } else {
                     tuitionList.add(assist);
