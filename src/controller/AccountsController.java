@@ -28,7 +28,7 @@ public class AccountsController extends HttpServlet {
         request.setAttribute("prevLoginUserNameCW", "praymond");//|
         request.setAttribute("prevLoginPasswordCW", "praymond");//|
         request.setAttribute("prevLoginUserNameCL", "sayelr");// |
-        request.setAttribute("prevLoginPasswordCL", "rsayel");// |
+        request.setAttribute("prevLoginPasswordCL", "sayelr");// |
         // ------------------------------------------------------|
                 
         User user = null;
