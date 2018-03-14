@@ -82,7 +82,8 @@ h1 {
     text-align: center;
     margin-top: 0;
     padding-bottom: 0;
-    position: absolute;
+    width: auto;
+    margin: 0 auto;
 }
 .sanctionMsg {
     color: red;

@@ -87,7 +87,7 @@
                             <tr><td><b>Reason/Description:</b></td><td> ${r.getAssistance().assistDescription}</td></tr>
                             <tr><td><b>Amount:</b></td><td> ${r.amountPaid}</td></tr>
                             <tr><td><b>Documents:</b></td><td>
-                                    <form action="CaseWorkerController" method="post">
+                                    <form action="CaseWorkerController" method="post" target="_blank">
                                         <input type="submit" value="Documents" id="button">
                                         <input type="hidden" value="${r.requestID}" name="requestID">
                                         <input type="hidden" name="action" value="viewDoucment"></form></td></tr>

@@ -87,7 +87,7 @@ public class AccountsController extends HttpServlet {
                 {
                     String manageMsgSuccess = 
                         "Your Account has been successfully updated";                    
-                    request.setAttribute("manageMsgSuccess", "");
+                    request.setAttribute("manageMsgSuccess", manageMsgSuccess);
                     // clear form
                     request.setAttribute("prevManagePassword1CL", "");                
                     request.setAttribute("prevManagePassword2CL", "");                
