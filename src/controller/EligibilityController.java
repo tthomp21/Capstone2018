@@ -327,11 +327,11 @@ public class EligibilityController extends HttpServlet {
        
                
         
-        LocalDate threeWeeksDate = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()).minusDays(7);
+        //LocalDate threeWeeksDate = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()).minusDays(7);
         LocalDate firstOfMonth = LocalDate.now().withDayOfMonth(1);
         LocalDate todayDate = LocalDate.now();
         LocalDate endoOfMonth = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
-        LocalDate twoWeeks = todayDate.withDayOfMonth(14);
+        LocalDate twoWeeks = todayDate.withDayOfMonth(15);
         LocalDate oneWeek = todayDate.withDayOfMonth(7);
 
         ArrayList<Hours> clientsPartnerHoursList = new ArrayList<Hours>(); //(ArrayList<Hours>)session.getAttribute("clientsPartnerHoursList");
@@ -339,8 +339,8 @@ public class EligibilityController extends HttpServlet {
 
         clientsHoursList = ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, todayDate); // hours for the client are needed anyway; but parter's hours are only needed if married
         if (married) {
-            partner = ClientDB.getClientWithID(aClient.getClientID());
-            clientsPartnerHoursList = ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, todayDate);
+            partner = ClientDB.getClientWithID(aClient.getPartnerID());
+            clientsPartnerHoursList = ClientDB.getClientHoursByDates(partner.getClientID(), firstOfMonth, todayDate);
             parntersTotalHours = getTotalHoursAccumulated(clientsPartnerHoursList);
 
         }

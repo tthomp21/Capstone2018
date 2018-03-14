@@ -157,7 +157,8 @@
                                         </tr>
                                         <tr>
                                             <td class="nameOnhoursTable">${clientPartner.getFirstName()}&apos;s hours</td>
-                                            <td><c:out value="${partnerTotalFilteredHours}" /></td>
+                                           <%-- <td><c:out value="${partnerTotalFilteredHours}" /></td> --%>
+                                        <td><c:out value="${partnerTotalFilteredHours}" /></td>
                                         </tr>
                                     </c:if>
                                     <tr>
