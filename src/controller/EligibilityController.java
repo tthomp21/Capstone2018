@@ -541,11 +541,13 @@ public class EligibilityController extends HttpServlet {
             }
 
         } catch (IOException iox) {
+            isHideTable = true;
             session.setAttribute("dateMessage", dateMessage);
-            session.setAttribute("isHideTable", true);
+            session.setAttribute("isHideTable", isHideTable);
         } catch (NullPointerException nullExp) {
+            isHideTable = true;
             session.setAttribute("dateMessage", dateMessage);
-            session.setAttribute("isHideTable", true);
+            session.setAttribute("isHideTable", isHideTable);
         } finally {
             session.setAttribute("clientWeeklyHours", clientHoursFiltered);
             session.setAttribute("partnerWeeklyHours", partnerHoursFiltered);
