@@ -154,6 +154,7 @@ public class AssistanceController extends HttpServlet {
             session.setAttribute("foodList", foodList);
             session.setAttribute("cashList", cashList);
             session.setAttribute("medicaidList", medicaidList);
+            session.setAttribute("isHideTable", false);
 
             url = "/views/assistance.jsp";
             cs.getRequestDispatcher(url).forward(request, response);

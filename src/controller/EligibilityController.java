@@ -119,10 +119,11 @@ public class EligibilityController extends HttpServlet {
             }
             if (clientsHoursList == null) {
                 clientsHoursList = new ArrayList<Hours>();
-                clientsHoursList = ClientDB.getClientHoursForWholeMonth(aClient.getClientID());
+               
 
                 //setClientOrPartnerHoursAndAccumulated(session);
             }
+             clientsHoursList = ClientDB.getClientHoursForWholeMonth(aClient.getClientID());
             if (clientsPartnerHoursList == null) {
                 clientsPartnerHoursList = new ArrayList<Hours>();
                 if (aClient.isMarried()) {
@@ -141,15 +142,16 @@ public class EligibilityController extends HttpServlet {
 
             setClientOrPartnerHoursAndAccumulated(clientsHoursList, clientsPartnerHoursList, session);
 
-            if (isHideTable == null) {
-                isHideTable = true;
-            } else {
-                isHideTable = false;
-            }
+           // if (isHideTable == null) {
+              //  isHideTable = true;
+           // } else {
+            //    isHideTable = false;
+           // }
             session.setAttribute("isHideTable", isHideTable);
 
             if (action == null) {
                 action = "dont do anything";
+                isHideTable = true;
                 // String dateMessage ="";
 
                 // session.setAttribute("dateMessage", dateMessage);
@@ -320,13 +322,10 @@ public class EligibilityController extends HttpServlet {
         double parntersTotalHours = 0;
         double couplesHours = 0;
         boolean isWarning = false;
-        
-       // String clientName = aClient.getFirstName();
-        
+
+        // String clientName = aClient.getFirstName();
         Client partner = null;
-       
-               
-        
+
         //LocalDate threeWeeksDate = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()).minusDays(7);
         LocalDate firstOfMonth = LocalDate.now().withDayOfMonth(1);
         LocalDate todayDate = LocalDate.now();
@@ -344,20 +343,18 @@ public class EligibilityController extends HttpServlet {
             parntersTotalHours = getTotalHoursAccumulated(clientsPartnerHoursList);
 
         }
-        
+
         clientsTotalHours = getTotalHoursAccumulated(clientsHoursList);
         couplesHours = clientsTotalHours + parntersTotalHours;
         //don't calculate if it is not three weeks yet. 
         if ((todayDate.isAfter(todayDate.withDayOfMonth(7)) && todayDate.isBefore(twoWeeks))) {
-
-            
 
             if (married) {
 
                 if (couplesHours < 70) {
 
                     warningMsg = "Our records indicate that your and your partner's hours are low by today, " + LocalDate.now().toString()
-                            + ". You have " + (todayDate.withDayOfMonth(todayDate.lengthOfMonth()).getDayOfMonth() -  todayDate.getDayOfMonth()) + " days "
+                            + ". You have " + (todayDate.withDayOfMonth(todayDate.lengthOfMonth()).getDayOfMonth() - todayDate.getDayOfMonth()) + " days "
                             + "up to " + endoOfMonth.toString()
                             + " to make those hours." // + partner.getFirstName() +  "'s hours are " + parntersTotalHours + " and yours are " + clientsTotalHours
                             + " You both were supposed to make 70 hours by today.";
@@ -372,9 +369,9 @@ public class EligibilityController extends HttpServlet {
                 if (clientsTotalHours < 40) { //if (todayDate.isAfter(threeWeeksDate) || todayDate.isEqual(threeWeeksDate) && clientsTotalHours < 60) {
                     warningMsg = "Our records indicate that your hours are low by today, "
                             + LocalDate.now().toString()
-                            + ". You have " +(todayDate.withDayOfMonth(todayDate.lengthOfMonth()).getDayOfMonth() -  todayDate.getDayOfMonth()) + " days " // +  todayDate.withDayOfMonth(todayDate.lengthOfMonth()).minus(todayDate.getDayOfMonth())
+                            + ". You have " + (todayDate.withDayOfMonth(todayDate.lengthOfMonth()).getDayOfMonth() - todayDate.getDayOfMonth()) + " days " // +  todayDate.withDayOfMonth(todayDate.lengthOfMonth()).minus(todayDate.getDayOfMonth())
                             + " up to " + endoOfMonth.toString()
-                            + "to make those hours."  //Your hours are: " + clientsTotalHours
+                            + "to make those hours." //Your hours are: " + clientsTotalHours
                             + " You were supposed to make 40 hours by today.";
                     isWarning = true;
                 } else {
@@ -389,8 +386,7 @@ public class EligibilityController extends HttpServlet {
                 warningMsg = "Your hours are fine; however make sure you make whatever hours you are required for the remaining of the month.";
             }
         }
-        
-        
+
         session.setAttribute("clinetHoursList3Weeks", clientsHoursList);
         session.setAttribute("clientsPartnerHoursList3Weeks", clientsPartnerHoursList);
         session.setAttribute("coupleHours3Weeks", couplesHours);
@@ -428,9 +424,9 @@ public class EligibilityController extends HttpServlet {
                 }
             }
         } else {//this is ture only if the list has no sanction, in our case/current business policy will never execute, that is why boolean isSanctioned is used. 
-                 //but if sanctions was updated in sanction table right away. some code will be not required plus that this was executed. i though of select count(*) but dont make sense
+            //but if sanctions was updated in sanction table right away. some code will be not required plus that this was executed. i though of select count(*) but dont make sense
             periodToWaitToB_Eligible += "You are doing awesome by paritcipating hours you have been required&mdash;"
-                                     + "which is good for you and keeps you from getting sanctioned.";
+                    + "which is good for you and keeps you from getting sanctioned.";
         }
 
         if (isSanctioned == false) {
@@ -448,14 +444,7 @@ public class EligibilityController extends HttpServlet {
         double partnerTotalHours = 0;
         double totalHours = 0;
         try {
-            //        ArrayList<Hours> clientsPartnerHoursList =  new ArrayList<Hours>();
-            //        ArrayList<Hours> clientsHoursList =  new ArrayList<Hours>();
-            //        HttpSession session = request.getSession();
-
-            //todaysDate.withDayOfMonth(15)
-            //ClientDB.getClientHoursByDates(aClient.getClientID(), firstOfMonth, todaysDate); // hours for the client are needed anyway; but parter's hours are only needed if married
-            //        clientsHoursList = ClientDB.getClientHoursForWholeMonth(client.getClientID());
-            //        clientTotalHours = getTotalHoursAccumulated(clientsHoursList);
+            
             if (client.isMarried()) {
                 clientsPartnerHoursList = ClientDB.getClientHoursForWholeMonth(client.getPartnerID());
                 partnerTotalHours = getTotalHoursAccumulated(clientsPartnerHoursList);
@@ -478,24 +467,28 @@ public class EligibilityController extends HttpServlet {
     }
 
     private void provideFilteredHours(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
-
+        boolean  isHideTable =false;
         ServletContext cs = session.getServletContext();
         //these two list will be to hold the hours to be filtered
         ArrayList<Hours> clientHoursFiltered = new ArrayList<Hours>();
         ArrayList<Hours> partnerHoursFiltered = new ArrayList<Hours>();
+
+        ArrayList<Hours> partnerAllHours = new ArrayList<Hours>();
         String url = "/views/viewEligibility.jsp";
         String dateMessage = "";
+        Client user = (Client) session.getAttribute("user");
 
+        LocalDate currentDate = LocalDate.now();
+        LocalDate firstOfMonth = currentDate.withDayOfMonth(1);
         double clientTotalFilteredHours = 0, partnerTotalFilteredHours = 0;
         double totalHourBoth = 0;
         try {
-            ArrayList<Hours> clientAllHours = (ArrayList<Hours>) session.getAttribute("clientsHoursList");
-            ArrayList<Hours> partnerAllHours = (ArrayList<Hours>) session.getAttribute("clientsPartnerHoursList");
 
+            ArrayList<Hours> clientAllHours = ClientDB.getClientHoursByDates(user.getClientID(), firstOfMonth, currentDate);
             Boolean isMarried = (Boolean) session.getAttribute("isMarried");
-
-            LocalDate currentDate = LocalDate.now();
-            LocalDate firstOfMonth = currentDate.withDayOfMonth(1);
+            if (isMarried) {
+                partnerAllHours = ClientDB.getClientHoursByDates(user.getPartnerID(), firstOfMonth, currentDate);
+            }
 
             String strToDate = request.getParameter("toDate");
             String strFromDate = request.getParameter("fromDate");
@@ -516,8 +509,7 @@ public class EligibilityController extends HttpServlet {
             } else if (dFromDate.isBefore(firstOfMonth) || dToDate.isAfter(currentDate)) {
                 dateMessage = "Please make sure you select dates only from the current month and up to today's date (" + currentDate.toString() + ")";
                 throw new IOException("");
-            } else { //clientWeeklyHours.get(i).getDateHoursEntered().equals(dFromDate) // clientWeeklyHours.get(i).getDateHoursEntered().equals(dToDate))
-                //clientWeeklyHours.get(i).getDateHoursEntered().equals(dFromDate)) && 
+            } else { 
                 dateMessage = "";
                 for (int i = 0; i < clientAllHours.size(); i++) {
                     if ((clientAllHours.get(i).getDateHoursEntered().isAfter(dFromDate) || clientAllHours.get(i).getDateHoursEntered().equals(dFromDate))
@@ -561,7 +553,7 @@ public class EligibilityController extends HttpServlet {
             session.setAttribute("partnerTotalFilteredHours", partnerTotalFilteredHours);
             session.setAttribute("dateMessage", dateMessage);
             session.setAttribute("totalHoursFilteredForBoth", totalHourBoth);
-
+            session.setAttribute("isHideTable", isHideTable);
             cs.getRequestDispatcher(url).forward(request, response);
 
         }
