@@ -362,7 +362,7 @@ public class EligibilityController extends HttpServlet {
                     isWarning = true;
 
                 } else {
-                    warningMsg = "Keep doing the good work! your hours and your partner's too are all set; however make sure you make the rest of hours you are required for the last week.";
+                    warningMsg = "Keep doing the good work! your hours and your partner's too are all set; however make sure you make the rest of hours you are required for the rest of the month.";
                 }
 
             } else { // if single, only clientTotalHours are needed
@@ -375,7 +375,7 @@ public class EligibilityController extends HttpServlet {
                             + " You were supposed to make 40 hours by today.";
                     isWarning = true;
                 } else {
-                    warningMsg = "Keep doing the good work! your hours are all set; however make sure you make the rest of hours you are required for the last week.";
+                    warningMsg = "Keep doing the good work! your hours are all set; however make sure you make the rest of hours you are required for the rest of the month.";
                 }
             }
         } else {// if it hasn't been three weeks yet, display a regular message based on marriage

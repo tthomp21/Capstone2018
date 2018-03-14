@@ -156,13 +156,13 @@
                                             <td colspan="2" style="background-color: lightblue">Total Hours in this period for both of you</td>
                                         </tr>
                                         <tr>
-                                            <td class="nameOnhoursTable">${clientPartner.getFirstName()}&apos;s hours</td>
+                                            <td class="nameOnhoursTable">${clientPartner.getFirstName()}&apos;s total hours</td>
                                            <%-- <td><c:out value="${partnerTotalFilteredHours}" /></td> --%>
                                         <td><c:out value="${partnerTotalFilteredHours}" /></td>
                                         </tr>
                                     </c:if>
                                     <tr>
-                                        <td class="nameOnhoursTable">${user.getFirstName()}&apos;s hours</td>
+                                        <td class="nameOnhoursTable">${user.getFirstName()}&apos;s total hours</td>
                                         <td><c:out value="${clientTotalFilteredHours}" /></td>
                                     </tr>
                                     <c:if test="${user.isMarried()}">
