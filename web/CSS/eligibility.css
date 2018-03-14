@@ -58,12 +58,12 @@ main, header, footer, h1, h2{
     position: absolute;
     margin-left: 520px;
     height: 100%;
-    background-color:  #e6e6ff;
+    background-color: #babc96;  /*#e6e6ff;*/
     width: 400px;
     top: 0;
    text-align: center; 
    padding-top: 25px;
-   height: auto;
+   height: 110%;
 }
 
 #divider table tr:hover{
